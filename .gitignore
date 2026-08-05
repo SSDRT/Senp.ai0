@@ -1,0 +1,27 @@
+# Gradle / Android
+.gradle/
+**/build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Local artifacts and models
+artifacts/
+test-artifacts/
+benchmark-results/
+*.task
+*.tflite
+*.pt
+
+# OS / temp
+.DS_Store
+*.log
+*.tmp
