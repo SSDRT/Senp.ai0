@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "time_unit": "milliseconds",
+  "scenarios": [
+    {
+      "scenario": "clean",
+      "frames": 151,
+      "duration_ms": 10000,
+      "mean_score": 0.971000,
+      "min_score": 0.971000,
+      "max_score": 0.971000,
+      "repaired_frames": 0,
+      "continuity_break_frames": 0,
+      "null_angle_frames": 0,
+      "angle_range_deg": 77.472610,
+      "max_abs_angular_velocity_deg_s": 223.570894,
+      "validity": {"VALID": 151, "REPAIRED": 0, "DEGRADED": 0, "BLIND": 0, "CONTINUITY_BREAK": 0}
+    },
+    {
+      "scenario": "jittered",
+      "frames": 151,
+      "duration_ms": 10000,
+      "mean_score": 0.971000,
+      "min_score": 0.971000,
+      "max_score": 0.971000,
+      "repaired_frames": 0,
+      "continuity_break_frames": 0,
+      "null_angle_frames": 0,
+      "angle_range_deg": 85.964153,
+      "max_abs_angular_velocity_deg_s": 401.361106,
+      "validity": {"VALID": 151, "REPAIRED": 0, "DEGRADED": 0, "BLIND": 0, "CONTINUITY_BREAK": 0}
+    },
+    {
+      "scenario": "short-gap",
+      "frames": 151,
+      "duration_ms": 10000,
+      "mean_score": 0.968589,
+      "min_score": 0.788973,
+      "max_score": 0.971000,
+      "repaired_frames": 2,
+      "continuity_break_frames": 0,
+      "null_angle_frames": 2,
+      "angle_range_deg": 77.788644,
+      "max_abs_angular_velocity_deg_s": 228.196229,
+      "validity": {"VALID": 149, "REPAIRED": 2, "DEGRADED": 0, "BLIND": 0, "CONTINUITY_BREAK": 0}
+    },
+    {
+      "scenario": "long-blind",
+      "frames": 151,
+      "duration_ms": 10000,
+      "mean_score": 0.875331,
+      "min_score": 0.000000,
+      "max_score": 0.971875,
+      "repaired_frames": 0,
+      "continuity_break_frames": 1,
+      "null_angle_frames": 16,
+      "angle_range_deg": 89.325216,
+      "max_abs_angular_velocity_deg_s": 227.513133,
+      "validity": {"VALID": 135, "REPAIRED": 0, "DEGRADED": 0, "BLIND": 15, "CONTINUITY_BREAK": 1}
+    },
+    {
+      "scenario": "fps-10",
+      "frames": 101,
+      "duration_ms": 10000,
+      "mean_score": 0.969198,
+      "min_score": 0.788973,
+      "max_score": 0.971000,
+      "repaired_frames": 1,
+      "continuity_break_frames": 0,
+      "null_angle_frames": 1,
+      "angle_range_deg": 79.746665,
+      "max_abs_angular_velocity_deg_s": 225.841249,
+      "validity": {"VALID": 100, "REPAIRED": 1, "DEGRADED": 0, "BLIND": 0, "CONTINUITY_BREAK": 0}
+    },
+    {
+      "scenario": "fps-15",
+      "frames": 151,
+      "duration_ms": 10000,
+      "mean_score": 0.968589,
+      "min_score": 0.788973,
+      "max_score": 0.971000,
+      "repaired_frames": 2,
+      "continuity_break_frames": 0,
+      "null_angle_frames": 2,
+      "angle_range_deg": 77.788644,
+      "max_abs_angular_velocity_deg_s": 228.196229,
+      "validity": {"VALID": 149, "REPAIRED": 2, "DEGRADED": 0, "BLIND": 0, "CONTINUITY_BREAK": 0}
+    },
+    {
+      "scenario": "fps-20",
+      "frames": 201,
+      "duration_ms": 10000,
+      "mean_score": 0.969189,
+      "min_score": 0.788973,
+      "max_score": 0.971000,
+      "repaired_frames": 2,
+      "continuity_break_frames": 0,
+      "null_angle_frames": 2,
+      "angle_range_deg": 79.948088,
+      "max_abs_angular_velocity_deg_s": 226.605381,
+      "validity": {"VALID": 199, "REPAIRED": 2, "DEGRADED": 0, "BLIND": 0, "CONTINUITY_BREAK": 0}
+    }
+  ],
+  "fps_invariance": {
+    "fps_values": [10, 15, 20],
+    "mean_score_spread": 0.000609,
+    "angle_range_spread_deg": 2.159444,
+    "max_common_timestamp_wrist_x_spread": 0.005950
+  }
+}
