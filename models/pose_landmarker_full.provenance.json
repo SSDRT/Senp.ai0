@@ -1,0 +1,14 @@
+{
+  "artifact": "pose_landmarker_full.task",
+  "model_name": "MediaPipe Pose Landmarker Full",
+  "model_variant": "float16",
+  "model_version": "1",
+  "download_url": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task",
+  "downloaded_content_length_bytes": 9398198,
+  "sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+  "upstream_last_modified": "2023-04-28T00:46:25Z",
+  "runtime_dependency": "com.google.mediapipe:tasks-vision:0.10.32",
+  "license": "Apache License 2.0",
+  "license_source": "https://github.com/google-ai-edge/mediapipe/blob/master/LICENSE",
+  "repository_policy": "The binary is fetched into ignored local-models/ and is not committed. scripts/fetch_pose_model.sh verifies both byte size and SHA-256 before use."
+}
