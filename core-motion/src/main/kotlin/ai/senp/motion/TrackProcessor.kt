@@ -45,6 +45,9 @@ class TrackProcessor(private val config: MotionConfig = MotionConfig()) {
 
                 val leftIndex = firstMissing - 1
                 val rightIndex = lastMissing + 1
+                for (missingIndex in firstMissing..lastMissing) {
+                    output[missingIndex][id.index] = missingLandmark()
+                }
                 if (leftIndex >= 0 && rightIndex < frames.size) {
                     val gapBoundaryDurationMs = frames[rightIndex].timestampMs - frames[leftIndex].timestampMs
                     when {
@@ -76,6 +79,13 @@ class TrackProcessor(private val config: MotionConfig = MotionConfig()) {
             )
         }
     }
+
+    private fun missingLandmark(): Landmark = Landmark(
+        image = null,
+        world = null,
+        visibility = 0.0,
+        presence = 0.0,
+    )
 
     private fun interpolate(left: Landmark, right: Landmark, ratio: Double): Landmark {
         fun lerp(a: Vec3?, b: Vec3?): Vec3? = when {

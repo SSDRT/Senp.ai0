@@ -32,7 +32,11 @@ object TraceGenerator {
     @JvmStatic
     fun main(args: Array<String>) {
         Locale.setDefault(Locale.US)
-        val output = File(args.firstOrNull() ?: "build/traces").apply { mkdirs() }
+        generate(File(args.firstOrNull() ?: "build/traces"))
+    }
+
+    fun generate(output: File) {
+        output.mkdirs()
         output.listFiles()?.filter { it.extension in setOf("csv", "json") }?.forEach { it.delete() }
 
         val scenarios = linkedMapOf<String, Pair<List<PoseFrame>, ExerciseProfile>>()

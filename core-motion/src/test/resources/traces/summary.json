@@ -26,8 +26,8 @@
       "repaired_frames": 0,
       "continuity_break_frames": 0,
       "null_angle_frames": 0,
-      "angle_range_deg": 85.964153,
-      "max_abs_angular_velocity_deg_s": 401.361106,
+      "angle_range_deg": 89.075809,
+      "max_abs_angular_velocity_deg_s": 408.520932,
       "validity": {"VALID": 151, "REPAIRED": 0, "DEGRADED": 0, "BLIND": 0, "CONTINUITY_BREAK": 0}
     },
     {

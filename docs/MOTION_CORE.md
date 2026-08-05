@@ -53,6 +53,12 @@ val rightSideCurl = ExerciseProfiles.bicepsCurl.copy(
 )
 ```
 
+### Legacy COCO-17 compatibility
+
+`Coco17Adapter` exists only for replaying the Python backend fixture and importing legacy exports. It maps the 17 standard COCO joints into their exact MP33 slots, copies legacy confidence into visibility and presence, and leaves every MediaPipe-only landmark explicitly absent. It never fabricates face/hand/foot landmarks or depth. Production pose inference remains MP33-native.
+
+Stable identifiers are centralized in `MotionCoreVersions` for pipeline, MP33 contract, COCO adapter, normalization, exercise profiles, angle definitions, and fixture schema. These identifiers are intended for upstream provenance and cache-key composition.
+
 ## Temporal pipeline
 
 Timestamps are the only temporal source of truth. No decision uses frame counts.
@@ -160,7 +166,7 @@ World normalization uses only world coordinates already supplied by the pose mod
 - shoulder, elbow, wrist;
 - hip, knee, ankle.
 
-A triplet returns `null` when any coordinate is absent/non-finite, confidence is below threshold, either vector is degenerate, or the frame is `BLIND`/`CONTINUITY_BREAK`. Angular velocity is degrees per second using timestamp differences and is `null` for invalid angles or non-positive elapsed time.
+A triplet returns `null` when any coordinate is absent/non-finite, confidence is below threshold, either vector is degenerate, or the frame is `BLIND`/`CONTINUITY_BREAK`. Image-space angles and torso geometry intentionally use only image `x/y`; MediaPipe image `z` is retained but is not metric depth. World-space features use all three real model-provided world coordinates. Angular velocity is degrees per second using timestamp differences and is `null` for invalid angles or non-positive elapsed time.
 
 Reusable torso features include pelvis/shoulder centers, torso vector and length, lean from vertical, shoulder tilt, and hip tilt. Trajectory utilities return timestamped points and per-second velocities without introducing a hidden sampling rate.
 
@@ -214,9 +220,9 @@ Equivalent Gradle task:
 ./gradlew --no-daemon :core-motion:verifyMotionCore
 ```
 
-This runs the deterministic tests, regenerates committed traces, and executes the synthetic benchmark.
+This runs deterministic unit/replay tests, regenerates artifacts into an ignored build directory and byte-compares them with the committed copies, then executes the synthetic benchmark. CI runs this same task. Artifact drift fails verification rather than silently rewriting Git files.
 
-Trace artifacts:
+Committed deterministic artifacts:
 
 ```text
 core-motion/src/test/resources/traces/clean.csv
@@ -227,6 +233,20 @@ core-motion/src/test/resources/traces/fps-10.csv
 core-motion/src/test/resources/traces/fps-15.csv
 core-motion/src/test/resources/traces/fps-20.csv
 core-motion/src/test/resources/traces/summary.json
+core-motion/src/test/resources/fixtures/mp33_squat_motion_core_v1.json
+core-motion/src/test/resources/fixtures/legacy_coco17_motion_core_a54a845.manifest.json
+core-motion/src/test/resources/fixtures/legacy_coco17_motion_core_a54a845.source.json
+```
+
+The native MP33 fixture is timestamped and records full input, tracked/smoothed output, quality state, repair/continuity metadata, guardrails, normalized image and body-oriented world landmarks, image/world angles, torso features, version identifiers, and source provenance. It includes a squat cycle, required-joint short repair, a sustained blind interval with recovery continuity break, and preferred-only shoulder loss.
+
+The legacy fixture contains the complete COCO-17 golden data from `SSDRT/senp.ai` commit `a54a8453907a6cd1ece61ad7565020a98118c032` and records the SHA-256 of the original source file. Replay tests validate the compatibility adapter, early smoothing parity, short/long gaps, blind range, and angle edge cases without porting the old heuristic 3D lifter.
+
+Regenerate committed deterministic artifacts only when an intentional behavior or schema change has been reviewed:
+
+```bash
+./gradlew --no-daemon :core-motion:updateMotionArtifacts
+./gradlew --no-daemon :core-motion:checkMotionArtifacts
 ```
 
 The generated benchmark report is ignored build output at:

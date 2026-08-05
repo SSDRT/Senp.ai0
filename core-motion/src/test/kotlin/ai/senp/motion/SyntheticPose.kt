@@ -149,4 +149,93 @@ object SyntheticPose {
             landmark.copy(world = landmark.world?.let { Vec3(c * it.x - s * it.y, s * it.x + c * it.y, it.z) })
         })
     }
+
+    fun squatFrame(
+        timestampMs: Long,
+        phase: Double,
+        confidence: Double = 0.95,
+        noise: Double = 0.0,
+        seed: Int = timestampMs.toInt(),
+    ): PoseFrame {
+        val base = frame(timestampMs, phase = phase, confidence = confidence, noise = 0.0, seed = seed)
+        val random = Random(seed)
+        fun jitter(): Double = if (noise == 0.0) 0.0 else (random.nextDouble() * 2.0 - 1.0) * noise
+        val depth = (1.0 - cos(phase * 2.0 * PI)) / 2.0
+        val image = base.landmarks.map { it.image ?: Vec3(0.5, 0.5) }.toMutableList()
+
+        fun set(id: LandmarkId, x: Double, y: Double, z: Double = 0.0) {
+            image[id.index] = Vec3(x + jitter(), y + jitter(), z + jitter())
+        }
+
+        val headDrop = 0.09 * depth
+        val shoulderDrop = 0.10 * depth
+        val hipDrop = 0.16 * depth
+        val kneeDrop = 0.04 * depth
+        val kneeOut = 0.055 * depth
+
+        set(LandmarkId.NOSE, 0.50, 0.18 + headDrop)
+        set(LandmarkId.LEFT_EYE_INNER, 0.485, 0.165 + headDrop)
+        set(LandmarkId.LEFT_EYE, 0.47, 0.165 + headDrop)
+        set(LandmarkId.LEFT_EYE_OUTER, 0.455, 0.168 + headDrop)
+        set(LandmarkId.RIGHT_EYE_INNER, 0.515, 0.165 + headDrop)
+        set(LandmarkId.RIGHT_EYE, 0.53, 0.165 + headDrop)
+        set(LandmarkId.RIGHT_EYE_OUTER, 0.545, 0.168 + headDrop)
+        set(LandmarkId.LEFT_EAR, 0.43, 0.185 + headDrop)
+        set(LandmarkId.RIGHT_EAR, 0.57, 0.185 + headDrop)
+        set(LandmarkId.MOUTH_LEFT, 0.48, 0.21 + headDrop)
+        set(LandmarkId.MOUTH_RIGHT, 0.52, 0.21 + headDrop)
+
+        set(LandmarkId.LEFT_SHOULDER, 0.42, 0.34 + shoulderDrop)
+        set(LandmarkId.RIGHT_SHOULDER, 0.58, 0.34 + shoulderDrop)
+        set(LandmarkId.LEFT_ELBOW, 0.37, 0.48 + shoulderDrop * 0.9)
+        set(LandmarkId.RIGHT_ELBOW, 0.63, 0.48 + shoulderDrop * 0.9)
+        set(LandmarkId.LEFT_WRIST, 0.35, 0.60 + shoulderDrop * 0.75)
+        set(LandmarkId.RIGHT_WRIST, 0.65, 0.60 + shoulderDrop * 0.75)
+        set(LandmarkId.LEFT_PINKY, 0.34, 0.62 + shoulderDrop * 0.75)
+        set(LandmarkId.RIGHT_PINKY, 0.66, 0.62 + shoulderDrop * 0.75)
+        set(LandmarkId.LEFT_INDEX, 0.335, 0.60 + shoulderDrop * 0.75)
+        set(LandmarkId.RIGHT_INDEX, 0.665, 0.60 + shoulderDrop * 0.75)
+        set(LandmarkId.LEFT_THUMB, 0.35, 0.585 + shoulderDrop * 0.75)
+        set(LandmarkId.RIGHT_THUMB, 0.65, 0.585 + shoulderDrop * 0.75)
+
+        set(LandmarkId.LEFT_HIP, 0.45, 0.56 + hipDrop)
+        set(LandmarkId.RIGHT_HIP, 0.55, 0.56 + hipDrop)
+        set(LandmarkId.LEFT_KNEE, 0.45 - kneeOut, 0.75 + kneeDrop, -0.02 * depth)
+        set(LandmarkId.RIGHT_KNEE, 0.55 + kneeOut, 0.75 + kneeDrop, -0.02 * depth)
+        set(LandmarkId.LEFT_ANKLE, 0.44, 0.93)
+        set(LandmarkId.RIGHT_ANKLE, 0.56, 0.93)
+        set(LandmarkId.LEFT_HEEL, 0.43, 0.95)
+        set(LandmarkId.RIGHT_HEEL, 0.57, 0.95)
+        set(LandmarkId.LEFT_FOOT_INDEX, 0.39, 0.96)
+        set(LandmarkId.RIGHT_FOOT_INDEX, 0.61, 0.96)
+
+        return base.copy(
+            landmarks = base.landmarks.mapIndexed { index, landmark ->
+                val point = image[index]
+                landmark.copy(
+                    image = point,
+                    world = Vec3(point.x - 0.5, 0.93 - point.y, point.z),
+                )
+            },
+        )
+    }
+
+    fun squatSequence(
+        fps: Int = 15,
+        seconds: Int = 6,
+        noise: Double = 0.0,
+        confidence: Double = 0.95,
+    ): List<PoseFrame> {
+        require(fps > 0 && seconds > 0)
+        return (0..fps * seconds).map { index ->
+            val timestampMs = (index * 1000.0 / fps).roundToLong()
+            squatFrame(
+                timestampMs = timestampMs,
+                phase = timestampMs / 2500.0,
+                noise = noise,
+                confidence = confidence,
+                seed = 20_000 * fps + index,
+            )
+        }
+    }
 }

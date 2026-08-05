@@ -66,7 +66,7 @@ object MotionFeatures {
     ): Double? {
         val landmarks = listOf(frame[definition.first], frame[definition.vertex], frame[definition.third])
         if (landmarks.any { it.visibility < minVisibility || it.presence < minPresence }) return null
-        val points = landmarks.map { point(it, coordinateSpace) }
+        val points = landmarks.map { point(it, coordinateSpace, planarImage = true) }
         if (points.any { it == null }) return null
         return vectorAngleDeg(points[0]!! - points[1]!!, points[2]!! - points[1]!!)
     }
@@ -107,14 +107,16 @@ object MotionFeatures {
         )
         if (anchorIds.any { id ->
                 val landmark = frame[id]
-                landmark.visibility < minVisibility || landmark.presence < minPresence || point(landmark, coordinateSpace) == null
+                landmark.visibility < minVisibility ||
+                    landmark.presence < minPresence ||
+                    point(landmark, coordinateSpace, planarImage = true) == null
             }
         ) return null
 
-        val leftShoulder = point(frame[LandmarkId.LEFT_SHOULDER], coordinateSpace)!!
-        val rightShoulder = point(frame[LandmarkId.RIGHT_SHOULDER], coordinateSpace)!!
-        val leftHip = point(frame[LandmarkId.LEFT_HIP], coordinateSpace)!!
-        val rightHip = point(frame[LandmarkId.RIGHT_HIP], coordinateSpace)!!
+        val leftShoulder = point(frame[LandmarkId.LEFT_SHOULDER], coordinateSpace, planarImage = true)!!
+        val rightShoulder = point(frame[LandmarkId.RIGHT_SHOULDER], coordinateSpace, planarImage = true)!!
+        val leftHip = point(frame[LandmarkId.LEFT_HIP], coordinateSpace, planarImage = true)!!
+        val rightHip = point(frame[LandmarkId.RIGHT_HIP], coordinateSpace, planarImage = true)!!
         val pelvisCenter = (leftHip + rightHip) / 2.0
         val shoulderCenter = (leftShoulder + rightShoulder) / 2.0
         val torsoVector = shoulderCenter - pelvisCenter
@@ -144,7 +146,7 @@ object MotionFeatures {
     ): List<TrajectoryPoint> = frames.mapNotNull { frame ->
         val landmark = frame[id]
         if (landmark.visibility < minVisibility || landmark.presence < minPresence) return@mapNotNull null
-        point(landmark, coordinateSpace)?.let { TrajectoryPoint(frame.timestampMs, it) }
+        point(landmark, coordinateSpace, planarImage = true)?.let { TrajectoryPoint(frame.timestampMs, it) }
     }
 
     fun trajectoryVelocities(points: List<TrajectoryPoint>): List<TimedVelocity> = points.zipWithNext().mapNotNull { (a, b) ->
@@ -155,12 +157,21 @@ object MotionFeatures {
         )
     }
 
-    private fun point(landmark: Landmark, coordinateSpace: CoordinateSpace): Vec3? {
+    private fun point(
+        landmark: Landmark,
+        coordinateSpace: CoordinateSpace,
+        planarImage: Boolean = false,
+    ): Vec3? {
         val value = when (coordinateSpace) {
             CoordinateSpace.IMAGE -> landmark.image
             CoordinateSpace.WORLD -> landmark.world
         }
-        return value?.takeIf { it.finite() }
+        val finite = value?.takeIf { it.finite() } ?: return null
+        return if (coordinateSpace == CoordinateSpace.IMAGE && planarImage) {
+            Vec3(finite.x, finite.y, 0.0)
+        } else {
+            finite
+        }
     }
 
     private fun vectorAngleDeg(first: Vec3, second: Vec3): Double? {
