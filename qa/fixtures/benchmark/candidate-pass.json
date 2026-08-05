@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-06T00:00:01Z",
+  "suite": "synthetic-10s-track",
+  "metadata": {"purpose": "passing QA comparison fixture"},
+  "cases": [
+    {"id": "10fps", "fps": 10, "input_duration_ms": 10000, "repetitions": 5, "median_ms": 42.0, "p95_ms": 45.0, "peak_rss_bytes": 10800332},
+    {"id": "15fps", "fps": 15, "input_duration_ms": 10000, "repetitions": 5, "median_ms": 57.0, "p95_ms": 62.0, "peak_rss_bytes": 11848908},
+    {"id": "20fps", "fps": 20, "input_duration_ms": 10000, "repetitions": 5, "median_ms": 72.0, "p95_ms": 79.0, "peak_rss_bytes": 13002342},
+    {"id": "30fps", "fps": 30, "input_duration_ms": 10000, "repetitions": 5, "median_ms": 104.0, "p95_ms": 113.0, "peak_rss_bytes": 15151923}
+  ]
+}

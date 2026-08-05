@@ -1,0 +1,83 @@
+name: Android API 35 Emulator Smoke
+
+"on":
+  workflow_dispatch:
+  schedule:
+    - cron: "23 2 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-emulator-smoke-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  api35-instrumentation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.13"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install API 35 build and emulator dependencies
+        shell: bash
+        run: |
+          sdkmanager \
+            "platforms;android-35" \
+            "build-tools;35.0.1" \
+            "platform-tools" \
+            "emulator" \
+            "system-images;android-35;google_apis;x86_64"
+
+      - name: Build smoke APKs
+        shell: bash
+        run: |
+          gradle -p qa/android-smoke --no-daemon \
+            :app:assembleDebug :app:assembleDebugAndroidTest
+
+      - name: Run API 35 instrumentation harness
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_6
+          avd-name: senp_api35
+          emulator-options: -no-window -no-boot-anim -no-audio -no-metrics -gpu swiftshader_indirect
+          disable-animations: true
+          script: >-
+            python3 qa/senp_qa.py emulator run
+            --apk qa/android-smoke/app/build/outputs/apk/debug/app-debug.apk
+            --test-apk qa/android-smoke/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+            --output-dir test-artifacts/ci-emulator
+            --avd senp_api35
+            --no-start
+
+      - name: Upload emulator evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-api35-emulator-${{ github.run_id }}
+          path: test-artifacts/ci-emulator
+          if-no-files-found: warn
+          retention-days: 21

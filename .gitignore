@@ -25,3 +25,8 @@ benchmark-results/
 .DS_Store
 *.log
 *.tmp
+
+# Python QA tooling
+__pycache__/
+*.py[cod]
+.venv/

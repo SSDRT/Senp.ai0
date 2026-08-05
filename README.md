@@ -3,3 +3,5 @@
 Native, offline-first Android motion-analysis engine for side-by-side exercise comparison.
 
 This repository is intentionally engine-first. Wave 1 contains no frontend or product UI. The existing Python implementation in `SSDRT/senp.ai` is a read-only behavioral reference for smoothing, quality gating, phase-aware alignment, and error-window classification.
+
+The phone-free verification surface is documented in [`qa/README.md`](qa/README.md), with cross-lane artifact contracts in [`docs/QA_INTEGRATION.md`](docs/QA_INTEGRATION.md).

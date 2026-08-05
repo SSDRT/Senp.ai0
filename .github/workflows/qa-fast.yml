@@ -1,0 +1,58 @@
+name: QA Fast Verification
+
+"on":
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qa-fast-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contracts-and-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.13"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install API 35 build dependencies
+        shell: bash
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.1"
+
+      - name: Run fast QA verification
+        shell: bash
+        run: qa/verify.sh --fast --artifacts test-artifacts/ci-fast
+
+      - name: Upload QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-fast-${{ github.run_id }}
+          path: test-artifacts/ci-fast
+          if-no-files-found: error
+          retention-days: 14

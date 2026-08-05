@@ -1,0 +1,1657 @@
+{
+  "contract_version": "1.0",
+  "description": "Localized deliberate form deviation during the middle repetition.",
+  "expectations": {
+    "allowed_alignment_modes": [
+      "rep_normalized",
+      "anchor_dtw",
+      "global_dtw"
+    ],
+    "genuine_windows": {
+      "forbidden": [],
+      "required_overlap": [
+        {
+          "end_ms": 5200,
+          "start_ms": 4000
+        }
+      ]
+    },
+    "mapping": {
+      "bounded": true,
+      "monotonic": true
+    },
+    "uncertain_windows": {
+      "required_overlap": []
+    },
+    "valid_input": true
+  },
+  "inputs": {
+    "candidate": {
+      "samples": [
+        {
+          "features": {
+            "primary": 0.5,
+            "secondary": 0.85
+          },
+          "timestamp_ms": 0,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.58432159,
+            "secondary": 0.84380054
+          },
+          "timestamp_ms": 100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.66565605,
+            "secondary": 0.82542177
+          },
+          "timestamp_ms": 200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.74112206,
+            "secondary": 0.79551477
+          },
+          "timestamp_ms": 300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.8080462,
+            "secondary": 0.75513902
+          },
+          "timestamp_ms": 400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.86405765,
+            "secondary": 0.70572484
+          },
+          "timestamp_ms": 500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.90717217,
+            "secondary": 0.64902275
+          },
+          "timestamp_ms": 600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.93586242,
+            "secondary": 0.58704146
+          },
+          "timestamp_ms": 700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94911203,
+            "secondary": 0.52197668
+          },
+          "timestamp_ms": 800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94645162,
+            "secondary": 0.45613337
+          },
+          "timestamp_ms": 900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.92797543,
+            "secondary": 0.39184405
+          },
+          "timestamp_ms": 1000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.89433801,
+            "secondary": 0.33138621
+          },
+          "timestamp_ms": 1100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.84673096,
+            "secondary": 0.2769016
+          },
+          "timestamp_ms": 1200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.7868408,
+            "secondary": 0.23032037
+          },
+          "timestamp_ms": 1300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.71678915,
+            "secondary": 0.19329266
+          },
+          "timestamp_ms": 1400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.63905765,
+            "secondary": 0.16713022
+          },
+          "timestamp_ms": 1500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.55639996,
+            "secondary": 0.15275985
+          },
+          "timestamp_ms": 1600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.47174427,
+            "secondary": 0.15069065
+          },
+          "timestamp_ms": 1700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.38808955,
+            "secondary": 0.16099589
+          },
+          "timestamp_ms": 1800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.30839932,
+            "secondary": 0.18331053
+          },
+          "timestamp_ms": 1900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.23549664,
+            "secondary": 0.21684405
+          },
+          "timestamp_ms": 2000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.17196412,
+            "secondary": 0.26040851
+          },
+          "timestamp_ms": 2100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.12005243,
+            "secondary": 0.31246062
+          },
+          "timestamp_ms": 2200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.08160058,
+            "secondary": 0.37115641
+          },
+          "timestamp_ms": 2300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05797074,
+            "secondary": 0.43441654
+          },
+          "timestamp_ms": 2400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05,
+            "secondary": 0.5
+          },
+          "timestamp_ms": 2500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05797074,
+            "secondary": 0.56558346
+          },
+          "timestamp_ms": 2600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.08160058,
+            "secondary": 0.62884359
+          },
+          "timestamp_ms": 2700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.12005243,
+            "secondary": 0.68753938
+          },
+          "timestamp_ms": 2800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.17196412,
+            "secondary": 0.73959149
+          },
+          "timestamp_ms": 2900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.23549664,
+            "secondary": 0.78315595
+          },
+          "timestamp_ms": 3000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.30839932,
+            "secondary": 0.81668947
+          },
+          "timestamp_ms": 3100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.38808955,
+            "secondary": 0.83900411
+          },
+          "timestamp_ms": 3200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.47174427,
+            "secondary": 0.84930935
+          },
+          "timestamp_ms": 3300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.55639996,
+            "secondary": 0.84724015
+          },
+          "timestamp_ms": 3400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.63905765,
+            "secondary": 0.83286978
+          },
+          "timestamp_ms": 3500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.71678915,
+            "secondary": 0.80670734
+          },
+          "timestamp_ms": 3600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.7868408,
+            "secondary": 0.76967963
+          },
+          "timestamp_ms": 3700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.84673096,
+            "secondary": 0.7230984
+          },
+          "timestamp_ms": 3800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.89433801,
+            "secondary": 0.66861379
+          },
+          "timestamp_ms": 3900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.47797543,
+            "secondary": 0.60815595
+          },
+          "timestamp_ms": 4000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.49645162,
+            "secondary": 0.54386663
+          },
+          "timestamp_ms": 4100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.49911203,
+            "secondary": 0.47802332
+          },
+          "timestamp_ms": 4200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.48586242,
+            "secondary": 0.41295854
+          },
+          "timestamp_ms": 4300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.45717217,
+            "secondary": 0.35097725
+          },
+          "timestamp_ms": 4400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.41405765,
+            "secondary": 0.29427516
+          },
+          "timestamp_ms": 4500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.3580462,
+            "secondary": 0.24486098
+          },
+          "timestamp_ms": 4600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.29112206,
+            "secondary": 0.20448523
+          },
+          "timestamp_ms": 4700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.21565605,
+            "secondary": 0.17457823
+          },
+          "timestamp_ms": 4800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.13432159,
+            "secondary": 0.15619946
+          },
+          "timestamp_ms": 4900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 1.05,
+            "secondary": 0.15
+          },
+          "timestamp_ms": 5000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.96567841,
+            "secondary": 0.15619946
+          },
+          "timestamp_ms": 5100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.88434395,
+            "secondary": 0.17457823
+          },
+          "timestamp_ms": 5200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.25887794,
+            "secondary": 0.20448523
+          },
+          "timestamp_ms": 5300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.1919538,
+            "secondary": 0.24486098
+          },
+          "timestamp_ms": 5400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.13594235,
+            "secondary": 0.29427516
+          },
+          "timestamp_ms": 5500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.09282783,
+            "secondary": 0.35097725
+          },
+          "timestamp_ms": 5600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.06413758,
+            "secondary": 0.41295854
+          },
+          "timestamp_ms": 5700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05088797,
+            "secondary": 0.47802332
+          },
+          "timestamp_ms": 5800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05354838,
+            "secondary": 0.54386663
+          },
+          "timestamp_ms": 5900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.07202457,
+            "secondary": 0.60815595
+          },
+          "timestamp_ms": 6000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.10566199,
+            "secondary": 0.66861379
+          },
+          "timestamp_ms": 6100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.15326904,
+            "secondary": 0.7230984
+          },
+          "timestamp_ms": 6200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.2131592,
+            "secondary": 0.76967963
+          },
+          "timestamp_ms": 6300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.28321085,
+            "secondary": 0.80670734
+          },
+          "timestamp_ms": 6400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.36094235,
+            "secondary": 0.83286978
+          },
+          "timestamp_ms": 6500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.44360004,
+            "secondary": 0.84724015
+          },
+          "timestamp_ms": 6600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.52825573,
+            "secondary": 0.84930935
+          },
+          "timestamp_ms": 6700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.61191045,
+            "secondary": 0.83900411
+          },
+          "timestamp_ms": 6800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.69160068,
+            "secondary": 0.81668947
+          },
+          "timestamp_ms": 6900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.76450336,
+            "secondary": 0.78315595
+          },
+          "timestamp_ms": 7000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.82803588,
+            "secondary": 0.73959149
+          },
+          "timestamp_ms": 7100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.87994757,
+            "secondary": 0.68753938
+          },
+          "timestamp_ms": 7200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.91839942,
+            "secondary": 0.62884359
+          },
+          "timestamp_ms": 7300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94202926,
+            "secondary": 0.56558346
+          },
+          "timestamp_ms": 7400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.95,
+            "secondary": 0.5
+          },
+          "timestamp_ms": 7500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94202926,
+            "secondary": 0.43441654
+          },
+          "timestamp_ms": 7600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.91839942,
+            "secondary": 0.37115641
+          },
+          "timestamp_ms": 7700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.87994757,
+            "secondary": 0.31246062
+          },
+          "timestamp_ms": 7800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.82803588,
+            "secondary": 0.26040851
+          },
+          "timestamp_ms": 7900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.76450336,
+            "secondary": 0.21684405
+          },
+          "timestamp_ms": 8000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.69160068,
+            "secondary": 0.18331053
+          },
+          "timestamp_ms": 8100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.61191045,
+            "secondary": 0.16099589
+          },
+          "timestamp_ms": 8200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.52825573,
+            "secondary": 0.15069065
+          },
+          "timestamp_ms": 8300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.44360004,
+            "secondary": 0.15275985
+          },
+          "timestamp_ms": 8400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.36094235,
+            "secondary": 0.16713022
+          },
+          "timestamp_ms": 8500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.28321085,
+            "secondary": 0.19329266
+          },
+          "timestamp_ms": 8600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.2131592,
+            "secondary": 0.23032037
+          },
+          "timestamp_ms": 8700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.15326904,
+            "secondary": 0.2769016
+          },
+          "timestamp_ms": 8800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.10566199,
+            "secondary": 0.33138621
+          },
+          "timestamp_ms": 8900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.07202457,
+            "secondary": 0.39184405
+          },
+          "timestamp_ms": 9000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05354838,
+            "secondary": 0.45613337
+          },
+          "timestamp_ms": 9100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05088797,
+            "secondary": 0.52197668
+          },
+          "timestamp_ms": 9200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.06413758,
+            "secondary": 0.58704146
+          },
+          "timestamp_ms": 9300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.09282783,
+            "secondary": 0.64902275
+          },
+          "timestamp_ms": 9400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.13594235,
+            "secondary": 0.70572484
+          },
+          "timestamp_ms": 9500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.1919538,
+            "secondary": 0.75513902
+          },
+          "timestamp_ms": 9600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.25887794,
+            "secondary": 0.79551477
+          },
+          "timestamp_ms": 9700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.33434395,
+            "secondary": 0.82542177
+          },
+          "timestamp_ms": 9800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.41567841,
+            "secondary": 0.84380054
+          },
+          "timestamp_ms": 9900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.5,
+            "secondary": 0.85
+          },
+          "timestamp_ms": 10000,
+          "valid": true
+        }
+      ],
+      "time_unit": "ms"
+    },
+    "reference": {
+      "samples": [
+        {
+          "features": {
+            "primary": 0.5,
+            "secondary": 0.85
+          },
+          "timestamp_ms": 0,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.58432159,
+            "secondary": 0.84380054
+          },
+          "timestamp_ms": 100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.66565605,
+            "secondary": 0.82542177
+          },
+          "timestamp_ms": 200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.74112206,
+            "secondary": 0.79551477
+          },
+          "timestamp_ms": 300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.8080462,
+            "secondary": 0.75513902
+          },
+          "timestamp_ms": 400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.86405765,
+            "secondary": 0.70572484
+          },
+          "timestamp_ms": 500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.90717217,
+            "secondary": 0.64902275
+          },
+          "timestamp_ms": 600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.93586242,
+            "secondary": 0.58704146
+          },
+          "timestamp_ms": 700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94911203,
+            "secondary": 0.52197668
+          },
+          "timestamp_ms": 800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94645162,
+            "secondary": 0.45613337
+          },
+          "timestamp_ms": 900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.92797543,
+            "secondary": 0.39184405
+          },
+          "timestamp_ms": 1000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.89433801,
+            "secondary": 0.33138621
+          },
+          "timestamp_ms": 1100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.84673096,
+            "secondary": 0.2769016
+          },
+          "timestamp_ms": 1200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.7868408,
+            "secondary": 0.23032037
+          },
+          "timestamp_ms": 1300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.71678915,
+            "secondary": 0.19329266
+          },
+          "timestamp_ms": 1400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.63905765,
+            "secondary": 0.16713022
+          },
+          "timestamp_ms": 1500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.55639996,
+            "secondary": 0.15275985
+          },
+          "timestamp_ms": 1600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.47174427,
+            "secondary": 0.15069065
+          },
+          "timestamp_ms": 1700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.38808955,
+            "secondary": 0.16099589
+          },
+          "timestamp_ms": 1800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.30839932,
+            "secondary": 0.18331053
+          },
+          "timestamp_ms": 1900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.23549664,
+            "secondary": 0.21684405
+          },
+          "timestamp_ms": 2000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.17196412,
+            "secondary": 0.26040851
+          },
+          "timestamp_ms": 2100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.12005243,
+            "secondary": 0.31246062
+          },
+          "timestamp_ms": 2200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.08160058,
+            "secondary": 0.37115641
+          },
+          "timestamp_ms": 2300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05797074,
+            "secondary": 0.43441654
+          },
+          "timestamp_ms": 2400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05,
+            "secondary": 0.5
+          },
+          "timestamp_ms": 2500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05797074,
+            "secondary": 0.56558346
+          },
+          "timestamp_ms": 2600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.08160058,
+            "secondary": 0.62884359
+          },
+          "timestamp_ms": 2700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.12005243,
+            "secondary": 0.68753938
+          },
+          "timestamp_ms": 2800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.17196412,
+            "secondary": 0.73959149
+          },
+          "timestamp_ms": 2900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.23549664,
+            "secondary": 0.78315595
+          },
+          "timestamp_ms": 3000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.30839932,
+            "secondary": 0.81668947
+          },
+          "timestamp_ms": 3100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.38808955,
+            "secondary": 0.83900411
+          },
+          "timestamp_ms": 3200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.47174427,
+            "secondary": 0.84930935
+          },
+          "timestamp_ms": 3300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.55639996,
+            "secondary": 0.84724015
+          },
+          "timestamp_ms": 3400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.63905765,
+            "secondary": 0.83286978
+          },
+          "timestamp_ms": 3500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.71678915,
+            "secondary": 0.80670734
+          },
+          "timestamp_ms": 3600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.7868408,
+            "secondary": 0.76967963
+          },
+          "timestamp_ms": 3700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.84673096,
+            "secondary": 0.7230984
+          },
+          "timestamp_ms": 3800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.89433801,
+            "secondary": 0.66861379
+          },
+          "timestamp_ms": 3900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.92797543,
+            "secondary": 0.60815595
+          },
+          "timestamp_ms": 4000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94645162,
+            "secondary": 0.54386663
+          },
+          "timestamp_ms": 4100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94911203,
+            "secondary": 0.47802332
+          },
+          "timestamp_ms": 4200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.93586242,
+            "secondary": 0.41295854
+          },
+          "timestamp_ms": 4300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.90717217,
+            "secondary": 0.35097725
+          },
+          "timestamp_ms": 4400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.86405765,
+            "secondary": 0.29427516
+          },
+          "timestamp_ms": 4500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.8080462,
+            "secondary": 0.24486098
+          },
+          "timestamp_ms": 4600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.74112206,
+            "secondary": 0.20448523
+          },
+          "timestamp_ms": 4700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.66565605,
+            "secondary": 0.17457823
+          },
+          "timestamp_ms": 4800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.58432159,
+            "secondary": 0.15619946
+          },
+          "timestamp_ms": 4900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.5,
+            "secondary": 0.15
+          },
+          "timestamp_ms": 5000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.41567841,
+            "secondary": 0.15619946
+          },
+          "timestamp_ms": 5100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.33434395,
+            "secondary": 0.17457823
+          },
+          "timestamp_ms": 5200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.25887794,
+            "secondary": 0.20448523
+          },
+          "timestamp_ms": 5300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.1919538,
+            "secondary": 0.24486098
+          },
+          "timestamp_ms": 5400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.13594235,
+            "secondary": 0.29427516
+          },
+          "timestamp_ms": 5500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.09282783,
+            "secondary": 0.35097725
+          },
+          "timestamp_ms": 5600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.06413758,
+            "secondary": 0.41295854
+          },
+          "timestamp_ms": 5700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05088797,
+            "secondary": 0.47802332
+          },
+          "timestamp_ms": 5800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05354838,
+            "secondary": 0.54386663
+          },
+          "timestamp_ms": 5900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.07202457,
+            "secondary": 0.60815595
+          },
+          "timestamp_ms": 6000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.10566199,
+            "secondary": 0.66861379
+          },
+          "timestamp_ms": 6100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.15326904,
+            "secondary": 0.7230984
+          },
+          "timestamp_ms": 6200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.2131592,
+            "secondary": 0.76967963
+          },
+          "timestamp_ms": 6300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.28321085,
+            "secondary": 0.80670734
+          },
+          "timestamp_ms": 6400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.36094235,
+            "secondary": 0.83286978
+          },
+          "timestamp_ms": 6500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.44360004,
+            "secondary": 0.84724015
+          },
+          "timestamp_ms": 6600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.52825573,
+            "secondary": 0.84930935
+          },
+          "timestamp_ms": 6700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.61191045,
+            "secondary": 0.83900411
+          },
+          "timestamp_ms": 6800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.69160068,
+            "secondary": 0.81668947
+          },
+          "timestamp_ms": 6900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.76450336,
+            "secondary": 0.78315595
+          },
+          "timestamp_ms": 7000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.82803588,
+            "secondary": 0.73959149
+          },
+          "timestamp_ms": 7100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.87994757,
+            "secondary": 0.68753938
+          },
+          "timestamp_ms": 7200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.91839942,
+            "secondary": 0.62884359
+          },
+          "timestamp_ms": 7300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94202926,
+            "secondary": 0.56558346
+          },
+          "timestamp_ms": 7400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.95,
+            "secondary": 0.5
+          },
+          "timestamp_ms": 7500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94202926,
+            "secondary": 0.43441654
+          },
+          "timestamp_ms": 7600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.91839942,
+            "secondary": 0.37115641
+          },
+          "timestamp_ms": 7700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.87994757,
+            "secondary": 0.31246062
+          },
+          "timestamp_ms": 7800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.82803588,
+            "secondary": 0.26040851
+          },
+          "timestamp_ms": 7900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.76450336,
+            "secondary": 0.21684405
+          },
+          "timestamp_ms": 8000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.69160068,
+            "secondary": 0.18331053
+          },
+          "timestamp_ms": 8100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.61191045,
+            "secondary": 0.16099589
+          },
+          "timestamp_ms": 8200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.52825573,
+            "secondary": 0.15069065
+          },
+          "timestamp_ms": 8300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.44360004,
+            "secondary": 0.15275985
+          },
+          "timestamp_ms": 8400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.36094235,
+            "secondary": 0.16713022
+          },
+          "timestamp_ms": 8500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.28321085,
+            "secondary": 0.19329266
+          },
+          "timestamp_ms": 8600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.2131592,
+            "secondary": 0.23032037
+          },
+          "timestamp_ms": 8700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.15326904,
+            "secondary": 0.2769016
+          },
+          "timestamp_ms": 8800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.10566199,
+            "secondary": 0.33138621
+          },
+          "timestamp_ms": 8900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.07202457,
+            "secondary": 0.39184405
+          },
+          "timestamp_ms": 9000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05354838,
+            "secondary": 0.45613337
+          },
+          "timestamp_ms": 9100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05088797,
+            "secondary": 0.52197668
+          },
+          "timestamp_ms": 9200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.06413758,
+            "secondary": 0.58704146
+          },
+          "timestamp_ms": 9300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.09282783,
+            "secondary": 0.64902275
+          },
+          "timestamp_ms": 9400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.13594235,
+            "secondary": 0.70572484
+          },
+          "timestamp_ms": 9500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.1919538,
+            "secondary": 0.75513902
+          },
+          "timestamp_ms": 9600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.25887794,
+            "secondary": 0.79551477
+          },
+          "timestamp_ms": 9700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.33434395,
+            "secondary": 0.82542177
+          },
+          "timestamp_ms": 9800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.41567841,
+            "secondary": 0.84380054
+          },
+          "timestamp_ms": 9900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.5,
+            "secondary": 0.85
+          },
+          "timestamp_ms": 10000,
+          "valid": true
+        }
+      ],
+      "time_unit": "ms"
+    }
+  },
+  "scenario_id": "deliberate_error"
+}
