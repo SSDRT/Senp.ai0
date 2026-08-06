@@ -1,0 +1,13 @@
+{
+  "fixture_schema_version": 1,
+  "fixture_id": "legacy-coco17-motion-core-a54a845",
+  "source_repository": "https://github.com/SSDRT/senp.ai",
+  "source_branch": "motion-core-fixture",
+  "source_commit": "a54a8453907a6cd1ece61ad7565020a98118c032",
+  "source_path": "fixtures/motion_core_golden.json",
+  "source_file": "legacy_coco17_motion_core_a54a845.source.json",
+  "source_size_bytes": 195356,
+  "source_sha256": "be63f7d745db584bb956008ea9b89b65bb0e60866b6f4265ec66a9e17e111deb",
+  "adapter_version": "coco17-to-mp33/1",
+  "timestamp_policy": "15 FPS rounded milliseconds added only by the Senp.ai0 compatibility replay"
+}
