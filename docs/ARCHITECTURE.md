@@ -6,18 +6,19 @@
 core-contracts
       ↑
 core-pipeline
-      ↑
- core-cache
-      ↑
-headless-runner
+  ↑        ↑
+core-motion core-cache
+               ↑
+         headless-runner
 ```
 
 - `core-contracts` owns immutable, serializable, timestamp-first domain values, typed failures/outcomes, result/provenance schemas, and the versioned cache-key contract. It has no project dependency.
 - `core-pipeline` owns the narrow adapter ports and injected orchestration. It depends only on `core-contracts` and coroutines.
+- `core-motion` implements `MotionProcessor`. It depends on `core-contracts` for canonical pose/motion DTOs and on `core-pipeline` only for the port. Its timestamp-aware implementation models are module-internal.
 - `core-cache` provides a bounded, mutex-protected in-memory cache behind `AnalysisCache`. Persistent Android storage belongs in an integration module.
 - `headless-runner` is a deterministic JVM composition root with fake adapters, an executable JSON result, and end-to-end tests. Production modules must not depend on its fakes.
 
-The root `checkCoreBoundaries` task verifies this dependency direction and rejects Android, AndroidX, MediaPipe, OpenCV, AWT, HTTP-client, or networking dependencies and imports in production core source sets.
+The root `checkCoreBoundaries` task verifies this dependency direction, rejects Android, AndroidX, MediaPipe, OpenCV, video/FFmpeg, desktop UI, HTTP-client, or networking dependencies and imports in production core source sets, and rejects Kotlin-public duplicate canonical pose/motion DTO declarations in `core-motion`.
 
 ## Timestamp-first contracts
 
@@ -50,6 +51,6 @@ Only a complete successful payload is stored. Failures and coroutine cancellatio
 
 ## Android integration
 
-Android decoder and MediaPipe Pose Landmarker implementations belong in separate integration modules and implement `VideoDecoder` and `PoseEstimator`. Motion, phase, and alignment lanes implement their algorithms behind `MotionProcessor`, `PhaseDetector`, and `AlignmentEngine`; this lane intentionally does not duplicate those internals.
+Android decoder and MediaPipe Pose Landmarker implementations belong in separate integration modules and implement `VideoPoseExtractor`. `CoreMotionProcessor` provides the pure-JVM motion implementation behind `MotionProcessor`; phase and alignment lanes remain behind `PhaseDetector` and `AlignmentEngine`. None of these core boundaries expose Android or MediaPipe types.
 
 The main analysis path has no renderer, UI, Compose, cloud, coaching, or MP4-output dependency.

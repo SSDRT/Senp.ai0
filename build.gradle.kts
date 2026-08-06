@@ -17,6 +17,7 @@ allprojects {
 val allowedProjectDependencies = mapOf(
     ":core-contracts" to emptySet(),
     ":core-pipeline" to setOf(":core-contracts"),
+    ":core-motion" to setOf(":core-contracts", ":core-pipeline"),
     ":core-cache" to setOf(":core-contracts", ":core-pipeline"),
     ":headless-runner" to setOf(":core-contracts", ":core-pipeline", ":core-cache"),
 )
@@ -28,8 +29,12 @@ val forbiddenCoreImports = listOf(
     "org.opencv.",
     "java.awt.",
     "java.net.",
+    "javafx.",
+    "javax.swing.",
     "io.ktor.client.",
     "okhttp3.",
+    "org.bytedeco.",
+    "com.arthenica.ffmpegkit.",
 )
 
 val forbiddenCoreDependencyGroups = listOf(
@@ -39,6 +44,8 @@ val forbiddenCoreDependencyGroups = listOf(
     "org.opencv",
     "io.ktor",
     "com.squareup.okhttp3",
+    "org.bytedeco",
+    "com.arthenica.ffmpegkit",
 )
 
 val checkCoreBoundaries by tasks.registering {
@@ -63,7 +70,7 @@ val checkCoreBoundaries by tasks.registering {
             }
         }
 
-        listOf(":core-contracts", ":core-pipeline", ":core-cache").forEach { projectPath ->
+        listOf(":core-contracts", ":core-pipeline", ":core-motion", ":core-cache").forEach { projectPath ->
             val target = project(projectPath)
             target.configurations
                 .flatMap { configuration -> configuration.dependencies }
@@ -80,7 +87,7 @@ val checkCoreBoundaries by tasks.registering {
                 }
         }
 
-        listOf(":core-contracts", ":core-pipeline", ":core-cache").forEach { projectPath ->
+        listOf(":core-contracts", ":core-pipeline", ":core-motion", ":core-cache").forEach { projectPath ->
             val sourceRoot = project(projectPath).projectDir.resolve("src/main")
             if (!sourceRoot.exists()) return@forEach
 
@@ -95,6 +102,26 @@ val checkCoreBoundaries by tasks.registering {
                                 ?.substringBefore(" as ")
                             if (importedName != null && forbiddenCoreImports.any(importedName::startsWith)) {
                                 violations += "${file.relativeTo(rootDir)}:${index + 1} imports forbidden type $importedName"
+                            }
+                        }
+                    }
+                }
+        }
+
+        val duplicateCanonicalType = Regex(
+            """^\s*(?:public\s+)?(?:data\s+|sealed\s+|enum\s+|value\s+)*(?:class|interface|object|typealias)\s+""" +
+                """(PoseFrame|PoseLandmark|Landmark|VideoRole|FrameValidity|FrameValidityStatus|MotionSeries)\b""",
+        )
+        val motionSourceRoot = project(":core-motion").projectDir.resolve("src/main")
+        if (motionSourceRoot.exists()) {
+            motionSourceRoot.walkTopDown()
+                .filter { file -> file.isFile && file.extension == "kt" }
+                .forEach { file ->
+                    file.useLines { lines ->
+                        lines.forEachIndexed { index, line ->
+                            if (duplicateCanonicalType.containsMatchIn(line)) {
+                                violations += file.relativeTo(rootDir).toString() + ":" +
+                                    (index + 1) + " declares a public duplicate canonical DTO"
                             }
                         }
                     }
