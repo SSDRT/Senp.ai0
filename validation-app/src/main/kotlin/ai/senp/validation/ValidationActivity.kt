@@ -21,6 +21,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
+import java.security.MessageDigest
 import kotlin.concurrent.thread
 
 /** Test-only emulator harness. It is not part of the product composition root or frontend. */
@@ -69,6 +70,7 @@ class ValidationActivity : Activity() {
             usableVisibility = 0.35f,
             usablePresence = 0.35f,
         )
+        verifyModelAsset()
         val estimator = MediaPipePoseEstimator.create(
             context = this,
             source = PoseModelSource.Asset(MODEL_ASSET),
@@ -110,6 +112,7 @@ class ValidationActivity : Activity() {
             .put("label", label)
             .put("videoPath", videoPath)
             .put("modelVariant", "pose_landmarker_full_float16_v1")
+            .put("modelBytes", MODEL_BYTES)
             .put("modelSha256", MODEL_SHA256)
             .put("mime", result.info.mime)
             .put("sourceWidth", result.info.sourceWidth)
@@ -144,6 +147,27 @@ class ValidationActivity : Activity() {
         summaryFile.writeText(summary.toString(2))
         File(outputDirectory, "COMPLETE").writeText("ok\n")
         return "OK $label frames=${result.diagnostics.emittedFrames} poses=$detected output=${result.info.outputWidth}x${result.info.outputHeight} evidence=${outputDirectory.absolutePath}"
+    }
+
+    private fun verifyModelAsset() {
+        val digest = MessageDigest.getInstance("SHA-256")
+        var byteCount = 0L
+        assets.open(MODEL_ASSET).use { input ->
+            val buffer = ByteArray(64 * 1024)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+                byteCount += read
+            }
+        }
+        check(byteCount == MODEL_BYTES) {
+            "Pose model size mismatch: expected $MODEL_BYTES, got $byteCount"
+        }
+        val sha256 = digest.digest().joinToString("") { byte -> "%02x".format(byte) }
+        check(sha256 == MODEL_SHA256) {
+            "Pose model SHA-256 mismatch: expected $MODEL_SHA256, got $sha256"
+        }
     }
 
     private fun saveCapture(
@@ -277,6 +301,7 @@ class ValidationActivity : Activity() {
         private const val EXTRA_LABEL = "label"
         private const val EXTRA_CAPTURE_MS = "capture_ms"
         private const val MODEL_ASSET = "pose_landmarker_full.task"
+        private const val MODEL_BYTES = 9_398_198L
         private const val MODEL_SHA256 =
             "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
 

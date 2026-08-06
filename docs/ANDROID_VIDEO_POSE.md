@@ -19,6 +19,8 @@ The model binary is deliberately not checked into Git. Fetch and verify it with:
 
 The script downloads the pinned official `pose_landmarker_full/float16/1` artifact, verifies its exact byte length and SHA-256, and writes it to ignored `local-models/pose_landmarker_full.task`. Full provenance and license information is recorded in `models/pose_landmarker_full.provenance.json`.
 
+The emulator validation harness verifies the packaged asset's byte length and SHA-256 again before every corpus run. The MediaPipe instrumentation suite also hashes the APK asset, preventing a locally substituted model from being reported under the pinned descriptor.
+
 The Android adapter uses `com.google.mediapipe:tasks-vision:0.10.32`. This is the newest inspected official AAR that directly includes the `x86_64` JNI library required by the project emulator, alongside phone ABIs. Later inspected AARs (`0.10.33`, `0.10.35`, and `1.0.0`) contain no JNI libraries and declare no separate native dependency in their published POMs.
 
 ## Video integration
@@ -83,6 +85,18 @@ Build and install the diagnostic APK:
 ```bash
 ./gradlew :validation-app:assembleDebug
 adb -e install -r -t validation-app/build/outputs/apk/debug/validation-app-debug.apk
+```
+
+For scoped-storage-safe command-line validation, copy an input into the debug app's private files directory:
+
+```bash
+adb push sample.mp4 /data/local/tmp/senp-sample.mp4
+adb shell run-as ai.senp.validation mkdir -p files/input
+adb shell run-as ai.senp.validation cp /data/local/tmp/senp-sample.mp4 files/input/sample.mp4
+adb shell am start -W -n ai.senp.validation/.ValidationActivity \
+  --es video /data/user/0/ai.senp.validation/files/input/sample.mp4 \
+  --es label sample \
+  --es capture_ms 0,1000,2000
 ```
 
 The activity accepts these intent extras:

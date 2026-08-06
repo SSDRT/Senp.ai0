@@ -69,7 +69,13 @@ class MediaPipePoseEstimator private constructor(
             throw PoseFailure.Inference("MediaPipe Pose Landmarker inference failed", error)
         }
         val inferenceNanos = System.nanoTime() - inferenceStarted
-        return mapResult(frame.timestampMs, result, inferenceNanos)
+        return try {
+            mapResult(frame.timestampMs, result, inferenceNanos)
+        } catch (failure: PoseFailure) {
+            throw failure
+        } catch (error: Throwable) {
+            throw PoseFailure.Inference("MediaPipe Pose Landmarker result mapping failed", error)
+        }
     }
 
     private fun mapResult(timestampMs: Long, result: PoseLandmarkerResult, inferenceNanos: Long): PoseOutcome {

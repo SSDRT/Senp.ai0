@@ -22,6 +22,14 @@ class VideoDecoderTest {
         assertEquals(0 to 0, FrameGeometry.inverseRotate(1, 0, 3, 2, 90))
         assertEquals(2 to 1, FrameGeometry.inverseRotate(0, 2, 3, 2, 90))
         assertEquals(2 to 0, FrameGeometry.inverseRotate(1, 2, 3, 2, 90))
+
+        assertEquals(2 to 1, FrameGeometry.inverseRotate(0, 0, 3, 2, 180))
+        assertEquals(0 to 0, FrameGeometry.inverseRotate(2, 1, 3, 2, 180))
+
+        assertEquals(2 to 0, FrameGeometry.inverseRotate(0, 0, 3, 2, 270))
+        assertEquals(2 to 1, FrameGeometry.inverseRotate(1, 0, 3, 2, 270))
+        assertEquals(0 to 0, FrameGeometry.inverseRotate(0, 2, 3, 2, 270))
+        assertEquals(0 to 1, FrameGeometry.inverseRotate(1, 2, 3, 2, 270))
     }
 
     @Test

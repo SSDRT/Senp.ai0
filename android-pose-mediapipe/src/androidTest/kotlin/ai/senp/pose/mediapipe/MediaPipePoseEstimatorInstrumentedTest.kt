@@ -10,10 +10,29 @@ import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.security.MessageDigest
 
 @RunWith(AndroidJUnit4::class)
 class MediaPipePoseEstimatorInstrumentedTest {
     private val context get() = InstrumentationRegistry.getInstrumentation().context
+
+    @Test
+    fun packagedModelMatchesPinnedArtifact() {
+        val digest = MessageDigest.getInstance("SHA-256")
+        var byteCount = 0L
+        context.assets.open(MODEL_ASSET).use { input ->
+            val buffer = ByteArray(64 * 1024)
+            while (true) {
+                val read = input.read(buffer)
+                if (read < 0) break
+                digest.update(buffer, 0, read)
+                byteCount += read
+            }
+        }
+        val sha256 = digest.digest().joinToString("") { byte -> "%02x".format(byte) }
+        assertEquals(EXPECTED_MODEL_BYTES, byteCount)
+        assertEquals(EXPECTED_MODEL_SHA256, sha256)
+    }
 
     @Test
     fun missingModelAssetIsTyped() {
@@ -26,7 +45,7 @@ class MediaPipePoseEstimatorInstrumentedTest {
     fun blankFrameProducesNoPersonAndDuplicateTimestampIsRejected() {
         MediaPipePoseEstimator.create(
             context = context,
-            source = PoseModelSource.Asset("pose_landmarker_full.task"),
+            source = PoseModelSource.Asset(MODEL_ASSET),
             descriptor = PoseModelDescriptor(sha256 = EXPECTED_MODEL_SHA256),
         ).use { estimator ->
             val pixels = IntArray(256 * 256) { 0xff000000.toInt() }
@@ -41,6 +60,8 @@ class MediaPipePoseEstimatorInstrumentedTest {
     }
 
     companion object {
+        private const val MODEL_ASSET = "pose_landmarker_full.task"
+        private const val EXPECTED_MODEL_BYTES = 9_398_198L
         private const val EXPECTED_MODEL_SHA256 =
             "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
     }
