@@ -11,6 +11,13 @@ from senpqa.corpus import load_context, validate_corpus
 
 
 class CorpusTests(unittest.TestCase):
+    def load_test_context(self, lock: Path, directory: Path):
+        return load_context(
+            lock,
+            manifest_path=directory / "manifest.json",
+            root=directory / "corpus",
+        )
+
     def make_corpus(self, directory: Path) -> tuple[Path, Path, Path]:
         root = directory / "corpus"
         root.mkdir()
@@ -60,7 +67,7 @@ class CorpusTests(unittest.TestCase):
     def test_valid_corpus(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             lock, _, _ = self.make_corpus(Path(temp))
-            report = validate_corpus(load_context(lock))
+            report = validate_corpus(self.load_test_context(lock, Path(temp)))
             self.assertTrue(report["ok"])
             self.assertEqual(report["verified_count"], 1)
 
@@ -69,7 +76,7 @@ class CorpusTests(unittest.TestCase):
             lock, _, video = self.make_corpus(Path(temp))
             video.unlink()
             with self.assertRaises(QaError) as caught:
-                validate_corpus(load_context(lock))
+                validate_corpus(self.load_test_context(lock, Path(temp)))
             self.assertEqual(caught.exception.code, "corpus_validation_failed")
             self.assertEqual(caught.exception.details["failures"][0]["code"], "missing_file")
 
@@ -82,7 +89,7 @@ class CorpusTests(unittest.TestCase):
             data = video.read_bytes()[:expected_size].ljust(expected_size, b"!")
             video.write_bytes(data)
             with self.assertRaises(QaError) as caught:
-                validate_corpus(load_context(lock))
+                validate_corpus(self.load_test_context(lock, Path(temp)))
             self.assertEqual(caught.exception.details["failures"][0]["code"], "hash_mismatch")
 
     def test_manifest_hash_mismatch_fails_before_media_access(self) -> None:
@@ -92,7 +99,7 @@ class CorpusTests(unittest.TestCase):
             value["external_manifest"]["sha256"] = "0" * 64
             Path(lock).write_text(json.dumps(value), encoding="utf-8")
             with self.assertRaises(QaError) as caught:
-                load_context(lock)
+                self.load_test_context(lock, Path(temp))
             self.assertEqual(caught.exception.code, "manifest_hash_mismatch")
 
 
