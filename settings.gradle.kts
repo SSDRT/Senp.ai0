@@ -17,6 +17,7 @@ include(
     ":core-contracts",
     ":core-pipeline",
     ":core-motion",
+    ":core-alignment",
     ":core-cache",
     ":headless-runner",
     ":android-video",
