@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Senp.ai0"
-include(":core-contracts", ":core-pipeline", ":core-cache", ":headless-runner")
+include(":core-contracts", ":core-pipeline", ":core-cache", ":core-alignment", ":headless-runner")

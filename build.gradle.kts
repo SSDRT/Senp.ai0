@@ -15,6 +15,7 @@ val allowedProjectDependencies = mapOf(
     ":core-contracts" to emptySet(),
     ":core-pipeline" to setOf(":core-contracts"),
     ":core-cache" to setOf(":core-contracts", ":core-pipeline"),
+    ":core-alignment" to setOf(":core-contracts", ":core-pipeline"),
     ":headless-runner" to setOf(":core-contracts", ":core-pipeline", ":core-cache"),
 )
 
@@ -60,7 +61,7 @@ val checkCoreBoundaries by tasks.registering {
             }
         }
 
-        listOf(":core-contracts", ":core-pipeline", ":core-cache").forEach { projectPath ->
+        listOf(":core-contracts", ":core-pipeline", ":core-cache", ":core-alignment").forEach { projectPath ->
             val target = project(projectPath)
             target.configurations
                 .flatMap { configuration -> configuration.dependencies }
@@ -77,7 +78,7 @@ val checkCoreBoundaries by tasks.registering {
                 }
         }
 
-        listOf(":core-contracts", ":core-pipeline", ":core-cache").forEach { projectPath ->
+        listOf(":core-contracts", ":core-pipeline", ":core-cache", ":core-alignment").forEach { projectPath ->
             val sourceRoot = project(projectPath).projectDir.resolve("src/main")
             if (!sourceRoot.exists()) return@forEach
 
