@@ -12,6 +12,7 @@ import ai.senp.core.contracts.SamplingConfiguration
 import ai.senp.core.contracts.Sha256
 import ai.senp.core.contracts.StageResult
 import ai.senp.core.contracts.TimestampMs
+import ai.senp.core.contracts.VideoPoseDiagnostics
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -74,6 +75,8 @@ class InMemoryAnalysisCacheTest {
         exerciseProfileVersion = "profile-v1",
     )
 
+    private fun diagnostics() = VideoPoseDiagnostics(2, 2, 2, 0, 0, 1, 1, 1, 1)
+
     private fun cachedAnalysis(
         points: List<AlignmentPoint> = listOf(
             AlignmentPoint(TimestampMs(0), TimestampMs(0), localCost = 0.0, confidence = 1.0),
@@ -84,6 +87,8 @@ class InMemoryAnalysisCacheTest {
             referenceDuration = DurationMs(100),
             sourceFrameCount = 2,
             referenceFrameCount = 2,
+            sourceVideoPoseDiagnostics = diagnostics(),
+            referenceVideoPoseDiagnostics = diagnostics(),
             alignment = AlignmentResult(
                 mode = "test",
                 points = points,

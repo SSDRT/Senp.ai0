@@ -10,7 +10,7 @@ import ai.senp.core.contracts.Sha256
 import ai.senp.core.contracts.TimestampMs
 import ai.senp.core.contracts.VideoSource
 import ai.senp.core.pipeline.AnalysisPipeline
-import ai.senp.core.pipeline.VideoDecoder
+import ai.senp.core.pipeline.VideoPoseExtractor
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -34,14 +34,12 @@ fun main() = runBlocking {
 
 fun samplePipeline(
     cache: InMemoryAnalysisCache,
-    decoder: VideoDecoder = FakeVideoDecoder(),
-    poseEstimator: FakePoseEstimator = FakePoseEstimator(),
+    videoPoseExtractor: VideoPoseExtractor = FakeVideoPoseExtractor(),
     motionProcessor: FakeMotionProcessor = FakeMotionProcessor(),
     phaseDetector: FakePhaseDetector = FakePhaseDetector(),
     alignmentEngine: FakeAlignmentEngine = FakeAlignmentEngine(),
 ): AnalysisPipeline = AnalysisPipeline(
-    decoder = decoder,
-    poseEstimator = poseEstimator,
+    videoPoseExtractor = videoPoseExtractor,
     motionProcessor = motionProcessor,
     phaseDetector = phaseDetector,
     alignmentEngine = alignmentEngine,

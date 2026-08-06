@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation(libs.kotlinx.serialization.core)
     testImplementation(kotlin("test"))
+    testImplementation(libs.kotlinx.serialization.json)
 }
 
 kotlin {

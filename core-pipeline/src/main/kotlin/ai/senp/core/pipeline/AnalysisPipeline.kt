@@ -1,30 +1,12 @@
 package ai.senp.core.pipeline
 
-import ai.senp.core.contracts.AnalysisFailure
-import ai.senp.core.contracts.AnalysisOutcome
-import ai.senp.core.contracts.AnalysisPayload
-import ai.senp.core.contracts.AnalysisProvenance
-import ai.senp.core.contracts.AnalysisRequest
-import ai.senp.core.contracts.AnalysisResult
-import ai.senp.core.contracts.CacheKey
-import ai.senp.core.contracts.CacheLookup
-import ai.senp.core.contracts.CacheStatus
-import ai.senp.core.contracts.CachedAnalysis
-import ai.senp.core.contracts.DecodedVideo
-import ai.senp.core.contracts.MotionSeries
-import ai.senp.core.contracts.PhaseSeries
-import ai.senp.core.contracts.PipelineStageId
-import ai.senp.core.contracts.PoseSequence
-import ai.senp.core.contracts.StageResult
-import ai.senp.core.contracts.StageTiming
-import ai.senp.core.contracts.VideoRole
+import ai.senp.core.contracts.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 
 class AnalysisPipeline(
-    private val decoder: VideoDecoder,
-    private val poseEstimator: PoseEstimator,
+    private val videoPoseExtractor: VideoPoseExtractor,
     private val motionProcessor: MotionProcessor,
     private val phaseDetector: PhaseDetector,
     private val alignmentEngine: AlignmentEngine,
@@ -33,329 +15,56 @@ class AnalysisPipeline(
     private val wallClock: WallClock,
     private val engineVersion: String,
 ) {
-    init {
-        require(engineVersion.isNotBlank()) { "engine version must not be blank" }
-    }
+    init { require(engineVersion.isNotBlank()) }
 
     suspend fun analyze(request: AnalysisRequest): AnalysisOutcome {
-        val timings = mutableListOf<StageTiming>()
-        var activeStage = PipelineStageId.VALIDATION
-
-        suspend fun <T> stage(
-            id: PipelineStageId,
-            block: suspend () -> StageResult<T>,
-        ): T {
-            activeStage = id
-            return executeStage(id, timings, block)
-        }
-
+        val timings=mutableListOf<StageTiming>(); var active=PipelineStageId.VALIDATION
+        suspend fun <T> stage(id:PipelineStageId, block:suspend()->StageResult<T>):T { active=id; return executeStage(id,timings,block) }
         return try {
-            stage(PipelineStageId.VALIDATION) { validate(request) }
-            val key = CacheKey.from(request)
-
-            when (val lookup = stage(PipelineStageId.CACHE_READ) { cache.lookup(key) }) {
-                is CacheLookup.Hit -> {
-                    val servedAt = wallClock.nowEpochMs()
-                    AnalysisOutcome.Success(
-                        buildResult(
-                            request = request,
-                            key = key,
-                            cached = lookup.analysis,
-                            cacheStatus = CacheStatus.HIT,
-                            servedAt = servedAt,
-                            timings = timings,
-                        ),
-                    )
-                }
-
+            stage(PipelineStageId.VALIDATION){ validate(request) }
+            val key=CacheKey.from(request)
+            when(val lookup=stage(PipelineStageId.CACHE_READ){cache.lookup(key)}) {
+                is CacheLookup.Hit -> AnalysisOutcome.Success(buildResult(request,key,lookup.analysis,CacheStatus.HIT,wallClock.nowEpochMs(),timings))
                 CacheLookup.Miss -> {
-                    val sourceDecoded = stage(PipelineStageId.DECODE_SOURCE) {
-                        decodeValidated(VideoRole.SOURCE, request)
-                    }
-                    val sourcePoses = stage(PipelineStageId.POSE_SOURCE) {
-                        estimateValidated(VideoRole.SOURCE, sourceDecoded, request)
-                    }
-                    val sourceMotion = stage(PipelineStageId.MOTION_SOURCE) {
-                        motionValidated(sourcePoses, request)
-                    }
-                    val sourcePhases = stage(PipelineStageId.PHASE_SOURCE) {
-                        phasesValidated(sourceMotion, request)
-                    }
-
-                    val referenceDecoded = stage(PipelineStageId.DECODE_REFERENCE) {
-                        decodeValidated(VideoRole.REFERENCE, request)
-                    }
-                    val referencePoses = stage(PipelineStageId.POSE_REFERENCE) {
-                        estimateValidated(VideoRole.REFERENCE, referenceDecoded, request)
-                    }
-                    val referenceMotion = stage(PipelineStageId.MOTION_REFERENCE) {
-                        motionValidated(referencePoses, request)
-                    }
-                    val referencePhases = stage(PipelineStageId.PHASE_REFERENCE) {
-                        phasesValidated(referenceMotion, request)
-                    }
-
-                    val alignment = stage(PipelineStageId.ALIGNMENT) {
-                        alignmentValidated(
-                            sourceMotion = sourceMotion,
-                            sourcePhases = sourcePhases,
-                            referenceMotion = referenceMotion,
-                            referencePhases = referencePhases,
-                            request = request,
-                        )
-                    }
-
-                    val payload = AnalysisPayload(
-                        sourceDuration = sourceDecoded.duration,
-                        referenceDuration = referenceDecoded.duration,
-                        sourceFrameCount = sourcePoses.frames.size,
-                        referenceFrameCount = referencePoses.frames.size,
-                        alignment = alignment.alignment.copy(points = alignment.alignment.points.toList()),
-                        problems = alignment.problems.toList(),
-                    )
-                    val computedAt = wallClock.nowEpochMs()
-                    val cached = CachedAnalysis(
-                        payload = payload,
-                        computedAtEpochMs = computedAt,
-                        producerEngineVersion = engineVersion,
-                    )
-
-                    stage(PipelineStageId.CACHE_WRITE) { cache.store(key, cached) }
-                    AnalysisOutcome.Success(
-                        buildResult(
-                            request = request,
-                            key = key,
-                            cached = cached,
-                            cacheStatus = CacheStatus.MISS,
-                            servedAt = computedAt,
-                            timings = timings,
-                        ),
-                    )
+                    val source=stage(PipelineStageId.VIDEO_POSE_SOURCE){ extractValidated(VideoRole.SOURCE,request) }
+                    val sourceMotion=stage(PipelineStageId.MOTION_SOURCE){ motionValidated(source.poses,request) }
+                    val sourcePhases=stage(PipelineStageId.PHASE_SOURCE){ phasesValidated(sourceMotion,request) }
+                    val reference=stage(PipelineStageId.VIDEO_POSE_REFERENCE){ extractValidated(VideoRole.REFERENCE,request) }
+                    val referenceMotion=stage(PipelineStageId.MOTION_REFERENCE){ motionValidated(reference.poses,request) }
+                    val referencePhases=stage(PipelineStageId.PHASE_REFERENCE){ phasesValidated(referenceMotion,request) }
+                    val aligned=stage(PipelineStageId.ALIGNMENT){ alignmentValidated(sourceMotion,sourcePhases,referenceMotion,referencePhases,request) }
+                    val payload=AnalysisPayload(source.duration,reference.duration,source.poses.frames.size,reference.poses.frames.size,source.diagnostics,reference.diagnostics,aligned.alignment.copy(points=aligned.alignment.points.toList()),aligned.problems.toList())
+                    val now=wallClock.nowEpochMs(); val cached=CachedAnalysis(payload,now,engineVersion)
+                    stage(PipelineStageId.CACHE_WRITE){cache.store(key,cached)}
+                    AnalysisOutcome.Success(buildResult(request,key,cached,CacheStatus.MISS,now,timings))
                 }
             }
-        } catch (cancelled: CancellationException) {
-            throw cancelled
-        } catch (abort: StageAbort) {
-            AnalysisOutcome.Failure(abort.failure, timings.toList())
-        } catch (error: Exception) {
-            AnalysisOutcome.Failure(
-                failure = AnalysisFailure.Unexpected(
-                    stage = activeStage,
-                    exceptionType = error::class.qualifiedName ?: error::class.simpleName ?: "unknown",
-                    message = error.message ?: "Unexpected pipeline failure",
-                ),
-                timings = timings.toList(),
-            )
+        } catch(c:CancellationException){ throw c }
+          catch(a:StageAbort){ AnalysisOutcome.Failure(a.failure,timings.toList()) }
+          catch(e:Exception){ AnalysisOutcome.Failure(AnalysisFailure.Unexpected(active,e::class.qualifiedName?:"unknown",e.message?:"Unexpected pipeline failure"),timings.toList()) }
+    }
+
+    private suspend fun <T> executeStage(id:PipelineStageId,timings:MutableList<StageTiming>,block:suspend()->StageResult<T>):T {
+        currentCoroutineContext().ensureActive(); val start=monotonicClock.elapsedRealtimeMs()
+        try { return when(val r=block()) { is StageResult.Success->r.value; is StageResult.Failure->{ if(r.failure.stage!=id) throw StageAbort(AnalysisFailure.Unexpected(id,r.failure::class.qualifiedName?:"unknown","Stage " + id + " received failure declared for " + r.failure.stage + ": " + r.failure.message)); throw StageAbort(r.failure) } } }
+        catch(c:CancellationException){throw c} catch(a:StageAbort){throw a} catch(e:Exception){throw StageAbort(AnalysisFailure.Unexpected(id,e::class.qualifiedName?:"unknown",e.message?:"Unexpected stage failure"))}
+        finally { val end=monotonicClock.elapsedRealtimeMs(); timings+=StageTiming(id,start.coerceAtLeast(0),(end-start).coerceAtLeast(0)) }
+    }
+
+    private fun validate(r:AnalysisRequest):StageResult<Unit> = when { r.requestId.isBlank()->StageResult.Failure(AnalysisFailure.InvalidRequest("requestId must not be blank")); r.requestId.length>256->StageResult.Failure(AnalysisFailure.InvalidRequest("requestId must be at most 256 characters")); else->StageResult.Success(Unit) }
+
+    private suspend fun extractValidated(role:VideoRole,r:AnalysisRequest):StageResult<VideoPoseExtraction> {
+        val src=if(role==VideoRole.SOURCE) r.source else r.reference
+        return when(val result=videoPoseExtractor.extract(role,src,r.configuration.sampling,r.configuration.model)) {
+            is StageResult.Failure->result
+            is StageResult.Success->{ val x=result.value; when { x.role!=role->StageResult.Failure(AnalysisFailure.VideoPose(role,VideoPoseFailureKind.INFERENCE,"extractor returned " + x.role + " for " + role)); x.poses.frames.isEmpty()->StageResult.Failure(AnalysisFailure.VideoPose(role,VideoPoseFailureKind.INFERENCE,"extractor returned no sampled pose frames")); else->StageResult.Success(x) } }
         }
     }
 
-    private suspend fun <T> executeStage(
-        id: PipelineStageId,
-        timings: MutableList<StageTiming>,
-        block: suspend () -> StageResult<T>,
-    ): T {
-        currentCoroutineContext().ensureActive()
-        val startedAt = monotonicClock.elapsedRealtimeMs()
-        return try {
-            when (val result = block()) {
-                is StageResult.Success -> result.value
-                is StageResult.Failure -> {
-                    val failure = result.failure
-                    if (failure.stage != id) {
-                        throw StageAbort(
-                            AnalysisFailure.Unexpected(
-                                stage = id,
-                                exceptionType = failure::class.qualifiedName
-                                    ?: failure::class.simpleName
-                                    ?: "unknown",
-                                message = "Stage $id received a failure declared for ${failure.stage}: ${failure.message}",
-                            ),
-                        )
-                    }
-                    throw StageAbort(failure)
-                }
-            }
-        } catch (cancelled: CancellationException) {
-            throw cancelled
-        } catch (abort: StageAbort) {
-            throw abort
-        } catch (error: Exception) {
-            throw StageAbort(
-                AnalysisFailure.Unexpected(
-                    stage = id,
-                    exceptionType = error::class.qualifiedName ?: error::class.simpleName ?: "unknown",
-                    message = error.message ?: "Unexpected stage failure",
-                ),
-            )
-        } finally {
-            val finishedAt = monotonicClock.elapsedRealtimeMs()
-            timings += StageTiming(
-                stage = id,
-                startedAtElapsedRealtimeMs = startedAt.coerceAtLeast(0),
-                durationMs = (finishedAt - startedAt).coerceAtLeast(0),
-            )
-        }
-    }
+    private suspend fun motionValidated(p:PoseSequence,r:AnalysisRequest)=when(val x=motionProcessor.process(p,r.configuration.normalizationVersion,r.configuration.exerciseProfileVersion)){ is StageResult.Failure->x; is StageResult.Success->if(x.value.role==p.role)x else StageResult.Failure(AnalysisFailure.Motion(p.role,"motion processor returned wrong role")) }
+    private suspend fun phasesValidated(m:MotionSeries,r:AnalysisRequest)=when(val x=phaseDetector.detect(m,r.configuration.exerciseProfileVersion)){ is StageResult.Failure->x; is StageResult.Success->if(x.value.role==m.role)x else StageResult.Failure(AnalysisFailure.Phase(m.role,"phase detector returned wrong role")) }
+    private suspend fun alignmentValidated(sm:MotionSeries,sp:PhaseSeries,rm:MotionSeries,rp:PhaseSeries,r:AnalysisRequest)=when(val x=alignmentEngine.align(sm,sp,rm,rp,r.configuration)){ is StageResult.Failure->x; is StageResult.Success->if(x.value.alignment.points.isNotEmpty())x else StageResult.Failure(AnalysisFailure.Alignment("alignment engine returned an empty path")) }
 
-    private fun validate(request: AnalysisRequest): StageResult<Unit> {
-        if (request.requestId.isBlank()) {
-            return StageResult.Failure(AnalysisFailure.InvalidRequest("requestId must not be blank"))
-        }
-        if (request.requestId.length > 256) {
-            return StageResult.Failure(AnalysisFailure.InvalidRequest("requestId must be at most 256 characters"))
-        }
-        return StageResult.Success(Unit)
-    }
-
-    private suspend fun decodeValidated(
-        role: VideoRole,
-        request: AnalysisRequest,
-    ): StageResult<DecodedVideo> {
-        val source = when (role) {
-            VideoRole.SOURCE -> request.source
-            VideoRole.REFERENCE -> request.reference
-        }
-        return when (val result = decoder.decode(role, source, request.configuration.sampling)) {
-            is StageResult.Failure -> result
-            is StageResult.Success -> {
-                val video = result.value
-                when {
-                    video.role != role -> StageResult.Failure(
-                        AnalysisFailure.Decode(role, "decoder returned ${video.role} for $role input"),
-                    )
-
-                    video.frames.isEmpty() -> StageResult.Failure(
-                        AnalysisFailure.Decode(role, "decoder returned no sampled frames"),
-                    )
-
-                    else -> StageResult.Success(video)
-                }
-            }
-        }
-    }
-
-    private suspend fun estimateValidated(
-        role: VideoRole,
-        video: DecodedVideo,
-        request: AnalysisRequest,
-    ): StageResult<PoseSequence> = when (
-        val result = poseEstimator.estimate(role, video, request.configuration.model)
-    ) {
-        is StageResult.Failure -> result
-        is StageResult.Success -> {
-            val poses = result.value
-            when {
-                poses.role != role -> StageResult.Failure(
-                    AnalysisFailure.Pose(role, "pose estimator returned ${poses.role} for $role input"),
-                )
-
-                poses.frames.size != video.frames.size -> StageResult.Failure(
-                    AnalysisFailure.Pose(
-                        role,
-                        "pose estimator returned ${poses.frames.size} frames for ${video.frames.size} decoded frames",
-                    ),
-                )
-
-                poses.frames.map { it.timestamp } != video.frames.map { it.timestamp } -> StageResult.Failure(
-                    AnalysisFailure.Pose(role, "pose timestamps do not match decoded timestamps"),
-                )
-
-                else -> StageResult.Success(poses)
-            }
-        }
-    }
-
-    private suspend fun motionValidated(
-        poses: PoseSequence,
-        request: AnalysisRequest,
-    ): StageResult<MotionSeries> = when (
-        val result = motionProcessor.process(
-            poses = poses,
-            normalizationVersion = request.configuration.normalizationVersion,
-            exerciseProfileVersion = request.configuration.exerciseProfileVersion,
-        )
-    ) {
-        is StageResult.Failure -> result
-        is StageResult.Success -> {
-            val motion = result.value
-            if (motion.role != poses.role) {
-                StageResult.Failure(
-                    AnalysisFailure.Motion(poses.role, "motion processor returned ${motion.role} for ${poses.role} input"),
-                )
-            } else {
-                StageResult.Success(motion)
-            }
-        }
-    }
-
-    private suspend fun phasesValidated(
-        motion: MotionSeries,
-        request: AnalysisRequest,
-    ): StageResult<PhaseSeries> = when (
-        val result = phaseDetector.detect(motion, request.configuration.exerciseProfileVersion)
-    ) {
-        is StageResult.Failure -> result
-        is StageResult.Success -> {
-            val phases = result.value
-            if (phases.role != motion.role) {
-                StageResult.Failure(
-                    AnalysisFailure.Phase(motion.role, "phase detector returned ${phases.role} for ${motion.role} input"),
-                )
-            } else {
-                StageResult.Success(phases)
-            }
-        }
-    }
-
-    private suspend fun alignmentValidated(
-        sourceMotion: MotionSeries,
-        sourcePhases: PhaseSeries,
-        referenceMotion: MotionSeries,
-        referencePhases: PhaseSeries,
-        request: AnalysisRequest,
-    ): StageResult<AlignmentAnalysis> = when (
-        val result = alignmentEngine.align(
-            sourceMotion = sourceMotion,
-            sourcePhases = sourcePhases,
-            referenceMotion = referenceMotion,
-            referencePhases = referencePhases,
-            configuration = request.configuration,
-        )
-    ) {
-        is StageResult.Failure -> result
-        is StageResult.Success -> {
-            if (result.value.alignment.points.isEmpty()) {
-                StageResult.Failure(AnalysisFailure.Alignment("alignment engine returned an empty path"))
-            } else {
-                StageResult.Success(result.value)
-            }
-        }
-    }
-
-    private fun buildResult(
-        request: AnalysisRequest,
-        key: CacheKey,
-        cached: CachedAnalysis,
-        cacheStatus: CacheStatus,
-        servedAt: ai.senp.core.contracts.TimestampMs,
-        timings: List<StageTiming>,
-    ): AnalysisResult = AnalysisResult(
-        requestId = request.requestId,
-        requestedAtEpochMs = request.requestedAtEpochMs,
-        payload = cached.payload,
-        timings = timings.toList(),
-        provenance = AnalysisProvenance(
-            cacheKey = key,
-            cacheKeyStableId = key.stableId(),
-            cacheStatus = cacheStatus,
-            computedAtEpochMs = cached.computedAtEpochMs,
-            servedAtEpochMs = servedAt,
-            producerEngineVersion = cached.producerEngineVersion,
-            servingEngineVersion = engineVersion,
-        ),
-    )
-
-    private class StageAbort(
-        val failure: AnalysisFailure,
-    ) : RuntimeException(null, null, false, false)
+    private fun buildResult(r:AnalysisRequest,key:CacheKey,c:CachedAnalysis,status:CacheStatus,served:TimestampMs,t:List<StageTiming>)=AnalysisResult(requestId=r.requestId,requestedAtEpochMs=r.requestedAtEpochMs,payload=c.payload,timings=t.toList(),provenance=AnalysisProvenance(key,key.stableId(),status,c.computedAtEpochMs,served,c.producerEngineVersion,engineVersion))
+    private class StageAbort(val failure:AnalysisFailure):RuntimeException(null,null,false,false)
 }
