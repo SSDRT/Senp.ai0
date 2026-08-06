@@ -13,4 +13,12 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Senp.ai0"
-include(":core-contracts", ":core-pipeline", ":core-cache", ":headless-runner")
+include(
+    ":core-contracts",
+    ":core-pipeline",
+    ":core-cache",
+    ":headless-runner",
+    ":android-video",
+    ":android-pose-mediapipe",
+    ":validation-app",
+)
