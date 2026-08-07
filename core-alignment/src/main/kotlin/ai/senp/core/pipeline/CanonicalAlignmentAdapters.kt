@@ -214,14 +214,55 @@ private fun MotionSeries.toInternalTrack(): MotionTrack {
                 confidence = if (blind) 0.0 else min(frameConfidence, angle.confidence),
             )
         }
+        addBilateralAliases(mapped)
         MotionFrame(sample.timestamp.value, mapped)
     })
 }
 
 private fun canonicalFeatureNames(motion: MotionSeries): Set<String> = buildSet {
-    motion.features.forEach { addAll(it.values.keys) }
-    motion.angles.forEach { add(it.joint) }
+    motion.features.forEach { sample ->
+        sample.values.forEach { (name, value) ->
+            if (value != null && value.isFinite()) add(name)
+        }
+    }
+    motion.angles.forEach { angle -> add(angle.joint) }
+    for ((left, right, alias) in BILATERAL_FEATURES) {
+        val candidates = listOf(
+            left,
+            right,
+            "angle.world.$left.degrees",
+            "angle.image.$left.degrees",
+            "angle.world.$right.degrees",
+            "angle.image.$right.degrees",
+        )
+        if (candidates.any { it in this }) add(alias)
+    }
 }
+
+private fun addBilateralAliases(features: MutableMap<String, InternalFeatureSample>) {
+    for ((left, right, alias) in BILATERAL_FEATURES) {
+        val candidates = listOf(
+            left,
+            right,
+            "angle.world.$left.degrees",
+            "angle.image.$left.degrees",
+            "angle.world.$right.degrees",
+            "angle.image.$right.degrees",
+        ).mapNotNull(features::get)
+            .filter { it.value != null }
+        val selected = candidates.maxByOrNull { it.confidence } ?: continue
+        features[alias] = selected
+    }
+}
+
+private val BILATERAL_FEATURES = listOf(
+    Triple("left_shoulder", "right_shoulder", "bilateral_shoulder"),
+    Triple("left_elbow", "right_elbow", "bilateral_elbow"),
+    Triple("left_wrist", "right_wrist", "bilateral_wrist"),
+    Triple("left_hip", "right_hip", "bilateral_hip"),
+    Triple("left_knee", "right_knee", "bilateral_knee"),
+    Triple("left_ankle", "right_ankle", "bilateral_ankle"),
+)
 
 private fun PhaseState.toCanonicalPhases(track: MotionTrack, role: VideoRole): PhaseSeries {
     if (track.frames.size < 2 || activeEnd <= activeStart) return PhaseSeries(role, emptyList())
@@ -433,36 +474,44 @@ private object InternalProfileCatalog {
                 normalized.startsWith("generic/") ||
                 normalized == "exercise_profiles/1" ||
                 normalized.startsWith("exercise_profiles/") -> {
-                val supported = comparisonFeatures.filter { feature ->
-                    feature in angleFeatures && !isExcludedDynamic(feature)
-                }
-                val fallback = comparisonFeatures.filterNot(::isExcludedDynamic).sorted()
-                val names = (supported + fallback).distinct()
+                val canonical = angleFeatures.mapNotNull { feature ->
+                    resolveCanonicalFeature(feature, comparisonFeatures)
+                }.distinct()
+                val formFeatureAllowList = setOf(
+                    "left_elbow", "right_elbow",
+                    "left_knee", "right_knee",
+                    "left_shoulder", "right_shoulder",
+                    "left_hip", "right_hip",
+                    "left_ankle", "right_ankle",
+                )
+                val fallback = comparisonFeatures
+                    .filter { feature -> resolveCanonicalFeature(feature, setOf(feature)) in formFeatureAllowList }
+                    .sorted()
+                val names = if (canonical.isNotEmpty()) canonical else fallback
                 ProfileSpec(
                     id = version,
-                    phaseCandidates = listOf(
-                        "profile_signal",
-                        "left_knee",
-                        "right_knee",
-                        "left_elbow",
-                        "right_elbow",
-                        "left_shoulder",
-                        "right_shoulder",
-                        "left_hip",
-                        "right_hip",
-                    ) + names,
+                    phaseCandidates = angleFeatures.mapNotNull { feature ->
+                        resolveCanonicalFeature(feature, phaseFeatures)
+                    } + names,
                     weights = names.associateWithTo(linkedMapOf()) { 1.0 },
                 )
             }
             else -> null
         } ?: return null
 
-        val comparableRules = spec.weights.filterKeys { it in comparisonFeatures && !isExcludedDynamic(it) }
+        val comparableRules = linkedMapOf<String, Double>()
+        for ((semanticName, weight) in spec.weights) {
+            val resolved = resolveCanonicalFeature(semanticName, phaseFeatures) ?: continue
+            if (!isExcludedDynamic(resolved)) comparableRules[resolved] = weight
+        }
         if (comparableRules.isEmpty()) return null
-        val primary = spec.phaseCandidates.firstOrNull { it in phaseFeatures && it in comparableRules }
+        val phaseCandidates = spec.phaseCandidates.mapNotNull { candidate ->
+            resolveCanonicalFeature(candidate, phaseFeatures)
+        }
+        val primary = phaseCandidates.firstOrNull { it in comparableRules }
             ?: comparableRules.keys.firstOrNull { it in phaseFeatures }
             ?: return null
-        val secondary = spec.phaseCandidates.firstOrNull { it != primary && it in phaseFeatures && it in comparableRules }
+        val secondary = phaseCandidates.firstOrNull { it != primary && it in comparableRules }
         return ExerciseProfile(
             id = spec.id,
             featureRules = comparableRules.mapValues { (name, weight) ->
@@ -491,6 +540,40 @@ private object InternalProfileCatalog {
         val normalized = name.lowercase()
         return excludedDynamics.any { it in normalized }
     }
+
+    private fun resolveCanonicalFeature(name: String, available: Set<String>): String? {
+        if (name in available) return name
+        return when (name) {
+            "torso_lean" -> preferred(
+                available,
+                "torso.world.lean_from_vertical_degrees",
+                "torso.image.lean_from_vertical_degrees",
+            )
+            "shoulder_tilt" -> preferred(
+                available,
+                "torso.world.shoulder_tilt_degrees",
+                "torso.image.shoulder_tilt_degrees",
+            )
+            "hip_tilt" -> preferred(
+                available,
+                "torso.world.hip_tilt_degrees",
+                "torso.image.hip_tilt_degrees",
+            )
+            in angleFeatures -> preferred(
+                available,
+                "angle.world.$name.degrees",
+                "angle.image.$name.degrees",
+                bilateralAlias(name),
+            )
+            else -> null
+        }
+    }
+
+    private fun bilateralAlias(name: String): String =
+        "bilateral_" + name.removePrefix("left_").removePrefix("right_")
+
+    private fun preferred(available: Set<String>, vararg names: String): String? =
+        names.firstOrNull { it in available }
 
     private data class ProfileSpec(
         val id: String,

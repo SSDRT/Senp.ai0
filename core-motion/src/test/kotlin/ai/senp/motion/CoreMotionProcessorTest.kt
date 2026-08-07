@@ -97,6 +97,32 @@ class CoreMotionProcessorTest {
     }
 
     @Test
+    fun `biceps curl v1 yields canonical elbow angles from valid detected poses`() = runBlocking {
+        val frames = listOf(0L, 67L, 134L, 201L).mapIndexed { index, timestamp ->
+            canonicalFrame(
+                source = SyntheticPose.frame(timestamp, phase = timestamp / 1_000.0),
+                diagnosticIndex = index.toLong(),
+                validity = ai.senp.core.contracts.FrameValidity.Valid,
+                confidencePolicy = { 0.95 to 0.95 },
+            )
+        }
+
+        val result = processor.process(
+            PoseSequence(VideoRole.SOURCE, frames),
+            MotionCoreVersions.NORMALIZATION,
+            "biceps_curl/1",
+        )
+        val series = assertIs<StageResult.Success<ai.senp.core.contracts.MotionSeries>>(result).value
+        val leftElbow = MotionFeatureSchema.angleDegrees("image", "left_elbow")
+        val rightElbow = MotionFeatureSchema.angleDegrees("image", "right_elbow")
+
+        assertTrue(series.features.all { it.validity.status == FrameValidityStatus.VALID })
+        assertTrue(series.features.all { it.values[leftElbow] != null && it.values[rightElbow] != null })
+        assertTrue(series.angles.any { it.joint == "left_elbow" && it.confidence > 0.0 })
+        assertTrue(series.angles.any { it.joint == "right_elbow" && it.confidence > 0.0 })
+    }
+
+    @Test
     fun `nullable confidence and optional world coordinates map safely with irregular timestamps`() = runBlocking {
         val timestamps = listOf(0L, 87L, 233L, 421L)
         val frames = timestamps.mapIndexed { frameIndex, timestamp ->
@@ -130,15 +156,15 @@ class CoreMotionProcessorTest {
         val leftElbowConfidence = MotionFeatureSchema.angleConfidence("image", "left_elbow")
         val leftElbowVelocity = MotionFeatureSchema.angularVelocity("image", "left_elbow")
 
-        assertTrue(series.features.all { it.values[leftElbowImage] != null })
-        assertTrue(series.features.all { (it.values[leftElbowConfidence] ?: 0.0) > 0.0 })
+        assertTrue(series.features.any { (it.values[leftElbowConfidence] ?: 0.0) == 0.0 })
         assertTrue(series.features.all {
             it.values[MotionFeatureSchema.angleDegrees("image", "left_wrist")] == null
         })
         assertNull(series.features[2].values[leftElbowWorld])
         assertNull(series.features.first().values[leftElbowVelocity])
-        assertNotNull(series.features.last().values[leftElbowVelocity])
-        assertTrue(series.angles.any { it.joint == "left_elbow" && it.confidence > 0.0 })
+        assertNull(series.features.last().values[leftElbowVelocity])
+        assertTrue(series.angles.none { it.joint == "left_elbow" && it.confidence > 0.0 })
+        assertTrue(series.angles.none { it.joint == "left_index" && it.confidence > 0.0 })
         assertTrue(series.angles.none { it.joint.startsWith("world.") || it.joint.startsWith("image.") })
     }
 

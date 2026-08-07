@@ -13,14 +13,37 @@ class ConfigTest {
         assertEquals(0.6f, config.trackingConfidence)
     }
 
-    @Test fun detectedMappingUsesCanonicalOrderAndNullableConfidence() {
+    @Test fun allNullConfidenceIsPreservedButMapsConservativelyToBlind() {
         val image = (0 until 33).map { index -> RawLandmark(index / 100f, index / 200f, -index / 300f) }
         val estimate = PoseResultMapper().map(100, 7, RawPoseResult(image), 10)
-        assertEquals(TrackingState.DETECTED, estimate.state)
+        assertEquals(TrackingState.UNUSABLE, estimate.state)
         assertEquals(33, estimate.frame.landmarks.size)
         assertEquals((0 until 33).toList(), estimate.frame.landmarks.map { it.id.index })
         assertTrue(estimate.frame.landmarks.all { it.world == null && it.visibility == null && it.presence == null })
-        assertEquals(FrameValidityStatus.VALID, estimate.frame.validity.status)
+        assertEquals(FrameValidityStatus.BLIND, estimate.frame.validity.status)
+        assertEquals(0.0, estimate.frame.validity.confidence, 0.0)
+        assertTrue(FrameValidityReason.UNUSABLE_TRACKING in estimate.frame.validity.reasons)
+    }
+
+    @Test fun oneMissingConfidenceDimensionIsConservative() {
+        val image = (0 until 33).map { index ->
+            if (index % 2 == 0) RawLandmark(0.1f, 0.2f, 0.3f, visibility = 0.95f, presence = null)
+            else RawLandmark(0.1f, 0.2f, 0.3f, visibility = null, presence = 0.95f)
+        }
+        val estimate = PoseResultMapper().map(100, 7, RawPoseResult(image), 10)
+        assertEquals(TrackingState.UNUSABLE, estimate.state)
+        assertEquals(FrameValidityStatus.BLIND, estimate.frame.validity.status)
+        assertEquals(0.0, estimate.frame.validity.confidence, 0.0)
+        assertTrue(FrameValidityReason.UNUSABLE_TRACKING in estimate.frame.validity.reasons)
+    }
+
+    @Test fun oneMissingConfidenceDimensionDoesNotBecomeUsable() {
+        val partial = (0 until 33).map { RawLandmark(0.1f, 0.2f, 0.3f, visibility = 0.9f, presence = null) }
+        val estimate = PoseResultMapper().map(0, 0, RawPoseResult(partial), 0)
+        assertEquals(TrackingState.UNUSABLE, estimate.state)
+        assertEquals(FrameValidityStatus.BLIND, estimate.frame.validity.status)
+        assertEquals(0.0, estimate.frame.validity.confidence, 0.0)
+        assertTrue(estimate.frame.landmarks.all { it.visibility != null && it.presence == null })
     }
 
     @Test fun optionalWorldDataMapsOnlyWhenAvailable() {

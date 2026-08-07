@@ -454,12 +454,18 @@ internal class PoseResultMapper(
                 presence = image.presence?.toDouble(),
             )
         }
-        val usableCount = result.imageLandmarks.count { landmark ->
-            (landmark.visibility == null || landmark.visibility >= usableVisibility) &&
-                (landmark.presence == null || landmark.presence >= usablePresence)
+        val effectiveConfidences = result.imageLandmarks.map { landmark ->
+            val visibility = landmark.visibility ?: 0.0f
+            val presence = landmark.presence ?: 0.0f
+            visibility to presence
         }
-        val confidenceValues = result.imageLandmarks.flatMap { listOfNotNull(it.visibility, it.presence) }
-        val confidence = if (confidenceValues.isEmpty()) 1.0 else confidenceValues.average().coerceIn(0.0, 1.0)
+        val usableCount = effectiveConfidences.count { (visibility, presence) ->
+            visibility >= usableVisibility && presence >= usablePresence
+        }
+        val confidence = effectiveConfidences
+            .map { (visibility, presence) -> minOf(visibility, presence).toDouble() }
+            .average()
+            .coerceIn(0.0, 1.0)
         val state = if (usableCount >= minimumUsableLandmarks) TrackingState.DETECTED else TrackingState.UNUSABLE
         val validity = if (state == TrackingState.DETECTED) {
             FrameValidity(FrameValidityStatus.VALID, confidence)

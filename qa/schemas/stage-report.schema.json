@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://senp.ai0/schemas/stage-report.schema.json",
+  "title": "Senp.ai0 stage timing and memory report",
+  "type": "object",
+  "required": ["schema_version", "run_id", "stages", "total_duration_ms", "process_peak_rss_bytes"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "scenario_id": {"type": "string"},
+    "machine": {"type": "object"},
+    "total_duration_ms": {"type": "number", "minimum": 0},
+    "process_peak_rss_bytes": {"type": "integer", "minimum": 0},
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "duration_ms", "peak_rss_bytes", "status"],
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "duration_ms": {"type": "number", "minimum": 0},
+          "peak_rss_bytes": {"type": "integer", "minimum": 0},
+          "status": {"enum": ["passed", "failed", "skipped"]},
+          "metrics": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "description": "Lightweight selection and integrity lock for the external Senp.ai0 21-video corpus. Media remains outside Git.",
+  "external_manifest": {
+    "default_path": "/home/coder/.local/share/senp-test-videos/manifests/drive-14DVra51GZZozAF-4uBwOuk75U0z-QwMO.json",
+    "sha256": "466370ed2191cb91f5a740eb60541b791f9b1724f61e1a94b9afb17faad9192d"
+  },
+  "decode_manifest": {
+    "default_path": "/home/coder/.local/share/senp-test-videos/manifests/drive-14DVra51GZZozAF-4uBwOuk75U0z-QwMO-decode.json",
+    "sha256": "8766ed8c6fc83492482eebf93a8cf77be6e7c2dffa40c29d322fb4beb6907424"
+  },
+  "expected_file_count": 21,
+  "expected_total_bytes": 110634048,
+  "selections": [
+    {
+      "id": "biceps-right-h264-portrait",
+      "label": "BICEPS CURL RIGHT / H.264 PORTRAIT",
+      "relative_path": "Right videos/Biceps_curl_right.mp4",
+      "video_codec": "h264",
+      "orientation": "portrait",
+      "role": "right",
+      "exercise": "biceps_curl",
+      "sample_count": 6
+    },
+    {
+      "id": "biceps-wrong-h264-portrait",
+      "label": "BICEPS CURL WRONG / H.264 PORTRAIT",
+      "relative_path": "Wrong videos/biceps_curl_wrong.mp4",
+      "video_codec": "h264",
+      "orientation": "portrait",
+      "role": "wrong",
+      "exercise": "biceps_curl",
+      "sample_count": 6
+    },
+    {
+      "id": "leg-raise-right-hevc-landscape",
+      "label": "LEG RAISE RIGHT / HEVC LANDSCAPE",
+      "relative_path": "Right videos/leg_raise_right.mp4",
+      "video_codec": "hevc",
+      "orientation": "landscape",
+      "role": "right",
+      "exercise": "leg_raise",
+      "sample_count": 6
+    },
+    {
+      "id": "leg-raise-wrong-h264-landscape",
+      "label": "LEG RAISE WRONG / H.264 LANDSCAPE",
+      "relative_path": "Wrong videos/leg_raise_wrong.mp4",
+      "video_codec": "h264",
+      "orientation": "landscape",
+      "role": "wrong",
+      "exercise": "leg_raise",
+      "sample_count": 6
+    },
+    {
+      "id": "side-bridge-right-hevc-landscape",
+      "label": "SIDE BRIDGE RIGHT / HEVC LANDSCAPE",
+      "relative_path": "Right videos/Side_bridges_right.mp4",
+      "video_codec": "hevc",
+      "orientation": "landscape",
+      "role": "right",
+      "exercise": "side_bridge",
+      "sample_count": 6
+    },
+    {
+      "id": "cricket-jofra-h264-portrait",
+      "label": "CRICKET BOWLING / H.264 PORTRAIT",
+      "relative_path": "Cricket samples/jofra Archer bowling action slow motion #cricket #cricketshorts #bowling #shorts #viral #foryou.mp4",
+      "video_codec": "h264",
+      "orientation": "portrait",
+      "role": "cricket",
+      "exercise": "bowling",
+      "sample_count": 6
+    }
+  ],
+  "pairs": [
+    {
+      "id": "biceps-curl-right-wrong",
+      "label": "BICEPS CURL RIGHT vs WRONG",
+      "right": "biceps-right-h264-portrait",
+      "wrong": "biceps-wrong-h264-portrait",
+      "sample_count_each": 4
+    },
+    {
+      "id": "leg-raise-right-wrong",
+      "label": "LEG RAISE RIGHT vs WRONG",
+      "right": "leg-raise-right-hevc-landscape",
+      "wrong": "leg-raise-wrong-h264-landscape",
+      "sample_count_each": 4
+    }
+  ]
+}

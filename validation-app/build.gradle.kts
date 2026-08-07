@@ -34,6 +34,9 @@ kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_21) } }
 dependencies {
     implementation(project(":core-contracts"))
     implementation(project(":core-pipeline"))
+    implementation(project(":core-cache"))
+    implementation(project(":core-motion"))
+    implementation(project(":core-alignment"))
     implementation(project(":android-video"))
     implementation(project(":android-pose-mediapipe"))
     implementation(libs.kotlinx.coroutines.core)

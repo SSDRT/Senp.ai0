@@ -26,6 +26,7 @@ internal class WindowEngine(private val config: AlignmentConfig) {
                 val point = points[index]
                 if (
                     rawError[index] &&
+                    point.alignmentConfidence >= config.confidentThreshold &&
                     point.maximumDifference >= config.errorThreshold * config.singleMotionPeakMultiplier &&
                     point.commonCoverage >= config.minimumCommonFeatureCoverage
                 ) {

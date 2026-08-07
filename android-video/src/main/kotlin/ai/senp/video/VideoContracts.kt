@@ -84,6 +84,35 @@ object FrameGeometry {
         return (width * scale).roundToInt().coerceAtLeast(1) to (height * scale).roundToInt().coerceAtLeast(1)
     }
 
+    fun visibleSize(
+        codedWidth: Int,
+        codedHeight: Int,
+        cropLeft: Int,
+        cropTop: Int,
+        cropRightInclusive: Int,
+        cropBottomInclusive: Int,
+    ): Pair<Int, Int> {
+        require(codedWidth > 0 && codedHeight > 0)
+        require(cropLeft >= 0 && cropTop >= 0)
+        require(cropRightInclusive in cropLeft until codedWidth)
+        require(cropBottomInclusive in cropTop until codedHeight)
+        return (cropRightInclusive - cropLeft + 1) to (cropBottomInclusive - cropTop + 1)
+    }
+
+    fun croppedSourceCoordinate(
+        orientedX: Int,
+        orientedY: Int,
+        visibleWidth: Int,
+        visibleHeight: Int,
+        rotationDegrees: Int,
+        cropLeft: Int,
+        cropTop: Int,
+    ): Pair<Int, Int> {
+        require(cropLeft >= 0 && cropTop >= 0)
+        val local = inverseRotate(orientedX, orientedY, visibleWidth, visibleHeight, rotationDegrees)
+        return (local.first + cropLeft) to (local.second + cropTop)
+    }
+
     fun inverseRotate(orientedX: Int, orientedY: Int, sourceWidth: Int, sourceHeight: Int, rotationDegrees: Int): Pair<Int, Int> =
         when (normalizeRotation(rotationDegrees)) {
             0 -> orientedX to orientedY

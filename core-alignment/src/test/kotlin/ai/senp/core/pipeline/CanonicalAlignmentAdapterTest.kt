@@ -137,6 +137,28 @@ class CanonicalAlignmentAdapterTest {
         assertFalse(result.problems.any { it.certainty == ProblemCertainty.GENUINE })
     }
 
+    @Test
+    fun oppositeBestVisibleArmsAlignThroughBilateralSemanticAlias() = runBlocking {
+        val source = singleSideAngleMotion(VideoRole.SOURCE, "right")
+        val reference = singleSideAngleMotion(VideoRole.REFERENCE, "left")
+        val result = align(source, reference, profileVersion = "biceps_curl/1")
+
+        assertTrue(result.alignment.points.isNotEmpty())
+        assertTrue(result.alignment.aggregateConfidence > 0.0, result.toString())
+        assertFalse(result.problems.any { it.certainty == ProblemCertainty.GENUINE })
+    }
+
+    @Test
+    fun wave3CanonicalFeatureMapNamesAreAcceptedByBicepsProfile() = runBlocking {
+        val source = canonicalFeatureMapMotion(VideoRole.SOURCE)
+        val reference = canonicalFeatureMapMotion(VideoRole.REFERENCE)
+        val result = align(source, reference, profileVersion = "biceps-curl/1")
+
+        assertTrue(result.alignment.points.isNotEmpty())
+        assertTrue(result.alignment.mode != "EMPTY")
+        assertTrue(result.alignment.points.all { it.confidence in 0.0..1.0 })
+        assertFalse(result.problems.any { it.certainty == ProblemCertainty.GENUINE })
+    }
 
     @Test
     fun canonicalArtifactsArePopulatedAndSchemaCompatible() {
@@ -276,6 +298,40 @@ class CanonicalAlignmentAdapterTest {
             }
         }
         return MotionSeries(role, samples, angles)
+    }
+
+    private fun singleSideAngleMotion(role: VideoRole, side: String): MotionSeries {
+        val timestamps = (0..150).map { it * 67L }
+        val samples = timestamps.map { timestamp ->
+            FeatureSample(TimestampMs(timestamp), emptyMap(), FrameValidity.Valid)
+        }
+        val angles = timestamps.flatMap { timestamp ->
+            val phase = timestamp.toDouble() / timestamps.last() * 8.0 * PI
+            listOf(
+                JointAngle(TimestampMs(timestamp), "${side}_elbow", 90.0 + 35.0 * sin(phase), 0.95),
+                JointAngle(TimestampMs(timestamp), "${side}_shoulder", 70.0 + 12.0 * cos(phase), 0.92),
+                JointAngle(TimestampMs(timestamp), "${side}_hip", 100.0 + 5.0 * sin(phase), 0.90),
+            )
+        }
+        return MotionSeries(role, samples, angles)
+    }
+
+    private fun canonicalFeatureMapMotion(role: VideoRole): MotionSeries {
+        val timestamps = (0..150).map { it * 67L }
+        val samples = timestamps.map { timestamp ->
+            val phase = timestamp.toDouble() / timestamps.last() * 8.0 * PI
+            FeatureSample(
+                TimestampMs(timestamp),
+                mapOf(
+                    "angle.world.left_elbow.degrees" to 90.0 + 35.0 * sin(phase),
+                    "angle.world.left_shoulder.degrees" to 70.0 + 12.0 * cos(phase),
+                    "angle.world.left_hip.degrees" to 100.0 + 5.0 * sin(phase),
+                    "quality.score" to if (timestamp % 134L == 0L) 0.2 else 0.95,
+                ),
+                FrameValidity.Valid,
+            )
+        }
+        return MotionSeries(role, samples, emptyList())
     }
 
     private fun configuration(profileVersion: String = SYNTHETIC_PROFILE) = AnalysisConfiguration(

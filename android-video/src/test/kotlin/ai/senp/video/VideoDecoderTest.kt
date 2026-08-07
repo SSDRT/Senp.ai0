@@ -41,6 +41,34 @@ class VideoDecoderTest {
     }
 
     @Test
+    fun visibleCropUsesInclusiveMetadataAndCropOffsets() {
+        assertEquals(
+            1904 to 1080,
+            FrameGeometry.visibleSize(
+                codedWidth = 1920,
+                codedHeight = 1088,
+                cropLeft = 8,
+                cropTop = 4,
+                cropRightInclusive = 1911,
+                cropBottomInclusive = 1083,
+            ),
+        )
+        assertEquals(
+            8 to 1083,
+            FrameGeometry.croppedSourceCoordinate(
+                orientedX = 0,
+                orientedY = 0,
+                visibleWidth = 1904,
+                visibleHeight = 1080,
+                rotationDegrees = 90,
+                cropLeft = 8,
+                cropTop = 4,
+            ),
+        )
+        assertEquals(640 to 363, FrameGeometry.cappedSize(1904, 1080))
+    }
+
+    @Test
     fun balancedSamplerUsesTimestampsRatherThanFrameIndices() {
         val sampler = TimestampSampler(15.0)
         val pts = listOf(10_000L, 43_333L, 76_667L, 110_000L, 143_334L, 176_667L)

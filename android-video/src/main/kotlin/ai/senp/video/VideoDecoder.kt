@@ -74,8 +74,9 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
                 ?: throw VideoDecodeException.Unsupported("Video track has no MIME type")
             if (!mime.startsWith("video/")) throw VideoDecodeException.Unsupported("Unsupported track MIME: $mime")
 
-            val sourceWidth = requiredPositiveInt(format, MediaFormat.KEY_WIDTH)
-            val sourceHeight = requiredPositiveInt(format, MediaFormat.KEY_HEIGHT)
+            val codedWidth = requiredPositiveInt(format, MediaFormat.KEY_WIDTH)
+            val codedHeight = requiredPositiveInt(format, MediaFormat.KEY_HEIGHT)
+            var declaredVisibleSize = visibleSize(format, codedWidth, codedHeight)
             val rawRotation = if (format.containsKey(MediaFormat.KEY_ROTATION)) {
                 format.getInteger(MediaFormat.KEY_ROTATION)
             } else {
@@ -91,25 +92,7 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
             } else {
                 0L
             }
-            val (orientedWidth, orientedHeight) = FrameGeometry.orientedSize(sourceWidth, sourceHeight, rotation)
-            val (outputWidth, outputHeight) = FrameGeometry.cappedSize(
-                orientedWidth,
-                orientedHeight,
-                config.longEdgeCapPx,
-            )
-            val videoInfo = VideoInfo(
-                sourceWidth = sourceWidth,
-                sourceHeight = sourceHeight,
-                orientedWidth = orientedWidth,
-                orientedHeight = orientedHeight,
-                outputWidth = outputWidth,
-                outputHeight = outputHeight,
-                rotationDegrees = rotation,
-                durationMs = durationUs / 1_000L,
-                mime = mime,
-            )
-
-            imageQueue = DecoderImageQueue(sourceWidth, sourceHeight, config.frameTimeoutMs)
+            imageQueue = DecoderImageQueue(codedWidth, codedHeight, config.frameTimeoutMs)
             codec = try {
                 MediaCodec.createDecoderByType(mime)
             } catch (error: Throwable) {
@@ -127,11 +110,8 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
             }
 
             val transformer = Yuv420FrameTransformer(
-                sourceWidth = sourceWidth,
-                sourceHeight = sourceHeight,
                 rotationDegrees = rotation,
-                outputWidth = outputWidth,
-                outputHeight = outputHeight,
+                longEdgeCapPx = config.longEdgeCapPx,
             )
             val sampler = TimestampSampler(config.targetFps)
             val timestampGuard = MonotonicTimestampGuard()
@@ -148,6 +128,10 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
             var lastEmittedTimestampMs: Long? = null
             var pixelConversionNanos = 0L
             var consumerNanos = 0L
+            var observedVisibleWidth: Int? = null
+            var observedVisibleHeight: Int? = null
+            var observedOutputWidth: Int? = null
+            var observedOutputHeight: Int? = null
             var lastProgressNanos = System.nanoTime()
 
             while (!outputEnded) {
@@ -185,7 +169,10 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
 
                 when (val outputIndex = codec.dequeueOutputBuffer(bufferInfo, config.dequeueTimeoutUs)) {
                     MediaCodec.INFO_TRY_AGAIN_LATER -> Unit
-                    MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> progressed = true
+                    MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
+                        declaredVisibleSize = visibleSize(codec.outputFormat, codedWidth, codedHeight)
+                        progressed = true
+                    }
                     else -> if (outputIndex >= 0) {
                         val flags = bufferInfo.flags
                         val endOfStream = flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0
@@ -206,7 +193,11 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
                             if (emit) {
                                 val image = imageQueue.awaitImage()
                                 val conversionStarted = System.nanoTime()
-                                val pixels = image.use(transformer::transform)
+                                val transformed = image.use(transformer::transform)
+                                observedVisibleWidth = transformed.visibleWidth
+                                observedVisibleHeight = transformed.visibleHeight
+                                observedOutputWidth = transformed.outputWidth
+                                observedOutputHeight = transformed.outputHeight
                                 pixelConversionNanos += System.nanoTime() - conversionStarted
                                 val normalizedTimestampMs =
                                     (presentationTimeUs - requireNotNull(firstPresentationTimeUs)) / 1_000L
@@ -217,9 +208,9 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
                                 val frame = DecodedFrame(
                                     timestampMs = normalizedTimestampMs,
                                     presentationTimeUs = presentationTimeUs,
-                                    width = outputWidth,
-                                    height = outputHeight,
-                                    argb8888 = pixels,
+                                    width = transformed.outputWidth,
+                                    height = transformed.outputHeight,
+                                    argb8888 = transformed.argb8888,
                                 )
                                 val consumerStarted = System.nanoTime()
                                 try {
@@ -248,6 +239,22 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
             if (decodedFrames == 0) {
                 throw VideoDecodeException.Corrupt("Video track decoded zero frames: ${file.absolutePath}")
             }
+
+            val visibleWidth = observedVisibleWidth ?: declaredVisibleSize.first
+            val visibleHeight = observedVisibleHeight ?: declaredVisibleSize.second
+            val (orientedWidth, orientedHeight) = FrameGeometry.orientedSize(visibleWidth, visibleHeight, rotation)
+            val fallbackOutput = FrameGeometry.cappedSize(orientedWidth, orientedHeight, config.longEdgeCapPx)
+            val videoInfo = VideoInfo(
+                sourceWidth = visibleWidth,
+                sourceHeight = visibleHeight,
+                orientedWidth = orientedWidth,
+                orientedHeight = orientedHeight,
+                outputWidth = observedOutputWidth ?: fallbackOutput.first,
+                outputHeight = observedOutputHeight ?: fallbackOutput.second,
+                rotationDegrees = rotation,
+                durationMs = durationUs / 1_000L,
+                mime = mime,
+            )
 
             return DecodeResult(
                 info = videoInfo,
@@ -287,6 +294,35 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
         (0 until extractor.trackCount).firstOrNull { index ->
             extractor.getTrackFormat(index).getString(MediaFormat.KEY_MIME)?.startsWith("video/") == true
         }
+
+    private fun visibleSize(format: MediaFormat, fallbackWidth: Int, fallbackHeight: Int): Pair<Int, Int> {
+        val cropKeys = listOf(
+            MediaFormat.KEY_CROP_LEFT,
+            MediaFormat.KEY_CROP_TOP,
+            MediaFormat.KEY_CROP_RIGHT,
+            MediaFormat.KEY_CROP_BOTTOM,
+        )
+        if (cropKeys.all(format::containsKey)) {
+            return try {
+                FrameGeometry.visibleSize(
+                    codedWidth = fallbackWidth,
+                    codedHeight = fallbackHeight,
+                    cropLeft = format.getInteger(MediaFormat.KEY_CROP_LEFT),
+                    cropTop = format.getInteger(MediaFormat.KEY_CROP_TOP),
+                    cropRightInclusive = format.getInteger(MediaFormat.KEY_CROP_RIGHT),
+                    cropBottomInclusive = format.getInteger(MediaFormat.KEY_CROP_BOTTOM),
+                )
+            } catch (error: IllegalArgumentException) {
+                throw VideoDecodeException.Codec("Invalid decoder crop metadata in $format", error)
+            }
+        }
+        val width = if (format.containsKey(MediaFormat.KEY_WIDTH)) format.getInteger(MediaFormat.KEY_WIDTH) else fallbackWidth
+        val height = if (format.containsKey(MediaFormat.KEY_HEIGHT)) format.getInteger(MediaFormat.KEY_HEIGHT) else fallbackHeight
+        if (width <= 0 || height <= 0) {
+            throw VideoDecodeException.Codec("Invalid decoder output dimensions ${width}x${height}")
+        }
+        return width to height
+    }
 
     private fun requiredPositiveInt(format: MediaFormat, key: String): Int {
         if (!format.containsKey(key)) throw VideoDecodeException.Unsupported("Video track is missing $key")

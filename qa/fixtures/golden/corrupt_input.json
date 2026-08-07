@@ -1,0 +1,34 @@
+{
+  "contract_version": "1.0",
+  "description": "Intentionally invalid fixture with duplicate timestamps and a non-numeric feature.",
+  "expectations": {
+    "error_code": "invalid_track",
+    "valid_input": false
+  },
+  "inputs": {
+    "candidate": {
+      "samples": [],
+      "time_unit": "ms"
+    },
+    "reference": {
+      "samples": [
+        {
+          "features": {
+            "primary": 0.0
+          },
+          "timestamp_ms": 0,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": "not-a-number"
+          },
+          "timestamp_ms": 0,
+          "valid": true
+        }
+      ],
+      "time_unit": "ms"
+    }
+  },
+  "scenario_id": "corrupt_input"
+}

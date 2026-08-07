@@ -74,7 +74,7 @@ class CoreMotionProcessor : MotionProcessor {
         if (poses.frames.isEmpty()) {
             return StageResult.Failure(AnalysisFailure.Motion(poses.role, "pose sequence must not be empty"))
         }
-        if (normalizationVersion != MotionCoreVersions.NORMALIZATION) {
+        if (!isSupportedNormalization(normalizationVersion)) {
             return StageResult.Failure(
                 AnalysisFailure.Motion(
                     poses.role,
@@ -294,8 +294,8 @@ class CoreMotionProcessor : MotionProcessor {
         if (blind) {
             return Landmark(image = null, world = null, visibility = 0.0, presence = 0.0)
         }
-        val visibility = landmark.visibility ?: landmark.presence ?: 0.0
-        val presence = landmark.presence ?: landmark.visibility ?: 0.0
+        val visibility = landmark.visibility ?: 0.0
+        val presence = landmark.presence ?: 0.0
         return Landmark(
             image = Vec3(landmark.image.x, landmark.image.y, landmark.image.z),
             world = landmark.world?.let { Vec3(it.xMeters, it.yMeters, it.zMeters) },
@@ -333,6 +333,7 @@ class CoreMotionProcessor : MotionProcessor {
         val id = when {
             normalized == baseVersion -> "generic"
             normalized.startsWith("$baseVersion/") -> normalized.removePrefix("$baseVersion/")
+            normalized.endsWith("_v1") -> normalized.removeSuffix("_v1")
             normalized.endsWith("/1") && normalized.count { it == '/' } == 1 -> normalized.substringBeforeLast('/')
             '/' !in normalized -> normalized
             else -> return null
@@ -348,6 +349,11 @@ class CoreMotionProcessor : MotionProcessor {
             else -> null
         }
     }
+
+    private fun isSupportedNormalization(version: String): Boolean =
+        version == MotionCoreVersions.NORMALIZATION ||
+            version == "normalization-v1" ||
+            version == "normalization_v1"
 
     private data class ProfileBinding(val profile: ExerciseProfile)
 }
