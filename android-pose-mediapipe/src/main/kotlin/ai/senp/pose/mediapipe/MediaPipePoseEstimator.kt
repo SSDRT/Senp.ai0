@@ -33,6 +33,7 @@ import com.google.mediapipe.tasks.vision.core.RunningMode
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarker
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarkerResult
 import java.io.File
+import java.io.InputStream
 import java.security.MessageDigest
 import java.util.concurrent.CancellationException
 import java.util.concurrent.atomic.AtomicBoolean
@@ -220,18 +221,14 @@ class AndroidVideoPoseExtractor(
                 else resolveFile(role, File(path), false)
             }
             "content" -> {
-                var staged: File? = null
                 try {
-                    staged = File.createTempFile("senp-video-", ".bin", appContext.cacheDir)
-                    val input = appContext.contentResolver.openInputStream(uri)
-                        ?: return failure(role, VideoPoseFailureKind.SOURCE_MISSING, "Unable to open content URI")
-                    input.use { sourceStream -> staged.outputStream().use(sourceStream::copyTo) }
+                    val staged = stageContentFile(appContext.cacheDir) {
+                        appContext.contentResolver.openInputStream(uri)
+                    } ?: return failure(role, VideoPoseFailureKind.SOURCE_MISSING, "Unable to open content URI")
                     StageResult.Success(ResolvedVideo(staged, true))
                 } catch (cancelled: CancellationException) {
-                    staged?.delete()
                     throw cancelled
                 } catch (error: Throwable) {
-                    staged?.delete()
                     failure(role, VideoPoseFailureKind.SOURCE_MISSING, error.message ?: "Unable to stage content URI")
                 }
             }
@@ -250,6 +247,22 @@ class AndroidVideoPoseExtractor(
 
     companion object {
         const val DEFAULT_MODEL_ASSET = "pose_landmarker_full.task"
+    }
+}
+
+internal fun stageContentFile(cacheDir: File, openInputStream: () -> InputStream?): File? {
+    val input = openInputStream() ?: return null
+    var staged: File? = null
+    return try {
+        input.use { sourceStream ->
+            val stagedFile = File.createTempFile("senp-video-", ".bin", cacheDir)
+            staged = stagedFile
+            stagedFile.outputStream().use(sourceStream::copyTo)
+        }
+        staged
+    } catch (error: Throwable) {
+        staged?.delete()
+        throw error
     }
 }
 

@@ -191,7 +191,7 @@ class SequentialVideoDecoder(private val config: DecodeConfig = DecodeConfig()) 
                             val emit = sampler.shouldEmit(presentationTimeUs)
                             codec.releaseOutputBuffer(outputIndex, emit)
                             if (emit) {
-                                val image = imageQueue.awaitImage()
+                                val image = imageQueue.awaitImage(cancellation)
                                 val conversionStarted = System.nanoTime()
                                 val transformed = image.use(transformer::transform)
                                 observedVisibleWidth = transformed.visibleWidth
@@ -356,8 +356,12 @@ private class DecoderImageQueue(
         }, Handler(handlerThread.looper))
     }
 
-    fun awaitImage(): Image = queue.poll(frameTimeoutMs, TimeUnit.MILLISECONDS)
-        ?: throw VideoDecodeException.Timeout("Timed out after " + frameTimeoutMs + "ms waiting for a decoded image")
+    fun awaitImage(cancellation: DecodeCancellation): Image = awaitCancellable(
+        frameTimeoutMs = frameTimeoutMs,
+        cancellation = cancellation,
+    ) { waitMs ->
+        queue.poll(waitMs, TimeUnit.MILLISECONDS)
+    }
 
     override fun close() {
         reader.setOnImageAvailableListener(null, null)
@@ -368,6 +372,27 @@ private class DecoderImageQueue(
     }
 }
 
+internal fun <T> awaitCancellable(
+    frameTimeoutMs: Long,
+    cancellation: DecodeCancellation,
+    pollIntervalMs: Long = 25L,
+    poll: (Long) -> T?,
+): T {
+    require(frameTimeoutMs > 0L)
+    require(pollIntervalMs > 0L)
+    val deadlineNanos = System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(frameTimeoutMs)
+    while (true) {
+        if (cancellation.isCancelled()) throw VideoDecodeException.Cancelled()
+        val remainingNanos = deadlineNanos - System.nanoTime()
+        if (remainingNanos <= 0L) {
+            if (cancellation.isCancelled()) throw VideoDecodeException.Cancelled()
+            throw VideoDecodeException.Timeout("Timed out after " + frameTimeoutMs + "ms waiting for a decoded image")
+        }
+        val remainingMs = TimeUnit.NANOSECONDS.toMillis(remainingNanos).coerceAtLeast(1L)
+        val value = poll(minOf(pollIntervalMs, remainingMs))
+        if (value != null) return value
+    }
+}
 
 private class ConsumerFailure(val failure: AnalysisFailure) : RuntimeException(failure.message)
 

@@ -2,10 +2,15 @@ package ai.senp.pose.mediapipe
 
 import ai.senp.core.contracts.FrameValidityReason
 import ai.senp.core.contracts.FrameValidityStatus
+import java.io.ByteArrayInputStream
 import org.junit.Assert.*
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 
 class ConfigTest {
+    @get:Rule val temporaryFolder = TemporaryFolder()
+
     @Test fun independentThresholdsArePreserved() {
         val config = MediaPipePoseEstimator.Config(0.4f, 0.5f, 0.6f)
         assertEquals(0.4f, config.detectionConfidence)
@@ -77,5 +82,24 @@ class ConfigTest {
         assertEquals(1, collector.peakInFlightFrames)
         assertEquals(1, collector.noPersonFrameCount)
         assertThrows(IllegalArgumentException::class.java) { collector.add(estimate) }
+    }
+
+    @Test fun contentStagingDoesNotAllocateTempFileWhenProviderCannotOpen() {
+        val cacheDir = temporaryFolder.newFolder("cache")
+        val staged = stageContentFile(cacheDir) { null }
+        assertNull(staged)
+        assertTrue(cacheDir.listFiles().orEmpty().isEmpty())
+    }
+
+    @Test fun contentStagingDeletesTempFileWhenCopyFails() {
+        val cacheDir = temporaryFolder.newFolder("copy-failure")
+        assertThrows(IllegalStateException::class.java) {
+            stageContentFile(cacheDir) {
+                object : ByteArrayInputStream(byteArrayOf(1, 2, 3)) {
+                    override fun read(b: ByteArray, off: Int, len: Int): Int = throw IllegalStateException("copy failed")
+                }
+            }
+        }
+        assertTrue(cacheDir.listFiles().orEmpty().isEmpty())
     }
 }

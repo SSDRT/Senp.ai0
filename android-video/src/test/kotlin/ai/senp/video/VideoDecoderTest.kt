@@ -8,6 +8,7 @@ import org.junit.Assert.assertSame
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.util.concurrent.atomic.AtomicBoolean
 
 class VideoDecoderTest {
     @Test
@@ -106,5 +107,34 @@ class VideoDecoderTest {
     fun yuvConversionProducesNeutralBlackAndWhite() {
         assertEquals(0xff000000.toInt(), Yuv420FrameTransformer.yuvToArgb(16, 128, 128))
         assertEquals(0xffffffff.toInt(), Yuv420FrameTransformer.yuvToArgb(235, 128, 128))
+    }
+
+    @Test
+    fun decodedImageWaitRechecksCancellationBeforeReportingTimeout() {
+        val cancelled = AtomicBoolean(false)
+        var polls = 0
+        assertThrows(VideoDecodeException.Cancelled::class.java) {
+            awaitCancellable<String>(
+                frameTimeoutMs = 3_000L,
+                cancellation = DecodeCancellation { cancelled.get() },
+            ) {
+                polls++
+                cancelled.set(true)
+                null
+            }
+        }
+        assertEquals(1, polls)
+    }
+
+    @Test
+    fun decodedImageWaitStillReportsTimeoutWithoutCancellation() {
+        val error = assertThrows(VideoDecodeException.Timeout::class.java) {
+            awaitCancellable<String>(
+                frameTimeoutMs = 1L,
+                cancellation = DecodeCancellation.Never,
+                pollIntervalMs = 1L,
+            ) { null }
+        }
+        assertTrue(error.message!!.contains("1ms"))
     }
 }
