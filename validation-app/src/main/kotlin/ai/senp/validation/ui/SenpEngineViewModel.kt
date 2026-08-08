@@ -188,10 +188,25 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
         _uiState.value = AnalysisUiState.Idle
     }
 
+    fun loadSamplePresetVideos() {
+        val candidateFile = java.io.File("/sdcard/Download/pullups_wrong.mp4")
+        val referenceFile = java.io.File("/sdcard/Download/pullups_right.mp4")
+        if (candidateFile.exists() && referenceFile.exists()) {
+            onSelectSourceVideo(Uri.fromFile(candidateFile))
+            onSelectReferenceVideo(Uri.fromFile(referenceFile))
+        }
+    }
+
     private suspend fun calculateSha256(uri: Uri): Sha256 = withContext(Dispatchers.IO) {
         val digest = MessageDigest.getInstance("SHA-256")
         val context = getApplication<Application>()
-        context.contentResolver.openInputStream(uri)?.use { stream ->
+        val inputStream = if (uri.scheme == "file") {
+            java.io.FileInputStream(java.io.File(uri.path ?: uri.toString().removePrefix("file://")))
+        } else {
+            context.contentResolver.openInputStream(uri)
+        }
+
+        inputStream?.use { stream ->
             val buffer = ByteArray(8192)
             var bytesRead: Int
             while (stream.read(buffer).also { bytesRead = it } != -1) {

@@ -106,6 +106,19 @@ fun ConfigurationScreen(
                 fontWeight = FontWeight.SemiBold
             )
 
+            // Preset video quick loader for emulator testing
+            androidx.compose.material3.OutlinedButton(
+                onClick = { viewModel.loadSamplePresetVideos() },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Text(
+                    text = "Load Pushed Videos (pullups_wrong vs pullups_right)",
+                    fontSize = 13.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
             // Candidate Video Card
             VideoPickerCard(
                 title = "User Candidate Video",
