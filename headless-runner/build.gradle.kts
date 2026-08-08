@@ -8,6 +8,7 @@ dependencies {
     implementation(project(":core-contracts"))
     implementation(project(":core-pipeline"))
     implementation(project(":core-cache"))
+    implementation(project(":core-evidence"))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
     testImplementation(kotlin("test"))

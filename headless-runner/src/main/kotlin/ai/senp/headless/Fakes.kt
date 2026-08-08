@@ -22,8 +22,11 @@ class FakeMotionProcessor(private val failingRole:VideoRole?=null):MotionProcess
     override suspend fun process(poses:PoseSequence,normalizationVersion:String,exerciseProfileVersion:String):StageResult<MotionSeries>{
         if(poses.role==failingRole)return StageResult.Failure(AnalysisFailure.Motion(poses.role,"Synthetic motion failure"))
         val signal=(normalizationVersion.length+exerciseProfileVersion.length)/100.0
-        return StageResult.Success(MotionSeries(poses.role,poses.frames.map{FeatureSample(it.timestamp,mapOf("tempo_seconds" to it.timestamp.value/1000.0,"profile_signal" to signal),it.validity)},poses.frames.map{JointAngle(it.timestamp,"left_elbow",90.0+it.diagnosticFrameIndex,0.97)}))
+        // Several joints, grouped per frame so angle timestamps stay non-decreasing.
+        val angles=poses.frames.flatMap{f->JOINTS.mapIndexed{i,joint->JointAngle(f.timestamp,joint,90.0+f.diagnosticFrameIndex+i*7,0.97)}}
+        return StageResult.Success(MotionSeries(poses.role,poses.frames.map{FeatureSample(it.timestamp,mapOf("tempo_seconds" to it.timestamp.value/1000.0,"profile_signal" to signal),it.validity)},angles))
     }
+    private companion object{ val JOINTS=listOf("left_knee","right_hip","left_shoulder","left_elbow") }
 }
 class FakePhaseDetector(private val failingRole:VideoRole?=null):PhaseDetector{
     override suspend fun detect(motion:MotionSeries,exerciseProfileVersion:String):StageResult<PhaseSeries>{
@@ -33,8 +36,30 @@ class FakePhaseDetector(private val failingRole:VideoRole?=null):PhaseDetector{
 }
 class FakeAlignmentEngine(private val fail:Boolean=false):AlignmentEngine{
     override suspend fun align(sourceMotion:MotionSeries,sourcePhases:PhaseSeries,referenceMotion:MotionSeries,referencePhases:PhaseSeries,configuration:AnalysisConfiguration):StageResult<AlignmentAnalysis>{
-        if(fail)return StageResult.Failure(AnalysisFailure.Alignment("Synthetic alignment failure")); val pts=sourceMotion.features.zip(referenceMotion.features).map{(s,r)->AlignmentPoint(s.timestamp,r.timestamp,0.05,0.94)};val a=pts.first();val b=pts.last()
-        return StageResult.Success(AlignmentAnalysis(AlignmentResult("phase-aware-masked-dtw:" + configuration.exerciseProfileVersion,pts,0.94),listOf(ProblemWindow(a.sourceTimestamp,TimestampMs(b.sourceTimestamp.value+1),a.referenceTimestamp,TimestampMs(b.referenceTimestamp.value+1),"elbow_too_open","left_elbow_degrees",12.0,18.0,0.42,0.58,ProblemCertainty.UNCERTAIN))))
+        if(fail)return StageResult.Failure(AnalysisFailure.Alignment("Synthetic alignment failure")); val pts=sourceMotion.features.zip(referenceMotion.features).map{(s,r)->AlignmentPoint(s.timestamp,r.timestamp,0.05,0.94)}
+        return StageResult.Success(AlignmentAnalysis(AlignmentResult("phase-aware-masked-dtw:" + configuration.exerciseProfileVersion,pts,0.94),problemWindows(pts)))
+    }
+
+    /**
+     * A spread wide enough for downstream selection to have something to decide: mixed severity,
+     * both certainties, and one window the aligner could not map onto the reference. A single
+     * window leaves ranking, certainty preference, and the unmapped path all untested.
+     */
+    private fun problemWindows(pts:List<AlignmentPoint>):List<ProblemWindow>{
+        val first=pts.first();val mid=pts[pts.size/2];val last=pts.last()
+        fun window(from:AlignmentPoint,to:AlignmentPoint,label:String,metric:String,mean:Double,peak:Double,severity:Double,certainty:ProblemCertainty,mapped:Boolean=true)=
+            ProblemWindow(from.sourceTimestamp,TimestampMs(to.sourceTimestamp.value+1),
+                if(mapped)from.referenceTimestamp else null,if(mapped)TimestampMs(to.referenceTimestamp.value+1) else null,
+                label,metric,mean,peak,severity,0.58,certainty)
+        return listOf(
+            window(first,mid,"knee_collapse","left_knee_degrees",16.0,24.0,0.82,ProblemCertainty.GENUINE),
+            window(mid,last,"hip_shift","right_hip_degrees",11.0,19.0,0.66,ProblemCertainty.GENUINE),
+            window(first,last,"shoulder_rise","left_shoulder_degrees",8.0,13.0,0.55,ProblemCertainty.GENUINE,mapped=false),
+            // Deliberately the most severe window of the four. A big deviation the aligner cannot
+            // stand behind is exactly the case that separates certainty-first ranking from
+            // severity-only ranking, so ranking by severity alone would surface this first.
+            window(first,last,"elbow_too_open","left_elbow_degrees",21.0,33.0,0.91,ProblemCertainty.UNCERTAIN),
+        )
     }
 }
 class IncrementingMonotonicClock:MonotonicClock{private val v=AtomicLong(0);override fun elapsedRealtimeMs()=v.getAndIncrement()}
