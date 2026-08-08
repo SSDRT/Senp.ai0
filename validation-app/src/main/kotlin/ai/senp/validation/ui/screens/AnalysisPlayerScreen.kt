@@ -13,10 +13,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -35,6 +38,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -48,8 +52,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.delay
 
@@ -87,6 +94,34 @@ fun AnalysisPlayerScreen(
             sourcePlayer.release()
             referencePlayer.release()
         }
+    }
+
+    // Track video aspect ratios from the actual decoded video
+    var sourceAspectRatio by remember { mutableFloatStateOf(16f / 9f) }
+    var refAspectRatio by remember { mutableFloatStateOf(16f / 9f) }
+
+    DisposableEffect(sourcePlayer) {
+        val listener = object : Player.Listener {
+            override fun onVideoSizeChanged(videoSize: VideoSize) {
+                if (videoSize.width > 0 && videoSize.height > 0) {
+                    sourceAspectRatio = videoSize.width.toFloat() / videoSize.height.toFloat()
+                }
+            }
+        }
+        sourcePlayer.addListener(listener)
+        onDispose { sourcePlayer.removeListener(listener) }
+    }
+
+    DisposableEffect(referencePlayer) {
+        val listener = object : Player.Listener {
+            override fun onVideoSizeChanged(videoSize: VideoSize) {
+                if (videoSize.width > 0 && videoSize.height > 0) {
+                    refAspectRatio = videoSize.width.toFloat() / videoSize.height.toFloat()
+                }
+            }
+        }
+        referencePlayer.addListener(listener)
+        onDispose { referencePlayer.removeListener(listener) }
     }
 
     var currentSourcePositionMs by remember { mutableStateOf(0L) }
@@ -149,34 +184,29 @@ fun AnalysisPlayerScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.background)
+                .verticalScroll(rememberScrollState())
                 .padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Dual Viewport Stacked for Mobile
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // User Candidate Player Box
-                VideoPlayerContainer(
-                    title = "User Candidate",
-                    player = sourcePlayer,
-                    poseFrame = currentSourceFrame,
-                    accentColor = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.weight(1f)
-                )
+            // User Candidate Player Box — uses actual video aspect ratio
+            VideoPlayerContainer(
+                title = "User Candidate",
+                player = sourcePlayer,
+                poseFrame = currentSourceFrame,
+                videoAspectRatio = sourceAspectRatio,
+                accentColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-                // Reference Player Box
-                VideoPlayerContainer(
-                    title = "Reference Form",
-                    player = referencePlayer,
-                    poseFrame = currentRefFrame,
-                    accentColor = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.weight(1f)
-                )
-            }
+            // Reference Player Box — uses actual video aspect ratio
+            VideoPlayerContainer(
+                title = "Reference Form",
+                player = referencePlayer,
+                poseFrame = currentRefFrame,
+                videoAspectRatio = refAspectRatio,
+                accentColor = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.fillMaxWidth()
+            )
 
             // Synchronized DTW Scrubber Controls
             Card(
@@ -265,34 +295,42 @@ fun AnalysisPlayerScreen(
     }
 }
 
+@OptIn(UnstableApi::class)
 @Composable
 private fun VideoPlayerContainer(
     title: String,
     player: ExoPlayer,
     poseFrame: PoseFrame?,
+    videoAspectRatio: Float,
     accentColor: Color,
     modifier: Modifier = Modifier,
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        colors = CardDefaults.cardColors(containerColor = Color.Black),
         shape = RoundedCornerShape(12.dp),
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        // Lock the box to the video's native aspect ratio so there is zero letterboxing
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(videoAspectRatio)
+        ) {
             AndroidView(
                 factory = { ctx ->
-                    androidx.media3.ui.PlayerView(ctx).apply {
+                    PlayerView(ctx).apply {
                         this.player = player
                         useController = false
-                        resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                        resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
                     }
                 },
                 modifier = Modifier.fillMaxSize()
             )
 
-            // Pose skeleton overlay drawn over raw video
+            // Pose skeleton overlay — uses the same aspect ratio so it maps 1:1
             PoseLandmarkOverlay(
                 poseFrame = poseFrame,
+                videoAspectRatio = videoAspectRatio,
                 lineColor = accentColor,
                 jointColor = Color.White
             )

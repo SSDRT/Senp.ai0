@@ -40,9 +40,18 @@ private val SKELETON_CONNECTIONS = listOf(
     Pair(28, 32),
 )
 
+/**
+ * Draws the 33-landmark BlazePose skeleton over the video frame.
+ *
+ * [videoAspectRatio] is width/height of the original video.
+ * The overlay computes the "fit" rectangle that the PlayerView (RESIZE_MODE_FIT)
+ * uses inside the container, then maps the normalized [0,1] landmark coordinates
+ * into that rectangle so the skeleton aligns perfectly with the rendered video.
+ */
 @Composable
 fun PoseLandmarkOverlay(
     poseFrame: PoseFrame?,
+    videoAspectRatio: Float,
     modifier: Modifier = Modifier,
     jointColor: Color = Color(0xFF00E5FF),
     lineColor: Color = Color(0xFF76FF03),
@@ -55,10 +64,35 @@ fun PoseLandmarkOverlay(
         val activeLineColor = if (isFrameValid) lineColor else invalidColor
         val activeJointColor = if (isFrameValid) jointColor else invalidColor
 
-        val width = size.width
-        val height = size.height
+        val canvasW = size.width
+        val canvasH = size.height
+
+        // Compute the rectangle where the video is actually rendered (FIT mode).
+        // This mirrors what AspectRatioFrameLayout.RESIZE_MODE_FIT does.
+        val canvasAspect = canvasW / canvasH
+        val videoW: Float
+        val videoH: Float
+        if (videoAspectRatio > canvasAspect) {
+            // Video is wider than container → pillarbox (full width, reduced height)
+            videoW = canvasW
+            videoH = canvasW / videoAspectRatio
+        } else {
+            // Video is taller than container → letterbox (full height, reduced width)
+            videoH = canvasH
+            videoW = canvasH * videoAspectRatio
+        }
+        val offsetX = (canvasW - videoW) / 2f
+        val offsetY = (canvasH - videoH) / 2f
 
         val landmarks = poseFrame.landmarks
+
+        fun landmarkOffset(lmIndex: Int): Offset {
+            val lm = landmarks[lmIndex]
+            return Offset(
+                x = offsetX + (lm.image.x.toFloat() * videoW),
+                y = offsetY + (lm.image.y.toFloat() * videoH)
+            )
+        }
 
         // Draw Skeleton Lines
         for ((startIndex, endIndex) in SKELETON_CONNECTIONS) {
@@ -70,19 +104,10 @@ fun PoseLandmarkOverlay(
                 val endPresence = endLm.presence ?: 1.0
 
                 if (startPresence > 0.3 && endPresence > 0.3) {
-                    val startOffset = Offset(
-                        x = (startLm.image.x * width).toFloat(),
-                        y = (startLm.image.y * height).toFloat()
-                    )
-                    val endOffset = Offset(
-                        x = (endLm.image.x * width).toFloat(),
-                        y = (endLm.image.y * height).toFloat()
-                    )
-
                     drawLine(
                         color = activeLineColor,
-                        start = startOffset,
-                        end = endOffset,
+                        start = landmarkOffset(startIndex),
+                        end = landmarkOffset(endIndex),
                         strokeWidth = 4f,
                         cap = StrokeCap.Round
                     )
@@ -91,17 +116,13 @@ fun PoseLandmarkOverlay(
         }
 
         // Draw Landmark Points
-        for (lm in landmarks) {
+        for ((idx, lm) in landmarks.withIndex()) {
             val presence = lm.presence ?: 1.0
             if (presence > 0.3) {
-                val center = Offset(
-                    x = (lm.image.x * width).toFloat(),
-                    y = (lm.image.y * height).toFloat()
-                )
                 drawCircle(
                     color = activeJointColor,
                     radius = 6f,
-                    center = center
+                    center = landmarkOffset(idx)
                 )
             }
         }
