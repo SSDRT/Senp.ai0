@@ -45,10 +45,18 @@ enum class ImageDetail {
 }
 
 object ReviewModels {
+    /**
+     * Default. Luna is the fast, cheap tier of the 5.6 family and takes image input, which is all a
+     * frame review needs. Verified against a ChatGPT-account session; `gpt-5.4-codex` is not
+     * entitled on that path and returns 400.
+     *
+     * Do not substitute the bare `gpt-5.6` alias — it routes to Sol, a different model.
+     */
+    const val LUNA_5_6: String = "gpt-5.6-luna"
     const val CODEX_5_4: String = "gpt-5.4-codex"
     const val CODEX_5_3: String = "gpt-5.3-codex"
 
-    // ponytail: table, not a registry. Two models today; read the models endpoint when a third lands.
+    // ponytail: table, not a registry. Read the models endpoint if this grows past a handful.
     fun supportedEfforts(modelId: String): Set<ReasoningEffort> = when {
         modelId.startsWith(CODEX_5_3) -> setOf(
             ReasoningEffort.LOW,
@@ -67,17 +75,18 @@ object ReviewModels {
  * Defaults are a starting point, not a tuned answer: effort and [imageDetail] trade answer quality
  * against latency and against the signed-in account's plan limits, and the usable setting depends on
  * the device, the network and how many frames a review carries. Keep them wired to configuration.
+ *
+ * No output-token cap: the ChatGPT-account endpoint rejects `max_output_tokens` outright. Bound the
+ * response through the system prompt instead.
  */
 data class ReviewModel(
-    val id: String = ReviewModels.CODEX_5_4,
-    val effort: ReasoningEffort = ReasoningEffort.MEDIUM,
+    val id: String = ReviewModels.LUNA_5_6,
+    val effort: ReasoningEffort = ReasoningEffort.LOW,
     val summary: ReasoningSummary = ReasoningSummary.AUTO,
     val imageDetail: ImageDetail = ImageDetail.AUTO,
-    val maxOutputTokens: Int = 2048,
 ) {
     init {
         require(id.isNotBlank()) { "model id must not be blank" }
-        require(maxOutputTokens in 1..128_000) { "maxOutputTokens must be in 1..128000" }
         require(effort in ReviewModels.supportedEfforts(id)) {
             "$id does not support reasoning effort ${effort.wire}"
         }

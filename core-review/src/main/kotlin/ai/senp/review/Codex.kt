@@ -62,7 +62,6 @@ object Codex {
                 put("summary", request.model.summary.wire)
             }
         }
-        put("max_output_tokens", request.model.maxOutputTokens)
         put("stream", true)
         put("store", false)
     }.toString()
@@ -117,6 +116,17 @@ object Codex {
         return ReviewOutcome.Success(FrameReview(text.toString(), summary.toString(), modelId))
     }
 
+    /**
+     * Pulls the message out of a non-SSE error body. The upstream 400 for an unavailable model
+     * carries the only actionable text in the whole exchange, so it must not be reduced to a status.
+     */
+    fun errorDetail(lines: Sequence<String>): String? {
+        val text = lines.joinToString("\n").trim()
+        if (text.isEmpty()) return null
+        val root = runCatching { json.parseToJsonElement(text).jsonObject }.getOrNull() ?: return null
+        return root.string("detail") ?: root.errorMessage()
+    }
+
     private fun JsonObject.string(key: String): String? =
         runCatching { this[key]?.jsonPrimitive?.content }.getOrNull()
 
@@ -149,24 +159,31 @@ class CodexFrameReviewer(private val transport: CodexTransport) : FrameReviewer 
                 )
             }
 
+        if (response.status == 200) return Codex.parse(response.lines, request.model.id)
+
+        val detail = Codex.errorDetail(response.lines)
         return when (response.status) {
-            200 -> Codex.parse(response.lines, request.model.id)
             401, 403 -> ReviewOutcome.Failure(
                 ReviewFailureKind.UNAUTHENTICATED,
-                "ChatGPT session rejected; sign in again",
+                detail ?: "ChatGPT session rejected; sign in again",
             )
 
-            404, 422 -> ReviewOutcome.Failure(
+            // A ChatGPT-account session is entitled to a narrower model set than the platform API,
+            // and refuses the rest with 400 rather than 404.
+            400, 404, 422 -> ReviewOutcome.Failure(
                 ReviewFailureKind.UNSUPPORTED_MODEL,
-                "${request.model.id} rejected this request shape",
+                detail ?: "${request.model.id} rejected this request shape",
             )
 
             429 -> ReviewOutcome.Failure(
                 ReviewFailureKind.RATE_LIMITED,
-                "Plan rate limit reached",
+                detail ?: "Plan rate limit reached",
             )
 
-            else -> ReviewOutcome.Failure(ReviewFailureKind.TRANSPORT, "HTTP ${response.status}")
+            else -> ReviewOutcome.Failure(
+                ReviewFailureKind.TRANSPORT,
+                detail ?: "HTTP ${response.status}",
+            )
         }
     }
 }

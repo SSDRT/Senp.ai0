@@ -200,21 +200,33 @@ class CodexAuth(context: Context) {
         )
     }
 
-    /** Accepts the browser's redirect and answers it, so the user sees a closed loop rather than an error page. */
+    /**
+     * Accepts the browser's redirect and answers it, so the user sees a closed loop rather than an
+     * error page.
+     *
+     * Keeps accepting until a request carries `code` or `error`. Browsers open speculative
+     * connections and probe for a favicon, and taking the first connection as the redirect loses the
+     * real one to an already-closed socket.
+     */
     private fun ServerSocket.awaitRedirect(): Map<String, String> {
-        accept().use { socket ->
-            val requestLine = socket.getInputStream().bufferedReader().readLine().orEmpty()
-            socket.getOutputStream().use { out ->
-                out.write(REDIRECT_RESPONSE.toByteArray(Charsets.UTF_8))
-                out.flush()
-            }
-            val target = requestLine.split(' ').getOrNull(1).orEmpty()
-            return target.substringAfter('?', "")
-                .split('&')
-                .filter { it.contains('=') }
-                .associate { pair ->
-                    Uri.decode(pair.substringBefore('=')) to Uri.decode(pair.substringAfter('='))
+        while (true) {
+            val result = accept().use { socket ->
+                val requestLine = socket.getInputStream().bufferedReader().readLine().orEmpty()
+                val target = requestLine.split(' ').getOrNull(1).orEmpty()
+                val parsed = target.substringAfter('?', "")
+                    .split('&')
+                    .filter { it.contains('=') }
+                    .associate { pair ->
+                        Uri.decode(pair.substringBefore('=')) to Uri.decode(pair.substringAfter('='))
+                    }
+                val isResult = parsed.containsKey("code") || parsed.containsKey("error")
+                socket.getOutputStream().use { out ->
+                    out.write((if (isResult) REDIRECT_RESPONSE else PROBE_RESPONSE).toByteArray(Charsets.UTF_8))
+                    out.flush()
                 }
+                if (isResult) parsed else null
+            }
+            if (result != null) return result
         }
     }
 
@@ -247,6 +259,8 @@ class CodexAuth(context: Context) {
             append("Connection: close\r\n\r\n")
             append("<html><body><h3>Signed in. Return to Senp.</h3></body></html>")
         }
+
+        const val PROBE_RESPONSE = "HTTP/1.1 404 Not Found\r\nConnection: close\r\n\r\n"
 
         fun encode(value: String): String = URLEncoder.encode(value, "UTF-8").replace("+", "%20")
 

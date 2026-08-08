@@ -31,7 +31,11 @@ class AndroidCodexTransport(
             setRequestProperty("Authorization", "Bearer ${session.accessToken}")
             setRequestProperty("chatgpt-account-id", session.accountId)
             setRequestProperty("OpenAI-Beta", "responses=experimental")
-            setRequestProperty("originator", "codex_cli_rs")
+            setRequestProperty("originator", ORIGINATOR)
+            // Not cosmetic: the backend picks an internal engine from originator + version + plan.
+            // Omitting it routes 5.6 models to a deployment that does not exist for the caller's
+            // cohort, which surfaces as an opaque "model not found".
+            setRequestProperty("version", CLIENT_VERSION)
             setRequestProperty("Content-Type", "application/json")
             setRequestProperty("Accept", "text/event-stream")
             setRequestProperty("session_id", newSessionId())
@@ -50,6 +54,8 @@ class AndroidCodexTransport(
     }
 
     private companion object {
+        const val ORIGINATOR = "codex_cli_rs"
+        const val CLIENT_VERSION = "0.144.1"
         const val CONNECT_TIMEOUT_MS = 15_000
         const val READ_TIMEOUT_MS = 300_000
     }
