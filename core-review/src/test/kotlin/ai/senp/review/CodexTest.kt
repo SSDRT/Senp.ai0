@@ -32,7 +32,7 @@ class CodexTest {
             Codex.body(request(ReviewModel(effort = ReasoningEffort.HIGH, imageDetail = ImageDetail.LOW))),
         ).jsonObject
 
-        assertEquals(ReviewModels.CODEX_5_4, body["model"]?.jsonPrimitive?.content)
+        assertEquals(ReviewModels.LUNA_5_6, body["model"]?.jsonPrimitive?.content)
         assertEquals("You are a strength coach.", body["instructions"]?.jsonPrimitive?.content)
         assertEquals("high", body["reasoning"]?.jsonObject?.get("effort")?.jsonPrimitive?.content)
         assertEquals("auto", body["reasoning"]?.jsonObject?.get("summary")?.jsonPrimitive?.content)
