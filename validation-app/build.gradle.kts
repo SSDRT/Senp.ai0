@@ -34,7 +34,12 @@ android {
     sourceSets["main"].assets.srcDir(rootProject.layout.projectDirectory.dir("local-models"))
 }
 
-kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_17) } }
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+        freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
+    }
+}
 
 dependencies {
     implementation(project(":core-contracts"))
