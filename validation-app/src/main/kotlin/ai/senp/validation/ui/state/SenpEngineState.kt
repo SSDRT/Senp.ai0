@@ -14,6 +14,7 @@ data class VideoSelectionState(
     val sourceSha256: Sha256? = null,
     val referenceSha256: Sha256? = null,
     val isCalculatingHash: Boolean = false,
+    val errorMessage: String? = null,
 ) {
     val isReadyForAnalysis: Boolean
         get() = sourceUri != null && referenceUri != null && sourceSha256 != null && referenceSha256 != null

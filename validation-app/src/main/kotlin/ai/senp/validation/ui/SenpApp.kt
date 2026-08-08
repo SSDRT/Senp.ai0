@@ -4,6 +4,11 @@ import ai.senp.validation.ui.screens.AnalysisPlayerScreen
 import ai.senp.validation.ui.screens.AnalysisProgressScreen
 import ai.senp.validation.ui.screens.ConfigurationScreen
 import ai.senp.validation.ui.state.AnalysisUiState
+import ai.senp.validation.ui.theme.SenpBackground
+import ai.senp.validation.ui.theme.SenpBlue
+import ai.senp.validation.ui.theme.SenpCream
+import ai.senp.validation.ui.theme.SenpMuted
+import ai.senp.validation.ui.theme.SenpSurface
 import ai.senp.validation.ui.theme.SenpTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -49,14 +54,15 @@ fun SenpApp(
                 is AnalysisUiState.Idle -> {
                     ConfigurationScreen(
                         viewModel = viewModel,
-                        onStartAnalysis = {}
+                        onStartAnalysis = { viewModel.runAnalysis() }
                     )
                 }
 
                 is AnalysisUiState.Analyzing -> {
                     AnalysisProgressScreen(
                         activeStage = state.activeStage,
-                        statusMessage = state.statusMessage
+                        progressPercent = state.progressPercent,
+                        statusMessage = state.statusMessage,
                     )
                 }
 
@@ -92,13 +98,13 @@ private fun ErrorScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(SenpBackground)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Card(
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            colors = CardDefaults.cardColors(containerColor = SenpSurface),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -118,7 +124,7 @@ private fun ErrorScreen(
                 Text(
                     text = "Failed in stage: $stageName",
                     fontSize = 13.sp,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = SenpCream,
                     fontWeight = FontWeight.SemiBold
                 )
 
@@ -127,7 +133,7 @@ private fun ErrorScreen(
                 Text(
                     text = failureMessage,
                     fontSize = 12.sp,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = SenpMuted,
                     textAlign = TextAlign.Center
                 )
 
@@ -136,8 +142,8 @@ private fun ErrorScreen(
                 Button(
                     onClick = onRetry,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = Color.Black
+                        containerColor = SenpBlue,
+                        contentColor = Color.White,
                     ),
                     modifier = Modifier.fillMaxWidth()
                 ) {

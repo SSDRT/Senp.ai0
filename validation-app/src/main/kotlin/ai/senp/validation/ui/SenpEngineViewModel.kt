@@ -23,6 +23,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -82,28 +83,44 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
 
     fun onSelectSourceVideo(uri: Uri) {
         viewModelScope.launch {
-            _videoSelectionState.update { it.copy(isCalculatingHash = true) }
-            val sha = calculateSha256(uri)
-            _videoSelectionState.update {
-                it.copy(
-                    sourceUri = uri,
-                    sourceSha256 = sha,
-                    isCalculatingHash = false
-                )
+            _videoSelectionState.update { it.copy(isCalculatingHash = true, errorMessage = null) }
+            try {
+                val sha = calculateSha256(uri)
+                _videoSelectionState.update {
+                    it.copy(
+                        sourceUri = uri,
+                        sourceSha256 = sha,
+                        isCalculatingHash = false,
+                    )
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (error: Exception) {
+                _videoSelectionState.update {
+                    it.copy(isCalculatingHash = false, errorMessage = "Could not read this video. Choose another file.")
+                }
             }
         }
     }
 
     fun onSelectReferenceVideo(uri: Uri) {
         viewModelScope.launch {
-            _videoSelectionState.update { it.copy(isCalculatingHash = true) }
-            val sha = calculateSha256(uri)
-            _videoSelectionState.update {
-                it.copy(
-                    referenceUri = uri,
-                    referenceSha256 = sha,
-                    isCalculatingHash = false
-                )
+            _videoSelectionState.update { it.copy(isCalculatingHash = true, errorMessage = null) }
+            try {
+                val sha = calculateSha256(uri)
+                _videoSelectionState.update {
+                    it.copy(
+                        referenceUri = uri,
+                        referenceSha256 = sha,
+                        isCalculatingHash = false,
+                    )
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (error: Exception) {
+                _videoSelectionState.update {
+                    it.copy(isCalculatingHash = false, errorMessage = "Could not read this video. Choose another file.")
+                }
             }
         }
     }
@@ -186,6 +203,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
 
     fun resetAnalysis() {
         _uiState.value = AnalysisUiState.Idle
+        _videoSelectionState.value = VideoSelectionState()
     }
 
     fun loadSamplePresetVideos() {
