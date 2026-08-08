@@ -155,7 +155,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                         targetFramesPerSecond = config.targetFps,
                         longEdgeCapPx = config.longEdgeCapPx,
                     ),
-                    normalizationVersion = "senp-normalization/1",
+                    normalizationVersion = "pelvis-torso-scale/1",
                     exerciseProfileVersion = "biceps-curl/1",
                 )
             )

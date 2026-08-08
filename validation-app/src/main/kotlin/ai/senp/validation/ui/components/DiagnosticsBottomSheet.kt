@@ -175,6 +175,49 @@ fun DiagnosticsBottomSheet(
                 )
             }
 
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Raw Alignment Output",
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = "Mode: ${result.payload.alignment.mode}",
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = "Confidence: ${String.format("%.2f", result.payload.alignment.aggregateConfidence)}",
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = "Mapping Points: ${result.payload.alignment.points.size}",
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Personalized Feedback (Mocked/Local)",
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
+            val feedback = if (result.payload.problems.isEmpty()) {
+                "Great form! Your motion matches the reference closely. No major issues detected by the pipeline."
+            } else {
+                "We found ${result.payload.problems.size} issue(s) in your form: " + 
+                result.payload.problems.joinToString(", ") { it.label } + 
+                ". Focus on keeping a steady pace and full range of motion!"
+            }
+            Text(
+                text = feedback,
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
             Spacer(modifier = Modifier.height(24.dp))
         }
     }
