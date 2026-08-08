@@ -19,8 +19,10 @@ include(
     ":core-motion",
     ":core-alignment",
     ":core-cache",
+    ":core-review",
     ":headless-runner",
     ":android-video",
     ":android-pose-mediapipe",
+    ":android-codex",
     ":validation-app",
 )
