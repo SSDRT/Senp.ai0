@@ -161,7 +161,7 @@ fun AnalysisPlayerScreen(
             ) {
                 // User Candidate Player Box
                 VideoPlayerContainer(
-                    title = "User Candidate (${currentSourcePositionMs}ms)",
+                    title = "User Candidate",
                     player = sourcePlayer,
                     poseFrame = currentSourceFrame,
                     accentColor = MaterialTheme.colorScheme.primary,
@@ -170,7 +170,7 @@ fun AnalysisPlayerScreen(
 
                 // Reference Player Box
                 VideoPlayerContainer(
-                    title = "Reference Form (${mappedRefMs}ms)",
+                    title = "Reference Form",
                     player = referencePlayer,
                     poseFrame = currentRefFrame,
                     accentColor = MaterialTheme.colorScheme.secondary,
@@ -281,9 +281,10 @@ private fun VideoPlayerContainer(
         Box(modifier = Modifier.fillMaxSize()) {
             AndroidView(
                 factory = { ctx ->
-                    PlayerView(ctx).apply {
+                    androidx.media3.ui.PlayerView(ctx).apply {
                         this.player = player
                         useController = false
+                        resizeMode = androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_ZOOM
                     }
                 },
                 modifier = Modifier.fillMaxSize()
