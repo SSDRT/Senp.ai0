@@ -40,9 +40,9 @@ The evaluator uses hysteresis (`topEnter/topExit`, `bottomEnter/bottomExit`) and
 
 ## UI
 
-`LivePushUpActivity` is a separate activity inside `validation-app`. The existing `ValidationActivity` remains the launcher and continues to drive the Wave 5 emulator E2E checks.
+`LivePushUpActivity` is the product launcher inside `validation-app`, so tapping **Senp Push-Up Arena** opens the live camera surface directly. The existing `ValidationActivity` remains exported for the Wave 5 intent-driven emulator E2E harness, but it is not exposed as the launcher.
 
-When installed, start the arena explicitly:
+For automated validation, the arena can still be started explicitly:
 
 ```bash
 adb shell am start -n ai.senp.validation/.LivePushUpActivity

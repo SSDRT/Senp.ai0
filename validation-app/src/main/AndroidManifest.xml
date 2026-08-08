@@ -6,17 +6,17 @@
 
     <application
         android:theme="@style/AppTheme"
-        android:label="Senp Validation">
+        android:label="Senp Push-Up Arena">
         <activity
             android:name=".LivePushUpActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ValidationActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ValidationActivity"
+            android:exported="true" />
     </application>
 </manifest>
