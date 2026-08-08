@@ -40,9 +40,9 @@ The evaluator uses hysteresis (`topEnter/topExit`, `bottomEnter/bottomExit`) and
 
 ## UI
 
-`LivePushUpActivity` is the product launcher inside `validation-app`, so tapping **Senp Push-Up Arena** opens the live camera surface directly. The existing `ValidationActivity` remains exported for the Wave 5 intent-driven emulator E2E harness, but it is not exposed as the launcher.
+`ValidationActivity` remains the main Senp.ai launcher and hosts the Jetpack Compose reference-vs-user video workflow. That normal comparison path supports the engine's `generic`, `biceps_curl`, `pushup`, `squat`, `leg_raise`, `plank`, and `pullup` exercise profiles through an explicit UI selector.
 
-For automated validation, the arena can still be started explicitly:
+`LivePushUpActivity` is an additional camera mode opened from the **LIVE PUSH-UP ARENA** card on the main screen. It does not replace or specialize the normal reference-vs-user workflow. For automated validation, the arena can still be started explicitly:
 
 ```bash
 adb shell am start -n ai.senp.validation/.LivePushUpActivity

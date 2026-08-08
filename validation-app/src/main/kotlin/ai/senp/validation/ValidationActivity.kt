@@ -35,6 +35,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
@@ -56,8 +57,12 @@ import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-/** Emulator-only, intent-driven end-to-end validation entry point. It has no product UI. */
-class ValidationActivity : Activity() {
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import ai.senp.validation.ui.SenpApp
+
+/** Interactive mobile UI & emulator validation entry point. */
+class ValidationActivity : ComponentActivity() {
     private val json = Json {
         prettyPrint = true
         encodeDefaults = true
@@ -66,16 +71,27 @@ class ValidationActivity : Activity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-        thread(name = "senp-e2e-validation") {
-            runCatching { validatePair() }
-                .onSuccess { summary ->
-                    Log.i(TAG, "COMPLETE $summary")
-                    runOnUiThread { finish() }
-                }
-                .onFailure { error ->
-                    Log.e(TAG, "FAILED", error)
-                    runOnUiThread { finish() }
-                }
+
+        if (intent?.getBooleanExtra("RUN_HEADLESS", false) == true) {
+            thread(name = "senp-e2e-validation") {
+                runCatching { validatePair() }
+                    .onSuccess { summary ->
+                        Log.i(TAG, "COMPLETE $summary")
+                        runOnUiThread { finish() }
+                    }
+                    .onFailure { error ->
+                        Log.e(TAG, "FAILURE ${error.message}", error)
+                        runOnUiThread { finish() }
+                    }
+            }
+        } else {
+            setContent {
+                SenpApp(
+                    onOpenLivePushUp = {
+                        startActivity(Intent(this, LivePushUpActivity::class.java))
+                    }
+                )
+            }
         }
     }
 
