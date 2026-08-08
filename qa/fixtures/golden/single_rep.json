@@ -1,0 +1,791 @@
+{
+  "contract_version": "1.0",
+  "description": "Single-repetition tracks with a small phase offset.",
+  "expectations": {
+    "allowed_alignment_modes": [
+      "anchor_dtw",
+      "global_dtw",
+      "linear_insufficient_motion"
+    ],
+    "genuine_windows": {
+      "forbidden": []
+    },
+    "mapping": {
+      "bounded": true,
+      "monotonic": true
+    },
+    "metadata": {
+      "candidate_reps": 1,
+      "reference_reps": 1
+    },
+    "uncertain_windows": {
+      "required_overlap": []
+    },
+    "valid_input": true
+  },
+  "inputs": {
+    "candidate": {
+      "samples": [
+        {
+          "features": {
+            "primary": 0.53596161,
+            "secondary": 0.8488806
+          },
+          "timestamp_ms": 0,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.60241446,
+            "secondary": 0.84081516
+          },
+          "timestamp_ms": 100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.66657955,
+            "secondary": 0.82513647
+          },
+          "timestamp_ms": 200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.72702352,
+            "secondary": 0.80219477
+          },
+          "timestamp_ms": 300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.78239616,
+            "secondary": 0.77250253
+          },
+          "timestamp_ms": 400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.83146053,
+            "secondary": 0.73672305
+          },
+          "timestamp_ms": 500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.87312063,
+            "secondary": 0.69565556
+          },
+          "timestamp_ms": 600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.90644583,
+            "secondary": 0.65021744
+          },
+          "timestamp_ms": 700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.9306917,
+            "secondary": 0.60142372
+          },
+          "timestamp_ms": 800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94531662,
+            "secondary": 0.55036436
+          },
+          "timestamp_ms": 900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94999392,
+            "secondary": 0.49817995
+          },
+          "timestamp_ms": 1000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94461909,
+            "secondary": 0.44603619
+          },
+          "timestamp_ms": 1100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.9293122,
+            "secondary": 0.39509789
+          },
+          "timestamp_ms": 1200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.90441519,
+            "secondary": 0.34650293
+          },
+          "timestamp_ms": 1300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.87048421,
+            "secondary": 0.30133685
+          },
+          "timestamp_ms": 1400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.82827723,
+            "secondary": 0.26060857
+          },
+          "timestamp_ms": 1500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.77873708,
+            "secondary": 0.2252279
+          },
+          "timestamp_ms": 1600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.7229704,
+            "secondary": 0.19598518
+          },
+          "timestamp_ms": 1700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.66222293,
+            "secondary": 0.17353365
+          },
+          "timestamp_ms": 1800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.59785167,
+            "secondary": 0.15837484
+          },
+          "timestamp_ms": 1900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.53129456,
+            "secondary": 0.15084738
+          },
+          "timestamp_ms": 2000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.46403839,
+            "secondary": 0.1511194
+          },
+          "timestamp_ms": 2100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.39758554,
+            "secondary": 0.15918484
+          },
+          "timestamp_ms": 2200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.33342045,
+            "secondary": 0.17486353
+          },
+          "timestamp_ms": 2300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.27297648,
+            "secondary": 0.19780523
+          },
+          "timestamp_ms": 2400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.21760384,
+            "secondary": 0.22749747
+          },
+          "timestamp_ms": 2500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.16853947,
+            "secondary": 0.26327695
+          },
+          "timestamp_ms": 2600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.12687937,
+            "secondary": 0.30434444
+          },
+          "timestamp_ms": 2700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.09355417,
+            "secondary": 0.34978256
+          },
+          "timestamp_ms": 2800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.0693083,
+            "secondary": 0.39857628
+          },
+          "timestamp_ms": 2900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05468338,
+            "secondary": 0.44963564
+          },
+          "timestamp_ms": 3000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05000608,
+            "secondary": 0.50182005
+          },
+          "timestamp_ms": 3100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05538091,
+            "secondary": 0.55396381
+          },
+          "timestamp_ms": 3200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.0706878,
+            "secondary": 0.60490211
+          },
+          "timestamp_ms": 3300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.09558481,
+            "secondary": 0.65349707
+          },
+          "timestamp_ms": 3400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.12951579,
+            "secondary": 0.69866315
+          },
+          "timestamp_ms": 3500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.17172277,
+            "secondary": 0.73939143
+          },
+          "timestamp_ms": 3600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.22126292,
+            "secondary": 0.7747721
+          },
+          "timestamp_ms": 3700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.2770296,
+            "secondary": 0.80401482
+          },
+          "timestamp_ms": 3800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.33777707,
+            "secondary": 0.82646635
+          },
+          "timestamp_ms": 3900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.40214833,
+            "secondary": 0.84162516
+          },
+          "timestamp_ms": 4000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.46870544,
+            "secondary": 0.84915262
+          },
+          "timestamp_ms": 4100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.53596161,
+            "secondary": 0.8488806
+          },
+          "timestamp_ms": 4200,
+          "valid": true
+        }
+      ],
+      "time_unit": "ms"
+    },
+    "reference": {
+      "samples": [
+        {
+          "features": {
+            "primary": 0.5,
+            "secondary": 0.85
+          },
+          "timestamp_ms": 0,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.55639996,
+            "secondary": 0.84724015
+          },
+          "timestamp_ms": 100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.61191045,
+            "secondary": 0.83900411
+          },
+          "timestamp_ms": 200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.66565605,
+            "secondary": 0.82542177
+          },
+          "timestamp_ms": 300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.71678915,
+            "secondary": 0.80670734
+          },
+          "timestamp_ms": 400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.76450336,
+            "secondary": 0.78315595
+          },
+          "timestamp_ms": 500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.8080462,
+            "secondary": 0.75513902
+          },
+          "timestamp_ms": 600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.84673096,
+            "secondary": 0.7230984
+          },
+          "timestamp_ms": 700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.87994757,
+            "secondary": 0.68753938
+          },
+          "timestamp_ms": 800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.90717217,
+            "secondary": 0.64902275
+          },
+          "timestamp_ms": 900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.92797543,
+            "secondary": 0.60815595
+          },
+          "timestamp_ms": 1000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94202926,
+            "secondary": 0.56558346
+          },
+          "timestamp_ms": 1100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94911203,
+            "secondary": 0.52197668
+          },
+          "timestamp_ms": 1200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94911203,
+            "secondary": 0.47802332
+          },
+          "timestamp_ms": 1300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.94202926,
+            "secondary": 0.43441654
+          },
+          "timestamp_ms": 1400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.92797543,
+            "secondary": 0.39184405
+          },
+          "timestamp_ms": 1500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.90717217,
+            "secondary": 0.35097725
+          },
+          "timestamp_ms": 1600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.87994757,
+            "secondary": 0.31246062
+          },
+          "timestamp_ms": 1700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.84673096,
+            "secondary": 0.2769016
+          },
+          "timestamp_ms": 1800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.8080462,
+            "secondary": 0.24486098
+          },
+          "timestamp_ms": 1900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.76450336,
+            "secondary": 0.21684405
+          },
+          "timestamp_ms": 2000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.71678915,
+            "secondary": 0.19329266
+          },
+          "timestamp_ms": 2100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.66565605,
+            "secondary": 0.17457823
+          },
+          "timestamp_ms": 2200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.61191045,
+            "secondary": 0.16099589
+          },
+          "timestamp_ms": 2300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.55639996,
+            "secondary": 0.15275985
+          },
+          "timestamp_ms": 2400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.5,
+            "secondary": 0.15
+          },
+          "timestamp_ms": 2500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.44360004,
+            "secondary": 0.15275985
+          },
+          "timestamp_ms": 2600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.38808955,
+            "secondary": 0.16099589
+          },
+          "timestamp_ms": 2700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.33434395,
+            "secondary": 0.17457823
+          },
+          "timestamp_ms": 2800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.28321085,
+            "secondary": 0.19329266
+          },
+          "timestamp_ms": 2900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.23549664,
+            "secondary": 0.21684405
+          },
+          "timestamp_ms": 3000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.1919538,
+            "secondary": 0.24486098
+          },
+          "timestamp_ms": 3100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.15326904,
+            "secondary": 0.2769016
+          },
+          "timestamp_ms": 3200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.12005243,
+            "secondary": 0.31246062
+          },
+          "timestamp_ms": 3300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.09282783,
+            "secondary": 0.35097725
+          },
+          "timestamp_ms": 3400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.07202457,
+            "secondary": 0.39184405
+          },
+          "timestamp_ms": 3500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05797074,
+            "secondary": 0.43441654
+          },
+          "timestamp_ms": 3600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05088797,
+            "secondary": 0.47802332
+          },
+          "timestamp_ms": 3700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05088797,
+            "secondary": 0.52197668
+          },
+          "timestamp_ms": 3800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.05797074,
+            "secondary": 0.56558346
+          },
+          "timestamp_ms": 3900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.07202457,
+            "secondary": 0.60815595
+          },
+          "timestamp_ms": 4000,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.09282783,
+            "secondary": 0.64902275
+          },
+          "timestamp_ms": 4100,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.12005243,
+            "secondary": 0.68753938
+          },
+          "timestamp_ms": 4200,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.15326904,
+            "secondary": 0.7230984
+          },
+          "timestamp_ms": 4300,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.1919538,
+            "secondary": 0.75513902
+          },
+          "timestamp_ms": 4400,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.23549664,
+            "secondary": 0.78315595
+          },
+          "timestamp_ms": 4500,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.28321085,
+            "secondary": 0.80670734
+          },
+          "timestamp_ms": 4600,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.33434395,
+            "secondary": 0.82542177
+          },
+          "timestamp_ms": 4700,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.38808955,
+            "secondary": 0.83900411
+          },
+          "timestamp_ms": 4800,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.44360004,
+            "secondary": 0.84724015
+          },
+          "timestamp_ms": 4900,
+          "valid": true
+        },
+        {
+          "features": {
+            "primary": 0.5,
+            "secondary": 0.85
+          },
+          "timestamp_ms": 5000,
+          "valid": true
+        }
+      ],
+      "time_unit": "ms"
+    }
+  },
+  "scenario_id": "single_rep"
+}

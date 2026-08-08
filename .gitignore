@@ -20,8 +20,14 @@ benchmark-results/
 *.task
 *.tflite
 *.pt
+*.mp4
 
 # OS / temp
 .DS_Store
 *.log
 *.tmp
+
+# Python QA tooling
+__pycache__/
+*.py[cod]
+.venv/
