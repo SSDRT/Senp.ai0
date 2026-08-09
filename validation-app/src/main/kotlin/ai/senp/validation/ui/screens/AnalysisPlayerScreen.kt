@@ -590,9 +590,44 @@ private fun interpolateAlignedTimestamp(
     return (before.second + (after.second - before.second) * ratio).roundToLong()
 }
 
+// Largest gap between the requested playback position and the nearest sampled pose frame
+// before we stop showing a skeleton entirely. Without this, a stale pose from a detection
+// gap (or from just past the last sampled frame) gets shown as if it were current, which is
+// what makes the skeleton look like it's dragging behind the video during motion.
+private const val MAX_POSE_FRAME_DRIFT_MS = 120L
+
+/**
+ * Finds the sampled pose frame closest to [timestampMs].
+ *
+ * [PoseSequence.frames] is guaranteed strictly increasing by timestamp, so this binary-searches
+ * for the insertion point instead of scanning every frame. That matters here specifically: this
+ * runs on the UI thread on every polled playback tick (~30x/sec, once per video tile), and a
+ * linear scan over a full clip's worth of frames was cheap enough to *work* but expensive enough
+ * to visibly stutter the overlay relative to the video texture, especially on longer clips.
+ */
 private fun findMatchingPoseFrame(timestampMs: Long, poses: PoseSequence?): PoseFrame? {
-    if (poses == null || poses.frames.isEmpty()) return null
-    return poses.frames.minByOrNull { abs(it.timestamp.value - timestampMs) }
+    val frames = poses?.frames ?: return null
+    if (frames.isEmpty()) return null
+
+    var lo = 0
+    var hi = frames.size - 1
+    while (lo < hi) {
+        val mid = (lo + hi) ushr 1
+        if (frames[mid].timestamp.value < timestampMs) lo = mid + 1 else hi = mid
+    }
+    // `lo` is the first frame with timestamp >= timestampMs; the closest candidate is either
+    // that frame or the one immediately before it.
+    val candidateAfter = frames[lo]
+    val candidateBefore = if (lo > 0) frames[lo - 1] else null
+    val closest = if (candidateBefore == null) {
+        candidateAfter
+    } else {
+        val afterDelta = abs(candidateAfter.timestamp.value - timestampMs)
+        val beforeDelta = abs(candidateBefore.timestamp.value - timestampMs)
+        if (beforeDelta <= afterDelta) candidateBefore else candidateAfter
+    }
+
+    return closest.takeIf { abs(it.timestamp.value - timestampMs) <= MAX_POSE_FRAME_DRIFT_MS }
 }
 
 private fun formatTime(milliseconds: Long): String {
