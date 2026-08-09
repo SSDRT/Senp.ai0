@@ -44,6 +44,14 @@ class SpatialSynchronizationEngine(
         requiredChannelSemanticTypes = request.requirements.requiredChannelSemanticTypes,
     )
 
+    /**
+     * Canonicalize one sequence independently for reusable/offline or live action analysis.
+     * This deliberately performs no source/reference comparison and therefore avoids fabricating
+     * a dummy reference when callers only need body-centric frames.
+     */
+    fun analyzeSequence(sequence: CanonicalObservationSequence): SpatialSequenceAnalysis =
+        processSequence(sequence).toPublicAnalysis()
+
     fun analyze(
         source: CanonicalObservationSequence,
         reference: CanonicalObservationSequence,

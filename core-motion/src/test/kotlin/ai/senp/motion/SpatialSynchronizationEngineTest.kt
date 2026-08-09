@@ -30,6 +30,40 @@ class SpatialSynchronizationEngineTest {
     private val engine = SpatialSynchronizationEngine()
 
     @Test
+    fun `single sequence canonicalization seam matches paired source analysis without a fake reference`() {
+        val source = sequence(
+            VideoRole.SOURCE,
+            yawDegrees = 27.0,
+            elevationDegrees = 9.0,
+            globalScale = 1.3,
+            translation = Vec3(0.6, -0.2, 1.1),
+        )
+
+        val single = engine.analyzeSequence(source)
+        val paired = engine.analyze(source, sequence(VideoRole.REFERENCE)).source
+
+        assertEquals(paired, single)
+        assertEquals(source.role, single.role)
+        assertEquals(source.observations.map { it.timestamp }, single.frames.map { it.timestamp })
+        assertTrue(single.frames.all { it.canonicalPose != null })
+    }
+
+    @Test
+    fun `reference action compiler accepts canonical observations through the single sequence seam`() {
+        val reference = sequence(VideoRole.REFERENCE)
+        val compiler = ReferenceActionCompiler(
+            ReferenceActionCompilerConfig(minimumAnalyzableFrames = 8),
+        )
+
+        val compilation = compiler.compile(reference)
+
+        assertTrue(compilation is ReferenceActionCompilation.Success, compilation.toString())
+        val profile = (compilation as ReferenceActionCompilation.Success).profile
+        assertTrue(profile.states.size >= 3)
+        assertEquals(reference.observations.size, engine.analyzeSequence(reference).frames.size)
+    }
+
+    @Test
     fun `3d camera yaw elevation translation and uniform scale canonicalize to the same intrinsic pose`() {
         val reference = sequence(VideoRole.REFERENCE)
         val source = sequence(
