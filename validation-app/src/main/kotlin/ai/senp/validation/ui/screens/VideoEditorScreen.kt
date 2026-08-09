@@ -344,7 +344,7 @@ fun VideoEditorScreen(
 
             if (isExporting) {
                 Box(
-                    modifier = Modifier.fillMaxSize().background(Color(0xE6050A16)),
+                    modifier = Modifier.fillMaxSize().background(Color(0xE608090C)),
                     contentAlignment = Alignment.Center,
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -403,7 +403,7 @@ private fun EditorTimeline(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(22.dp))
-            .background(Color(0xCC0A1427))
+            .background(Color(0xCC111318))
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
@@ -447,7 +447,7 @@ private fun ThumbnailStrip(startFraction: Float, endFraction: Float, positionFra
             .fillMaxWidth()
             .height(54.dp)
             .clip(RoundedCornerShape(9.dp))
-            .background(Color(0xFF1E3047)),
+            .background(Color(0xFF262A31)),
     ) {
         Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             repeat(12) { index ->
@@ -458,8 +458,8 @@ private fun ThumbnailStrip(startFraction: Float, endFraction: Float, positionFra
                         .background(
                             Brush.verticalGradient(
                                 listOf(
-                                    Color(0xFF3D5870).copy(alpha = 0.82f - index * 0.02f),
-                                    Color(0xFF142238),
+                                    Color(0xFF52565D).copy(alpha = 0.82f - index * 0.02f),
+                                    Color(0xFF17191E),
                                 ),
                             ),
                         ),
@@ -502,7 +502,7 @@ private fun EditorTab(label: String, selected: Boolean, modifier: Modifier, onCl
         modifier = modifier
             .height(58.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(if (selected) SenpBlue.copy(alpha = 0.22f) else Color(0x66111E34))
+            .background(if (selected) SenpBlue.copy(alpha = 0.22f) else Color(0x661A1D22))
             .clickable { onClick() },
         contentAlignment = Alignment.Center,
     ) { Text(label, color = if (selected) SenpBlueBright else SenpMuted, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp) }

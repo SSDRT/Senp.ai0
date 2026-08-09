@@ -6,24 +6,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
-/** Obsidian dashboard palette: near-black surfaces, graphite borders, and a restrained violet signal. */
+/** Minimal monochrome palette: black, graphite, grey, and white. */
 val SenpBackground = Color(0xFF08090C)
 val SenpBackgroundRaised = Color(0xFF0D0F14)
 val SenpSurface = Color(0xFF12151B)
 val SenpSurfaceRaised = Color(0xFF1A1E27)
 val SenpBorder = Color(0xFF303641)
-val SenpBlue = Color(0xFF0B91FF)
-val SenpBlueBright = Color(0xFF8C63FF)
-val SenpViolet = Color(0xFFB16CFF)
-val SenpCream = Color(0xFFF5F1E8)
-val SenpMuted = Color(0xFF9298AE)
+val SenpBlue = Color(0xFFB7BBC2)
+val SenpBlueBright = Color(0xFFF2F2F2)
+val SenpViolet = Color(0xFF969AA3)
+val SenpCream = Color(0xFFF2F2F0)
+val SenpMuted = Color(0xFF92969F)
 val SenpSuccess = Color(0xFF6BE6C0)
 val SenpWarning = Color(0xFFFFC56B)
 val SenpError = Color(0xFFFF748B)
 val SenpAccent = Brush.horizontalGradient(listOf(SenpBlue, SenpViolet))
 
 private val DarkColorScheme = darkColorScheme(
-    primary = SenpBlue,
+    primary = SenpBlueBright,
     onPrimary = Color.White,
     primaryContainer = SenpBackgroundRaised,
     onPrimaryContainer = SenpBlueBright,

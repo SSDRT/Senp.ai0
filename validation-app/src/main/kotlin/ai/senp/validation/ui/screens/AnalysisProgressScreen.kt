@@ -2,21 +2,17 @@ package ai.senp.validation.ui.screens
 
 import ai.senp.core.contracts.PipelineStageId
 import ai.senp.validation.ui.theme.SenpBackgroundRaised
-import ai.senp.validation.ui.theme.SenpBlueBright
+import ai.senp.validation.ui.theme.SenpBorder
 import ai.senp.validation.ui.theme.SenpCream
 import ai.senp.validation.ui.theme.SenpMuted
 import ai.senp.validation.ui.theme.SenpPageBackdrop
 import ai.senp.validation.ui.theme.SenpSurface
 import ai.senp.validation.ui.theme.SenpSurfaceRaised
-import ai.senp.validation.ui.theme.SenpViolet
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,24 +25,25 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import kotlin.math.max
 
-/** A lightweight radar/scan animation; it runs entirely in Compose and needs no image asset. */
+/** A deliberately quiet progress state; the simulated ramp keeps feedback visible while the local pipeline works. */
 @Composable
 fun AnalysisProgressScreen(
     activeStage: PipelineStageId,
@@ -54,112 +51,66 @@ fun AnalysisProgressScreen(
     statusMessage: String,
     onBack: () -> Unit,
 ) {
-    val transition = rememberInfiniteTransition(label = "analysisRadar")
-    val rotation by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 360f,
-        animationSpec = infiniteRepeatable(tween(2600, easing = LinearEasing)),
-        label = "radarRotation",
-    )
-    val pulse by transition.animateFloat(
-        initialValue = 0.88f,
-        targetValue = 1.08f,
-        animationSpec = infiniteRepeatable(
-            keyframes {
-                durationMillis = 1500
-                0.88f at 0
-                1.08f at 750
-                0.88f at 1500
-            },
-            RepeatMode.Restart,
-        ),
-        label = "radarPulse",
-    )
-    val scan by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(tween(1800, easing = LinearEasing)),
-        label = "scanLine",
-    )
-    val stageProgress = progressForStage(activeStage)
-    val progress = maxOf(progressPercent, stageProgress).coerceIn(0.04f, 0.99f)
-
-    Box(Modifier.fillMaxSize().background(SenpPageBackdrop)) {
-        Column(
-            Modifier.fillMaxSize().padding(horizontal = 20.dp, vertical = 16.dp),
-        ) {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text("<", color = SenpCream, fontSize = 25.sp, modifier = Modifier.size(40.dp).clickable { onBack() })
-                Text("PIPELINE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.8.sp)
-                Spacer(Modifier.weight(1f))
-                Text("LOCAL", color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.1.sp)
-            }
-            Spacer(Modifier.height(28.dp))
-            Text("ANALYSING", color = SenpCream, fontSize = 28.sp, fontWeight = FontWeight.Bold)
-            Text(statusMessage, color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 6.dp))
-            Spacer(Modifier.height(32.dp))
-
-            Box(
-                Modifier.fillMaxWidth().height(286.dp).clip(RoundedCornerShape(20.dp)).background(SenpBackgroundRaised),
-                contentAlignment = Alignment.Center,
-            ) {
-                Canvas(Modifier.size(246.dp)) {
-                    val center = Offset(size.width / 2f, size.height / 2f)
-                    val radius = size.minDimension * 0.37f
-                    drawCircle(SenpViolet.copy(alpha = 0.08f * pulse), radius * 1.48f, center)
-                    drawCircle(SenpSurfaceRaised, radius, center, style = androidx.compose.ui.graphics.drawscope.Stroke(1.5f))
-                    drawCircle(SenpSurfaceRaised, radius * 0.68f, center, style = androidx.compose.ui.graphics.drawscope.Stroke(1f))
-                    drawLine(SenpSurfaceRaised, Offset(center.x - radius, center.y), Offset(center.x + radius, center.y), 1f)
-                    drawLine(SenpSurfaceRaised, Offset(center.x, center.y - radius), Offset(center.x, center.y + radius), 1f)
-                    rotate(rotation, center) {
-                        drawLine(SenpBlueBright.copy(alpha = 0.04f), center, Offset(center.x + radius, center.y), radius * 0.9f, StrokeCap.Round)
-                        drawArc(
-                            color = SenpBlueBright,
-                            startAngle = -28f,
-                            sweepAngle = 58f,
-                            useCenter = false,
-                            topLeft = Offset(center.x - radius, center.y - radius),
-                            size = androidx.compose.ui.geometry.Size(radius * 2f, radius * 2f),
-                            style = androidx.compose.ui.graphics.drawscope.Stroke(7f),
-                        )
-                    }
-                    val scanY = center.y - radius + (radius * 2f * scan)
-                    drawLine(SenpBlueBright.copy(alpha = 0.6f), Offset(center.x - radius * 0.84f, scanY), Offset(center.x + radius * 0.84f, scanY), 2f)
-                    drawCircle(SenpCream, 5f, center)
-                }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("${(progress * 100).toInt()}%", color = SenpCream, fontSize = 30.sp, fontWeight = FontWeight.Bold)
-                    Text("PROCESSING", color = SenpBlueBright, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
-                }
-            }
-            Spacer(Modifier.height(18.dp))
-            Box(Modifier.fillMaxWidth().height(5.dp).clip(CircleShape).background(SenpSurfaceRaised)) {
-                Box(Modifier.fillMaxWidth(progress).height(5.dp).background(SenpBlueBright))
-            }
-            Spacer(Modifier.height(22.dp))
-            StageRail(activeStage)
+    var simulatedPercent by remember { mutableFloatStateOf(0f) }
+    LaunchedEffect(Unit) {
+        while (simulatedPercent < 99f) {
+            delay(55L)
+            simulatedPercent = (simulatedPercent + when {
+                simulatedPercent < 65f -> 0.72f
+                simulatedPercent < 88f -> 0.34f
+                else -> 0.12f
+            }).coerceAtMost(99f)
         }
+    }
+    val backendPercent = progressPercent.coerceIn(0f, 1f) * 100f
+    val visiblePercent = if (backendPercent >= 99f) 100f else max(simulatedPercent, backendPercent)
+    val pulseTransition = rememberInfiniteTransition(label = "loadingPulse")
+    val pulse by pulseTransition.animateFloat(0.45f, 1f, infiniteRepeatable(tween(850), RepeatMode.Reverse), label = "pulse")
+
+    Column(
+        Modifier.fillMaxSize().background(SenpPageBackdrop).padding(horizontal = 18.dp, vertical = 16.dp),
+    ) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text("<", color = SenpCream, fontSize = 25.sp, modifier = Modifier.size(40.dp).clickable { onBack() })
+            Text("ANALYSIS", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.6.sp)
+        }
+        Spacer(Modifier.height(36.dp))
+        Text("ANALYSING", color = SenpCream, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        Text(statusMessage, color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 7.dp))
+        Spacer(Modifier.weight(1f))
+        Box(Modifier.fillMaxWidth().height(1.dp).background(SenpBorder))
+        Spacer(Modifier.height(24.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
+            Text("${visiblePercent.toInt()}%", color = SenpCream, fontSize = 56.sp, fontWeight = FontWeight.Light)
+            Box(Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(SenpCream.copy(alpha = pulse)))
+        }
+        Spacer(Modifier.height(16.dp))
+        Box(Modifier.fillMaxWidth().height(6.dp).clip(RoundedCornerShape(3.dp)).background(SenpSurfaceRaised)) {
+            Box(Modifier.fillMaxWidth((visiblePercent / 100f).coerceIn(0f, 1f)).height(6.dp).background(SenpCream))
+        }
+        Spacer(Modifier.height(28.dp))
+        PipelineList(activeStage)
+        Spacer(Modifier.weight(1f))
+        Text("RUNNING LOCALLY", color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
     }
 }
 
 @Composable
-private fun StageRail(activeStage: PipelineStageId) {
-    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(SenpSurface).padding(15.dp)) {
-        Text("ANALYSIS PIPELINE", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-        Spacer(Modifier.height(13.dp))
+private fun PipelineList(activeStage: PipelineStageId) {
+    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).background(SenpSurface).padding(14.dp)) {
         listOf(
             PipelineStageId.VIDEO_POSE_SOURCE to "YOUR VIDEO",
-            PipelineStageId.VIDEO_POSE_REFERENCE to "REFERENCE",
-            PipelineStageId.ALIGNMENT to "EXTRACTIONS",
+            PipelineStageId.VIDEO_POSE_REFERENCE to "MASTER VIDEO",
+            PipelineStageId.ALIGNMENT to "COMPARISON",
         ).forEachIndexed { index, (stage, label) ->
             val complete = progressForStage(activeStage) >= progressForStage(stage)
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.size(10.dp).clip(CircleShape).background(if (complete) SenpBlueBright else SenpSurfaceRaised))
-                Text(label, color = if (complete) SenpCream else SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(start = 10.dp))
+                Box(Modifier.size(8.dp).clip(RoundedCornerShape(2.dp)).background(if (complete) SenpCream else SenpBackgroundRaised))
+                Text(label, color = if (complete) SenpCream else SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(start = 10.dp))
                 Spacer(Modifier.weight(1f))
-                Text(if (complete) "READY" else "WAIT", color = if (complete) SenpBlueBright else SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                Text(if (complete) "DONE" else "WAIT", color = if (complete) SenpCream else SenpMuted, fontSize = 9.sp)
             }
-            if (index < 2) Spacer(Modifier.height(11.dp))
+            if (index < 2) Spacer(Modifier.height(12.dp))
         }
     }
 }

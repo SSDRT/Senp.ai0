@@ -37,6 +37,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -140,6 +141,7 @@ fun AnalysisPlayerScreen(
     var sourceSkeletonVisible by remember { mutableStateOf(true) }
     var referenceSkeletonVisible by remember { mutableStateOf(true) }
     var showDiagnostics by remember { mutableStateOf(false) }
+    var showRawData by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val synchronization = synchronizationRun?.synchronization?.result
     val sourcePoses = sourcePoseExtraction.poses
@@ -279,6 +281,27 @@ fun AnalysisPlayerScreen(
         if (playbackMode == mode) pauseAll() else start(mode)
     }
 
+    LaunchedEffect(showRawData) {
+        if (showRawData) pauseAll()
+    }
+
+    if (showRawData) {
+        RawDataScreen(
+            synchronization = synchronization,
+            synchronizationFailure = synchronizationFailure,
+            synchronizationPending = synchronizationPending,
+            playbackMapping = playbackMapping,
+            matchingPercentage = matchingPercentage,
+            angleDifferenceDegrees = angleDifferenceDegrees,
+            sourceFrameCount = sourcePoseExtraction.diagnostics.sampledFrameCount,
+            referenceFrameCount = referencePoseExtraction.diagnostics.sampledFrameCount,
+            matchedUnitCount = matchedUnitCount,
+            unmatchedUnitCount = unmatchedUnitCount,
+            onBack = { showRawData = false },
+        )
+        return
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -376,8 +399,13 @@ fun AnalysisPlayerScreen(
                 }
             }
 
-            Spacer(Modifier.height(12.dp))
-            ReferenceActionAnalysisSlot(referenceAction, referenceActionMessage)
+            Spacer(Modifier.height(16.dp))
+            HighlightedExtractions(
+                matchingPercentage = matchingPercentage,
+                angleDifferenceDegrees = angleDifferenceDegrees,
+                frameCount = sourcePoseExtraction.diagnostics.sampledFrameCount + referencePoseExtraction.diagnostics.sampledFrameCount,
+                onOpenRawData = { showRawData = true },
+            )
 
             Spacer(Modifier.height(16.dp))
             Card(
@@ -430,81 +458,15 @@ fun AnalysisPlayerScreen(
                 }
             }
 
-            Spacer(Modifier.height(26.dp))
-            Text("AI SUGGESTIONS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+            Spacer(Modifier.height(20.dp))
+            Text("AI SUGGESTIONS", color = SenpCream, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
             Card(
-                modifier = Modifier.fillMaxWidth().padding(top = 10.dp).glassBackground(RoundedCornerShape(18.dp)),
-                shape = RoundedCornerShape(18.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+                modifier = Modifier.fillMaxWidth().padding(top = 9.dp),
+                shape = RoundedCornerShape(10.dp),
+                colors = CardDefaults.cardColors(containerColor = SenpSurface),
                 border = BorderStroke(1.dp, SenpBorder),
             ) {
-                Text("Personalized coaching suggestions will appear here.", color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(16.dp))
-            }
-            Spacer(Modifier.height(26.dp))
-            Text("RAW EXTRACTIONS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
-            Text("Values returned by the analysis backend", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
-            Spacer(Modifier.height(11.dp))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                StatPill("MATCHING", "${(matchingPercentage * 100).toInt()}%", SenpBlueBright, Modifier.weight(1f))
-                StatPill("ANGLE Δ", angleDifferenceDegrees?.let { "${formatDecimal(it)}°" } ?: "—", SenpViolet, Modifier.weight(1f))
-                StatPill("FRAMES", "${sourcePoseExtraction.diagnostics.sampledFrameCount + referencePoseExtraction.diagnostics.sampledFrameCount}", SenpSuccess, Modifier.weight(1f))
-            }
-            Spacer(Modifier.height(11.dp))
-            when {
-                synchronizationPending -> {
-                    ExtractCard(
-                        title = "CHECKING OPTIONAL CORRESPONDENCE",
-                        detail = "Reference-action recognition is already available while Sync-v2 checks whether synchronized playback can be supported.",
-                        value = "ACTION READY",
-                        accent = SenpBlueBright,
-                        extra = "The action result above does not depend on whole-video alignment.",
-                    )
-                }
-                synchronization == null -> {
-                    ExtractCard(
-                        title = "CORRESPONDENCE UNAVAILABLE",
-                        detail = synchronizationFailure?.message
-                            ?: "Sync-v2 correspondence was unavailable, but reference-action recognition completed independently.",
-                        value = "OPTIONAL",
-                        accent = SenpWarning,
-                        extra = "The action result above does not depend on whole-video alignment.",
-                    )
-                }
-                synchronization.status == SynchronizationStatus.REFUSED -> {
-                    ExtractCard(
-                        title = "CORRESPONDENCE REFUSED",
-                        detail = synchronization.refusal?.message ?: "The available motion evidence was not reliable enough to synchronize.",
-                        value = synchronization.refusal?.reason?.name ?: "REFUSED",
-                        accent = SenpError,
-                        extra = "Reference-action recognition remains independent of this correspondence decision.",
-                    )
-                }
-                else -> {
-                    ExtractCard(
-                        title = "MATCHED MOTION",
-                        detail = "$matchedUnitCount matched units · $unmatchedUnitCount unmatched units · ${playbackMapping.pointCount} timestamp decisions",
-                        value = "${(synchronization.diagnostics.correspondenceConfidence * 100).toInt()}%",
-                        accent = statusAccent,
-                        extra = "Source coverage ${(synchronization.diagnostics.sourceAnalyzableFraction * 100).toInt()}% · Reference ${(synchronization.diagnostics.referenceAnalyzableFraction * 100).toInt()}%",
-                    )
-                }
-            }
-
-            Card(
-                modifier = Modifier.fillMaxWidth().padding(top = 5.dp).glassBackground(RoundedCornerShape(20.dp)),
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-            ) {
-                Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Column {
-                        Text("SYNC TRACE", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                        Text(synchronization?.status?.name ?: "UNAVAILABLE", color = statusAccent, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 5.dp))
-                    }
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text("${playbackMapping.pointCount} mapped points", color = SenpCream, fontSize = 13.sp)
-                        Text("${sourcePoseExtraction.diagnostics.sampledFrameCount} + ${referencePoseExtraction.diagnostics.sampledFrameCount} frames", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 5.dp))
-                    }
-                }
+                Text("Suggestions will appear here.", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(14.dp))
             }
 
             Spacer(Modifier.height(22.dp))
@@ -520,6 +482,117 @@ fun AnalysisPlayerScreen(
 
     if (showDiagnostics && synchronizationRun != null) {
         DiagnosticsBottomSheet(run = synchronizationRun, sheetState = sheetState, onDismiss = { showDiagnostics = false })
+    }
+}
+
+@Composable
+private fun HighlightedExtractions(
+    matchingPercentage: Double,
+    angleDifferenceDegrees: Double?,
+    frameCount: Int,
+    onOpenRawData: () -> Unit,
+) {
+    val matchColor = if (matchingPercentage >= 0.8) SenpSuccess else SenpError
+    val angleColor = if ((angleDifferenceDegrees ?: 0.0) <= 10.0) SenpSuccess else SenpError
+    Column(Modifier.fillMaxWidth()) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text("KEY EXTRACTIONS", color = SenpCream, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
+            Button(
+                onClick = onOpenRawData,
+                modifier = Modifier.height(30.dp),
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 9.dp),
+                shape = RoundedCornerShape(7.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = SenpSurfaceRaised, contentColor = SenpCream),
+            ) { Text("RAW DATA", fontSize = 8.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.7.sp) }
+        }
+        Spacer(Modifier.height(9.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(7.dp)) {
+            ExtractionBadge("MATCH", "${(matchingPercentage * 100).toInt()}%", matchColor, Modifier.weight(1f))
+            ExtractionBadge("ANGLE", angleDifferenceDegrees?.let { "${formatDecimal(it)}°" } ?: "—", angleColor, Modifier.weight(1f))
+            ExtractionBadge("FRAMES", frameCount.toString(), SenpCream, Modifier.weight(1f))
+        }
+    }
+}
+
+@Composable
+private fun ExtractionBadge(label: String, value: String, accent: Color, modifier: Modifier) {
+    Card(modifier = modifier, shape = RoundedCornerShape(10.dp), colors = CardDefaults.cardColors(containerColor = SenpSurface), border = BorderStroke(1.dp, accent.copy(alpha = 0.55f))) {
+        Column(Modifier.padding(horizontal = 10.dp, vertical = 11.dp)) {
+            Text(label, color = SenpMuted, fontSize = 8.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+            Text(value, color = accent, fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 4.dp))
+        }
+    }
+}
+
+@Composable
+private fun RawDataScreen(
+    synchronization: SynchronizationResult?,
+    synchronizationFailure: AnalysisFailure?,
+    synchronizationPending: Boolean,
+    playbackMapping: PlaybackMapping,
+    matchingPercentage: Double,
+    angleDifferenceDegrees: Double?,
+    sourceFrameCount: Int,
+    referenceFrameCount: Int,
+    matchedUnitCount: Int,
+    unmatchedUnitCount: Int,
+    onBack: () -> Unit,
+) {
+    Column(Modifier.fillMaxSize().background(SenpPageBackdrop).statusBarsPadding().navigationBarsPadding().verticalScroll(rememberScrollState()).padding(horizontal = 16.dp)) {
+        Spacer(Modifier.height(14.dp))
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text("<", color = SenpCream, fontSize = 25.sp, modifier = Modifier.size(40.dp).clickable { onBack() })
+            Column {
+                Text("RAW DATA", color = SenpCream, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text("ANALYSIS OUTPUT", color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.3.sp)
+            }
+        }
+        Spacer(Modifier.height(24.dp))
+        RawDataCard("HIGHLIGHTS") {
+            RawValueRow("MATCHING PERCENTAGE", "${(matchingPercentage * 100).toInt()}%", if (matchingPercentage >= 0.8) SenpSuccess else SenpError)
+            RawValueRow("ANGLE DIFFERENCE", angleDifferenceDegrees?.let { "${formatDecimal(it)}°" } ?: "—", if ((angleDifferenceDegrees ?: 0.0) <= 10.0) SenpSuccess else SenpError)
+        }
+        Spacer(Modifier.height(10.dp))
+        RawDataCard("VIDEO FRAMES") {
+            RawValueRow("YOUR VIDEO", sourceFrameCount.toString(), SenpCream)
+            RawValueRow("MASTER VIDEO", referenceFrameCount.toString(), SenpCream)
+        }
+        Spacer(Modifier.height(10.dp))
+        RawDataCard("CORRESPONDENCE") {
+            RawValueRow("STATUS", when {
+                synchronizationPending -> "CHECKING"
+                synchronization == null -> "UNAVAILABLE"
+                else -> synchronization.status.name
+            }, if (synchronization?.status == SynchronizationStatus.SYNCHRONIZED) SenpSuccess else SenpCream)
+            RawValueRow("MATCHED UNITS", matchedUnitCount.toString(), SenpCream)
+            RawValueRow("UNMATCHED UNITS", unmatchedUnitCount.toString(), if (unmatchedUnitCount == 0) SenpSuccess else SenpError)
+            RawValueRow("TIMELINE POINTS", playbackMapping.pointCount.toString(), SenpCream)
+            synchronization?.let {
+                RawValueRow("SOURCE COVERAGE", "${(it.diagnostics.sourceAnalyzableFraction * 100).toInt()}%", SenpCream)
+                RawValueRow("MASTER COVERAGE", "${(it.diagnostics.referenceAnalyzableFraction * 100).toInt()}%", SenpCream)
+            }
+            synchronizationFailure?.let { RawValueRow("ERROR", it.message, SenpError) }
+        }
+        Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun RawDataCard(title: String, content: @Composable ColumnScope.() -> Unit) {
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(11.dp), colors = CardDefaults.cardColors(containerColor = SenpSurface), border = BorderStroke(1.dp, SenpBorder)) {
+        Column(Modifier.padding(14.dp)) {
+            Text(title, color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.3.sp)
+            Spacer(Modifier.height(10.dp))
+            content()
+        }
+    }
+}
+
+@Composable
+private fun RawValueRow(label: String, value: String, accent: Color) {
+    Row(Modifier.fillMaxWidth().padding(vertical = 6.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Top) {
+        Text(label, color = SenpMuted, fontSize = 10.sp, modifier = Modifier.weight(1f))
+        Text(value, color = accent, fontSize = 10.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.End, modifier = Modifier.weight(1f))
     }
 }
 

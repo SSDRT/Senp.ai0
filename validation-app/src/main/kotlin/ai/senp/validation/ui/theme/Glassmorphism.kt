@@ -27,10 +27,10 @@ private val SenpGlassFill = Brush.verticalGradient(
 )
 
 private val SenpGlassHighlight = Brush.horizontalGradient(
-    0f to SenpBlueBright.copy(alpha = 0.72f),
+    0f to SenpCream.copy(alpha = 0.62f),
     0.22f to Color.Transparent,
     0.78f to Color.Transparent,
-    1f to SenpViolet.copy(alpha = 0.62f),
+    1f to SenpMuted.copy(alpha = 0.46f),
 )
 
 @Composable

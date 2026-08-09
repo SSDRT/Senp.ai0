@@ -96,14 +96,7 @@ class ValidationActivity : ComponentActivity() {
             }
         } else {
             setContent {
-                SenpApp(
-                    onOpenLiveReference = {
-                        startActivity(Intent(this, LiveReferenceActionActivity::class.java))
-                    },
-                    onOpenLivePushUp = {
-                        startActivity(Intent(this, LivePushUpActivity::class.java))
-                    },
-                )
+                SenpApp()
             }
         }
     }
