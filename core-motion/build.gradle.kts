@@ -3,7 +3,7 @@ plugins {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
     compilerOptions {
         allWarningsAsErrors.set(true)
     }
@@ -65,6 +65,24 @@ val microbenchmark by tasks.registering(JavaExec::class) {
     args(report.get().asFile.absolutePath, "120")
     outputs.file(report)
     outputs.upToDateWhen { false }
+}
+
+val spatialMicrobenchmark by tasks.registering(JavaExec::class) {
+    group = "verification"
+    description = "Run the synchronization-v2 spatial kernel on a deterministic ten-second 15 FPS pose pair."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.SpatialMicrobenchmark")
+    val report = layout.buildDirectory.file("reports/microbenchmark/spatial-sync-v2-10s.json")
+    args(report.get().asFile.absolutePath, "120")
+    outputs.file(report)
+    outputs.upToDateWhen { false }
+}
+
+tasks.register("verifySpatialSynchronization") {
+    group = "verification"
+    description = "Run motion tests plus the synchronization-v2 spatial microbenchmark."
+    dependsOn(tasks.test, spatialMicrobenchmark)
 }
 
 tasks.register("verifyMotionCore") {

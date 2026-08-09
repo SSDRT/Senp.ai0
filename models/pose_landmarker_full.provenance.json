@@ -10,5 +10,5 @@
   "runtime_dependency": "com.google.mediapipe:tasks-vision:0.10.32",
   "license": "Apache License 2.0",
   "license_source": "https://github.com/google-ai-edge/mediapipe/blob/master/LICENSE",
-  "repository_policy": "The binary is fetched into ignored local-models/ and is not committed. scripts/fetch_pose_model.sh verifies both byte size and SHA-256 before use."
+  "repository_policy": "The binary is not committed. Gradle fetches it into build/generated/pose-model-assets for APK and instrumentation assets via scripts/fetch_pose_model.sh, which verifies both byte size and SHA-256 before use. The script may also be run manually into ignored local-models/ for local diagnostics."
 }

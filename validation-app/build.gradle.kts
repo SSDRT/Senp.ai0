@@ -22,8 +22,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     buildFeatures {
@@ -31,12 +31,21 @@ android {
     }
 
     androidResources { noCompress += "task" }
-    sourceSets["main"].assets.srcDir(rootProject.layout.projectDirectory.dir("local-models"))
+    sourceSets["main"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/pose-model-assets"))
+}
+
+tasks.matching { it.name.startsWith("merge") && it.name.endsWith("Assets") }.configureEach {
+    dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
+}
+
+// Lint model/report tasks also inspect the generated main model asset directly.
+tasks.matching { it.name.contains("Lint") || it.name.startsWith("lintAnalyze") }.configureEach {
+    dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
         freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
     }
 }
@@ -47,11 +56,19 @@ dependencies {
     implementation(project(":core-cache"))
     implementation(project(":core-motion"))
     implementation(project(":core-alignment"))
+    implementation(project(":sync-v2-integration"))
     implementation(project(":android-video"))
     implementation(project(":android-pose-mediapipe"))
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.guava.android)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
@@ -66,5 +83,6 @@ dependencies {
     implementation(libs.androidx.media3.ui)
     implementation(libs.androidx.media3.transformer)
     implementation(libs.androidx.media3.effect)
-}
 
+    testImplementation(kotlin("test"))
+}

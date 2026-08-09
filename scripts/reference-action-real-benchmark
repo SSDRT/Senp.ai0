@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+"$ROOT/gradlew" -q :sync-v2-validation:installDist
+exec python3 "$ROOT/sync-v2-validation/tools/reference_action_real_benchmark.py" \
+  --adapter-executable "$ROOT/scripts/reference-action-adapter" \
+  "$@"

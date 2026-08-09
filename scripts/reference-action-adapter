@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+BIN="$ROOT/sync-v2-validation/build/install/sync-v2-validation/bin/sync-v2-validation"
+if [[ $# -ne 1 ]]; then
+  echo "usage: $0 <adapter-request-json>" >&2
+  exit 2
+fi
+if [[ ! -x "$BIN" ]]; then
+  echo "reference-action adapter distribution is not built; run: ./gradlew :sync-v2-validation:installDist" >&2
+  exit 3
+fi
+exec "$BIN" reference-action-adapter "$1"

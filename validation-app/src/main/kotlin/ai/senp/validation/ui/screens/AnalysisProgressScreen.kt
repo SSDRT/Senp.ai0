@@ -112,7 +112,7 @@ fun AnalysisProgressScreen(
                     Spacer(Modifier.height(12.dp))
                     listOf(
                         PipelineStageId.VIDEO_POSE_SOURCE to "Mapping your landmarks",
-                        PipelineStageId.VIDEO_POSE_REFERENCE to "Mapping the master form",
+                        PipelineStageId.VIDEO_POSE_REFERENCE to "Mapping the reference movement",
                         PipelineStageId.ALIGNMENT to "Aligning both movements",
                     ).forEach { (stage, label) ->
                         StageRow(label, stage == activeStage || activeProgress > progressForStage(stage))

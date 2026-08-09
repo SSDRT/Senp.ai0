@@ -9,6 +9,7 @@ import ai.senp.core.contracts.AnalysisResult
 import ai.senp.core.contracts.CacheStatus
 import ai.senp.core.contracts.FrameValidityStatus
 import ai.senp.core.contracts.MotionSeries
+import ai.senp.core.contracts.MotionUnitCorrespondence
 import ai.senp.core.contracts.PhaseSeries
 import ai.senp.core.contracts.PipelineStageId
 import ai.senp.core.contracts.PoseFrame
@@ -19,6 +20,10 @@ import ai.senp.core.contracts.ProblemWindow
 import ai.senp.core.contracts.SamplingConfiguration
 import ai.senp.core.contracts.Sha256
 import ai.senp.core.contracts.StageResult
+import ai.senp.core.contracts.SpatialReliabilityStatus
+import ai.senp.core.contracts.SynchronizationResult
+import ai.senp.core.contracts.TemporalStructure
+import ai.senp.core.contracts.TimestampCorrespondence
 import ai.senp.core.contracts.TimestampMs
 import ai.senp.core.contracts.VideoPoseExtraction
 import ai.senp.core.contracts.VideoPoseFailureKind
@@ -26,6 +31,9 @@ import ai.senp.core.contracts.VideoRole
 import ai.senp.core.contracts.VideoSource
 import ai.senp.motion.MotionCoreVersions
 import ai.senp.pose.mediapipe.AndroidVideoPoseExtractor
+import ai.senp.sync.v2.VideoSynchronizationOutcome
+import ai.senp.sync.v2.VideoSynchronizationRequest
+import ai.senp.sync.v2.VideoSynchronizationRun
 import ai.senp.video.DecodeConfig
 import ai.senp.video.DecodedFrame
 import ai.senp.video.SequentialVideoDecoder
@@ -35,6 +43,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
@@ -51,6 +60,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
@@ -70,22 +80,30 @@ class ValidationActivity : ComponentActivity() {
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
-
-        if (intent?.getBooleanExtra("RUN_HEADLESS", false) == true) {
+        if (intent.getBooleanExtra(EXTRA_RUN_HEADLESS, false)) {
             thread(name = "senp-e2e-validation") {
-                runCatching { validatePair() }
+                runCatching {
+                    if (intent.getStringExtra(EXTRA_MODE) == MODE_SYNC_V2) validateSyncV2Pair() else validatePair()
+                }
                     .onSuccess { summary ->
                         Log.i(TAG, "COMPLETE $summary")
                         runOnUiThread { finish() }
                     }
                     .onFailure { error ->
-                        Log.e(TAG, "FAILURE ${error.message}", error)
+                        Log.e(TAG, "FAILED ${error.message}", error)
                         runOnUiThread { finish() }
                     }
             }
         } else {
             setContent {
-                SenpApp()
+                SenpApp(
+                    onOpenLiveReference = {
+                        startActivity(Intent(this, LiveReferenceActionActivity::class.java))
+                    },
+                    onOpenLivePushUp = {
+                        startActivity(Intent(this, LivePushUpActivity::class.java))
+                    },
+                )
             }
         }
     }
@@ -123,6 +141,9 @@ class ValidationActivity : ComponentActivity() {
         File(outputDirectory, "request.json").writeText(json.encodeToString(request))
 
         val composition = EngineComposition(this)
+        if (intent.getBooleanExtra(EXTRA_SYNC_V2_ONLY, false)) {
+            return validateSynchronizationV2(composition, request, outputDirectory)
+        }
         val first = timedAnalyze(composition, request)
         val firstResult = requireAnalysis(first.outcome, outputDirectory, "analysis_failure_miss.json")
         check(firstResult.provenance.cacheStatus == CacheStatus.MISS) { "first analysis must be a cache miss" }
@@ -249,6 +270,345 @@ class ValidationActivity : ComponentActivity() {
         File(outputDirectory, "COMPLETE").writeText("ok\n")
         return "OK $label points=${firstResult.payload.alignment.points.size} problems=${firstResult.payload.problems.size}"
     }
+
+    private fun validateSynchronizationV2(
+        composition: EngineComposition,
+        request: AnalysisRequest,
+        outputDirectory: File,
+    ): String = runBlocking {
+        val outcome = composition.synchronizationPipeline.synchronize(
+            VideoSynchronizationRequest(
+                source = request.source,
+                reference = request.reference,
+                sampling = request.configuration.sampling,
+                model = request.configuration.model,
+            ),
+        )
+        val run = when (outcome) {
+            is VideoSynchronizationOutcome.Success -> outcome.run
+            is VideoSynchronizationOutcome.Failure -> {
+                File(outputDirectory, "sync_v2_failure.json").writeText(
+                    json.encodeToString(AnalysisFailure.serializer(), outcome.failure),
+                )
+                error("Sync-v2 failed: ${outcome.failure}")
+            }
+        }
+        val result = run.synchronization.result
+        File(outputDirectory, "sync_v2_result.json").writeText(
+            json.encodeToString(ai.senp.core.contracts.SynchronizationResult.serializer(), result),
+        )
+        File(outputDirectory, "source_pose_extraction.json").writeText(
+            json.encodeToString(VideoPoseExtraction.serializer(), run.sourcePoseExtraction),
+        )
+        File(outputDirectory, "reference_pose_extraction.json").writeText(
+            json.encodeToString(VideoPoseExtraction.serializer(), run.referencePoseExtraction),
+        )
+        val stats = run.synchronization.stats
+        val timing = run.timings
+        val diagnostics = buildJsonObject {
+            put("engine_version", ai.senp.sync.v2.SynchronizationKernelV2Versions.ENGINE)
+            put("status", result.status.name)
+            put("overall_confidence", result.diagnostics.overallConfidence)
+            put("source_analyzable_fraction", result.diagnostics.sourceAnalyzableFraction)
+            put("reference_analyzable_fraction", result.diagnostics.referenceAnalyzableFraction)
+            put("source_pose_extraction_ms", timing.sourcePoseExtractionNanos / 1_000_000.0)
+            put("reference_pose_extraction_ms", timing.referencePoseExtractionNanos / 1_000_000.0)
+            put("post_pose_sync_ms", timing.postPoseSynchronizationNanos / 1_000_000.0)
+            put("total_pipeline_ms", timing.totalNanos / 1_000_000.0)
+            put("post_pose_fraction", timing.postPoseFraction)
+            put("source_decode_ms", timing.sourceDecodeNanos / 1_000_000.0)
+            put("source_inference_ms", timing.sourceInferenceNanos / 1_000_000.0)
+            put("reference_decode_ms", timing.referenceDecodeNanos / 1_000_000.0)
+            put("reference_inference_ms", timing.referenceInferenceNanos / 1_000_000.0)
+            put("iteration_count", stats.iterationCount)
+            put("total_coarse_unit_comparisons", stats.totalCoarseUnitComparisons)
+            put("total_fine_cells_evaluated", stats.totalFineCellsEvaluated)
+            put("maximum_fine_band_width", stats.maximumFineBandWidth)
+            put("total_fine_alignment_count", stats.totalFineAlignmentCount)
+            put("peak_rss_bytes", readVmHwmBytes())
+            put("iterations", buildJsonArray {
+                stats.iterations.forEach { iteration ->
+                    add(buildJsonObject {
+                        put("iteration", iteration.iteration)
+                        put("phase", iteration.phase)
+                        put("status", iteration.status.name)
+                        put("quality", iteration.quality)
+                        put("overall_confidence", iteration.overallConfidence)
+                        put("spatial_confidence", iteration.spatialConfidence)
+                        put("correspondence_confidence", iteration.correspondenceConfidence)
+                        put("correspondence_ambiguity", iteration.correspondenceAmbiguity)
+                        put("matched_unit_count", iteration.matchedUnitCount)
+                        put("matched_timestamp_count", iteration.matchedTimestampCount)
+                        put("paired_spatial_evidence_count", iteration.pairedSpatialEvidenceCount)
+                        put("refined_hypothesis_count", iteration.refinedHypothesisCount)
+                        put("coarse_unit_comparisons", iteration.temporalStats.coarseUnitComparisons)
+                        put("fine_cells_evaluated", iteration.temporalStats.fineCellsEvaluated)
+                        put("maximum_fine_band_width", iteration.temporalStats.maximumFineBandWidth)
+                        put("fine_alignment_count", iteration.temporalStats.fineAlignmentCount)
+                    })
+                }
+            })
+        }
+        File(outputDirectory, "sync_v2_diagnostics.json").writeText(json.encodeToString(JsonObject.serializer(), diagnostics))
+        val summary = buildString {
+            appendLine("status=${result.status}")
+            appendLine("overallConfidence=${result.diagnostics.overallConfidence}")
+            appendLine("sourceAnalyzableFraction=${result.diagnostics.sourceAnalyzableFraction}")
+            appendLine("referenceAnalyzableFraction=${result.diagnostics.referenceAnalyzableFraction}")
+            appendLine("sourcePoseExtractionMs=${format(timing.sourcePoseExtractionNanos / 1_000_000.0)}")
+            appendLine("referencePoseExtractionMs=${format(timing.referencePoseExtractionNanos / 1_000_000.0)}")
+            appendLine("postPoseSyncMs=${format(timing.postPoseSynchronizationNanos / 1_000_000.0)}")
+            appendLine("totalPipelineMs=${format(timing.totalNanos / 1_000_000.0)}")
+            appendLine("postPoseFraction=${format(timing.postPoseFraction)}")
+            appendLine("iterations=${stats.iterationCount}")
+            appendLine("fineCells=${stats.totalFineCellsEvaluated}")
+            appendLine("maxFineBand=${stats.maximumFineBandWidth}")
+        }
+        File(outputDirectory, "sync_v2_summary.txt").writeText(summary)
+        File(outputDirectory, "COMPLETE").writeText("sync-v2-ok\n")
+        "SYNC_V2_OK ${request.requestId} status=${result.status}"
+    }
+
+    private fun validateSyncV2Pair(): String {
+        val sourceFile = requiredVideo(EXTRA_SOURCE_VIDEO)
+        val referenceFile = requiredVideo(EXTRA_REFERENCE_VIDEO)
+        val label = sanitize(intent.getStringExtra(EXTRA_LABEL) ?: "-vs-")
+        val outputDirectory = File(requireNotNull(getExternalFilesDir(null)), "sync-v2/$label").apply {
+            deleteRecursively()
+            check(mkdirs()) { "Unable to create Sync-v2 output directory: $absolutePath" }
+        }
+        val sampling = SamplingConfiguration(
+            targetFramesPerSecond = intent.getIntExtra(EXTRA_FPS, 15).coerceIn(1, 30),
+            longEdgeCapPx = intent.getIntExtra(EXTRA_LONG_EDGE, 640).coerceIn(128, 1280),
+        )
+        val model = PoseModelConfiguration(Sha256(MODEL_SHA256))
+        val request = VideoSynchronizationRequest(
+            source = VideoSource(sourceFile.absolutePath, Sha256(sha256(sourceFile))),
+            reference = VideoSource(referenceFile.absolutePath, Sha256(sha256(referenceFile))),
+            sampling = sampling,
+            model = model,
+        )
+        val composition = EngineComposition(this)
+        val outcome = runBlocking { composition.synchronizationPipeline.synchronize(request) }
+        val run = when (outcome) {
+            is VideoSynchronizationOutcome.Success -> outcome.run
+            is VideoSynchronizationOutcome.Failure -> {
+                File(outputDirectory, "sync_v2_failure.json").writeText(
+                    json.encodeToString(AnalysisFailure.serializer(), outcome.failure),
+                )
+                error("Sync-v2 video pipeline failed: ${outcome.failure}")
+            }
+        }
+        val result = run.synchronization.result
+        File(outputDirectory, "synchronization-result.json").writeText(
+            json.encodeToString(SynchronizationResult.serializer(), result),
+        )
+        File(outputDirectory, "source_pose_extraction.json").writeText(json.encodeToString(run.sourcePoseExtraction))
+        File(outputDirectory, "reference_pose_extraction.json").writeText(json.encodeToString(run.referencePoseExtraction))
+        File(outputDirectory, "normalized-result.json").writeText(
+            json.encodeToString(JsonObject.serializer(), normalizedSyncResult(run)),
+        )
+        File(outputDirectory, "sync-v2-diagnostics.json").writeText(
+            json.encodeToString(JsonObject.serializer(), syncV2Diagnostics(run)),
+        )
+
+        val matched = result.correspondences.filterIsInstance<MotionUnitCorrespondence.MatchedUnit>()
+            .flatMap { unit ->
+                unit.timeline.filterIsInstance<TimestampCorrespondence.Matched>().map { match ->
+                    Triple(unit, match.sourceTimestamp.value, match.referenceTimestamp.value)
+                }
+            }
+        if (matched.isNotEmpty()) {
+            val indexes = listOf(0, matched.size / 3, (matched.size * 2) / 3, matched.lastIndex).distinct()
+            val chosen = indexes.map(matched::get)
+            val sourceCaptures = captureFrames(
+                sourceFile,
+                VideoRole.SOURCE,
+                run.sourcePoseExtraction.poses,
+                chosen.map { it.second },
+                outputDirectory,
+                "sync-v2-source",
+            )
+            val referenceCaptures = captureFrames(
+                referenceFile,
+                VideoRole.REFERENCE,
+                run.referencePoseExtraction.poses,
+                chosen.map { it.third },
+                outputDirectory,
+                "sync-v2-reference",
+            )
+            saveMatchedContactSheet(File(outputDirectory, "sync_v2_mapped_pose_contact_sheet.jpg"), sourceCaptures, referenceCaptures)
+            recycle(sourceCaptures)
+            recycle(referenceCaptures)
+        } else {
+            File(outputDirectory, "sync_v2_mapped_pose_contact_sheet.NONE").writeText("No defensible matched timestamp pairs.\n")
+        }
+
+        val summary = buildString {
+            appendLine("mode=sync_v2")
+            appendLine("label=$label")
+            appendLine("status=${result.status}")
+            appendLine("overallConfidence=${result.diagnostics.overallConfidence}")
+            appendLine("sourceAnalyzableFraction=${result.diagnostics.sourceAnalyzableFraction}")
+            appendLine("referenceAnalyzableFraction=${result.diagnostics.referenceAnalyzableFraction}")
+            appendLine("matchedUnits=${result.correspondences.count { it is MotionUnitCorrespondence.MatchedUnit }}")
+            appendLine("matchedTimestamps=${matched.size}")
+            appendLine("postPoseSynchronizationMs=${run.timings.postPoseSynchronizationNanos / 1_000_000.0}")
+            appendLine("poseAndPreprocessingMs=${run.timings.poseAndPreprocessingNanos / 1_000_000.0}")
+            appendLine("totalMs=${run.timings.totalNanos / 1_000_000.0}")
+            appendLine("postPoseFraction=${run.timings.postPoseFraction}")
+            appendLine("peakRssBytes=${readVmHwmBytes()}")
+        }
+        File(outputDirectory, "summary.txt").writeText(summary)
+        File(outputDirectory, "COMPLETE").writeText("ok\n")
+        return "OK sync-v2 $label status=${result.status} mappings=${matched.size}"
+    }
+
+    private fun normalizedSyncResult(run: VideoSynchronizationRun): JsonObject {
+        val result = run.synchronization.result
+        val mappings = buildJsonArray {
+            run.synchronization.mappingDiagnostics.forEach { diagnostic ->
+                val referenceTimestamp = diagnostic.referenceTimestamp
+                add(buildJsonObject {
+                    put("source_ms", diagnostic.sourceTimestamp.value)
+                    if (referenceTimestamp == null) {
+                        put("reference_ms", JsonNull)
+                    } else {
+                        put("reference_ms", referenceTimestamp.value)
+                    }
+                    put("confidence", diagnostic.decisionConfidence)
+                    put("source_unit_id", diagnostic.sourceUnitId)
+                    diagnostic.referenceUnitId?.let { put("reference_unit_id", it) }
+                    diagnostic.sourceDirection?.let { put("source_direction", it) } ?: put("source_direction", "UNKNOWN")
+                    diagnostic.referenceDirection?.let { put("reference_direction", it) } ?: put("reference_direction", "UNKNOWN")
+                    put("source_state", diagnostic.sourceState?.name ?: "UNKNOWN")
+                    put("reference_state", diagnostic.referenceState?.name ?: if (diagnostic.referenceTimestamp == null) "UNMATCHED" else "UNKNOWN")
+                    put(
+                        "reliability",
+                        if (diagnostic.sourceReliability in setOf(null, SpatialReliabilityStatus.COMPATIBLE) &&
+                            diagnostic.referenceReliability in setOf(null, SpatialReliabilityStatus.COMPATIBLE)
+                        ) {
+                            "RELIABLE"
+                        } else {
+                            listOfNotNull(diagnostic.sourceReliability, diagnostic.referenceReliability).joinToString("+") { it.name }
+                        },
+                    )
+                })
+            }
+        }
+        val sourceUnmatched = buildJsonArray {
+            result.correspondences.filterIsInstance<MotionUnitCorrespondence.SourceUnmatchedUnit>().forEach { unit ->
+                add(buildJsonObject {
+                    put("unit_id", unit.sourceUnitId)
+                    put("reason", unit.reason.name)
+                    put("confidence", unit.decisionConfidence)
+                })
+            }
+        }
+        val referenceUnmatched = buildJsonArray {
+            result.correspondences.filterIsInstance<MotionUnitCorrespondence.ReferenceUnmatchedUnit>().forEach { unit ->
+                add(buildJsonObject {
+                    put("unit_id", unit.referenceUnitId)
+                    put("reason", unit.reason.name)
+                    put("confidence", unit.decisionConfidence)
+                })
+            }
+        }
+        val hypothesis = result.spatialDiagnostics.relativeViewHypotheses.maxByOrNull { it.confidence }
+        val sourceScale = result.spatialDiagnostics.sourceTransforms.map { it.transform.uniformScale }.averageOrNull()
+        val referenceScale = result.spatialDiagnostics.referenceTransforms.map { it.transform.uniformScale }.averageOrNull()
+        val spatial = buildJsonObject {
+            put("aggregate_confidence", result.spatialDiagnostics.aggregateConfidence)
+            put("mirror", hypothesis?.mirror?.name ?: "UNKNOWN")
+            put("selected_side", hypothesis?.selectedBodySide?.name ?: "UNKNOWN")
+            hypothesis?.relativeYawDegrees?.let { put("relative_yaw_degrees", it) }
+            hypothesis?.relativeElevationDegrees?.let { put("relative_elevation_degrees", it) }
+            hypothesis?.sideSelectionStability?.let { put("side_selection_stability", it) }
+            sourceScale?.let { put("source_uniform_scale", it) }
+            referenceScale?.let { put("reference_uniform_scale", it) }
+            put(
+                "frozen_diagnostics",
+                json.encodeToJsonElement(ai.senp.core.contracts.SpatialSynchronizationDiagnostics.serializer(), result.spatialDiagnostics),
+            )
+        }
+        return buildJsonObject {
+            put("schema_version", 1)
+            put("origin", "production_android_mediapipe_sync_v2")
+            put("status", result.status.name)
+            put("confidence", result.diagnostics.overallConfidence)
+            put("source_analyzable_fraction", result.diagnostics.sourceAnalyzableFraction)
+            put("reference_analyzable_fraction", result.diagnostics.referenceAnalyzableFraction)
+            put("mappings", mappings)
+            put("unmatched_source_units", sourceUnmatched)
+            put("unmatched_reference_units", referenceUnmatched)
+            put("spatial_diagnostics", spatial)
+            result.refusal?.let { put("refusal_reason", it.reason.name) }
+        }
+    }
+
+    private fun syncV2Diagnostics(run: VideoSynchronizationRun): JsonObject = buildJsonObject {
+        val stats = run.synchronization.stats
+        put("engine", ai.senp.sync.v2.SynchronizationKernelV2Versions.ENGINE)
+        put("iteration_count", stats.iterationCount)
+        put("total_coarse_unit_comparisons", stats.totalCoarseUnitComparisons)
+        put("total_fine_cells_evaluated", stats.totalFineCellsEvaluated)
+        put("maximum_fine_band_width", stats.maximumFineBandWidth)
+        put("total_fine_alignment_count", stats.totalFineAlignmentCount)
+        put("iterations", buildJsonArray {
+            stats.iterations.forEach { iteration ->
+                add(buildJsonObject {
+                    put("iteration", iteration.iteration)
+                    put("phase", iteration.phase)
+                    put("status", iteration.status.name)
+                    put("quality", iteration.quality)
+                    put("overall_confidence", iteration.overallConfidence)
+                    put("spatial_confidence", iteration.spatialConfidence)
+                    put("correspondence_confidence", iteration.correspondenceConfidence)
+                    put("correspondence_ambiguity", iteration.correspondenceAmbiguity)
+                    put("matched_unit_count", iteration.matchedUnitCount)
+                    put("matched_timestamp_count", iteration.matchedTimestampCount)
+                    put("paired_spatial_evidence_count", iteration.pairedSpatialEvidenceCount)
+                    put("refined_hypothesis_count", iteration.refinedHypothesisCount)
+                    put("fine_cells_evaluated", iteration.temporalStats.fineCellsEvaluated)
+                    put("maximum_fine_band_width", iteration.temporalStats.maximumFineBandWidth)
+                })
+            }
+        })
+        put("timings", buildJsonObject {
+            put("source_pose_extraction_ms", run.timings.sourcePoseExtractionNanos / 1_000_000.0)
+            put("reference_pose_extraction_ms", run.timings.referencePoseExtractionNanos / 1_000_000.0)
+            put("pose_and_preprocessing_ms", run.timings.poseAndPreprocessingNanos / 1_000_000.0)
+            put("post_pose_sync_ms", run.timings.postPoseSynchronizationNanos / 1_000_000.0)
+            put("total_pipeline_ms", run.timings.totalNanos / 1_000_000.0)
+            put("post_pose_fraction_of_total", run.timings.postPoseFraction)
+            put("source_decode_ms", run.timings.sourceDecodeNanos / 1_000_000.0)
+            put("source_inference_ms", run.timings.sourceInferenceNanos / 1_000_000.0)
+            put("reference_decode_ms", run.timings.referenceDecodeNanos / 1_000_000.0)
+            put("reference_inference_ms", run.timings.referenceInferenceNanos / 1_000_000.0)
+            put("source_pose_cache_hit", run.timings.sourcePoseCacheHit)
+            put("reference_pose_cache_hit", run.timings.referencePoseCacheHit)
+        })
+        put("peak_rss_bytes", readVmHwmBytes())
+    }
+
+    private fun activityState(structure: TemporalStructure, timestamp: TimestampMs): String =
+        structure.activitySegments.firstOrNull { it.range.contains(timestamp) }?.kind?.name ?: "UNKNOWN"
+
+    private fun mappingReliability(result: SynchronizationResult, source: TimestampMs, reference: TimestampMs?): String {
+        fun status(role: VideoRole, timestamp: TimestampMs): SpatialReliabilityStatus? = result.spatialDiagnostics.reliabilitySegments
+            .firstOrNull { it.role == role && it.range.contains(timestamp) }?.status
+        val sourceStatus = status(VideoRole.SOURCE, source)
+        val referenceStatus = reference?.let { status(VideoRole.REFERENCE, it) }
+        return if (sourceStatus in setOf(null, SpatialReliabilityStatus.COMPATIBLE) &&
+            referenceStatus in setOf(null, SpatialReliabilityStatus.COMPATIBLE)
+        ) {
+            "RELIABLE"
+        } else {
+            listOfNotNull(sourceStatus, referenceStatus).joinToString("+") { it.name }
+        }
+    }
+
+    private fun List<Double>.averageOrNull(): Double? = if (isEmpty()) null else average()
 
     private fun extractDiagnostics(
         composition: EngineComposition,
@@ -678,12 +1038,16 @@ class ValidationActivity : ComponentActivity() {
 
     companion object {
         private const val TAG = "SENP_E2E"
+        private const val EXTRA_RUN_HEADLESS = "RUN_HEADLESS"
+        private const val EXTRA_MODE = "mode"
+        private const val MODE_SYNC_V2 = "sync_v2"
         private const val EXTRA_SOURCE_VIDEO = "source_video"
         private const val EXTRA_REFERENCE_VIDEO = "reference_video"
         private const val EXTRA_EXERCISE_PROFILE_VERSION = "exercise_profile_version"
         private const val EXTRA_LABEL = "label"
         private const val EXTRA_FPS = "fps"
         private const val EXTRA_LONG_EDGE = "long_edge"
+        private const val EXTRA_SYNC_V2_ONLY = "sync_v2_only"
         private const val MODEL_SHA256 = "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
         private val CONNECTIONS = listOf(
             PoseLandmarkId.LEFT_SHOULDER to PoseLandmarkId.RIGHT_SHOULDER,

@@ -1,0 +1,51 @@
+{
+  "provenance": {
+    "adapter": "scripts/sync-v2-validation-adapter",
+    "adapter_mode": "real_video",
+    "analysis_fps": 15,
+    "api": 35,
+    "device": "senp_api35",
+    "evidence_root": "/home/coder/mcp_workspace/Senp-ai0-reference-action-validation/test-artifacts/reference-action-validation/api35-cricket/jofra-vs-net-batting",
+    "long_edge_px": 640,
+    "note": "Existing Sync-v2 was used only to drive Android MediaPipe extraction. Its synchronization status/score is not a generic reference-action-model result."
+  },
+  "schema_version": 1,
+  "videos": [
+    {
+      "media_sha256": "231b7238c6c2c8baa5949a3750bef4fbd5fb4931d3d5dea15f173e1e79eec6f3",
+      "pose": {
+        "detected_frame_count": 281,
+        "detection_fraction": 1.0,
+        "duration_ms": 18667,
+        "end_timestamp_ms": 18666,
+        "frame_count": 281,
+        "no_person_frame_count": 0,
+        "pose_json_sha256": "be6d22b67e15554b7a674d87fc8504321ccd04b68c2ae17b265aaed7c3808093",
+        "sampled_frame_count": 281,
+        "start_timestamp_ms": 0,
+        "tracked_fraction": 1.0,
+        "unusable_tracking_frame_count": 0
+      },
+      "relative_path": "Cricket samples/jofra Archer bowling action slow motion #cricket #cricketshorts #bowling #shorts #viral #foryou.mp4",
+      "role": "generic_reference_bowling"
+    },
+    {
+      "media_sha256": "827f1fe6fb91b1bb829a5e19ce1566e9a0b59af21fb98e2343d09150b20e9b66",
+      "pose": {
+        "detected_frame_count": 172,
+        "detection_fraction": 1.0,
+        "duration_ms": 11440,
+        "end_timestamp_ms": 11400,
+        "frame_count": 172,
+        "no_person_frame_count": 0,
+        "pose_json_sha256": "461e7571fc8a9a293ec12aedb6789269dacb0613943124a3c5722fbf0e6e58f6",
+        "sampled_frame_count": 172,
+        "start_timestamp_ms": 0,
+        "tracked_fraction": 1.0,
+        "unusable_tracking_frame_count": 0
+      },
+      "relative_path": "Cricket samples/videoplayback.1775553006338.publer.com.mp4",
+      "role": "unrelated_negative_batting"
+    }
+  ]
+}

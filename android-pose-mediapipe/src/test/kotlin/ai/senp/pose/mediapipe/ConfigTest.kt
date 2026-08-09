@@ -61,6 +61,23 @@ class ConfigTest {
         assertEquals(0.8, frame.landmarks[0].presence!!, 0.0001)
     }
 
+    @Test fun defaultUsabilityMatchesLivePolicyForPartiallyOccludedBodies() {
+        val supported = (0 until 33).map { index ->
+            if (index < 12) RawLandmark(0.1f, 0.2f, 0.3f, 0.31f, 0.31f)
+            else RawLandmark(0.1f, 0.2f, 0.3f, 0.29f, 0.29f)
+        }
+        val usable = PoseResultMapper().map(0, 0, RawPoseResult(supported), 0)
+        assertEquals(TrackingState.DETECTED, usable.state)
+        assertEquals(FrameValidityStatus.VALID, usable.frame.validity.status)
+
+        val insufficient = supported.mapIndexed { index, landmark ->
+            if (index == 11) landmark.copy(visibility = 0.29f, presence = 0.29f) else landmark
+        }
+        val blind = PoseResultMapper().map(1, 1, RawPoseResult(insufficient), 0)
+        assertEquals(TrackingState.UNUSABLE, blind.state)
+        assertEquals(FrameValidityStatus.BLIND, blind.frame.validity.status)
+    }
+
     @Test fun noPersonAndUnusableTrackingAreCanonicalBlindFrames() {
         val mapper = PoseResultMapper()
         val noPerson = mapper.map(0, 0, RawPoseResult(emptyList()), 0)

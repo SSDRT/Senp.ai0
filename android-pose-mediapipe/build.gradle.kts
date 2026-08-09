@@ -16,16 +16,25 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     androidResources { noCompress += "task" }
-    sourceSets["androidTest"].assets.srcDir(rootProject.layout.projectDirectory.dir("local-models"))
+    sourceSets["androidTest"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/pose-model-assets"))
     testOptions { unitTests.isReturnDefaultValues = true }
 }
 
-kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_17) } }
+tasks.matching { it.name.startsWith("merge") && it.name.endsWith("AndroidTestAssets") }.configureEach {
+    dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
+}
+
+// Lint inspects the generated androidTest model asset outside mergeAndroidTestAssets.
+tasks.matching { it.name.contains("Lint") || it.name.startsWith("lintAnalyze") }.configureEach {
+    dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
+}
+
+kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_21) } }
 
 dependencies {
     implementation(project(":core-contracts"))
