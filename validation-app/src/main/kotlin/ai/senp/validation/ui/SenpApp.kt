@@ -80,6 +80,9 @@ fun SenpApp(
                         synchronizationFailure = state.synchronizationFailure,
                         referenceAction = state.referenceAction,
                         referenceActionMessage = state.referenceActionMessage,
+                        aiFrameReview = state.aiFrameReview,
+                        onRequestAiReview = { viewModel.requestAiFrameReview() },
+                        onSignInAndRequestAiReview = { viewModel.signInAndRequestAiFrameReview() },
                         onReset = { viewModel.resetAnalysis() },
                     )
                 }

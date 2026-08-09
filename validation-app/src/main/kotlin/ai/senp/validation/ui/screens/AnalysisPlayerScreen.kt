@@ -12,6 +12,7 @@ import ai.senp.motion.PhaseTimingClass
 import ai.senp.sync.v2.VideoSynchronizationRun
 import ai.senp.validation.toReferenceCueLabel
 import ai.senp.validation.ui.components.DiagnosticsBottomSheet
+import ai.senp.validation.ui.state.AiFrameReviewUiState
 import ai.senp.validation.ui.state.ReferenceActionAnalysisUi
 import ai.senp.validation.ui.components.PoseLandmarkOverlay
 import ai.senp.validation.ui.theme.SenpBackground
@@ -108,6 +109,9 @@ fun AnalysisPlayerScreen(
     synchronizationFailure: AnalysisFailure?,
     referenceAction: ReferenceActionAnalysisUi?,
     referenceActionMessage: String?,
+    aiFrameReview: AiFrameReviewUiState,
+    onRequestAiReview: () -> Unit,
+    onSignInAndRequestAiReview: () -> Unit,
     onReset: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -399,6 +403,13 @@ fun AnalysisPlayerScreen(
             Spacer(Modifier.height(12.dp))
             ReferenceActionAnalysisSlot(referenceAction, referenceActionMessage)
 
+            Spacer(Modifier.height(12.dp))
+            AiFrameReviewSlot(
+                state = aiFrameReview,
+                onRequestReview = onRequestAiReview,
+                onSignInAndReview = onSignInAndRequestAiReview,
+            )
+
             Spacer(Modifier.height(16.dp))
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -624,6 +635,127 @@ private fun ReferenceActionAnalysisSlot(
                 color = SenpMuted.copy(alpha = 0.82f),
                 fontSize = 10.sp,
                 lineHeight = 15.sp,
+                modifier = Modifier.padding(top = 12.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun AiFrameReviewSlot(
+    state: AiFrameReviewUiState,
+    onRequestReview: () -> Unit,
+    onSignInAndReview: () -> Unit,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface.copy(alpha = 0.88f)),
+        border = BorderStroke(1.dp, SenpViolet.copy(alpha = 0.7f)),
+    ) {
+        Column(Modifier.fillMaxWidth().padding(18.dp)) {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text("AI FRAME REVIEW", color = SenpViolet, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
+                Text("LUNA", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+            }
+
+            when (state) {
+                AiFrameReviewUiState.NotRequested -> Text(
+                    "AI review is waiting for flagged frame evidence.",
+                    color = SenpMuted,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(top = 9.dp),
+                )
+
+                is AiFrameReviewUiState.Unavailable -> Text(
+                    state.message,
+                    color = SenpMuted,
+                    fontSize = 12.sp,
+                    lineHeight = 18.sp,
+                    modifier = Modifier.padding(top = 9.dp),
+                )
+
+                is AiFrameReviewUiState.RequiresSignIn -> {
+                    Text(
+                        "${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"} are ready. Sign in with ChatGPT once to send them to Luna for a visual review.",
+                        color = SenpCream,
+                        fontSize = 12.sp,
+                        lineHeight = 18.sp,
+                        modifier = Modifier.padding(top = 9.dp),
+                    )
+                    Button(
+                        onClick = onSignInAndReview,
+                        modifier = Modifier.fillMaxWidth().padding(top = 12.dp).height(44.dp),
+                        shape = RoundedCornerShape(13.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = SenpViolet, contentColor = Color.White),
+                    ) { Text("SIGN IN & REVIEW", fontSize = 11.sp, fontWeight = FontWeight.Bold) }
+                }
+
+                is AiFrameReviewUiState.SigningIn -> Text(
+                    "Opening ChatGPT sign-in for ${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"}…",
+                    color = SenpBlueBright,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(top = 9.dp),
+                )
+
+                is AiFrameReviewUiState.Reviewing -> Text(
+                    "Sending ${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"} to Luna and waiting for coaching…",
+                    color = SenpBlueBright,
+                    fontSize = 12.sp,
+                    modifier = Modifier.padding(top = 9.dp),
+                )
+
+                is AiFrameReviewUiState.Success -> {
+                    Text(
+                        state.text,
+                        color = SenpCream,
+                        fontSize = 13.sp,
+                        lineHeight = 19.sp,
+                        modifier = Modifier.padding(top = 10.dp),
+                    )
+                    Text(
+                        "${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"} reviewed · Luna",
+                        color = SenpMuted,
+                        fontSize = 10.sp,
+                        modifier = Modifier.padding(top = 10.dp),
+                    )
+                    OutlinedButton(
+                        onClick = onRequestReview,
+                        modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(40.dp),
+                        border = BorderStroke(1.dp, SenpViolet.copy(alpha = 0.7f)),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpViolet),
+                        shape = RoundedCornerShape(12.dp),
+                    ) { Text("REVIEW AGAIN", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                }
+
+                is AiFrameReviewUiState.Failure -> {
+                    Text(
+                        state.message,
+                        color = SenpError,
+                        fontSize = 12.sp,
+                        lineHeight = 18.sp,
+                        modifier = Modifier.padding(top = 9.dp),
+                    )
+                    Button(
+                        onClick = if (state.requiresSignIn) onSignInAndReview else onRequestReview,
+                        modifier = Modifier.fillMaxWidth().padding(top = 12.dp).height(42.dp),
+                        shape = RoundedCornerShape(13.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = SenpSurfaceRaised, contentColor = SenpCream),
+                    ) {
+                        Text(if (state.requiresSignIn) "SIGN IN AGAIN" else "TRY REVIEW AGAIN", fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                    }
+                }
+            }
+
+            Text(
+                "Only frames already flagged by the on-device reference-action detector are sent. Frame selection itself is unchanged.",
+                color = SenpMuted.copy(alpha = 0.78f),
+                fontSize = 9.sp,
+                lineHeight = 14.sp,
                 modifier = Modifier.padding(top = 12.dp),
             )
         }
