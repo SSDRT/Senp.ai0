@@ -4,10 +4,10 @@ import ai.senp.core.contracts.PoseFrame
 import android.content.Context
 import android.graphics.Bitmap
 import com.google.mediapipe.framework.image.BitmapImageBuilder
-import com.google.mediapipe.tasks.core.BaseOptions
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarker
-import java.security.MessageDigest
+import java.io.File
+import java.nio.ByteBuffer
 
 /**
  * Low-latency camera pose adapter. CameraX owns latest-frame backpressure; this adapter deliberately
@@ -20,6 +20,7 @@ import java.security.MessageDigest
 class LiveMediaPipePoseEstimator private constructor(
     private val landmarker: PoseLandmarker,
     private val mapper: PoseResultMapper,
+    @Suppress("unused") private val retainedModelBuffer: ByteBuffer?,
 ) : AutoCloseable {
     private var previousTimestampMs: Long? = null
     private var diagnosticFrameIndex = 0L
@@ -79,18 +80,14 @@ class LiveMediaPipePoseEstimator private constructor(
         fun create(
             context: Context,
             modelAssetPath: String = AndroidVideoPoseExtractor.DEFAULT_MODEL_ASSET,
+            modelFile: File? = null,
             expectedModelSha256: String,
             config: Config = Config(),
         ): LiveMediaPipePoseEstimator {
             try {
-                val actualSha = context.assets.open(modelAssetPath).use(::sha256Asset)
-                if (actualSha != expectedModelSha256) {
-                    throw LivePoseException.ModelLoad(
-                        "Pose model SHA-256 mismatch: expected $expectedModelSha256, got $actualSha",
-                    )
-                }
+                val resolvedModel = resolveModelOptions(context, modelAssetPath, modelFile, expectedModelSha256)
                 val options = PoseLandmarker.PoseLandmarkerOptions.builder()
-                    .setBaseOptions(BaseOptions.builder().setModelAssetPath(modelAssetPath).build())
+                    .setBaseOptions(resolvedModel.baseOptions)
                     .setRunningMode(RunningMode.VIDEO)
                     .setNumPoses(1)
                     .setMinPoseDetectionConfidence(config.detectionConfidence)
@@ -101,6 +98,7 @@ class LiveMediaPipePoseEstimator private constructor(
                 return LiveMediaPipePoseEstimator(
                     PoseLandmarker.createFromOptions(context.applicationContext, options),
                     PoseResultMapper(config.minimumUsableLandmarks, config.usableVisibility, config.usablePresence),
+                    resolvedModel.retainedBuffer,
                 )
             } catch (error: LivePoseException.ModelLoad) {
                 throw error
@@ -136,15 +134,4 @@ private fun com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarkerResul
         )
     }
     return RawPoseResult(image, world)
-}
-
-private fun sha256Asset(input: java.io.InputStream): String {
-    val digest = MessageDigest.getInstance("SHA-256")
-    val buffer = ByteArray(64 * 1024)
-    while (true) {
-        val read = input.read(buffer)
-        if (read < 0) break
-        digest.update(buffer, 0, read)
-    }
-    return digest.digest().joinToString("") { byte -> "%02x".format(byte) }
 }

@@ -1,5 +1,6 @@
 package ai.senp.validation
 
+import ai.senp.validation.model.PoseModelStore
 import ai.senp.core.contracts.FrameValidityStatus
 import ai.senp.core.contracts.PoseFrame
 import ai.senp.core.contracts.PoseLandmarkId
@@ -206,8 +207,11 @@ class LivePushUpActivity : ComponentActivity() {
         cueView.text = "Starting on-device pose model…"
         analyzerExecutor.execute {
             try {
+                val modelFile = PoseModelStore(this).verifiedModelFileOrNull()
+                    ?: throw IllegalStateException("Install the local analysis model from the Senp.ai home screen first")
                 estimator = LiveMediaPipePoseEstimator.create(
                     context = this,
+                    modelFile = modelFile,
                     expectedModelSha256 = MODEL_SHA256,
                 )
             } catch (error: Throwable) {

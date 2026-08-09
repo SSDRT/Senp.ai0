@@ -15,15 +15,21 @@ import ai.senp.core.contracts.VideoRole
 import ai.senp.core.contracts.VideoSource
 import ai.senp.core.pipeline.VideoPoseExtractor
 import ai.senp.validation.EngineComposition
+import ai.senp.validation.model.PoseModelInstallState
+import ai.senp.validation.model.PoseModelSpec
+import ai.senp.validation.model.PoseModelStore
 import ai.senp.validation.ui.state.AnalysisUiState
 import ai.senp.validation.ui.state.ConfigurationState
 import ai.senp.validation.ui.state.VideoSelectionState
 import android.app.Application
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +41,8 @@ import java.util.UUID
 
 class SenpEngineViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val composition = EngineComposition(application)
+    private val modelStore = PoseModelStore(application)
+    private val composition = EngineComposition(application) { modelStore.verifiedModelFileOrNull() }
 
     private val _videoSelectionState = MutableStateFlow(VideoSelectionState())
     val videoSelectionState: StateFlow<VideoSelectionState> = _videoSelectionState.asStateFlow()
@@ -45,6 +52,16 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
 
     private val _uiState = MutableStateFlow<AnalysisUiState>(AnalysisUiState.Idle)
     val uiState: StateFlow<AnalysisUiState> = _uiState.asStateFlow()
+
+    private val _modelState = MutableStateFlow<PoseModelInstallState>(PoseModelInstallState.Checking)
+    val modelState: StateFlow<PoseModelInstallState> = _modelState.asStateFlow()
+
+    private var analysisJob: Job? = null
+    private var modelDownloadJob: Job? = null
+
+    init {
+        refreshModelState()
+    }
 
     // Captured pose sequences for visual overlay rendering
     private var lastSourcePoses: PoseSequence? = null
@@ -81,6 +98,42 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
         engineVersion = EngineComposition.ENGINE_VERSION,
     )
 
+
+    fun refreshModelState() {
+        viewModelScope.launch {
+            val ready = withContext(Dispatchers.IO) {
+                modelStore.removeInvalidModel()
+                modelStore.verifiedModelFileOrNull()
+            }
+            _modelState.value = ready?.let(PoseModelInstallState::Ready) ?: PoseModelInstallState.Missing
+        }
+    }
+
+    fun downloadAnalysisModel() {
+        if (modelDownloadJob?.isActive == true) return
+        modelDownloadJob = viewModelScope.launch {
+            _modelState.value = PoseModelInstallState.Downloading(0L, PoseModelSpec.EXPECTED_BYTES)
+            try {
+                val installed = modelStore.download { downloaded, total ->
+                    _modelState.value = PoseModelInstallState.Downloading(downloaded, total)
+                }
+                _modelState.value = PoseModelInstallState.Ready(installed)
+                Log.i(TAG, "Analysis model installed and verified")
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (error: Throwable) {
+                Log.e(TAG, "Analysis model download failed", error)
+                _modelState.value = PoseModelInstallState.Failed(
+                    error.message ?: "Unable to download the local analysis model",
+                )
+            } finally {
+                modelDownloadJob = null
+            }
+        }
+    }
+
+    fun isAnalysisModelReady(): Boolean = _modelState.value is PoseModelInstallState.Ready
+
     fun onSelectSourceVideo(uri: Uri) {
         viewModelScope.launch {
             _videoSelectionState.update { it.copy(isCalculatingHash = true, errorMessage = null) }
@@ -93,6 +146,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                         isCalculatingHash = false,
                     )
                 }
+                Log.i(TAG, "Source video ready scheme=${uri.scheme ?: "path"}")
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Exception) {
@@ -115,6 +169,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                         isCalculatingHash = false,
                     )
                 }
+                Log.i(TAG, "Reference video ready scheme=${uri.scheme ?: "path"}")
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Exception) {
@@ -139,6 +194,12 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun runAnalysis() {
+        if (!isAnalysisModelReady()) {
+            _videoSelectionState.update { it.copy(errorMessage = "Install the local analysis model before analysing videos.") }
+            return
+        }
+        if (analysisJob?.isActive == true) return
+
         val selection = videoSelectionState.value
         val config = configState.value
 
@@ -147,15 +208,20 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
         val sourceSha = selection.sourceSha256 ?: return
         val referenceSha = selection.referenceSha256 ?: return
 
-        viewModelScope.launch(Dispatchers.Default) {
+        analysisJob = viewModelScope.launch {
             _uiState.value = AnalysisUiState.Analyzing(
                 activeStage = PipelineStageId.VALIDATION,
                 progressPercent = 0.05f,
-                statusMessage = "Validating request parameters..."
+                statusMessage = "Preparing local analysis..."
             )
 
             lastSourcePoses = null
             lastReferencePoses = null
+
+            // The idle screen owns prepared ExoPlayers for both selected clips. Give Compose time
+            // to dispose those players before the analysis pipeline allocates its MediaCodec decoder.
+            // This avoids transient multi-decoder contention on stricter physical-device codecs.
+            delay(300L)
 
             val request = AnalysisRequest(
                 requestId = "req-" + UUID.randomUUID().toString().take(8),
@@ -164,7 +230,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                 reference = VideoSource(uri = referenceUri.toString(), sha256 = referenceSha),
                 configuration = AnalysisConfiguration(
                     model = PoseModelConfiguration(
-                        modelSha256 = Sha256("5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"),
+                        modelSha256 = Sha256(PoseModelSpec.EXPECTED_SHA256),
                         modelVariant = config.modelVariant,
                         thresholds = PoseThresholds(
                             minimumDetectionConfidence = config.minimumConfidence,
@@ -182,11 +248,36 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                 )
             )
 
-            val outcome = customPipeline.analyze(request)
+            Log.i(
+                TAG,
+                "Analysis start profile=${config.exerciseProfileId} sourceScheme=${sourceUri.scheme ?: "path"} referenceScheme=${referenceUri.scheme ?: "path"}",
+            )
 
-            withContext(Dispatchers.Main) {
+            val outcome = try {
+                withContext(Dispatchers.Default) {
+                    customPipeline.analyze(request)
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (error: Throwable) {
+                Log.e(TAG, "Unexpected analysis exception", error)
+                AnalysisOutcome.Failure(
+                    failure = ai.senp.core.contracts.AnalysisFailure.Unexpected(
+                        stage = PipelineStageId.VALIDATION,
+                        exceptionType = error::class.qualifiedName ?: error.javaClass.name,
+                        message = error.message ?: "Unexpected local analysis failure",
+                    ),
+                    timings = emptyList(),
+                )
+            }
+
+            try {
                 when (outcome) {
                     is AnalysisOutcome.Success -> {
+                        Log.i(TAG, "Analysis success points=${outcome.result.payload.alignment.points.size} problems=${outcome.result.payload.problems.size}")
+                        // MediaCodec release is asynchronous on some OEM stacks. Let the analysis
+                        // decoder settle before the results screen prepares its two ExoPlayers.
+                        delay(300L)
                         _uiState.value = AnalysisUiState.Success(
                             result = outcome.result,
                             sourcePoses = lastSourcePoses,
@@ -196,12 +287,15 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                         )
                     }
                     is AnalysisOutcome.Failure -> {
+                        Log.e(TAG, "Analysis failure stage=${outcome.failure.stage} type=${outcome.failure::class.simpleName}: ${outcome.failure.message}")
                         _uiState.value = AnalysisUiState.Failure(
                             failure = outcome.failure,
                             timings = outcome.timings
                         )
                     }
                 }
+            } finally {
+                analysisJob = null
             }
         }
     }
@@ -242,6 +336,8 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     companion object {
+        private const val TAG = "SenpEngineViewModel"
+
         val SUPPORTED_EXERCISE_PROFILES = setOf(
             "generic",
             "biceps_curl",

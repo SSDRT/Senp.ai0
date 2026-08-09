@@ -61,13 +61,9 @@ The surface shows:
 
 ## Model
 
-The app continues to use the repository-pinned MediaPipe Pose Landmarker Full model. Fetch and verify it before building the runtime APK:
+The app uses the repository-pinned MediaPipe Pose Landmarker Full float16 v1 model. The production APK does not bundle the `.task` file. On first launch the app offers an explicit **Download model** action for the 9,398,198-byte artifact, stores it under app-private storage, and enables analysis only after verifying SHA-256 `5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1`. Normal reference-vs-user analysis and Live Push-Up share that same verified local model.
 
-```bash
-./scripts/fetch_pose_model.sh
-```
-
-The script validates both SHA-256 and byte count. The `.task` file is ignored by Git and is never committed.
+For engineering/instrumentation work, `./scripts/fetch_pose_model.sh` fetches the identical pinned artifact into ignored `local-models/`; it is never committed.
 
 ## Reference implementations
 

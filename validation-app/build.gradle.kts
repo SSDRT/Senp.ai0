@@ -30,8 +30,6 @@ android {
         compose = true
     }
 
-    androidResources { noCompress += "task" }
-    sourceSets["main"].assets.srcDir(rootProject.layout.projectDirectory.dir("local-models"))
 }
 
 kotlin {

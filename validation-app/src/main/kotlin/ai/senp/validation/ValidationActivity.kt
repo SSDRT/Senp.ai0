@@ -60,6 +60,7 @@ import kotlinx.serialization.json.put
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import ai.senp.validation.ui.SenpApp
+import ai.senp.validation.model.PoseModelStore
 
 /** Interactive mobile UI & emulator validation entry point. */
 class ValidationActivity : ComponentActivity() {
@@ -127,7 +128,7 @@ class ValidationActivity : ComponentActivity() {
         )
         File(outputDirectory, "request.json").writeText(json.encodeToString(request))
 
-        val composition = EngineComposition(this)
+        val composition = EngineComposition(this) { PoseModelStore(this).verifiedModelFileOrNull() }
         val first = timedAnalyze(composition, request)
         val firstResult = requireAnalysis(first.outcome, outputDirectory, "analysis_failure_miss.json")
         check(firstResult.provenance.cacheStatus == CacheStatus.MISS) { "first analysis must be a cache miss" }

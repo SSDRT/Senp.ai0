@@ -33,7 +33,10 @@ import com.google.mediapipe.tasks.vision.core.RunningMode
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarker
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarkerResult
 import java.io.File
+import java.io.FileInputStream
 import java.io.InputStream
+import java.nio.ByteBuffer
+import java.nio.channels.FileChannel
 import java.security.MessageDigest
 import java.util.concurrent.CancellationException
 import java.util.concurrent.atomic.AtomicBoolean
@@ -47,6 +50,7 @@ import kotlinx.coroutines.withContext
 class AndroidVideoPoseExtractor(
     context: Context,
     private val modelAssetPath: String = DEFAULT_MODEL_ASSET,
+    private val modelFileProvider: (() -> File?)? = null,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : VideoPoseExtractor {
     private val appContext = context.applicationContext
@@ -117,6 +121,7 @@ class AndroidVideoPoseExtractor(
                 MediaPipePoseEstimator.create(
                     context = appContext,
                     modelAssetPath = modelAssetPath,
+                    modelFile = modelFileProvider?.invoke(),
                     expectedModelSha256 = model.modelSha256.value,
                     config = MediaPipePoseEstimator.Config(
                         detectionConfidence = model.thresholds.minimumDetectionConfidence.toFloat(),
@@ -310,6 +315,7 @@ internal class ExtractionCollector(private val role: VideoRole) {
 internal class MediaPipePoseEstimator private constructor(
     private val landmarker: PoseLandmarker,
     private val mapper: PoseResultMapper,
+    @Suppress("unused") private val retainedModelBuffer: ByteBuffer?,
 ) : AutoCloseable {
     private var previousTimestampMs: Long? = null
     private var reusableBitmap: Bitmap? = null
@@ -388,19 +394,14 @@ internal class MediaPipePoseEstimator private constructor(
         fun create(
             context: Context,
             modelAssetPath: String,
+            modelFile: File? = null,
             expectedModelSha256: String,
             config: Config = Config(),
         ): MediaPipePoseEstimator {
             try {
-                val actualSha = context.assets.open(modelAssetPath).use(::sha256)
-                if (actualSha != expectedModelSha256) {
-                    throw MediaPipeAdapterException.ModelLoad(
-                        "Pose model SHA-256 mismatch: expected " + expectedModelSha256 + ", got " + actualSha,
-                    )
-                }
-                val baseOptions = BaseOptions.builder().setModelAssetPath(modelAssetPath).build()
+                val resolvedModel = resolveModelOptions(context, modelAssetPath, modelFile, expectedModelSha256)
                 val options = PoseLandmarker.PoseLandmarkerOptions.builder()
-                    .setBaseOptions(baseOptions)
+                    .setBaseOptions(resolvedModel.baseOptions)
                     .setRunningMode(RunningMode.VIDEO)
                     .setNumPoses(1)
                     .setMinPoseDetectionConfidence(config.detectionConfidence)
@@ -412,6 +413,7 @@ internal class MediaPipePoseEstimator private constructor(
                 return MediaPipePoseEstimator(
                     landmarker,
                     PoseResultMapper(config.minimumUsableLandmarks, config.usableVisibility, config.usablePresence),
+                    resolvedModel.retainedBuffer,
                 )
             } catch (error: MediaPipeAdapterException.ModelLoad) {
                 throw error
@@ -420,6 +422,42 @@ internal class MediaPipePoseEstimator private constructor(
             }
         }
     }
+}
+
+internal data class ResolvedModelOptions(
+    val baseOptions: BaseOptions,
+    val retainedBuffer: ByteBuffer?,
+)
+
+internal fun resolveModelOptions(
+    context: Context,
+    modelAssetPath: String,
+    modelFile: File?,
+    expectedModelSha256: String,
+): ResolvedModelOptions {
+    if (modelFile != null) {
+        require(modelFile.isFile) { "Pose model file does not exist: " + modelFile.absolutePath }
+        val actualSha = modelFile.inputStream().use(::sha256)
+        require(actualSha == expectedModelSha256) {
+            "Pose model SHA-256 mismatch: expected $expectedModelSha256, got $actualSha"
+        }
+        val mapped = FileInputStream(modelFile).channel.use { channel ->
+            channel.map(FileChannel.MapMode.READ_ONLY, 0L, channel.size())
+        }
+        return ResolvedModelOptions(
+            baseOptions = BaseOptions.builder().setModelAssetBuffer(mapped).build(),
+            retainedBuffer = mapped,
+        )
+    }
+
+    val actualSha = context.assets.open(modelAssetPath).use(::sha256)
+    require(actualSha == expectedModelSha256) {
+        "Pose model SHA-256 mismatch: expected $expectedModelSha256, got $actualSha"
+    }
+    return ResolvedModelOptions(
+        baseOptions = BaseOptions.builder().setModelAssetPath(modelAssetPath).build(),
+        retainedBuffer = null,
+    )
 }
 
 internal class PoseResultMapper(

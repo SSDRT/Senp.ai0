@@ -11,8 +11,11 @@ import android.content.Context
 import android.os.SystemClock
 
 /** Concrete, lifecycle-owned Android composition root used by headless validation. */
-internal class EngineComposition(context: Context) {
-    val videoPoseExtractor = AndroidVideoPoseExtractor(context)
+internal class EngineComposition(
+    context: Context,
+    modelFileProvider: (() -> java.io.File?)? = null,
+) {
+    val videoPoseExtractor = AndroidVideoPoseExtractor(context, modelFileProvider = modelFileProvider)
     val motionProcessor = CoreMotionProcessor()
     val phaseDetector = TimestampFirstPhaseDetector()
     val alignmentEngine = TimestampFirstAlignmentEngine()
