@@ -29,6 +29,11 @@ tasks.matching { it.name.startsWith("merge") && it.name.endsWith("AndroidTestAss
     dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
 }
 
+// Lint inspects the generated androidTest model asset outside mergeAndroidTestAssets.
+tasks.matching { it.name.contains("Lint") || it.name.startsWith("lintAnalyze") }.configureEach {
+    dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
+}
+
 kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_21) } }
 
 dependencies {

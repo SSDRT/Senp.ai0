@@ -2,6 +2,7 @@ package ai.senp.validation.ui.screens
 
 import ai.senp.validation.ui.SenpEngineViewModel
 import ai.senp.validation.ui.state.ConfigurationState
+import ai.senp.validation.ui.state.ReferenceProfileUiState
 import ai.senp.validation.ui.state.VideoSelectionState
 import ai.senp.validation.ui.theme.SenpBackground
 import ai.senp.validation.ui.theme.SenpBackgroundRaised
@@ -100,7 +101,7 @@ private val SenpBackdrop = Brush.verticalGradient(
 
 private val SenpAccent = Brush.horizontalGradient(listOf(SenpBlue, SenpViolet))
 
-private enum class VideoSlot { MASTER, USER }
+private enum class VideoSlot { REFERENCE, USER }
 
 private data class EditorRequest(val slot: VideoSlot, val uri: Uri)
 
@@ -115,6 +116,7 @@ fun ConfigurationScreen(
     val context = LocalContext.current
     val selectionState by viewModel.videoSelectionState.collectAsState()
     val configState by viewModel.configState.collectAsState()
+    val referenceProfileState by viewModel.referenceProfileState.collectAsState()
 
     var editorRequest by remember { mutableStateOf<EditorRequest?>(null) }
     var pendingGallerySlot by remember { mutableStateOf<VideoSlot?>(null) }
@@ -175,7 +177,7 @@ fun ConfigurationScreen(
             videoUri = request.uri,
             onSave = { editedUri ->
                 when (request.slot) {
-                    VideoSlot.MASTER -> viewModel.onSelectReferenceVideo(editedUri)
+                    VideoSlot.REFERENCE -> viewModel.onSelectReferenceVideo(editedUri)
                     VideoSlot.USER -> viewModel.onSelectSourceVideo(editedUri)
                 }
                 editorRequest = null
@@ -188,12 +190,13 @@ fun ConfigurationScreen(
     WorkspaceScreen(
         selectionState = selectionState,
         configState = configState,
+        referenceProfileState = referenceProfileState,
         showSettings = showSettings,
         onToggleSettings = { showSettings = !showSettings },
-        onPickMaster = { chooseFromGallery(VideoSlot.MASTER) },
+        onPickReference = { chooseFromGallery(VideoSlot.REFERENCE) },
         onPickUser = { chooseFromGallery(VideoSlot.USER) },
         onRecordUser = { chooseCamera() },
-        onEditMaster = { selectionState.referenceUri?.let { openEditor(VideoSlot.MASTER, it) } },
+        onEditReference = { selectionState.referenceUri?.let { openEditor(VideoSlot.REFERENCE, it) } },
         onEditUser = { selectionState.sourceUri?.let { openEditor(VideoSlot.USER, it) } },
         onUpdateFps = viewModel::updateTargetFps,
         onUpdateResolution = viewModel::updateLongEdgeCap,
@@ -256,7 +259,7 @@ private fun WelcomeScreen(onContinue: () -> Unit) {
             )
             Spacer(Modifier.height(28.dp))
             Text(
-                text = "Embark on your quest for evolution.\nCompare your form and transform your fitness life.",
+                text = "Embark on your quest for evolution.\nCompare your movement and transform your fitness life.",
                 color = SenpCream.copy(alpha = 0.88f),
                 fontSize = 15.sp,
                 lineHeight = 22.sp,
@@ -384,12 +387,13 @@ private fun ClassCard(
 private fun WorkspaceScreen(
     selectionState: VideoSelectionState,
     configState: ConfigurationState,
+    referenceProfileState: ReferenceProfileUiState,
     showSettings: Boolean,
     onToggleSettings: () -> Unit,
-    onPickMaster: () -> Unit,
+    onPickReference: () -> Unit,
     onPickUser: () -> Unit,
     onRecordUser: () -> Unit,
-    onEditMaster: () -> Unit,
+    onEditReference: () -> Unit,
     onEditUser: () -> Unit,
     onUpdateFps: (Int) -> Unit,
     onUpdateResolution: (Int) -> Unit,
@@ -418,32 +422,33 @@ private fun WorkspaceScreen(
         }
 
         Spacer(Modifier.height(30.dp))
-        Text("AWAKEN YOUR FORM", color = SenpCream, fontSize = 29.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.sp)
+        Text("AWAKEN YOUR MOVEMENT", color = SenpCream, fontSize = 29.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.sp)
         Text("Build a side-by-side study of your movement.", color = SenpMuted, fontSize = 15.sp, modifier = Modifier.padding(top = 7.dp))
 
         Spacer(Modifier.height(18.dp))
         ReferenceActionEntry(
             referenceSelected = selectionState.referenceUri != null,
+            referenceProfileState = referenceProfileState,
             onOpenLiveReference = onOpenLiveReference,
             onOpenLivePushUp = onOpenLivePushUp,
         )
 
         Spacer(Modifier.height(26.dp))
-        Eyebrow("01  MASTER VIDEO", "Your perfect form reference")
+        Eyebrow("01  REFERENCE VIDEO", "Your demonstrated movement reference")
         Spacer(Modifier.height(10.dp))
         if (selectionState.referenceUri == null) {
             UploadPanel(
-                title = "Add the master movement",
+                title = "Add the reference movement",
                 subtitle = "Upload a clean reference video",
-                action = "UPLOAD MASTER",
-                onClick = onPickMaster,
+                action = "UPLOAD REFERENCE",
+                onClick = onPickReference,
             )
         } else {
             VideoPreviewCard(
-                label = "MASTER FORM",
+                label = "REFERENCE MOVEMENT",
                 uri = selectionState.referenceUri,
                 accent = SenpBlueBright,
-                onEdit = onEditMaster,
+                onEdit = onEditReference,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -458,7 +463,7 @@ private fun WorkspaceScreen(
             }
         } else {
             VideoPreviewCard(
-                label = "YOUR FORM",
+                label = "YOUR MOVEMENT",
                 uri = selectionState.sourceUri,
                 accent = SenpViolet,
                 onEdit = onEditUser,
@@ -526,10 +531,27 @@ private fun WorkspaceScreen(
 @Composable
 private fun ReferenceActionEntry(
     referenceSelected: Boolean,
+    referenceProfileState: ReferenceProfileUiState,
     onOpenLiveReference: (() -> Unit)?,
     onOpenLivePushUp: () -> Unit,
 ) {
-    val liveReferenceEnabled = referenceSelected && onOpenLiveReference != null
+    val profileReady = referenceProfileState is ReferenceProfileUiState.Ready
+    val liveReferenceEnabled = profileReady && onOpenLiveReference != null
+    val statusText = when (referenceProfileState) {
+        ReferenceProfileUiState.Empty -> if (referenceSelected) "REFERENCE SELECTED" else "REFERENCE NEEDED"
+        is ReferenceProfileUiState.Preparing -> "PREPARING PROFILE"
+        is ReferenceProfileUiState.Ready -> "REFERENCE READY"
+        is ReferenceProfileUiState.Rejected -> "REFERENCE NOT READY"
+    }
+    val detailText = when (referenceProfileState) {
+        ReferenceProfileUiState.Empty -> "Choose a demonstrated movement. Senp derives a body-centric action profile before live comparison is enabled."
+        is ReferenceProfileUiState.Preparing -> referenceProfileState.message
+        is ReferenceProfileUiState.Ready -> {
+            val profile = referenceProfileState.profile
+            "Profile validated against the reference · ${profile.states.size} states · ${profile.referenceRepetitions} reference repetition${if (profile.referenceRepetitions == 1) "" else "s"} · ${(profile.confidence * 100).toInt()}% profile confidence."
+        }
+        is ReferenceProfileUiState.Rejected -> "This clip could not produce a reliable reference profile: ${referenceProfileState.message}"
+    }
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(22.dp),
@@ -550,15 +572,15 @@ private fun ReferenceActionEntry(
                     letterSpacing = 1.2.sp,
                 )
                 Text(
-                    if (referenceSelected) "REFERENCE SELECTED" else "REFERENCE NEEDED",
-                    color = if (referenceSelected) SenpCream else SenpMuted,
+                    statusText,
+                    color = if (profileReady) SenpCream else SenpMuted,
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 0.6.sp,
                 )
             }
             Text(
-                "Compare a recorded movement against the reference clip below. Live reference coaching stays locked until a prepared reference profile is available.",
+                detailText,
                 color = SenpMuted,
                 fontSize = 12.sp,
                 lineHeight = 18.sp,
@@ -579,6 +601,9 @@ private fun ReferenceActionEntry(
                 Text(
                     when {
                         !referenceSelected -> "SELECT A REFERENCE FIRST"
+                        referenceProfileState is ReferenceProfileUiState.Preparing -> "PREPARING REFERENCE…"
+                        referenceProfileState is ReferenceProfileUiState.Rejected -> "REFERENCE PROFILE UNAVAILABLE"
+                        !profileReady -> "PREPARE REFERENCE FIRST"
                         onOpenLiveReference == null -> "LIVE REFERENCE · UNAVAILABLE"
                         else -> "OPEN LIVE REFERENCE"
                     },

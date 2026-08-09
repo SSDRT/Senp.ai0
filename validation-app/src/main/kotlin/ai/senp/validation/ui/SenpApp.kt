@@ -42,6 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun SenpApp(
     viewModel: SenpEngineViewModel = viewModel(),
+    onOpenLiveReference: () -> Unit,
     onOpenLivePushUp: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -56,6 +57,7 @@ fun SenpApp(
                     ConfigurationScreen(
                         viewModel = viewModel,
                         onStartAnalysis = { viewModel.runAnalysis() },
+                        onOpenLiveReference = onOpenLiveReference,
                         onOpenLivePushUp = onOpenLivePushUp,
                     )
                 }
@@ -70,9 +72,14 @@ fun SenpApp(
 
                 is AnalysisUiState.Success -> {
                     AnalysisPlayerScreen(
-                        run = state.run,
                         sourceUri = state.sourceUri,
                         referenceUri = state.referenceUri,
+                        sourcePoseExtraction = state.sourcePoseExtraction,
+                        referencePoseExtraction = state.referencePoseExtraction,
+                        synchronizationRun = state.synchronizationRun,
+                        synchronizationFailure = state.synchronizationFailure,
+                        referenceAction = state.referenceAction,
+                        referenceActionMessage = state.referenceActionMessage,
                         onReset = { viewModel.resetAnalysis() },
                     )
                 }

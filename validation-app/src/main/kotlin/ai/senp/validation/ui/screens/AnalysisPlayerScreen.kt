@@ -1,12 +1,18 @@
 package ai.senp.validation.ui.screens
 
+import ai.senp.core.contracts.AnalysisFailure
 import ai.senp.core.contracts.MotionUnitCorrespondence
 import ai.senp.core.contracts.PoseFrame
 import ai.senp.core.contracts.PoseSequence
 import ai.senp.core.contracts.SynchronizationResult
 import ai.senp.core.contracts.SynchronizationStatus
+import ai.senp.core.contracts.VideoPoseExtraction
+import ai.senp.motion.ActionTrackingStatus
+import ai.senp.motion.PhaseTimingClass
 import ai.senp.sync.v2.VideoSynchronizationRun
+import ai.senp.validation.toReferenceCueLabel
 import ai.senp.validation.ui.components.DiagnosticsBottomSheet
+import ai.senp.validation.ui.state.ReferenceActionAnalysisUi
 import ai.senp.validation.ui.components.PoseLandmarkOverlay
 import ai.senp.validation.ui.theme.SenpBackground
 import ai.senp.validation.ui.theme.SenpBlue
@@ -94,9 +100,14 @@ private const val PLAY_REFERENCE = 3
 @OptIn(UnstableApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AnalysisPlayerScreen(
-    run: VideoSynchronizationRun,
     sourceUri: Uri,
     referenceUri: Uri,
+    sourcePoseExtraction: VideoPoseExtraction,
+    referencePoseExtraction: VideoPoseExtraction,
+    synchronizationRun: VideoSynchronizationRun?,
+    synchronizationFailure: AnalysisFailure?,
+    referenceAction: ReferenceActionAnalysisUi?,
+    referenceActionMessage: String?,
     onReset: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -127,28 +138,34 @@ fun AnalysisPlayerScreen(
     var skeletonVisible by remember { mutableStateOf(true) }
     var showDiagnostics by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val synchronization = run.synchronization.result
-    val sourcePoses = run.sourcePoseExtraction.poses
-    val referencePoses = run.referencePoseExtraction.poses
-    val playbackMapping = remember(synchronization) { synchronization.playbackMapping() }
-    val totalDuration = run.sourcePoseExtraction.duration.value.coerceAtLeast(1L)
-    val referenceDuration = run.referencePoseExtraction.duration.value.coerceAtLeast(1L)
-    val matchedUnitCount = synchronization.correspondences.count { it is MotionUnitCorrespondence.MatchedUnit }
-    val unmatchedUnitCount = synchronization.correspondences.count {
+    val synchronization = synchronizationRun?.synchronization?.result
+    val sourcePoses = sourcePoseExtraction.poses
+    val referencePoses = referencePoseExtraction.poses
+    val playbackMapping = remember(synchronization) {
+        synchronization?.playbackMapping() ?: PlaybackMapping(emptyList())
+    }
+    val totalDuration = sourcePoseExtraction.duration.value.coerceAtLeast(1L)
+    val referenceDuration = referencePoseExtraction.duration.value.coerceAtLeast(1L)
+    val matchedUnitCount = synchronization?.correspondences?.count { it is MotionUnitCorrespondence.MatchedUnit } ?: 0
+    val unmatchedUnitCount = synchronization?.correspondences?.count {
         it is MotionUnitCorrespondence.SourceUnmatchedUnit || it is MotionUnitCorrespondence.ReferenceUnmatchedUnit
+    } ?: 0
+    val synchronizationPending = synchronizationRun == null && synchronizationFailure == null
+    val statusAccent = when {
+        synchronizationPending -> SenpBlueBright
+        synchronization?.status == SynchronizationStatus.SYNCHRONIZED -> SenpSuccess
+        synchronization?.status == SynchronizationStatus.PARTIAL -> SenpWarning
+        synchronization?.status == SynchronizationStatus.REFUSED -> SenpError
+        else -> SenpWarning
     }
-    val statusAccent = when (synchronization.status) {
-        SynchronizationStatus.SYNCHRONIZED -> SenpSuccess
-        SynchronizationStatus.PARTIAL -> SenpWarning
-        SynchronizationStatus.REFUSED -> SenpError
-    }
-    val statusLabel = when (synchronization.status) {
-        SynchronizationStatus.SYNCHRONIZED -> "FULL"
-        SynchronizationStatus.PARTIAL -> "PARTIAL"
-        SynchronizationStatus.REFUSED -> "REFUSED"
+    val statusLabel = when {
+        synchronizationPending -> "CHECKING"
+        synchronization?.status == SynchronizationStatus.SYNCHRONIZED -> "FULL"
+        synchronization?.status == SynchronizationStatus.PARTIAL -> "PARTIAL"
+        synchronization?.status == SynchronizationStatus.REFUSED -> "REFUSED"
+        else -> "OPTIONAL"
     }
     val stackVideos = sourceAspectRatio >= 1.2f || referenceAspectRatio >= 1.2f
-
     DisposableEffect(sourcePlayer) {
         val listener = object : Player.Listener {
             override fun onVideoSizeChanged(videoSize: VideoSize) {
@@ -289,22 +306,27 @@ fun AnalysisPlayerScreen(
             Spacer(Modifier.height(16.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Column {
-                    Text("SYNC-V2 COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
-                    Text("Motion correspondence", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
+                    Text("ANALYSIS COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+                    Text("Movement comparison", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
                 }
-                OutlinedButton(
-                    onClick = { showDiagnostics = true },
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-                    modifier = Modifier.height(34.dp),
-                    border = BorderStroke(1.dp, SenpBorder),
-                    colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpBlueBright),
-                    shape = RoundedCornerShape(10.dp),
-                ) { Text("EXTRACTS", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                if (synchronizationRun != null) {
+                    OutlinedButton(
+                        onClick = { showDiagnostics = true },
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        modifier = Modifier.height(34.dp),
+                        border = BorderStroke(1.dp, SenpBorder),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpBlueBright),
+                        shape = RoundedCornerShape(10.dp),
+                    ) { Text("EXTRACTS", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                }
             }
 
             Spacer(Modifier.height(22.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                StatPill("SYNC", "${(synchronization.diagnostics.overallConfidence * 100).toInt()}%", SenpBlueBright, Modifier.weight(1f))
+                val syncConfidence = synchronization?.diagnostics?.overallConfidence
+                    ?.let { "${(it * 100).toInt()}%" }
+                    ?: "—"
+                StatPill("SYNC", syncConfidence, SenpBlueBright, Modifier.weight(1f))
                 StatPill("STATUS", statusLabel, statusAccent, Modifier.weight(1f))
                 StatPill("MATCHES", playbackMapping.pointCount.toString(), SenpViolet, Modifier.weight(1f))
             }
@@ -330,7 +352,7 @@ fun AnalysisPlayerScreen(
             if (stackVideos) {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     ComparisonVideoTile(
-                        title = "YOUR FORM",
+                        title = "YOUR MOVEMENT",
                         subtitle = "Candidate",
                         player = sourcePlayer,
                         poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentSourcePositionMs, sourcePoses) else null,
@@ -339,7 +361,7 @@ fun AnalysisPlayerScreen(
                         modifier = Modifier.fillMaxWidth(),
                     )
                     ComparisonVideoTile(
-                        title = "MASTER FORM",
+                        title = "REFERENCE MOVEMENT",
                         subtitle = "Reference",
                         player = referencePlayer,
                         poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
@@ -354,7 +376,7 @@ fun AnalysisPlayerScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     ComparisonVideoTile(
-                        title = "YOUR FORM",
+                        title = "YOUR MOVEMENT",
                         subtitle = "Candidate",
                         player = sourcePlayer,
                         poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentSourcePositionMs, sourcePoses) else null,
@@ -363,7 +385,7 @@ fun AnalysisPlayerScreen(
                         modifier = Modifier.width(184.dp),
                     )
                     ComparisonVideoTile(
-                        title = "MASTER FORM",
+                        title = "REFERENCE MOVEMENT",
                         subtitle = "Reference",
                         player = referencePlayer,
                         poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
@@ -375,7 +397,7 @@ fun AnalysisPlayerScreen(
             }
 
             Spacer(Modifier.height(12.dp))
-            AiAnalysisSlot()
+            ReferenceActionAnalysisSlot(referenceAction, referenceActionMessage)
 
             Spacer(Modifier.height(16.dp))
             Card(
@@ -436,7 +458,7 @@ fun AnalysisPlayerScreen(
                             enabled = playbackMapping.supportsSource(currentSourcePositionMs),
                         ) { toggle(PLAY_BOTH) }
                         PlaybackButton("▶ YOU", playbackMode == PLAY_SOURCE, SenpViolet, Modifier.weight(1f)) { toggle(PLAY_SOURCE) }
-                        PlaybackButton("▶ MASTER", playbackMode == PLAY_REFERENCE, SenpBlueBright, Modifier.weight(1f)) { toggle(PLAY_REFERENCE) }
+                        PlaybackButton("▶ REFERENCE", playbackMode == PLAY_REFERENCE, SenpBlueBright, Modifier.weight(1f)) { toggle(PLAY_REFERENCE) }
                     }
                 }
             }
@@ -445,21 +467,44 @@ fun AnalysisPlayerScreen(
             Text("SYNC DECISIONS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
             Text("Correspondence and refusal decisions from Synchronization Kernel v2", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
             Spacer(Modifier.height(11.dp))
-            if (synchronization.status == SynchronizationStatus.REFUSED) {
-                ExtractCard(
-                    title = "CORRESPONDENCE REFUSED",
-                    detail = synchronization.refusal?.message ?: "The available motion evidence was not reliable enough to synchronize.",
-                    value = synchronization.refusal?.reason?.name ?: "REFUSED",
-                    accent = SenpError,
-                )
-            } else {
-                ExtractCard(
-                    title = "MATCHED MOTION",
-                    detail = "$matchedUnitCount matched units · $unmatchedUnitCount unmatched units · ${playbackMapping.pointCount} timestamp decisions",
-                    value = "${(synchronization.diagnostics.correspondenceConfidence * 100).toInt()}%",
-                    accent = statusAccent,
-                    extra = "Source coverage ${(synchronization.diagnostics.sourceAnalyzableFraction * 100).toInt()}% · Reference ${(synchronization.diagnostics.referenceAnalyzableFraction * 100).toInt()}%",
-                )
+            when {
+                synchronizationPending -> {
+                    ExtractCard(
+                        title = "CHECKING OPTIONAL CORRESPONDENCE",
+                        detail = "Reference-action recognition is already available while Sync-v2 checks whether synchronized playback can be supported.",
+                        value = "ACTION READY",
+                        accent = SenpBlueBright,
+                        extra = "The action result above does not depend on whole-video alignment.",
+                    )
+                }
+                synchronization == null -> {
+                    ExtractCard(
+                        title = "CORRESPONDENCE UNAVAILABLE",
+                        detail = synchronizationFailure?.message
+                            ?: "Sync-v2 correspondence was unavailable, but reference-action recognition completed independently.",
+                        value = "OPTIONAL",
+                        accent = SenpWarning,
+                        extra = "The action result above does not depend on whole-video alignment.",
+                    )
+                }
+                synchronization.status == SynchronizationStatus.REFUSED -> {
+                    ExtractCard(
+                        title = "CORRESPONDENCE REFUSED",
+                        detail = synchronization.refusal?.message ?: "The available motion evidence was not reliable enough to synchronize.",
+                        value = synchronization.refusal?.reason?.name ?: "REFUSED",
+                        accent = SenpError,
+                        extra = "Reference-action recognition remains independent of this correspondence decision.",
+                    )
+                }
+                else -> {
+                    ExtractCard(
+                        title = "MATCHED MOTION",
+                        detail = "$matchedUnitCount matched units · $unmatchedUnitCount unmatched units · ${playbackMapping.pointCount} timestamp decisions",
+                        value = "${(synchronization.diagnostics.correspondenceConfidence * 100).toInt()}%",
+                        accent = statusAccent,
+                        extra = "Source coverage ${(synchronization.diagnostics.sourceAnalyzableFraction * 100).toInt()}% · Reference ${(synchronization.diagnostics.referenceAnalyzableFraction * 100).toInt()}%",
+                    )
+                }
             }
 
             Card(
@@ -470,11 +515,11 @@ fun AnalysisPlayerScreen(
                 Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
                         Text("SYNC TRACE", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                        Text(synchronization.status.name, color = statusAccent, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 5.dp))
+                        Text(synchronization?.status?.name ?: "UNAVAILABLE", color = statusAccent, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 5.dp))
                     }
                     Column(horizontalAlignment = Alignment.End) {
                         Text("${playbackMapping.pointCount} mapped points", color = SenpCream, fontSize = 13.sp)
-                        Text("${run.sourcePoseExtraction.diagnostics.sampledFrameCount} + ${run.referencePoseExtraction.diagnostics.sampledFrameCount} frames", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 5.dp))
+                        Text("${sourcePoseExtraction.diagnostics.sampledFrameCount} + ${referencePoseExtraction.diagnostics.sampledFrameCount} frames", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 5.dp))
                     }
                 }
             }
@@ -490,25 +535,97 @@ fun AnalysisPlayerScreen(
         }
     }
 
-    if (showDiagnostics) {
-        DiagnosticsBottomSheet(run = run, sheetState = sheetState, onDismiss = { showDiagnostics = false })
+    if (showDiagnostics && synchronizationRun != null) {
+        DiagnosticsBottomSheet(run = synchronizationRun, sheetState = sheetState, onDismiss = { showDiagnostics = false })
     }
 }
 
 @Composable
-private fun AiAnalysisSlot() {
+private fun ReferenceActionAnalysisSlot(
+    analysis: ReferenceActionAnalysisUi?,
+    unavailableMessage: String?,
+) {
+    val recognition = analysis?.recognition
+    val statusLabel = when (recognition?.finalStatus) {
+        ActionTrackingStatus.COMPLETED -> "ACTION RECOGNIZED"
+        ActionTrackingStatus.NO_ACTION -> "NO ACTION MATCH"
+        ActionTrackingStatus.LOST, ActionTrackingStatus.POSSIBLE_ENTRY, ActionTrackingStatus.TRACKING -> "UNCERTAIN"
+        null -> "REFERENCE ACTION UNAVAILABLE"
+    }
+    val accent = when (recognition?.finalStatus) {
+        ActionTrackingStatus.COMPLETED -> SenpSuccess
+        ActionTrackingStatus.NO_ACTION -> SenpWarning
+        else -> SenpBlueBright
+    }
+    val persistent = analysis?.deviations
+        ?.filter { it.persistenceCandidate }
+        ?.distinctBy { it.stateId to it.feature }
+        ?.sortedByDescending { it.normalizedDeviation * it.confidence }
+        .orEmpty()
+    val timing = recognition?.estimates
+        ?.mapNotNull { it.timing }
+        ?.lastOrNull { it.confidence >= 0.45 }
     Card(
-        modifier = Modifier.fillMaxWidth().height(156.dp),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = SenpSurface.copy(alpha = 0.56f)),
-        border = BorderStroke(1.dp, SenpBorder.copy(alpha = 0.72f)),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface.copy(alpha = 0.76f)),
+        border = BorderStroke(1.dp, accent.copy(alpha = 0.72f)),
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(18.dp),
-            verticalArrangement = Arrangement.Center,
-        ) {
-            Text("FORM ANALYSIS", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-            Text("Synchronization aligns reliable moments; coaching and form scoring stay separate so uncertain motion is never presented as a verdict.", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 8.dp))
+        Column(modifier = Modifier.fillMaxWidth().padding(18.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text("REFERENCE ACTION", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
+                Text(statusLabel, color = accent, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.6.sp)
+            }
+            if (analysis == null || recognition == null) {
+                Text(
+                    unavailableMessage ?: "The reference did not produce enough reliable body-centric motion evidence for action comparison.",
+                    color = SenpMuted,
+                    fontSize = 13.sp,
+                    lineHeight = 18.sp,
+                    modifier = Modifier.padding(top = 8.dp),
+                )
+                return@Column
+            }
+            Text(
+                "Recognized independently of absolute clip start time. ${(recognition.trackedFraction * 100).toInt()}% of candidate samples were confidently tracked through the reference-derived state sequence.",
+                color = SenpMuted,
+                fontSize = 12.sp,
+                lineHeight = 18.sp,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+            Row(Modifier.fillMaxWidth().padding(top = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                StatPill("STATES", analysis.profile.states.size.toString(), SenpBlueBright, Modifier.weight(1f))
+                StatPill("REPS", "${recognition.completedRepetitions}/${analysis.profile.referenceRepetitions}", SenpViolet, Modifier.weight(1f))
+                StatPill("TRACKED", "${(recognition.trackedFraction * 100).toInt()}%", accent, Modifier.weight(1f))
+            }
+            if (persistent.isNotEmpty()) {
+                Text("PERSISTENT DIFFERENCES", color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp, modifier = Modifier.padding(top = 14.dp))
+                persistent.take(2).forEach { deviation ->
+                    Text(
+                        "• ${deviation.toReferenceCueLabel()} · ${(deviation.confidence * 100).toInt()}% evidence",
+                        color = SenpCream,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 6.dp),
+                    )
+                }
+            } else if (recognition.finalStatus == ActionTrackingStatus.COMPLETED) {
+                Text("No persistent reference-relative geometry difference cleared the confidence gates.", color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 12.dp))
+            }
+            if (timing != null) {
+                val timingLabel = when (timing.classification) {
+                    PhaseTimingClass.FASTER -> "faster than this reference phase"
+                    PhaseTimingClass.WITHIN_REFERENCE_RANGE -> "within this reference phase range"
+                    PhaseTimingClass.SLOWER -> "slower than this reference phase"
+                }
+                Text("Latest phase timing: $timingLabel.", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 9.dp))
+            }
+            Text(
+                "This is similarity to the selected demonstration, not a universal biomechanics or medical correctness score.",
+                color = SenpMuted.copy(alpha = 0.82f),
+                fontSize = 10.sp,
+                lineHeight = 15.sp,
+                modifier = Modifier.padding(top = 12.dp),
+            )
         }
     }
 }
