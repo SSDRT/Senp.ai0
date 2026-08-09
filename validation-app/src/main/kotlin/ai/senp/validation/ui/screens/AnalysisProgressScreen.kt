@@ -27,6 +27,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -63,21 +68,39 @@ fun AnalysisProgressScreen(
         }
     }
     val backendPercent = progressPercent.coerceIn(0f, 1f) * 100f
-    val visiblePercent = if (backendPercent >= 99f) 100f else max(simulatedPercent, backendPercent)
+    // Keep the simulated ramp honest: only the pipeline can advance the final percent.
+    val visiblePercent = if (backendPercent >= 100f) 100f else max(simulatedPercent, backendPercent).coerceAtMost(99f)
     val pulseTransition = rememberInfiniteTransition(label = "loadingPulse")
     val pulse by pulseTransition.animateFloat(0.45f, 1f, infiniteRepeatable(tween(850), RepeatMode.Reverse), label = "pulse")
+    val loaderComposition by rememberLottieComposition(
+        LottieCompositionSpec.Asset("analysis_loader.json"),
+    )
+    val loaderProgress by animateLottieCompositionAsState(
+        composition = loaderComposition,
+        iterations = LottieConstants.IterateForever,
+        speed = 1f,
+    )
 
     Column(
         Modifier.fillMaxSize().background(SenpPageBackdrop).padding(horizontal = 18.dp, vertical = 16.dp),
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text("<", color = SenpCream, fontSize = 25.sp, modifier = Modifier.size(40.dp).clickable { onBack() })
+            Text("BACK", color = SenpCream, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp,
+                modifier = Modifier.clip(RoundedCornerShape(7.dp)).background(SenpSurface).clickable { onBack() }.padding(horizontal = 10.dp, vertical = 9.dp))
             Text("ANALYSIS", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.6.sp)
         }
-        Spacer(Modifier.height(36.dp))
+        Spacer(Modifier.height(22.dp))
         Text("ANALYSING", color = SenpCream, fontSize = 28.sp, fontWeight = FontWeight.Bold)
         Text(statusMessage, color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 7.dp))
         Spacer(Modifier.weight(1f))
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            LottieAnimation(
+                composition = loaderComposition,
+                progress = { loaderProgress },
+                modifier = Modifier.size(156.dp),
+            )
+        }
+        Spacer(Modifier.height(8.dp))
         Box(Modifier.fillMaxWidth().height(1.dp).background(SenpBorder))
         Spacer(Modifier.height(24.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {

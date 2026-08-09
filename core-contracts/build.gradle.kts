@@ -10,7 +10,7 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
     compilerOptions {
         allWarningsAsErrors.set(true)
     }

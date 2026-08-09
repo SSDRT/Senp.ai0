@@ -180,6 +180,11 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                     extraction = referenceExtraction,
                     analysisFramesPerSecond = analysisFramesPerSecond,
                 )
+                _uiState.value = AnalysisUiState.Analyzing(
+                    activeStage = PipelineStageId.MOTION_REFERENCE,
+                    progressPercent = 0.82f,
+                    statusMessage = "Building the movement reference…",
+                )
                 val referenceAction: ReferenceActionAnalysisUi?
                 val referenceActionMessage: String?
                 when (prepared) {
@@ -232,8 +237,11 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                     referenceAction = referenceAction,
                     referenceActionMessage = referenceActionMessage,
                 )
-                withContext(Dispatchers.Main) { _uiState.value = actionReadyState }
-
+                _uiState.value = AnalysisUiState.Analyzing(
+                    activeStage = PipelineStageId.ALIGNMENT,
+                    progressPercent = 0.88f,
+                    statusMessage = "Comparing both movements…",
+                )
                 val assembled = assembleRecordedComparisonCatching(referenceAction to referenceActionMessage) {
                     composition.synchronizationPipeline.synchronize(
                         VideoSynchronizationRequest(
@@ -250,6 +258,13 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                     referenceAction = assembled.actionResult.first,
                     referenceActionMessage = assembled.actionResult.second,
                 )
+                _uiState.value = AnalysisUiState.Analyzing(
+                    activeStage = PipelineStageId.CACHE_WRITE,
+                    progressPercent = 1f,
+                    statusMessage = "Analysis complete",
+                )
+                // Let the final frame, progress bar, and loader visibly settle together.
+                delay(420L)
                 withContext(Dispatchers.Main) { _uiState.value = nextState }
             } catch (cancelled: CancellationException) {
                 throw cancelled

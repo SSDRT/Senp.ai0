@@ -76,6 +76,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -151,6 +152,9 @@ fun AnalysisPlayerScreen(
     }
     val totalDuration = sourcePoseExtraction.duration.value.coerceAtLeast(1L)
     val referenceDuration = referencePoseExtraction.duration.value.coerceAtLeast(1L)
+    fun referencePositionForSource(positionMs: Long): Long =
+        playbackMapping.sourceToReference(positionMs)
+            ?: ((positionMs.toDouble() / totalDuration.toDouble()) * referenceDuration.toDouble()).toLong()
     val matchedUnitCount = synchronization?.correspondences?.count { it is MotionUnitCorrespondence.MatchedUnit } ?: 0
     val unmatchedUnitCount = synchronization?.correspondences?.count {
         it is MotionUnitCorrespondence.SourceUnmatchedUnit || it is MotionUnitCorrespondence.ReferenceUnmatchedUnit
@@ -179,6 +183,19 @@ fun AnalysisPlayerScreen(
         synchronization?.status == SynchronizationStatus.PARTIAL -> "PARTIAL"
         synchronization?.status == SynchronizationStatus.REFUSED -> "REFUSED"
         else -> "OPTIONAL"
+    }
+    val liveSkeletonColor = when {
+        synchronization?.status == SynchronizationStatus.REFUSED -> SenpError
+        synchronizationPending -> SenpWarning
+        else -> {
+            val targetReference = referencePositionForSource(currentSourcePositionMs).coerceIn(0L, referenceDuration)
+            val drift = abs(targetReference - currentReferencePositionMs)
+            when {
+                drift <= 260L -> SenpSuccess
+                drift <= 800L -> SenpWarning
+                else -> SenpError
+            }
+        }
     }
     val stackVideos = sourceAspectRatio >= 1.2f || referenceAspectRatio >= 1.2f
     DisposableEffect(sourcePlayer) {
@@ -219,9 +236,19 @@ fun AnalysisPlayerScreen(
 
                 when (playbackMode) {
                     PLAY_BOTH -> {
-                        // Both mode is a simple dual transport. Correspondence remains
-                        // available for metrics, but never drives seeks or speed correction.
                         currentSourcePositionMs = sourcePlayer.currentPosition.coerceAtLeast(0L)
+                        val targetReference = referencePositionForSource(currentSourcePositionMs)
+                            .coerceIn(0L, referenceDuration)
+                        val referencePosition = referencePlayer.currentPosition.coerceAtLeast(0L)
+                        val drift = targetReference - referencePosition
+                        if (abs(drift) > 900L) referencePlayer.seekTo(targetReference)
+                        referencePlayer.setPlaybackSpeed(
+                            when {
+                                drift > 140L -> 1.03f
+                                drift < -140L -> 0.97f
+                                else -> 1.0f
+                            },
+                        )
                         currentReferencePositionMs = referencePlayer.currentPosition.coerceAtLeast(0L)
                     }
                     PLAY_SOURCE -> {
@@ -246,30 +273,31 @@ fun AnalysisPlayerScreen(
     }
 
     fun start(mode: Int) {
+        sourcePlayer.pause()
+        referencePlayer.pause()
         playbackMode = mode
         when (mode) {
             PLAY_BOTH -> {
+                sourcePlayer.seekTo(0L)
+                referencePlayer.seekTo(referencePositionForSource(0L).coerceIn(0L, referenceDuration))
+                currentSourcePositionMs = 0L
+                currentReferencePositionMs = referencePlayer.currentPosition.coerceAtLeast(0L)
                 sourcePlayer.setPlaybackSpeed(1.0f)
                 referencePlayer.setPlaybackSpeed(1.0f)
                 sourcePlayer.play()
                 referencePlayer.play()
             }
             PLAY_SOURCE -> {
-                if (sourcePlayer.playbackState == Player.STATE_ENDED) {
-                    sourcePlayer.seekTo(0L)
-                    currentSourcePositionMs = 0L
-                }
+                sourcePlayer.seekTo(0L)
+                currentSourcePositionMs = 0L
                 sourcePlayer.setPlaybackSpeed(1.0f)
                 referencePlayer.setPlaybackSpeed(1.0f)
                 sourcePlayer.play()
                 referencePlayer.pause()
             }
             PLAY_REFERENCE -> {
-                sourcePlayer.pause()
-                if (referencePlayer.playbackState == Player.STATE_ENDED) {
-                    referencePlayer.seekTo(0L)
-                    currentReferencePositionMs = 0L
-                }
+                referencePlayer.seekTo(0L)
+                currentReferencePositionMs = 0L
                 sourcePlayer.setPlaybackSpeed(1.0f)
                 referencePlayer.setPlaybackSpeed(1.0f)
                 referencePlayer.play()
@@ -278,7 +306,8 @@ fun AnalysisPlayerScreen(
     }
 
     fun toggle(mode: Int) {
-        if (playbackMode == mode) pauseAll() else start(mode)
+        // Every transport press is an explicit replay from the beginning.
+        start(mode)
     }
 
     LaunchedEffect(showRawData) {
@@ -317,9 +346,16 @@ fun AnalysisPlayerScreen(
                 Text(
                     "←",
                     color = SenpCream,
-                    fontSize = 28.sp,
-                    modifier = Modifier.size(42.dp).clip(CircleShape).clickable { onBack() },
+                    fontSize = 10.sp,
+                    modifier = Modifier.size(0.dp),
                 )
+                Button(
+                    onClick = onBack,
+                    modifier = Modifier.height(36.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = SenpSurfaceRaised, contentColor = SenpCream),
+                    shape = RoundedCornerShape(9.dp),
+                ) { Text("BACK", fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp) }
                 Column {
                     Text("ANALYSIS COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
                     Text("Movement comparison", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
@@ -355,6 +391,7 @@ fun AnalysisPlayerScreen(
                          onSkeletonChanged = { sourceSkeletonVisible = it },
                         videoAspectRatio = sourceAspectRatio,
                         accent = SenpViolet,
+                        skeletonColor = liveSkeletonColor,
                         modifier = Modifier.fillMaxWidth(),
                     )
                     ComparisonVideoTile(
@@ -366,6 +403,7 @@ fun AnalysisPlayerScreen(
                          onSkeletonChanged = { referenceSkeletonVisible = it },
                         videoAspectRatio = referenceAspectRatio,
                         accent = SenpBlueBright,
+                        skeletonColor = SenpCream,
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
@@ -383,6 +421,7 @@ fun AnalysisPlayerScreen(
                          onSkeletonChanged = { sourceSkeletonVisible = it },
                         videoAspectRatio = sourceAspectRatio,
                         accent = SenpViolet,
+                        skeletonColor = liveSkeletonColor,
                          modifier = Modifier.weight(1f),
                     )
                     ComparisonVideoTile(
@@ -394,6 +433,7 @@ fun AnalysisPlayerScreen(
                          onSkeletonChanged = { referenceSkeletonVisible = it },
                         videoAspectRatio = referenceAspectRatio,
                         accent = SenpBlueBright,
+                        skeletonColor = SenpCream,
                          modifier = Modifier.weight(1f),
                     )
                 }
@@ -425,6 +465,7 @@ fun AnalysisPlayerScreen(
                         )
                     }
                     Slider(
+                        modifier = Modifier.height(24.dp),
                         value = currentTimelinePosition(playbackMode, currentSourcePositionMs, currentReferencePositionMs)
                             .toFloat()
                             .coerceIn(0f, activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat()),
@@ -437,7 +478,7 @@ fun AnalysisPlayerScreen(
                                 currentSourcePositionMs = selected
                                 sourcePlayer.seekTo(selected)
                                 if (playbackMode == PLAY_BOTH) {
-                                    currentReferencePositionMs = selected.coerceIn(0L, referenceDuration)
+                                    currentReferencePositionMs = referencePositionForSource(selected).coerceIn(0L, referenceDuration)
                                     referencePlayer.seekTo(currentReferencePositionMs)
                                 }
                             }
@@ -507,9 +548,9 @@ private fun HighlightedExtractions(
         }
         Spacer(Modifier.height(9.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(7.dp)) {
-            ExtractionBadge("MATCH", "${(matchingPercentage * 100).toInt()}%", matchColor, Modifier.weight(1f))
+            ExtractionBadge("MOVEMENT MATCH", "${(matchingPercentage * 100).toInt()}%", matchColor, Modifier.weight(1f))
             ExtractionBadge("ANGLE", angleDifferenceDegrees?.let { "${formatDecimal(it)}°" } ?: "—", angleColor, Modifier.weight(1f))
-            ExtractionBadge("FRAMES", frameCount.toString(), SenpCream, Modifier.weight(1f))
+            ExtractionBadge("FRAMES ANALYSED", frameCount.toString(), SenpCream, Modifier.weight(1f))
         }
     }
 }
@@ -544,32 +585,32 @@ private fun RawDataScreen(
             Text("<", color = SenpCream, fontSize = 25.sp, modifier = Modifier.size(40.dp).clickable { onBack() })
             Column {
                 Text("RAW DATA", color = SenpCream, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                Text("ANALYSIS OUTPUT", color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.3.sp)
+                Text("MEASURED RESULTS", color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.3.sp)
             }
         }
         Spacer(Modifier.height(24.dp))
-        RawDataCard("HIGHLIGHTS") {
-            RawValueRow("MATCHING PERCENTAGE", "${(matchingPercentage * 100).toInt()}%", if (matchingPercentage >= 0.8) SenpSuccess else SenpError)
-            RawValueRow("ANGLE DIFFERENCE", angleDifferenceDegrees?.let { "${formatDecimal(it)}°" } ?: "—", if ((angleDifferenceDegrees ?: 0.0) <= 10.0) SenpSuccess else SenpError)
+        RawDataCard("KEY RESULTS") {
+            RawValueRow("Movement match", "${(matchingPercentage * 100).toInt()}%", if (matchingPercentage >= 0.8) SenpSuccess else SenpError)
+            RawValueRow("Average angle difference", angleDifferenceDegrees?.let { "${formatDecimal(it)} degrees" } ?: "Not available", if ((angleDifferenceDegrees ?: 0.0) <= 10.0) SenpSuccess else SenpError)
         }
         Spacer(Modifier.height(10.dp))
-        RawDataCard("VIDEO FRAMES") {
-            RawValueRow("YOUR VIDEO", sourceFrameCount.toString(), SenpCream)
-            RawValueRow("MASTER VIDEO", referenceFrameCount.toString(), SenpCream)
+        RawDataCard("FRAME COUNTS") {
+            RawValueRow("Your video frames", sourceFrameCount.toString(), SenpCream)
+            RawValueRow("Master video frames", referenceFrameCount.toString(), SenpCream)
         }
         Spacer(Modifier.height(10.dp))
-        RawDataCard("CORRESPONDENCE") {
-            RawValueRow("STATUS", when {
+        RawDataCard("TIMING QUALITY") {
+            RawValueRow("Sync status", when {
                 synchronizationPending -> "CHECKING"
                 synchronization == null -> "UNAVAILABLE"
                 else -> synchronization.status.name
             }, if (synchronization?.status == SynchronizationStatus.SYNCHRONIZED) SenpSuccess else SenpCream)
-            RawValueRow("MATCHED UNITS", matchedUnitCount.toString(), SenpCream)
-            RawValueRow("UNMATCHED UNITS", unmatchedUnitCount.toString(), if (unmatchedUnitCount == 0) SenpSuccess else SenpError)
-            RawValueRow("TIMELINE POINTS", playbackMapping.pointCount.toString(), SenpCream)
+            RawValueRow("Matched movement sections", matchedUnitCount.toString(), SenpCream)
+            RawValueRow("Unmatched sections", unmatchedUnitCount.toString(), if (unmatchedUnitCount == 0) SenpSuccess else SenpError)
+            RawValueRow("Playback alignment points", playbackMapping.pointCount.toString(), SenpCream)
             synchronization?.let {
-                RawValueRow("SOURCE COVERAGE", "${(it.diagnostics.sourceAnalyzableFraction * 100).toInt()}%", SenpCream)
-                RawValueRow("MASTER COVERAGE", "${(it.diagnostics.referenceAnalyzableFraction * 100).toInt()}%", SenpCream)
+                RawValueRow("Your video coverage", "${(it.diagnostics.sourceAnalyzableFraction * 100).toInt()}%", SenpCream)
+                RawValueRow("Master video coverage", "${(it.diagnostics.referenceAnalyzableFraction * 100).toInt()}%", SenpCream)
             }
             synchronizationFailure?.let { RawValueRow("ERROR", it.message, SenpError) }
         }
@@ -707,6 +748,7 @@ private fun ComparisonVideoTile(
     onSkeletonChanged: (Boolean) -> Unit,
     videoAspectRatio: Float,
     accent: Color,
+    skeletonColor: Color,
     modifier: Modifier,
 ) {
     Card(
@@ -726,11 +768,11 @@ private fun ComparisonVideoTile(
                     Text(subtitle, color = SenpMuted, fontSize = 9.sp, modifier = Modifier.padding(top = 2.dp))
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("SKELETON", color = SenpMuted, fontSize = 8.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
+                    Text("SKEL", color = SenpMuted, fontSize = 7.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.4.sp)
                     Switch(
                         checked = skeletonVisible,
                         onCheckedChange = onSkeletonChanged,
-                        modifier = Modifier.padding(start = 2.dp),
+                        modifier = Modifier.padding(start = 1.dp).scale(0.68f),
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = Color.White,
                             checkedTrackColor = accent,
@@ -753,7 +795,7 @@ private fun ComparisonVideoTile(
                 PoseLandmarkOverlay(
                     poseFrame = poseFrame,
                     videoAspectRatio = videoAspectRatio,
-                    lineColor = accent,
+                    lineColor = skeletonColor,
                     jointColor = Color.White,
                 )
             }

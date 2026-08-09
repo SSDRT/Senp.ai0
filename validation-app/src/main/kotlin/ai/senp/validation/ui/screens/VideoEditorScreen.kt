@@ -1,5 +1,6 @@
 package ai.senp.validation.ui.screens
 
+import ai.senp.validation.R
 import ai.senp.validation.ui.theme.SenpBackground
 import ai.senp.validation.ui.theme.SenpBackgroundRaised
 import ai.senp.validation.ui.theme.SenpBlue
@@ -7,40 +8,44 @@ import ai.senp.validation.ui.theme.SenpBlueBright
 import ai.senp.validation.ui.theme.SenpCream
 import ai.senp.validation.ui.theme.SenpMuted
 import ai.senp.validation.ui.theme.SenpPageBackdrop
+import ai.senp.validation.ui.theme.SenpSurface
 import ai.senp.validation.ui.theme.SenpSurfaceRaised
 import android.content.Context
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.widget.Toast
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.annotation.OptIn
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -59,12 +64,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -84,7 +92,6 @@ import androidx.media3.transformer.ExportResult
 import androidx.media3.transformer.Transformer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import ai.senp.validation.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -93,7 +100,7 @@ import java.io.File
 import java.util.UUID
 import kotlin.math.abs
 
-private enum class EditorMode { TRIM, CROP }
+private enum class EditorMode { CROP, TRIM }
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -117,6 +124,7 @@ fun VideoEditorScreen(
     var cropBottom by remember { mutableFloatStateOf(1f) }
     var cropZoom by rememberSaveable { mutableFloatStateOf(1f) }
     var currentPositionMs by remember { mutableLongStateOf(0L) }
+    var thumbnails by remember(videoUri) { mutableStateOf<List<Bitmap>>(emptyList()) }
 
     val player = remember(videoUri) {
         ExoPlayer.Builder(context).build().apply {
@@ -124,6 +132,31 @@ fun VideoEditorScreen(
             repeatMode = Player.REPEAT_MODE_ONE
             prepare()
             play()
+        }
+    }
+
+    LaunchedEffect(videoUri) {
+        withContext(Dispatchers.IO) {
+            val retriever = MediaMetadataRetriever()
+            try {
+                retriever.setDataSource(context, videoUri)
+                val durationStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
+                val durMs = durationStr?.toLongOrNull() ?: 1000L
+                val count = 10
+                val intervalUs = (durMs * 1000L) / count
+                val frames = mutableListOf<Bitmap>()
+                for (i in 0 until count) {
+                    val timeUs = i * intervalUs
+                    val bm = retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                    if (bm != null) frames.add(bm)
+                }
+                withContext(Dispatchers.Main) {
+                    thumbnails = frames
+                }
+            } catch (_: Exception) {
+            } finally {
+                try { retriever.release() } catch (_: Exception) {}
+            }
         }
     }
 
@@ -164,23 +197,33 @@ fun VideoEditorScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(SenpBackgroundRaised.copy(alpha = 0.94f))
+                    .background(SenpBackgroundRaised.copy(alpha = 0.95f))
                     .statusBarsPadding()
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = "X",
-                    color = if (isExporting) SenpMuted else SenpCream,
-                    fontSize = 32.sp,
+                Box(
                     modifier = Modifier
-                        .size(42.dp)
+                        .size(40.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color(0xFF21262D))
+                        .border(BorderStroke(1.dp, Color(0xFF30363D)), RoundedCornerShape(12.dp))
                         .clickable(enabled = !isExporting) { onCancel() },
-                )
-                Column(Modifier.weight(1f).padding(start = 10.dp)) {
-                    Text("Edit Your Clip", color = SenpCream, fontSize = 20.sp, fontWeight = FontWeight.Bold)
-                    Text("TRIM  ·  CROP", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text("✕", color = if (isExporting) SenpMuted else SenpCream, fontSize = 16.sp, fontWeight = FontWeight.Bold)
                 }
+
+                Column(Modifier.weight(1f).padding(start = 12.dp)) {
+                    Text("Edit Your Clip", color = SenpCream, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text("TRIM", color = if (editorMode == EditorMode.TRIM) SenpBlueBright else SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
+                        Text("·", color = SenpMuted, fontSize = 10.sp)
+                        Text("CROP", color = if (editorMode == EditorMode.CROP) SenpBlueBright else SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
+                        Text("·", color = SenpMuted, fontSize = 10.sp)
+                    }
+                }
+
                 Button(
                     onClick = {
                         isExporting = true
@@ -207,11 +250,11 @@ fun VideoEditorScreen(
                         }
                     },
                     enabled = !isExporting,
-                    modifier = Modifier.height(42.dp),
-                    contentPadding = PaddingValues(horizontal = 18.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = SenpBlue, contentColor = Color.White),
-                    shape = RoundedCornerShape(14.dp),
-                ) { Text("SAVE", fontWeight = FontWeight.Bold, fontSize = 12.sp) }
+                    modifier = Modifier.height(40.dp),
+                    contentPadding = PaddingValues(horizontal = 20.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E9B65), contentColor = Color.White),
+                    shape = RoundedCornerShape(12.dp),
+                ) { Text("SAVE", fontWeight = FontWeight.Bold, fontSize = 12.sp, letterSpacing = 1.sp) }
             }
         },
     ) { paddingValues ->
@@ -221,20 +264,25 @@ fun VideoEditorScreen(
                 .padding(paddingValues)
                 .background(SenpPageBackdrop),
         ) {
-            Column(
+            BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
                     .navigationBarsPadding()
-                    .padding(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
+                val previewHeight = (maxHeight - if (editorMode == EditorMode.TRIM) 300.dp else 210.dp)
+                    .coerceIn(220.dp, 360.dp)
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .aspectRatio(9f / 16f)
-                        .clip(RoundedCornerShape(22.dp))
-                        .background(Color.Black),
+                        .height(previewHeight)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(Color.Black)
+                        .border(BorderStroke(1.dp, Color(0xFF262C36)), RoundedCornerShape(20.dp)),
                 ) {
                     AndroidView(
                         factory = { ctx ->
@@ -259,13 +307,24 @@ fun VideoEditorScreen(
                             },
                         )
                     }
+
                     Box(
                         modifier = Modifier
-                            .align(Alignment.BottomCenter)
-                            .padding(bottom = 14.dp)
-                            .size(52.dp)
+                            .align(Alignment.TopStart)
+                            .padding(12.dp)
+                            .size(28.dp)
                             .clip(CircleShape)
-                            .background(SenpBlue.copy(alpha = 0.86f))
+                            .background(Color(0xFF34C759)),
+                        contentAlignment = Alignment.Center,
+                    ) { Text("✓", color = Color.White, fontSize = 14.sp, fontWeight = FontWeight.Bold) }
+
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .size(54.dp)
+                            .clip(CircleShape)
+                            .background(Color.Black.copy(alpha = 0.55f))
+                            .border(BorderStroke(1.dp, Color.White.copy(alpha = 0.3f)), CircleShape)
                             .clickable {
                                 if (player.isPlaying) {
                                     player.pause()
@@ -276,7 +335,7 @@ fun VideoEditorScreen(
                                 }
                             },
                         contentAlignment = Alignment.Center,
-                    ) { Text(if (isPlaying) "Ⅱ" else "▶", color = Color.White, fontSize = 18.sp) }
+                    ) { Text(if (isPlaying) "Ⅱ" else "▶", color = Color.White, fontSize = 20.sp) }
                 }
 
                 if (editorMode == EditorMode.TRIM) EditorTimeline(
@@ -284,6 +343,7 @@ fun VideoEditorScreen(
                     positionMs = currentPositionMs,
                     trimStartMs = trimStartMs,
                     trimEndMs = trimEndMs,
+                    thumbnails = thumbnails,
                     onRangeChange = { range ->
                         trimStartMs = range.start.toLong()
                         trimEndMs = range.endInclusive.toLong().coerceAtLeast(trimStartMs + 100L)
@@ -313,6 +373,7 @@ fun VideoEditorScreen(
                         player.seekTo(0L)
                     },
                 )
+
                 if (editorMode == EditorMode.CROP) {
                     CropControls(
                         zoom = cropZoom,
@@ -336,10 +397,31 @@ fun VideoEditorScreen(
                 }
 
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    EditorTab("CROP", editorMode == EditorMode.CROP, Modifier.weight(1f)) { editorMode = EditorMode.CROP }
-                    EditorTab("TRIM", editorMode == EditorMode.TRIM, Modifier.weight(1f)) { editorMode = EditorMode.TRIM }
+                    EditorModeTab(
+                        icon = "✂",
+                        label = "CROP",
+                        selected = editorMode == EditorMode.CROP,
+                        modifier = Modifier.weight(1f)
+                    ) { editorMode = EditorMode.CROP }
+
+                    EditorModeTab(
+                        icon = "⫴",
+                        label = "TRIM",
+                        selected = editorMode == EditorMode.TRIM,
+                        modifier = Modifier.weight(1f)
+                    ) { editorMode = EditorMode.TRIM }
+
+                    if (false) {
+                    EditorModeTab(
+                        icon = "✦",
+                        label = "CROP",
+                        selected = editorMode == EditorMode.CROP,
+                        modifier = Modifier.weight(1f)
+                    ) { editorMode = EditorMode.CROP }
+                    }
                 }
-                Spacer(Modifier.height(8.dp))
+
+                }
             }
 
             if (isExporting) {
@@ -365,8 +447,13 @@ private fun CropControls(
     onReset: () -> Unit,
 ) {
     Column(
-        Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color(0xCC11141A)).padding(14.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp),
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(18.dp))
+            .background(SenpSurface)
+            .border(BorderStroke(1.dp, Color(0xFF262C36)), RoundedCornerShape(18.dp))
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Text("CROP FRAME", color = SenpCream, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.1.sp)
@@ -379,9 +466,13 @@ private fun CropControls(
             colors = SliderDefaults.colors(thumbColor = SenpBlueBright, activeTrackColor = SenpBlue, inactiveTrackColor = SenpSurfaceRaised),
         )
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Text("Drag the frame to reposition", color = SenpMuted, fontSize = 10.sp)
+            Text("Drag the frame bounds to reposition crop area", color = SenpMuted, fontSize = 10.sp)
             Box(
-                Modifier.clip(RoundedCornerShape(8.dp)).background(SenpSurfaceRaised).clickable { onReset() }.padding(horizontal = 11.dp, vertical = 7.dp),
+                Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(SenpSurfaceRaised)
+                    .clickable { onReset() }
+                    .padding(horizontal = 11.dp, vertical = 7.dp),
             ) { Text("RESET", color = SenpCream, fontSize = 9.sp, fontWeight = FontWeight.Bold) }
         }
     }
@@ -393,93 +484,179 @@ private fun EditorTimeline(
     positionMs: Long,
     trimStartMs: Long,
     trimEndMs: Long,
+    thumbnails: List<Bitmap>,
     onRangeChange: (ClosedFloatingPointRange<Float>) -> Unit,
     onStep: (Long) -> Unit,
     onPlay: () -> Unit,
     onReset: () -> Unit,
 ) {
     val safeDuration = durationMs.coerceAtLeast(1000L)
+    val startFrac = (trimStartMs.toFloat() / safeDuration).coerceIn(0f, 1f)
+    val endFrac = (trimEndMs.toFloat() / safeDuration).coerceIn(0f, 1f)
+    val posFrac = (positionMs.toFloat() / safeDuration).coerceIn(0f, 1f)
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(22.dp))
-            .background(Color(0xCC111318))
+            .clip(RoundedCornerShape(18.dp))
+            .background(SenpSurface)
+            .border(BorderStroke(1.dp, Color(0xFF262C36)), RoundedCornerShape(18.dp))
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Text("TRIM TIMELINE", color = SenpCream, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
-            Text(formatEditorTime(positionMs), color = SenpBlueBright, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text("✂", color = SenpBlueBright, fontSize = 14.sp)
+                Text("TRIM TIMELINE", color = SenpCream, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
+            }
+            Box(
+                Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFF1E232B))
+                    .border(BorderStroke(1.dp, Color(0xFF30363D)), RoundedCornerShape(8.dp))
+                    .padding(horizontal = 10.dp, vertical = 4.dp),
+            ) {
+                Text(formatEditorTime(trimEndMs), color = SenpCream, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+            }
         }
+
         ThumbnailStrip(
-            startFraction = trimStartMs.toFloat() / safeDuration,
-            endFraction = trimEndMs.toFloat() / safeDuration,
-            positionFraction = positionMs.toFloat() / safeDuration,
+            thumbnails = thumbnails,
+            startFraction = startFrac,
+            endFraction = endFrac,
+            positionFraction = posFrac,
+            onRangeChange = { start, end -> onRangeChange(start..end) },
         )
-        RangeSlider(
-            value = trimStartMs.toFloat()..trimEndMs.toFloat(),
-            onValueChange = onRangeChange,
-            valueRange = 0f..safeDuration.toFloat(),
-            colors = SliderDefaults.colors(
-                thumbColor = SenpBlueBright,
-                activeTrackColor = SenpBlue,
-                inactiveTrackColor = SenpSurfaceRaised,
-            ),
-        )
+
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text("START  ${formatEditorTime(trimStartMs)}", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold)
             Text("END  ${formatEditorTime(trimEndMs)}", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold)
         }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
+
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             TimelineButton("−", Modifier.weight(1f)) { onStep(-100L) }
-            Text("0.1s", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.width(42.dp))
+            Text("0.1s", color = SenpMuted, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
             TimelineButton("+", Modifier.weight(1f)) { onStep(100L) }
-            TimelineButton(if (positionMs in trimStartMs..trimEndMs) "▶" else "▶", Modifier.weight(1f), accent = SenpBlue) { onPlay() }
-            TimelineButton("↻", Modifier.weight(1.2f), accent = SenpSurfaceRaised) { onReset() }
+            TimelineButton("▶", Modifier.weight(1.2f), accent = SenpBlue) { onPlay() }
+            TimelineButton("↻ RESET", Modifier.weight(1.8f), accent = SenpSurfaceRaised) { onReset() }
         }
     }
 }
 
 @Composable
-private fun ThumbnailStrip(startFraction: Float, endFraction: Float, positionFraction: Float) {
+private fun ThumbnailStrip(
+    thumbnails: List<Bitmap>,
+    startFraction: Float,
+    endFraction: Float,
+    positionFraction: Float,
+    onRangeChange: (Float, Float) -> Unit,
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(54.dp)
-            .clip(RoundedCornerShape(9.dp))
-            .background(Color(0xFF262A31)),
+            .height(64.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFF13171F))
+            .border(BorderStroke(1.dp, Color(0xFF262C36)), RoundedCornerShape(12.dp))
+            .pointerInput(startFraction, endFraction) {
+                var activeHandle: Boolean? = null
+                detectDragGestures(
+                    onDragStart = { offset ->
+                        val fraction = (offset.x / size.width).coerceIn(0f, 1f)
+                        activeHandle = if (abs(fraction - startFraction) <= abs(fraction - endFraction)) true else false
+                    },
+                    onDragEnd = { activeHandle = null },
+                    onDragCancel = { activeHandle = null },
+                    onDrag = { change, _ ->
+                        change.consume()
+                        val fraction = (change.position.x / size.width).coerceIn(0f, 1f)
+                        val minimum = 0.04f
+                        if (activeHandle == true) {
+                            onRangeChange(fraction.coerceAtMost(endFraction - minimum), endFraction)
+                        } else if (activeHandle == false) {
+                            onRangeChange(startFraction, fraction.coerceAtLeast(startFraction + minimum))
+                        }
+                    },
+                )
+            },
     ) {
-        Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-            repeat(12) { index ->
-                Box(
-                    Modifier
-                        .weight(1f)
-                        .fillMaxSize()
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(
-                                    Color(0xFF52565D).copy(alpha = 0.82f - index * 0.02f),
-                                    Color(0xFF17191E),
+        if (thumbnails.isNotEmpty()) {
+            Row(Modifier.fillMaxSize()) {
+                thumbnails.forEach { bitmap ->
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxHeight(),
+                    )
+                }
+            }
+        } else {
+            Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
+                repeat(10) { index ->
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .fillMaxSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    listOf(
+                                        Color(0xFF383E48).copy(alpha = 0.7f - index * 0.03f),
+                                        Color(0xFF191D24),
+                                    ),
                                 ),
                             ),
-                        ),
-                )
+                    )
+                }
             }
         }
-        Box(
-            Modifier
-                .fillMaxHeight()
-                .fillMaxWidth((endFraction - startFraction).coerceIn(0.02f, 1f))
-                .padding(start = 0.dp)
-                .background(SenpBlue.copy(alpha = 0.22f)),
-        )
-        Box(
-            Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(positionFraction.coerceIn(0.01f, 1f))
-                .padding(end = 1.dp),
-        ) {
-            Box(Modifier.align(Alignment.CenterEnd).width(2.dp).fillMaxSize().background(Color.White))
+
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val w = size.width
+            val h = size.height
+            val startX = (startFraction * w).coerceIn(0f, w)
+            val endX = (endFraction * w).coerceIn(startX, w)
+
+            val scrimColor = Color.Black.copy(alpha = 0.65f)
+            if (startX > 0f) {
+                drawRect(scrimColor, topLeft = Offset(0f, 0f), size = androidx.compose.ui.geometry.Size(startX, h))
+            }
+            if (endX < w) {
+                drawRect(scrimColor, topLeft = Offset(endX, 0f), size = androidx.compose.ui.geometry.Size(w - endX, h))
+            }
+
+            val strokeWidth = 3.dp.toPx()
+            val highlightColor = Color(0xFF388BFD)
+            val borderPath = Path().apply {
+                addRect(Rect(startX, 0f, endX, h))
+            }
+            drawPath(borderPath, highlightColor, style = Stroke(width = strokeWidth))
+
+            val handleWidth = 14.dp.toPx()
+
+            drawRect(highlightColor, topLeft = Offset(startX - handleWidth / 2, 0f), size = androidx.compose.ui.geometry.Size(handleWidth, h))
+            val handleIconLeftX = startX
+            drawLine(Color.White, Offset(handleIconLeftX - 2.dp.toPx(), h * 0.3f), Offset(handleIconLeftX - 2.dp.toPx(), h * 0.7f), strokeWidth = 2.dp.toPx())
+            drawLine(Color.White, Offset(handleIconLeftX + 2.dp.toPx(), h * 0.3f), Offset(handleIconLeftX + 2.dp.toPx(), h * 0.7f), strokeWidth = 2.dp.toPx())
+
+            drawRect(highlightColor, topLeft = Offset(endX - handleWidth / 2, 0f), size = androidx.compose.ui.geometry.Size(handleWidth, h))
+            val handleIconRightX = endX
+            drawLine(Color.White, Offset(handleIconRightX - 2.dp.toPx(), h * 0.3f), Offset(handleIconRightX - 2.dp.toPx(), h * 0.7f), strokeWidth = 2.dp.toPx())
+            drawLine(Color.White, Offset(handleIconRightX + 2.dp.toPx(), h * 0.3f), Offset(handleIconRightX + 2.dp.toPx(), h * 0.7f), strokeWidth = 2.dp.toPx())
+
+            val posX = (positionFraction * w).coerceIn(0f, w)
+            drawLine(Color.White, Offset(posX, 0f), Offset(posX, h), strokeWidth = 2.5.dp.toPx())
+            drawCircle(Color(0xFF58A6FF), radius = 5.dp.toPx(), center = Offset(posX, 0f))
         }
     }
 }
@@ -493,19 +670,36 @@ private fun TimelineButton(text: String, modifier: Modifier, accent: Color = Sen
             .background(accent)
             .clickable { onClick() },
         contentAlignment = Alignment.Center,
-    ) { Text(text, color = if (accent == SenpBlue) Color.White else SenpCream, fontSize = 18.sp, fontWeight = FontWeight.Bold) }
+    ) { Text(text, color = if (accent == SenpBlue) Color.White else SenpCream, fontSize = 13.sp, fontWeight = FontWeight.Bold) }
 }
 
 @Composable
-private fun EditorTab(label: String, selected: Boolean, modifier: Modifier, onClick: () -> Unit) {
+private fun EditorModeTab(
+    icon: String,
+    label: String,
+    selected: Boolean,
+    modifier: Modifier,
+    onClick: () -> Unit,
+) {
+    val bg = if (selected) SenpBlue.copy(alpha = 0.22f) else SenpSurface
+    val border = if (selected) BorderStroke(1.5.dp, SenpBlue) else BorderStroke(1.dp, Color(0xFF262C36))
+    val textColor = if (selected) SenpBlueBright else SenpMuted
+
     Box(
         modifier = modifier
-            .height(58.dp)
+            .height(64.dp)
             .clip(RoundedCornerShape(16.dp))
-            .background(if (selected) SenpBlue.copy(alpha = 0.22f) else Color(0x661A1D22))
+            .background(bg)
+            .border(border, RoundedCornerShape(16.dp))
             .clickable { onClick() },
         contentAlignment = Alignment.Center,
-    ) { Text(label, color = if (selected) SenpBlueBright else SenpMuted, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp) }
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            Text(icon, color = textColor, fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            Spacer(Modifier.height(2.dp))
+            Text(label, color = textColor, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+        }
+    }
 }
 
 @Composable
