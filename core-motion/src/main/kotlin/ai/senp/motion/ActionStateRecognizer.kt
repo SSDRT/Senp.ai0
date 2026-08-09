@@ -10,6 +10,7 @@ class ActionStateRecognizer(
     private val estimates = mutableListOf<ActionStateEstimate>()
     private var status = ActionTrackingStatus.NO_ACTION
     private var lastTimestampMs: Long? = null
+    private var lastSpatialSegmentId: Int? = null
     private var previousUsableGeometry: Map<String, Double>? = null
     private var previousUsableTimestampMs: Long? = null
     private var candidateState: Int? = null
@@ -29,6 +30,7 @@ class ActionStateRecognizer(
         estimates.clear()
         status = ActionTrackingStatus.NO_ACTION
         lastTimestampMs = null
+        lastSpatialSegmentId = null
         previousUsableGeometry = null
         previousUsableTimestampMs = null
         candidateState = null
@@ -58,8 +60,21 @@ class ActionStateRecognizer(
             "action recognizer timestamps must be strictly increasing"
         }
         lastTimestampMs = timestampMs
+        val spatialSegmentId = frame.spatialSegmentId
+        val continuityBreak = spatialSegmentId != null &&
+            lastSpatialSegmentId != null &&
+            spatialSegmentId != lastSpatialSegmentId
+        if (spatialSegmentId != null) lastSpatialSegmentId = spatialSegmentId
         if (status == ActionTrackingStatus.COMPLETED) {
             return emit(frame.timestamp, status, null, 1.0, 1.0, mirrorMode, null)
+        }
+        if (continuityBreak) {
+            previousUsableGeometry = null
+            previousUsableTimestampMs = null
+            if (status == ActionTrackingStatus.POSSIBLE_ENTRY || status == ActionTrackingStatus.TRACKING) {
+                resetTrackingForContinuityBreak()
+                return emit(frame.timestamp, status, null, 0.0, 0.0, mirrorMode, null)
+            }
         }
 
         val geometry = frame.intrinsicDescriptor.values
@@ -320,6 +335,7 @@ class ActionStateRecognizer(
             val entered = stateEnteredMs ?: frame.timestamp.value
             if (frame.timestamp.value - entered >= config.minimumFiniteCompletionHoldMs) {
                 status = ActionTrackingStatus.COMPLETED
+                completedRepetitions = 1
             }
         }
         return emit(frame.timestamp, status, selectedState, best.score, best.coverage, mirrorMode, timing)
@@ -410,6 +426,21 @@ class ActionStateRecognizer(
             classification = classification,
             confidence = (matchConfidence * state.confidence).coerceIn(0.0, 1.0),
         )
+    }
+
+    private fun resetTrackingForContinuityBreak() {
+        status = ActionTrackingStatus.LOST
+        candidateState = null
+        candidateStartMs = null
+        candidateStateEnteredMs = null
+        candidateProgressSteps = 0
+        candidateVisited.clear()
+        trackingState = null
+        stateEnteredMs = null
+        lastGoodMs = null
+        visitedSinceWrap.clear()
+        cycleEvidenceEligible = false
+        mirrorMode = ActionMirrorMode.UNKNOWN
     }
 
     private fun clearCandidate() {

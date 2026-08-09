@@ -337,6 +337,37 @@ class ReferenceActionCoreTest {
     }
 
     @Test
+    fun `spatial segment break prevents a finite action from completing across a splice`() {
+        val profile = compileProfile(finiteSequence(VideoRole.REFERENCE))
+        val source = finiteSequence(VideoRole.SOURCE)
+        val splitIndex = source.frames.size / 2
+        val spliced = source.copy(
+            frames = source.frames.mapIndexed { index, frame ->
+                frame.copy(spatialSegmentId = if (index < splitIndex) 0 else 1)
+            },
+        )
+
+        val result = ActionStateRecognizer(profile).recognize(spliced)
+
+        assertEquals(ActionTrackingStatus.LOST, result.estimates[splitIndex].status)
+        assertEquals(0, result.completedRepetitions)
+        assertTrue(result.finalStatus != ActionTrackingStatus.COMPLETED, result.toString())
+    }
+
+    @Test
+    fun `finite live stream reports one completion as soon as final state completes`() {
+        val profile = compileProfile(finiteSequence(VideoRole.REFERENCE))
+        val recognizer = ActionStateRecognizer(profile)
+        val estimates = finiteSequence(VideoRole.SOURCE).frames.map(recognizer::accept)
+        val completed = estimates.firstOrNull { it.status == ActionTrackingStatus.COMPLETED }
+
+        assertNotNull(completed)
+        assertEquals(1, completed.completedRepetitions)
+        assertTrue(estimates.dropWhile { it.status != ActionTrackingStatus.COMPLETED }.all { it.completedRepetitions == 1 })
+        assertEquals(1, recognizer.finish().completedRepetitions)
+    }
+
+    @Test
     fun `mirrored side labels remain recognizable through explicit mirror hypothesis`() {
         val profile = compileProfile(cyclicSequence(VideoRole.REFERENCE, repetitions = 4))
         val mirrored = cyclicSequence(VideoRole.SOURCE, repetitions = 3, mirrored = true)
