@@ -450,7 +450,7 @@ private fun WorkspaceScreen(
         )
 
         Spacer(Modifier.height(26.dp))
-        Eyebrow("01  MASTER VIDEO", "Your perfect form reference")
+        Eyebrow("01  MASTER VIDEO", "Your chosen movement reference")
         Spacer(Modifier.height(10.dp))
         if (selectionState.referenceUri == null) {
             UploadPanel(

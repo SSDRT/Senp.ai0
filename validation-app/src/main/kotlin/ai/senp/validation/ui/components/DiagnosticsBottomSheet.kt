@@ -200,17 +200,17 @@ fun DiagnosticsBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Personalized Feedback (Mocked/Local)",
+                text = "Deterministic Analysis Summary",
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
                 color = MaterialTheme.colorScheme.primary
             )
             val feedback = if (result.payload.problems.isEmpty()) {
-                "Great form! Your motion matches the reference closely. No major issues detected by the pipeline."
+                "No significant difference was detected by the current motion-analysis thresholds. " +
+                    "Review the aligned videos and tracking confidence; this is not a guarantee of perfect form."
             } else {
-                "We found ${result.payload.problems.size} issue(s) in your form: " +
-                result.payload.problems.joinToString(", ") { it.label } +
-                ". Focus on keeping a steady pace and full range of motion!"
+                "The current motion-analysis thresholds flagged ${result.payload.problems.size} window(s): " +
+                    result.payload.problems.joinToString(", ") { it.label } + "."
             }
             Text(
                 text = feedback,
