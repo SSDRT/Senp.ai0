@@ -5,6 +5,7 @@ import ai.senp.validation.ui.screens.AnalysisProgressScreen
 import ai.senp.validation.ui.screens.ConfigurationScreen
 import ai.senp.validation.ui.state.AnalysisUiState
 import ai.senp.validation.ui.theme.SenpBlue
+import ai.senp.validation.ui.theme.SenpBlueBright
 import ai.senp.validation.ui.theme.SenpCream
 import ai.senp.validation.ui.theme.SenpMuted
 import ai.senp.validation.ui.theme.SenpSurface
