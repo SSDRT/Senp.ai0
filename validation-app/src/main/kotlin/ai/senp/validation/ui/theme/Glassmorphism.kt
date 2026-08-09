@@ -15,21 +15,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 val SenpPageBackdrop = Brush.verticalGradient(
-    0f to Color(0xFF071A34),
-    0.42f to SenpBackground,
-    1f to Color(0xFF0B1023),
+    0f to Color(0xFF090A0E),
+    0.35f to SenpBackground,
+    1f to Color(0xFF11131A),
 )
 
 private val SenpGlassFill = Brush.verticalGradient(
-    0f to Color(0xCC1B3558),
-    0.45f to Color(0x9913213A),
-    1f to Color(0xCC0D162A),
+    0f to Color(0xE61D222B),
+    0.42f to Color(0xD611141A),
+    1f to Color(0xF20C0E13),
 )
 
 private val SenpGlassHighlight = Brush.horizontalGradient(
-    0f to SenpBlueBright.copy(alpha = 0.58f),
-    0.45f to Color.Transparent,
-    1f to SenpViolet.copy(alpha = 0.38f),
+    0f to SenpBlueBright.copy(alpha = 0.72f),
+    0.22f to Color.Transparent,
+    0.78f to Color.Transparent,
+    1f to SenpViolet.copy(alpha = 0.62f),
 )
 
 @Composable

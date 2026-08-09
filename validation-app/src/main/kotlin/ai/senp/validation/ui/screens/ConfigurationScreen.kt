@@ -16,11 +16,13 @@ import ai.senp.validation.ui.theme.SenpSurfaceRaised
 import ai.senp.validation.ui.theme.SenpViolet
 import ai.senp.validation.ui.theme.SenpPageBackdrop
 import ai.senp.validation.ui.theme.glassBackground
+import ai.senp.validation.R
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.view.LayoutInflater
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
@@ -96,9 +98,9 @@ import java.io.File
 import java.util.UUID
 
 private val SenpBackdrop = Brush.verticalGradient(
-    0f to Color(0xFF06142A),
+    0f to Color(0xFF090A0E),
     0.48f to SenpBackground,
-    1f to Color(0xFF100D25),
+    1f to Color(0xFF11131A),
 )
 
 private val SenpAccent = Brush.horizontalGradient(listOf(SenpBlue, SenpViolet))
@@ -424,11 +426,27 @@ private fun WorkspaceScreen(
             }
         }
 
-        Spacer(Modifier.height(30.dp))
-        Text("AWAKEN YOUR MOVEMENT", color = SenpCream, fontSize = 29.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.sp)
-        Text("Build a side-by-side study of your movement.", color = SenpMuted, fontSize = 15.sp, modifier = Modifier.padding(top = 7.dp))
+        Spacer(Modifier.height(24.dp))
+        Text("OBSIDIAN DASHBOARD", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.8.sp)
+        Text("Motion workspace", color = SenpCream, fontSize = 27.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
+        Spacer(Modifier.height(16.dp))
+        DashboardModeCard(
+            title = "LIVE CAMERA ARENA",
+            detail = "Real-time landmarks and rep cues",
+            action = "OPEN",
+            accent = SenpBlueBright,
+            onClick = onOpenLivePushUp,
+        )
+        Spacer(Modifier.height(8.dp))
+        DashboardModeCard(
+            title = "DUAL-VIDEO SYNC",
+            detail = "Compare your take with a reference",
+            action = if (selectionState.isReadyForAnalysis) "READY" else "SETUP",
+            accent = SenpViolet,
+            onClick = { if (selectionState.isReadyForAnalysis) onStartAnalysis() else onPickReference() },
+        )
 
-        Spacer(Modifier.height(18.dp))
+        Spacer(Modifier.height(20.dp))
         ReferenceActionEntry(
             referenceSelected = selectionState.referenceUri != null,
             referenceProfileState = referenceProfileState,
@@ -549,11 +567,11 @@ private fun ReferenceActionEntry(
         is ReferenceProfileUiState.Rejected -> "REFERENCE NOT READY"
     }
     val detailText = when (referenceProfileState) {
-        ReferenceProfileUiState.Empty -> "Choose a demonstrated movement. Senp derives a body-centric action profile before live comparison is enabled."
+        ReferenceProfileUiState.Empty -> "Select a reference to enable live comparison."
         is ReferenceProfileUiState.Preparing -> referenceProfileState.message
         is ReferenceProfileUiState.Ready -> {
             val profile = referenceProfileState.profile
-            "Profile validated against the reference · ${profile.states.size} states · ${profile.referenceRepetitions} reference repetition${if (profile.referenceRepetitions == 1) "" else "s"} · ${(profile.confidence * 100).toInt()}% profile confidence."
+            "${profile.states.size} states · ${profile.referenceRepetitions} reps · ${(profile.confidence * 100).toInt()}% confidence"
         }
         is ReferenceProfileUiState.Rejected -> "This clip could not produce a reliable reference profile: ${referenceProfileState.message}"
     }
@@ -584,13 +602,7 @@ private fun ReferenceActionEntry(
                     letterSpacing = 0.6.sp,
                 )
             }
-            Text(
-                detailText,
-                color = SenpMuted,
-                fontSize = 12.sp,
-                lineHeight = 18.sp,
-                modifier = Modifier.padding(top = 8.dp),
-            )
+            Text(detailText, color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 8.dp))
             Button(
                 onClick = { onOpenLiveReference?.invoke() },
                 enabled = liveReferenceEnabled,
@@ -625,10 +637,37 @@ private fun ReferenceActionEntry(
             ) {
                 Column(Modifier.weight(1f)) {
                     Text("PUSH-UP ARENA", color = SenpCream, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                    Text("Specialized legacy live coach", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 3.dp))
+                    Text("Live form cues", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 3.dp))
                 }
                 Text("OPEN  →", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold)
             }
+        }
+    }
+}
+
+@Composable
+private fun DashboardModeCard(
+    title: String,
+    detail: String,
+    action: String,
+    accent: Color,
+    onClick: () -> Unit,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth().height(76.dp).glassBackground(RoundedCornerShape(14.dp)).clickable { onClick() },
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        border = BorderStroke(1.dp, accent.copy(alpha = 0.42f)),
+    ) {
+        Row(Modifier.fillMaxSize().padding(horizontal = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(34.dp).clip(RoundedCornerShape(10.dp)).background(accent.copy(alpha = 0.14f)), contentAlignment = Alignment.Center) {
+                Text("+", color = accent, fontSize = 21.sp, fontWeight = FontWeight.Light)
+            }
+            Column(Modifier.padding(start = 12.dp).weight(1f)) {
+                Text(title, color = SenpCream, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
+                Text(detail, color = SenpMuted, fontSize = 10.sp, modifier = Modifier.padding(top = 3.dp))
+            }
+            Text(action, color = accent, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.7.sp)
         }
     }
 }
@@ -720,9 +759,8 @@ private fun VideoPreviewCard(
             ) {
                 AndroidView(
                     factory = { ctx ->
-                        PlayerView(ctx).apply {
+                        (LayoutInflater.from(ctx).inflate(R.layout.player_view_texture, null) as PlayerView).apply {
                             this.player = player
-                            useController = false
                             resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
                         }
                     },

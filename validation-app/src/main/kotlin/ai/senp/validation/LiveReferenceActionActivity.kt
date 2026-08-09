@@ -94,7 +94,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
     }
 
     private fun buildUi(): View {
-        val root = FrameLayout(this).apply { setBackgroundColor(Color.rgb(6, 12, 25)) }
+        val root = FrameLayout(this).apply { setBackgroundColor(Color.rgb(8, 9, 12)) }
         previewView = PreviewView(this).apply {
             implementationMode = PreviewView.ImplementationMode.COMPATIBLE
             scaleType = PreviewView.ScaleType.FIT_CENTER
@@ -108,11 +108,11 @@ class LiveReferenceActionActivity : ComponentActivity() {
         val top = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(18), dp(20), dp(14))
-            setBackgroundColor(Color.argb(210, 6, 21, 45))
+            setBackgroundColor(Color.argb(232, 13, 15, 20))
         }
         val backButton = TextView(this).apply {
             text = "←"
-            setTextColor(Color.rgb(124, 207, 255))
+            setTextColor(Color.rgb(140, 99, 255))
             textSize = 26f
             isClickable = true
             setOnClickListener { onBackPressedDispatcher.onBackPressed() }
@@ -165,7 +165,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
         val bottom = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(15), dp(20), dp(22))
-            setBackgroundColor(Color.argb(228, 5, 11, 24))
+            setBackgroundColor(Color.argb(238, 13, 15, 20))
         }
         val label = TextView(this).apply {
             text = "REFERENCE DIFFERENCE"

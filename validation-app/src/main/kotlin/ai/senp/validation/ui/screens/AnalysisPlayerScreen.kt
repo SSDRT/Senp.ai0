@@ -11,6 +11,7 @@ import ai.senp.motion.ActionTrackingStatus
 import ai.senp.motion.PhaseTimingClass
 import ai.senp.sync.v2.VideoSynchronizationRun
 import ai.senp.validation.toReferenceCueLabel
+import ai.senp.validation.R
 import ai.senp.validation.ui.components.DiagnosticsBottomSheet
 import ai.senp.validation.ui.state.ReferenceActionAnalysisUi
 import ai.senp.validation.ui.components.PoseLandmarkOverlay
@@ -28,6 +29,7 @@ import ai.senp.validation.ui.theme.SenpSuccess
 import ai.senp.validation.ui.theme.SenpWarning
 import ai.senp.validation.ui.theme.SenpViolet
 import android.net.Uri
+import android.view.LayoutInflater
 import androidx.annotation.OptIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -85,7 +87,6 @@ import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.delay
 import java.util.Locale
@@ -148,8 +149,6 @@ fun AnalysisPlayerScreen(
     }
     val totalDuration = sourcePoseExtraction.duration.value.coerceAtLeast(1L)
     val referenceDuration = referencePoseExtraction.duration.value.coerceAtLeast(1L)
-    fun referencePositionForSource(positionMs: Long): Long = playbackMapping.sourceToReference(positionMs)
-        ?: (positionMs.toDouble() / totalDuration.toDouble() * referenceDuration.toDouble()).toLong()
     val matchedUnitCount = synchronization?.correspondences?.count { it is MotionUnitCorrespondence.MatchedUnit } ?: 0
     val unmatchedUnitCount = synchronization?.correspondences?.count {
         it is MotionUnitCorrespondence.SourceUnmatchedUnit || it is MotionUnitCorrespondence.ReferenceUnmatchedUnit
@@ -218,21 +217,9 @@ fun AnalysisPlayerScreen(
 
                 when (playbackMode) {
                     PLAY_BOTH -> {
+                        // Both mode is a simple dual transport. Correspondence remains
+                        // available for metrics, but never drives seeks or speed correction.
                         currentSourcePositionMs = sourcePlayer.currentPosition.coerceAtLeast(0L)
-                        val target = referencePositionForSource(currentSourcePositionMs).coerceIn(0L, referenceDuration)
-                        val referencePosition = referencePlayer.currentPosition.coerceAtLeast(0L)
-                        val driftMs = target - referencePosition
-
-                        // Let the reference catch up smoothly; seek only for a genuinely large drift.
-                        if (abs(driftMs) > 700L) referencePlayer.seekTo(target)
-                        val targetSpeed = when {
-                            driftMs > 120L -> 1.08f
-                            driftMs < -120L -> 0.92f
-                            else -> 1.0f
-                        }
-                        if (referencePlayer.playbackParameters.speed != targetSpeed) {
-                            referencePlayer.setPlaybackSpeed(targetSpeed)
-                        }
                         currentReferencePositionMs = referencePlayer.currentPosition.coerceAtLeast(0L)
                     }
                     PLAY_SOURCE -> {
@@ -260,11 +247,8 @@ fun AnalysisPlayerScreen(
         playbackMode = mode
         when (mode) {
             PLAY_BOTH -> {
-                val target = referencePositionForSource(currentSourcePositionMs).coerceIn(0L, referenceDuration)
-                currentReferencePositionMs = target
                 sourcePlayer.setPlaybackSpeed(1.0f)
                 referencePlayer.setPlaybackSpeed(1.0f)
-                referencePlayer.seekTo(target)
                 sourcePlayer.play()
                 referencePlayer.play()
             }
@@ -421,17 +405,13 @@ fun AnalysisPlayerScreen(
                             if (playbackMode == PLAY_REFERENCE) {
                                 currentReferencePositionMs = selected
                                 referencePlayer.seekTo(selected)
-                                val mappedSource = playbackMapping.referenceToSource(selected)
-                                if (mappedSource != null) {
-                                    currentSourcePositionMs = mappedSource
-                                    sourcePlayer.seekTo(mappedSource)
-                                }
                             } else {
                                 currentSourcePositionMs = selected
                                 sourcePlayer.seekTo(selected)
-                                 val mappedReference = referencePositionForSource(selected).coerceIn(0L, referenceDuration)
-                                 currentReferencePositionMs = mappedReference
-                                 referencePlayer.seekTo(mappedReference)
+                                if (playbackMode == PLAY_BOTH) {
+                                    currentReferencePositionMs = selected.coerceIn(0L, referenceDuration)
+                                    referencePlayer.seekTo(currentReferencePositionMs)
+                                }
                             }
                         },
                         valueRange = 0f..activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat(),
@@ -439,15 +419,10 @@ fun AnalysisPlayerScreen(
                     )
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         PlaybackButton(
-                            text = when {
-                                 playbackMapping.pointCount == 0 -> "▶ BOTH"
-                                playbackMapping.supportsSource(currentSourcePositionMs) -> "▶ BOTH"
-                                else -> "NO MATCH HERE"
-                            },
+                            text = "PLAY BOTH",
                             active = playbackMode == PLAY_BOTH,
                             accent = SenpBlue,
                             modifier = Modifier.weight(1f),
-                             enabled = playbackMapping.pointCount == 0 || playbackMapping.supportsSource(currentSourcePositionMs),
                         ) { toggle(PLAY_BOTH) }
                         PlaybackButton("▶ YOU", playbackMode == PLAY_SOURCE, SenpViolet, Modifier.weight(1f)) { toggle(PLAY_SOURCE) }
                         PlaybackButton("▶ REFERENCE", playbackMode == PLAY_REFERENCE, SenpBlueBright, Modifier.weight(1f)) { toggle(PLAY_REFERENCE) }
@@ -661,17 +636,45 @@ private fun ComparisonVideoTile(
     accent: Color,
     modifier: Modifier,
 ) {
-    Card(modifier = modifier, shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.Black), border = BorderStroke(1.dp, accent.copy(alpha = 0.42f))) {
-        Column {
-            Box(Modifier.fillMaxWidth().aspectRatio(videoAspectRatio.coerceIn(0.45f, 2.2f))) {
+    Card(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface),
+        border = BorderStroke(1.dp, accent.copy(alpha = 0.52f)),
+    ) {
+        Column(Modifier.padding(8.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp, vertical = 2.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column {
+                    Text(title, color = accent, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                    Text(subtitle, color = SenpMuted, fontSize = 9.sp, modifier = Modifier.padding(top = 2.dp))
+                }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("SKELETON", color = SenpMuted, fontSize = 8.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.5.sp)
+                    Switch(
+                        checked = skeletonVisible,
+                        onCheckedChange = onSkeletonChanged,
+                        modifier = Modifier.padding(start = 2.dp),
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = Color.White,
+                            checkedTrackColor = accent,
+                            uncheckedThumbColor = SenpMuted,
+                            uncheckedTrackColor = SenpSurfaceRaised,
+                        ),
+                    )
+                }
+            }
+            Box(Modifier.fillMaxWidth().aspectRatio(videoAspectRatio.coerceIn(0.45f, 2.2f)).clip(RoundedCornerShape(11.dp)).background(Color.Black)) {
                 AndroidView(
                     factory = { ctx ->
-                        PlayerView(ctx).apply {
+                        (LayoutInflater.from(ctx).inflate(R.layout.player_view_texture, null) as PlayerView).apply {
                             this.player = player
-                            useController = false
-                            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
                         }
                     },
+                    update = { it.player = player },
                     modifier = Modifier.fillMaxSize(),
                 )
                 PoseLandmarkOverlay(
@@ -680,33 +683,6 @@ private fun ComparisonVideoTile(
                     lineColor = accent,
                     jointColor = Color.White,
                 )
-                Row(
-                    Modifier.align(Alignment.TopStart).fillMaxWidth().padding(10.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.Top,
-                ) {
-                    Column(Modifier.clip(RoundedCornerShape(8.dp)).background(Color.Black.copy(alpha = 0.65f)).padding(horizontal = 9.dp, vertical = 6.dp)) {
-                        Text(title, color = accent, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                        Text(subtitle, color = Color.White.copy(alpha = 0.75f), fontSize = 9.sp, modifier = Modifier.padding(top = 2.dp))
-                    }
-                    Row(
-                        Modifier.clip(RoundedCornerShape(8.dp)).background(Color.Black.copy(alpha = 0.7f)).padding(start = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text("SKELETON", color = Color.White.copy(alpha = 0.8f), fontSize = 8.sp, fontWeight = FontWeight.Bold)
-                        Switch(
-                            checked = skeletonVisible,
-                            onCheckedChange = onSkeletonChanged,
-                            modifier = Modifier.padding(start = 2.dp),
-                            colors = SwitchDefaults.colors(
-                                checkedThumbColor = Color.White,
-                                checkedTrackColor = accent,
-                                uncheckedThumbColor = SenpMuted,
-                                uncheckedTrackColor = SenpSurfaceRaised,
-                            ),
-                        )
-                    }
-                }
             }
         }
     }

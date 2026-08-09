@@ -99,11 +99,11 @@ class LivePushUpActivity : ComponentActivity() {
         val top = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(18), dp(20), dp(12))
-            setBackgroundColor(Color.argb(210, 6, 21, 45))
+            setBackgroundColor(Color.argb(232, 13, 15, 20))
         }
         val backButton = TextView(this).apply {
             text = "←"
-            setTextColor(Color.rgb(124, 207, 255))
+            setTextColor(Color.rgb(140, 99, 255))
             textSize = 26f
             isClickable = true
             setOnClickListener { onBackPressedDispatcher.onBackPressed() }
@@ -118,7 +118,7 @@ class LivePushUpActivity : ComponentActivity() {
         }
         phaseView = TextView(this).apply {
             text = "SIDE VIEW • GET READY"
-            setTextColor(Color.rgb(184, 224, 255))
+            setTextColor(Color.rgb(164, 171, 185))
             textSize = 14f
             setPadding(0, dp(4), 0, 0)
         }
@@ -164,7 +164,7 @@ class LivePushUpActivity : ComponentActivity() {
         val bottom = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(16), dp(20), dp(22))
-            setBackgroundColor(Color.argb(210, 7, 10, 15))
+            setBackgroundColor(Color.argb(238, 13, 15, 20))
         }
         cueView = TextView(this).apply {
             text = "Stand sideways and fit your whole body"

@@ -11,6 +11,7 @@ import ai.senp.validation.ui.theme.SenpSurfaceRaised
 import android.content.Context
 import android.net.Uri
 import android.widget.Toast
+import android.view.LayoutInflater
 import androidx.annotation.OptIn
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -41,6 +42,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -82,6 +84,7 @@ import androidx.media3.transformer.ExportResult
 import androidx.media3.transformer.Transformer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import ai.senp.validation.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -112,6 +115,7 @@ fun VideoEditorScreen(
     var cropTop by remember { mutableFloatStateOf(0f) }
     var cropRight by remember { mutableFloatStateOf(1f) }
     var cropBottom by remember { mutableFloatStateOf(1f) }
+    var cropZoom by rememberSaveable { mutableFloatStateOf(1f) }
     var currentPositionMs by remember { mutableLongStateOf(0L) }
 
     val player = remember(videoUri) {
@@ -166,7 +170,7 @@ fun VideoEditorScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "×",
+                    text = "X",
                     color = if (isExporting) SenpMuted else SenpCream,
                     fontSize = 32.sp,
                     modifier = Modifier
@@ -174,7 +178,7 @@ fun VideoEditorScreen(
                         .clickable(enabled = !isExporting) { onCancel() },
                 )
                 Column(Modifier.weight(1f).padding(start = 10.dp)) {
-                    Text("Edit your clip", color = SenpCream, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                    Text("Edit Your Clip", color = SenpCream, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                     Text("TRIM  ·  CROP", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
                 }
                 Button(
@@ -234,9 +238,8 @@ fun VideoEditorScreen(
                 ) {
                     AndroidView(
                         factory = { ctx ->
-                            PlayerView(ctx).apply {
+                            (LayoutInflater.from(ctx).inflate(R.layout.player_view_texture, null) as PlayerView).apply {
                                 this.player = player
-                                useController = false
                                 resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
                             }
                         },
@@ -276,7 +279,7 @@ fun VideoEditorScreen(
                     ) { Text(if (isPlaying) "Ⅱ" else "▶", color = Color.White, fontSize = 18.sp) }
                 }
 
-                EditorTimeline(
+                if (editorMode == EditorMode.TRIM) EditorTimeline(
                     durationMs = videoDurationMs,
                     positionMs = currentPositionMs,
                     trimStartMs = trimStartMs,
@@ -306,9 +309,31 @@ fun VideoEditorScreen(
                         cropTop = 0f
                         cropRight = 1f
                         cropBottom = 1f
+                        cropZoom = 1f
                         player.seekTo(0L)
                     },
                 )
+                if (editorMode == EditorMode.CROP) {
+                    CropControls(
+                        zoom = cropZoom,
+                        onZoom = { zoom ->
+                            cropZoom = zoom
+                            val visible = (1f / zoom).coerceIn(0.1f, 1f)
+                            val inset = (1f - visible) / 2f
+                            cropLeft = inset
+                            cropTop = inset
+                            cropRight = 1f - inset
+                            cropBottom = 1f - inset
+                        },
+                        onReset = {
+                            cropZoom = 1f
+                            cropLeft = 0f
+                            cropTop = 0f
+                            cropRight = 1f
+                            cropBottom = 1f
+                        },
+                    )
+                }
 
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     EditorTab("CROP", editorMode == EditorMode.CROP, Modifier.weight(1f)) { editorMode = EditorMode.CROP }
@@ -329,6 +354,35 @@ fun VideoEditorScreen(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun CropControls(
+    zoom: Float,
+    onZoom: (Float) -> Unit,
+    onReset: () -> Unit,
+) {
+    Column(
+        Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(Color(0xCC11141A)).padding(14.dp),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text("CROP FRAME", color = SenpCream, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.1.sp)
+            Text("${String.format(java.util.Locale.US, "%.1f", zoom)}x", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+        }
+        Slider(
+            value = zoom,
+            onValueChange = onZoom,
+            valueRange = 1f..2.5f,
+            colors = SliderDefaults.colors(thumbColor = SenpBlueBright, activeTrackColor = SenpBlue, inactiveTrackColor = SenpSurfaceRaised),
+        )
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text("Drag the frame to reposition", color = SenpMuted, fontSize = 10.sp)
+            Box(
+                Modifier.clip(RoundedCornerShape(8.dp)).background(SenpSurfaceRaised).clickable { onReset() }.padding(horizontal = 11.dp, vertical = 7.dp),
+            ) { Text("RESET", color = SenpCream, fontSize = 9.sp, fontWeight = FontWeight.Bold) }
         }
     }
 }
