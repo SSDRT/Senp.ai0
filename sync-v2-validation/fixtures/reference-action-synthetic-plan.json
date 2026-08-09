@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "description": "Deterministic pose-level perturbation matrix for a future generic reference-derived action adapter. Transforms operate on existing MediaPipe-33 pose extraction JSON and never re-encode video. Millisecond timestamps remain the temporal source of truth.",
+  "cases": [
+    {
+      "id": "self-reconstruction",
+      "transform": {"kind": "identity"},
+      "expectation": {"classification": "ACTION", "purpose": "Reference should reconstruct its own compiled state path."},
+      "metrics": ["reference_self_action", "reference_self_state_coverage", "reference_self_legal_transition_fraction", "reference_self_deviation_count"]
+    },
+    {
+      "id": "absolute-start-offset-30s",
+      "transform": {"kind": "start_offset", "offset_ms": 30000},
+      "expectation": {"purpose": "Absolute presentation-time origin must not change reference-relative recognition."},
+      "metrics": ["absolute_start_offset_confidence_delta", "absolute_start_offset_state_path_equal"]
+    },
+    {
+      "id": "tempo-0.5x",
+      "transform": {"kind": "tempo", "speed": 0.5},
+      "expectation": {"purpose": "Timing elasticity at half speed."},
+      "metrics": ["tempo_invariance_0.5x_to_2x_pass_rate"]
+    },
+    {
+      "id": "tempo-0.75x",
+      "transform": {"kind": "tempo", "speed": 0.75},
+      "expectation": {"purpose": "Timing elasticity below reference tempo."},
+      "metrics": ["tempo_invariance_0.5x_to_2x_pass_rate"]
+    },
+    {
+      "id": "tempo-1.25x",
+      "transform": {"kind": "tempo", "speed": 1.25},
+      "expectation": {"purpose": "Timing elasticity above reference tempo."},
+      "metrics": ["tempo_invariance_0.5x_to_2x_pass_rate"]
+    },
+    {
+      "id": "tempo-1.5x",
+      "transform": {"kind": "tempo", "speed": 1.5},
+      "expectation": {"purpose": "Timing elasticity at 1.5x."},
+      "metrics": ["tempo_invariance_0.5x_to_2x_pass_rate"]
+    },
+    {
+      "id": "tempo-2.0x",
+      "transform": {"kind": "tempo", "speed": 2.0},
+      "expectation": {"purpose": "Timing elasticity at double speed."},
+      "metrics": ["tempo_invariance_0.5x_to_2x_pass_rate"]
+    },
+    {
+      "id": "reverse-direction",
+      "transform": {"kind": "reverse_direction"},
+      "expectation": {"purpose": "The same poses traversed in reverse temporal order must not be silently accepted as the forward state progression."},
+      "metrics": ["reverse_direction_discrimination"]
+    },
+    {
+      "id": "geometry-deviation",
+      "transform": {
+        "kind": "geometry_deviation",
+        "window_fraction": [0.4, 0.6],
+        "landmarks": ["RIGHT_HIP", "RIGHT_KNEE"],
+        "world_delta": {"zMeters": 0.12},
+        "image_delta": {"y": 0.06}
+      },
+      "expectation": {"purpose": "Injected reference-relative geometric change should create a localized deviation, not a timing-only failure."},
+      "metrics": ["injected_geometry_deviation_detection"]
+    },
+    {
+      "id": "missing-repetition",
+      "transform": {"kind": "drop_window", "window": "rep_window"},
+      "expectation": {"purpose": "Drop exactly one known repetition window; gate only when --rep-window-ms is supplied."},
+      "metrics": ["missing_repetition_delta"]
+    },
+    {
+      "id": "extra-repetition",
+      "transform": {"kind": "duplicate_window", "window": "rep_window"},
+      "expectation": {"purpose": "Duplicate exactly one known repetition window; gate only when --rep-window-ms is supplied."},
+      "metrics": ["extra_repetition_delta"]
+    },
+    {
+      "id": "pause-hold-1200ms",
+      "transform": {"kind": "hold", "anchor_fraction": 0.5, "hold_ms": 1200},
+      "expectation": {"purpose": "A stationary hold should stretch time without inventing another repetition or causing action loss."},
+      "metrics": ["pause_hold_invariance"]
+    },
+    {
+      "id": "occlusion-suppression",
+      "transform": {
+        "kind": "occlusion",
+        "window_fraction": [0.4, 0.6],
+        "confidence": 0.02,
+        "landmarks": [
+          "LEFT_SHOULDER", "RIGHT_SHOULDER", "LEFT_ELBOW", "RIGHT_ELBOW",
+          "LEFT_WRIST", "RIGHT_WRIST", "LEFT_HIP", "RIGHT_HIP",
+          "LEFT_KNEE", "RIGHT_KNEE", "LEFT_ANKLE", "RIGHT_ANKLE"
+        ]
+      },
+      "expectation": {"purpose": "Low visibility/presence must suppress confident evaluation through the blind window."},
+      "metrics": ["confidence_occlusion_suppression"]
+    },
+    {
+      "id": "mirror-horizontal",
+      "transform": {"kind": "mirror"},
+      "expectation": {"purpose": "Gate only if the adapter explicitly declares mirror invariance."},
+      "metrics": ["mirror_invariance"]
+    },
+    {
+      "id": "viewpoint-yaw-plus15",
+      "transform": {"kind": "yaw", "degrees": 15.0},
+      "expectation": {"purpose": "World-coordinate synthetic yaw; gate only if the adapter explicitly declares viewpoint invariance."},
+      "metrics": ["viewpoint_yaw_plus15_invariance"]
+    },
+    {
+      "id": "viewpoint-yaw-minus15",
+      "transform": {"kind": "yaw", "degrees": -15.0},
+      "expectation": {"purpose": "World-coordinate synthetic yaw; gate only if the adapter explicitly declares viewpoint invariance."},
+      "metrics": ["viewpoint_yaw_minus15_invariance"]
+    },
+    {
+      "id": "unrelated-motion",
+      "source": "unrelated",
+      "expectation": {"classification": "NO_ACTION", "purpose": "A separately extracted unrelated motion should stay NO_ACTION or below the false-positive confidence gate."},
+      "metrics": ["unrelated_motion_false_positive_rate"]
+    }
+  ]
+}

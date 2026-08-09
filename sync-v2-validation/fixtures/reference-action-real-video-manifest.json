@@ -1,0 +1,351 @@
+{
+  "schema_version": 1,
+  "description": "Reference-action real-video validation matrix. Media stays outside Git. Exercise labels only select same-family reference/candidate material; correctness remains reference-relative rather than a universal biomechanics claim.",
+  "corpus_root": "/home/coder/.local/share/senp-test-videos/drive-14DVra51GZZozAF-4uBwOuk75U0z-QwMO",
+  "corpus_manifest": {
+    "path": "/home/coder/.local/share/senp-test-videos/manifests/drive-14DVra51GZZozAF-4uBwOuk75U0z-QwMO.json",
+    "sha256": "466370ed2191cb91f5a740eb60541b791f9b1724f61e1a94b9afb17faad9192d"
+  },
+  "required_exercise_families": [
+    "biceps_curl",
+    "lat_pullover",
+    "leg_raise_floor",
+    "leg_raise_dip_station",
+    "plank",
+    "pullup",
+    "pushup",
+    "side_bridge"
+  ],
+  "visual_review": {
+    "reviewed_on": "2026-08-09",
+    "artifacts_are_generated_and_not_committed": true,
+    "generated_artifacts": [
+      "test-artifacts/reference-action-validation/visual-review/exercise-right-overview.jpg",
+      "test-artifacts/reference-action-validation/visual-review/exercise-wrong-overview.jpg",
+      "test-artifacts/reference-action-validation/visual-review/cricket-overview.jpg",
+      "test-artifacts/reference-action-validation/visual-review/cricket-videoplayback-1-detail.jpg"
+    ],
+    "exercise_observation": "Representative frames show all eight named exercise families have visually corresponding right/wrong movement-family clips, despite substantial viewpoint, crop, performer and environment changes. Biceps_curl_right.mp4 itself contains tutorial-style red-X and green-check segments, so the filename must not be treated as framewise universal correctness truth; it remains valid as a reference-relative clip and self-control.",
+    "cricket_observation": "The Jofra Archer clip and videoplayback.1775553436742.publer.com.mp4 both visibly contain bowling actions, but their run-up, camera, performer and execution differ enough that cross-person pairing is exploratory same-category evidence rather than a correctness golden. videoplayback.1775553006338.publer.com.mp4 and videoplayback.1775553258598.publer.com.mp4 visibly show batting/crease actions and are safe unrelated-motion negatives against the Jofra bowling reference. Jofra self-control is the strongest non-exercise generic-action positive control. videoplayback (1).mp4 visibly contains both a batter and a bowler in the same play, so it is retained only as a non-gating multi-person/mixed-scene subject-selection stress case rather than a clean unrelated negative."
+  },
+  "cases": [
+    {
+      "id": "biceps-wrong-right",
+      "domain": "exercise",
+      "action_family": "biceps_curl",
+      "relation": "wrong_vs_reference",
+      "candidate": "Wrong videos/biceps_curl_wrong.mp4",
+      "reference": "Right videos/Biceps_curl_right.mp4",
+      "valid_tests": [
+        "reference_relative_deviation",
+        "state_order",
+        "timing_elasticity",
+        "viewpoint_robustness"
+      ],
+      "pose_evidence_case_id": "biceps-wrong-right",
+      "gating": false
+    },
+    {
+      "id": "biceps-right-right-control",
+      "domain": "exercise",
+      "action_family": "biceps_curl",
+      "relation": "self_control",
+      "candidate": "Right videos/Biceps_curl_right.mp4",
+      "reference": "Right videos/Biceps_curl_right.mp4",
+      "valid_tests": [
+        "reference_self_reconstruction",
+        "state_coverage",
+        "identity_timing"
+      ],
+      "pose_evidence_case_id": "biceps-right-right-control",
+      "gating": true
+    },
+    {
+      "id": "lat-pullovers-wrong-right",
+      "domain": "exercise",
+      "action_family": "lat_pullover",
+      "relation": "wrong_vs_reference",
+      "candidate": "Wrong videos/lat_pullovers_wrong.mp4",
+      "reference": "Right videos/lat_pullovers_right.mp4",
+      "valid_tests": [
+        "reference_relative_deviation",
+        "state_order",
+        "timing_elasticity"
+      ],
+      "pose_evidence_case_id": "lat-pullovers-wrong-right",
+      "gating": false
+    },
+    {
+      "id": "lat-pullovers-right-right-control",
+      "domain": "exercise",
+      "action_family": "lat_pullover",
+      "relation": "self_control",
+      "candidate": "Right videos/lat_pullovers_right.mp4",
+      "reference": "Right videos/lat_pullovers_right.mp4",
+      "valid_tests": [
+        "reference_self_reconstruction",
+        "state_coverage",
+        "identity_timing"
+      ],
+      "pose_evidence_case_id": "lat-pullovers-right-right-control",
+      "gating": true
+    },
+    {
+      "id": "legraise-wrong-right",
+      "domain": "exercise",
+      "action_family": "leg_raise_floor",
+      "relation": "wrong_vs_reference",
+      "candidate": "Wrong videos/leg_raise_wrong.mp4",
+      "reference": "Right videos/leg_raise_right.mp4",
+      "valid_tests": [
+        "reference_relative_deviation",
+        "state_order",
+        "timing_elasticity",
+        "codec_and_viewpoint_change"
+      ],
+      "pose_evidence_case_id": "legraise-wrong-right",
+      "gating": false
+    },
+    {
+      "id": "legraise-right-right-control",
+      "domain": "exercise",
+      "action_family": "leg_raise_floor",
+      "relation": "self_control",
+      "candidate": "Right videos/leg_raise_right.mp4",
+      "reference": "Right videos/leg_raise_right.mp4",
+      "valid_tests": [
+        "reference_self_reconstruction",
+        "state_coverage",
+        "identity_timing"
+      ],
+      "pose_evidence_case_id": "legraise-right-right-control",
+      "gating": true
+    },
+    {
+      "id": "legraises-alt-wrong-right",
+      "domain": "exercise",
+      "action_family": "leg_raise_dip_station",
+      "relation": "wrong_vs_reference",
+      "candidate": "Wrong videos/leg_raises_wrong.mp4",
+      "reference": "Right videos/leg_raises_right.mp4",
+      "valid_tests": [
+        "reference_relative_deviation",
+        "state_order",
+        "timing_elasticity"
+      ],
+      "pose_evidence_case_id": "legraises-alt-wrong-right",
+      "gating": false
+    },
+    {
+      "id": "legraises-alt-right-right-control",
+      "domain": "exercise",
+      "action_family": "leg_raise_dip_station",
+      "relation": "self_control",
+      "candidate": "Right videos/leg_raises_right.mp4",
+      "reference": "Right videos/leg_raises_right.mp4",
+      "valid_tests": [
+        "reference_self_reconstruction",
+        "state_coverage",
+        "identity_timing"
+      ],
+      "pose_evidence_case_id": "legraises-alt-right-right-control",
+      "gating": true
+    },
+    {
+      "id": "plank-wrong-right",
+      "domain": "exercise",
+      "action_family": "plank",
+      "relation": "wrong_vs_reference",
+      "candidate": "Wrong videos/plank_wrong.mp4",
+      "reference": "Right videos/plank_right.mp4",
+      "valid_tests": [
+        "isometric_state_hold",
+        "reference_relative_deviation",
+        "confidence_suppression"
+      ],
+      "pose_evidence_case_id": "plank-wrong-right",
+      "gating": false
+    },
+    {
+      "id": "plank-right-right-control",
+      "domain": "exercise",
+      "action_family": "plank",
+      "relation": "self_control",
+      "candidate": "Right videos/plank_right.mp4",
+      "reference": "Right videos/plank_right.mp4",
+      "valid_tests": [
+        "reference_self_reconstruction",
+        "hold_state_coverage",
+        "identity_timing"
+      ],
+      "pose_evidence_case_id": "plank-right-right-control",
+      "gating": true
+    },
+    {
+      "id": "pullups-wrong-right",
+      "domain": "exercise",
+      "action_family": "pullup",
+      "relation": "wrong_vs_reference",
+      "candidate": "Wrong videos/pullups_wrong.mp4",
+      "reference": "Right videos/pullups_right.mp4",
+      "valid_tests": [
+        "reference_relative_deviation",
+        "state_order",
+        "timing_elasticity"
+      ],
+      "pose_evidence_case_id": "pullups-wrong-right",
+      "gating": false
+    },
+    {
+      "id": "pullups-right-right-control",
+      "domain": "exercise",
+      "action_family": "pullup",
+      "relation": "self_control",
+      "candidate": "Right videos/pullups_right.mp4",
+      "reference": "Right videos/pullups_right.mp4",
+      "valid_tests": [
+        "reference_self_reconstruction",
+        "state_coverage",
+        "identity_timing"
+      ],
+      "pose_evidence_case_id": "pullups-right-right-control",
+      "gating": true
+    },
+    {
+      "id": "pushup-wrong-right",
+      "domain": "exercise",
+      "action_family": "pushup",
+      "relation": "wrong_vs_reference",
+      "candidate": "Wrong videos/pushups_wrong.mp4",
+      "reference": "Right videos/pushups_right.mp4",
+      "valid_tests": [
+        "reference_relative_deviation",
+        "state_order",
+        "confidence_suppression",
+        "no_forced_action"
+      ],
+      "pose_evidence_case_id": "pushup-wrong-right",
+      "gating": false
+    },
+    {
+      "id": "pushup-right-right-control",
+      "domain": "exercise",
+      "action_family": "pushup",
+      "relation": "self_control",
+      "candidate": "Right videos/pushups_right.mp4",
+      "reference": "Right videos/pushups_right.mp4",
+      "valid_tests": [
+        "reference_self_reconstruction",
+        "state_coverage",
+        "identity_timing"
+      ],
+      "pose_evidence_case_id": "pushup-right-right-control",
+      "gating": true
+    },
+    {
+      "id": "side-bridges-wrong-right",
+      "domain": "exercise",
+      "action_family": "side_bridge",
+      "relation": "wrong_vs_reference",
+      "candidate": "Wrong videos/side_bridges_wrong.mp4",
+      "reference": "Right videos/Side_bridges_right.mp4",
+      "valid_tests": [
+        "reference_relative_deviation",
+        "state_order",
+        "timing_elasticity",
+        "viewpoint_robustness"
+      ],
+      "pose_evidence_case_id": "side-bridges-wrong-right",
+      "gating": false
+    },
+    {
+      "id": "side-bridges-right-right-control",
+      "domain": "exercise",
+      "action_family": "side_bridge",
+      "relation": "self_control",
+      "candidate": "Right videos/Side_bridges_right.mp4",
+      "reference": "Right videos/Side_bridges_right.mp4",
+      "valid_tests": [
+        "reference_self_reconstruction",
+        "state_coverage",
+        "identity_timing"
+      ],
+      "pose_evidence_case_id": "side-bridges-right-right-control",
+      "gating": true
+    },
+    {
+      "id": "cricket-jofra-self-control",
+      "domain": "generic_action",
+      "action_family": "cricket_bowling",
+      "relation": "self_control",
+      "candidate": "Cricket samples/jofra Archer bowling action slow motion #cricket #cricketshorts #bowling #shorts #viral #foryou.mp4",
+      "reference": "Cricket samples/jofra Archer bowling action slow motion #cricket #cricketshorts #bowling #shorts #viral #foryou.mp4",
+      "valid_tests": [
+        "non_exercise_reference_self_reconstruction",
+        "state_coverage",
+        "timing_elasticity"
+      ],
+      "gating": true
+    },
+    {
+      "id": "cricket-jofra-vs-backyard-bowling-exploratory",
+      "domain": "generic_action",
+      "action_family": "cricket_bowling",
+      "relation": "same_category_exploratory",
+      "candidate": "Cricket samples/videoplayback.1775553436742.publer.com.mp4",
+      "reference": "Cricket samples/jofra Archer bowling action slow motion #cricket #cricketshorts #bowling #shorts #viral #foryou.mp4",
+      "valid_tests": [
+        "cross_person_same_category_exploration",
+        "viewpoint_and_style_stress"
+      ],
+      "gating": false,
+      "reason_not_golden": "Both clips visibly bowl, but execution, camera, performer and run-up differ; reference-relative correctness cannot be assumed."
+    },
+    {
+      "id": "cricket-jofra-vs-net-batting-negative",
+      "domain": "generic_action",
+      "action_family": "cricket_bowling",
+      "relation": "unrelated_negative",
+      "candidate": "Cricket samples/videoplayback.1775553006338.publer.com.mp4",
+      "reference": "Cricket samples/jofra Archer bowling action slow motion #cricket #cricketshorts #bowling #shorts #viral #foryou.mp4",
+      "valid_tests": [
+        "no_action_false_positive_rate"
+      ],
+      "gating": true
+    },
+    {
+      "id": "cricket-jofra-vs-crease-batting-negative",
+      "domain": "generic_action",
+      "action_family": "cricket_bowling",
+      "relation": "unrelated_negative",
+      "candidate": "Cricket samples/videoplayback.1775553258598.publer.com.mp4",
+      "reference": "Cricket samples/jofra Archer bowling action slow motion #cricket #cricketshorts #bowling #shorts #viral #foryou.mp4",
+      "valid_tests": [
+        "no_action_false_positive_rate"
+      ],
+      "gating": true
+    },
+    {
+      "id": "cricket-jofra-vs-mixed-batting-bowling-exploratory",
+      "domain": "generic_action",
+      "action_family": "cricket_bowling",
+      "relation": "mixed_scene_exploratory",
+      "candidate": "Cricket samples/videoplayback (1).mp4",
+      "reference": "Cricket samples/jofra Archer bowling action slow motion #cricket #cricketshorts #bowling #shorts #viral #foryou.mp4",
+      "valid_tests": [
+        "multi_person_subject_selection_stress",
+        "mixed_scene_no_action_exploration"
+      ],
+      "gating": false,
+      "reason_not_golden": "The clip visibly contains both a batter and a bowler, so a pose detector may track either person; it is not a clean unrelated-motion negative."
+    }
+  ],
+  "relation_policy": {
+    "self_control": "gating positive control: same media must reconstruct as ACTION with strong state coverage and legal order",
+    "wrong_vs_reference": "report-only reference-relative diagnostic unless timestamp-level expected deviation windows are separately annotated; filenames are not universal biomechanics truth",
+    "same_category_exploratory": "non-gating",
+    "unrelated_negative": "gating false-positive negative",
+    "mixed_scene_exploratory": "non-gating because both the target-category motion and another cricket action/person are visibly present"
+  },
+  "require_all_locked_videos": true
+}

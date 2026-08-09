@@ -14,6 +14,8 @@ Three local seams keep future integration narrow:
 
 The CLI/media layer uses a separate executable adapter protocol (`senp-sync-v2-validation-adapter/1`) so real-video and performance validation can be wired after spatial/temporal integration without importing their production modules here.
 
+The experimental generic reference-derived action work has a second, intentionally core-agnostic validation surface in `tools/reference_action_validation.py`. It owns deterministic MediaPipe-33 pose perturbations, the complete real-video reference-action manifest, pose-coverage provenance, and normalized future-adapter metrics. It does **not** implement or guess the new action compiler/recognizer API. See [`docs/REFERENCE_ACTION_VALIDATION.md`](../docs/REFERENCE_ACTION_VALIDATION.md).
+
 ## Synthetic suite
 
 Generate deterministic timestamp-first machine-readable fixtures:
