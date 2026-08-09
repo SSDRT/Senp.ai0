@@ -96,7 +96,11 @@ class ValidationActivity : ComponentActivity() {
             }
         } else {
             setContent {
-                SenpApp()
+                SenpApp(
+                    onOpenLiveCoach = {
+                        startActivity(Intent(this, LivePushUpActivity::class.java))
+                    },
+                )
             }
         }
     }

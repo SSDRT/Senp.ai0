@@ -46,6 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun SenpApp(
     viewModel: SenpEngineViewModel = viewModel(),
+    onOpenLiveCoach: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -59,6 +60,7 @@ fun SenpApp(
                     ConfigurationScreen(
                         viewModel = viewModel,
                         onStartAnalysis = { viewModel.runAnalysis() },
+                        onOpenLiveCoach = onOpenLiveCoach,
                     )
                 }
 

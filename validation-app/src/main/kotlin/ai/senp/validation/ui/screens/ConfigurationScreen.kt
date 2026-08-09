@@ -82,6 +82,7 @@ private data class EditorRequest(val slot: VideoSlot, val uri: Uri)
 fun ConfigurationScreen(
     viewModel: SenpEngineViewModel,
     onStartAnalysis: () -> Unit,
+    onOpenLiveCoach: () -> Unit,
 ) {
     val context = LocalContext.current
     val selectionState by viewModel.videoSelectionState.collectAsState()
@@ -154,6 +155,7 @@ fun ConfigurationScreen(
         onRemoveMaster = viewModel::clearReferenceVideo,
         onRemoveUser = viewModel::clearSourceVideo,
         onStartAnalysis = onStartAnalysis,
+        onOpenLiveCoach = onOpenLiveCoach,
     )
 
     if (showUserSourceDialog) {
@@ -176,6 +178,7 @@ private fun LiveArenaHome(
     onRemoveMaster: () -> Unit,
     onRemoveUser: () -> Unit,
     onStartAnalysis: () -> Unit,
+    onOpenLiveCoach: () -> Unit,
 ) {
     Column(
         Modifier.fillMaxSize().background(SenpPageBackdrop).statusBarsPadding().navigationBarsPadding()
@@ -185,7 +188,6 @@ private fun LiveArenaHome(
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Column {
                 Text("Senp.ai", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                Text("LIVE ARENA", color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.7.sp, modifier = Modifier.padding(top = 3.dp))
             }
             Box(Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(SenpCream))
         }
@@ -228,6 +230,16 @@ private fun LiveArenaHome(
         selectionState.errorMessage?.let {
             Text(it, color = Color(0xFFE57373), fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 10.dp))
         }
+        Spacer(Modifier.height(24.dp))
+        SectionLabel("TRY THE LIVE COACH")
+        Spacer(Modifier.height(8.dp))
+        Button(
+            onClick = onOpenLiveCoach,
+            modifier = Modifier.fillMaxWidth().height(48.dp),
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = SenpSurface, contentColor = SenpCream),
+            border = BorderStroke(1.dp, SenpBorder),
+        ) { Text("OPEN LIVE POSE COACH", fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp) }
         Spacer(Modifier.height(24.dp))
     }
 }
