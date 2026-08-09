@@ -133,6 +133,85 @@ class ReferenceActionCoreTest {
     }
 
     @Test
+    fun `deviation persistence resets when action state changes`() {
+        val profile = compileProfile(cyclicSequence(VideoRole.REFERENCE, repetitions = 5))
+        val evaluator = ReferenceDeviationEvaluator(profile)
+        val state = profile.states.first()
+        val feature = state.features.first {
+            it.kind == ActionFeatureKind.GEOMETRY && it.importance >= 0.08 && it.confidence >= 0.45
+        }
+        val deviatedValue = feature.reference.upper + feature.scale * 2.0
+
+        fun estimate(timestampMs: Long, stateIndex: Int): ActionStateEstimate = ActionStateEstimate(
+            timestamp = TimestampMs(timestampMs),
+            status = ActionTrackingStatus.TRACKING,
+            stateId = profile.states[stateIndex].id,
+            stateIndex = stateIndex,
+            confidence = 0.95,
+            featureCoverage = 0.95,
+            mirrorMode = ActionMirrorMode.DIRECT,
+            completedRepetitions = 0,
+        )
+
+        val first = evaluator.evaluate(
+            spatialFrame(0L, mapOf(feature.name to deviatedValue), 0.96),
+            estimate(0L, 0),
+        ).single { it.feature == feature.name }
+        assertFalse(first.persistenceCandidate)
+
+        evaluator.evaluate(
+            spatialFrame(200L, emptyMap(), 0.96),
+            estimate(200L, 1),
+        )
+
+        val returned = evaluator.evaluate(
+            spatialFrame(1_000L, mapOf(feature.name to deviatedValue), 0.96),
+            estimate(1_000L, 0),
+        ).single { it.feature == feature.name }
+        assertFalse(returned.persistenceCandidate)
+    }
+
+    @Test
+    fun `deviation persistence resets across tracking loss`() {
+        val profile = compileProfile(cyclicSequence(VideoRole.REFERENCE, repetitions = 5))
+        val evaluator = ReferenceDeviationEvaluator(profile)
+        val state = profile.states.first()
+        val feature = state.features.first {
+            it.kind == ActionFeatureKind.GEOMETRY && it.importance >= 0.08 && it.confidence >= 0.45
+        }
+        val deviatedValue = feature.reference.upper + feature.scale * 2.0
+        val tracked = ActionStateEstimate(
+            timestamp = TimestampMs(0L),
+            status = ActionTrackingStatus.TRACKING,
+            stateId = state.id,
+            stateIndex = 0,
+            confidence = 0.95,
+            featureCoverage = 0.95,
+            mirrorMode = ActionMirrorMode.DIRECT,
+            completedRepetitions = 0,
+        )
+        evaluator.evaluate(spatialFrame(0L, mapOf(feature.name to deviatedValue), 0.96), tracked)
+
+        evaluator.evaluate(
+            spatialFrame(200L, emptyMap(), 0.0),
+            tracked.copy(
+                timestamp = TimestampMs(200L),
+                status = ActionTrackingStatus.LOST,
+                stateId = null,
+                stateIndex = null,
+                confidence = 0.0,
+                featureCoverage = 0.0,
+            ),
+        )
+
+        val returned = evaluator.evaluate(
+            spatialFrame(1_000L, mapOf(feature.name to deviatedValue), 0.96),
+            tracked.copy(timestamp = TimestampMs(1_000L)),
+        ).single { it.feature == feature.name }
+        assertFalse(returned.persistenceCandidate)
+    }
+
+    @Test
     fun `reverse direction is not accepted as the forward action`() {
         val profile = compileProfile(cyclicSequence(VideoRole.REFERENCE, repetitions = 5))
         val reversed = cyclicSequence(VideoRole.SOURCE, repetitions = 3, reverseMotion = true)

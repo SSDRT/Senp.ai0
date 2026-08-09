@@ -12,9 +12,11 @@ class ReferenceDeviationEvaluator(
     )
 
     private val persistence = mutableMapOf<String, Persistence>()
+    private var activeStateId: String? = null
 
     fun reset() {
         persistence.clear()
+        activeStateId = null
     }
 
     fun evaluate(
@@ -25,6 +27,7 @@ class ReferenceDeviationEvaluator(
             estimate.status != ActionTrackingStatus.TRACKING &&
             estimate.status != ActionTrackingStatus.COMPLETED
         ) {
+            resetPersistence()
             return emptyList()
         }
         val stateIndex = estimate.stateIndex ?: return emptyList()
@@ -34,9 +37,14 @@ class ReferenceDeviationEvaluator(
             estimate.featureCoverage < config.minimumStateFeatureCoverage ||
             frame.intrinsicDescriptor.confidence < config.minimumFrameConfidence
         ) {
+            resetPersistence()
             return emptyList()
         }
         val state = profile.states[stateIndex]
+        if (activeStateId != state.id) {
+            persistence.clear()
+            activeStateId = state.id
+        }
         val activePersistenceKeys = mutableSetOf<String>()
         val deviations = state.features.mapNotNull { feature ->
             if (
@@ -94,6 +102,11 @@ class ReferenceDeviationEvaluator(
             .filter { it.startsWith(statePrefix) && it !in activePersistenceKeys }
             .forEach(persistence::remove)
         return deviations.sortedByDescending { it.normalizedDeviation * it.confidence }
+    }
+
+    private fun resetPersistence() {
+        persistence.clear()
+        activeStateId = null
     }
 }
 
