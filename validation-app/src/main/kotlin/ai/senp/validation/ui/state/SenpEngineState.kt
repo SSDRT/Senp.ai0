@@ -25,6 +25,7 @@ data class ConfigurationState(
     val longEdgeCapPx: Int = 640,
     val modelVariant: String = "pose-landmarker-full",
     val minimumConfidence: Double = 0.5,
+    val exerciseProfileId: String = "generic",
 )
 
 sealed interface AnalysisUiState {

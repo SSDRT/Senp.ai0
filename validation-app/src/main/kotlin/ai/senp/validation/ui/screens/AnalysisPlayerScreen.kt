@@ -471,8 +471,8 @@ private fun AiAnalysisSlot() {
             modifier = Modifier.fillMaxSize().padding(18.dp),
             verticalArrangement = Arrangement.Center,
         ) {
-            Text("AI ANALYSIS", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-            Text("Reserved space for generated coaching insights", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 8.dp))
+            Text("MOTION ANALYSIS", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
+            Text("Deterministic findings from pose, phase, and alignment", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 8.dp))
         }
     }
 }

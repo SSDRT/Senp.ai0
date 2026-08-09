@@ -18,7 +18,7 @@ The model binary is intentionally excluded from Git. Fetch and verify the pinned
 ./scripts/fetch_pose_model.sh
 ```
 
-The script writes `local-models/pose_landmarker_full.task` only after checking its exact 9,398,198-byte size and SHA-256 `5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1`. Provenance is recorded in `models/pose_landmarker_full.provenance.json`. The adapter verifies the packaged model hash against `PoseModelConfiguration.modelSha256` before construction.
+The script writes `local-models/pose_landmarker_full.task` only after checking its exact 9,398,198-byte size and SHA-256 `5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1`. Provenance is recorded in `models/pose_landmarker_full.provenance.json`. Product builds do not bundle this binary: the app downloads the same pinned artifact on demand into private storage, verifies byte count and SHA-256, and then passes the verified file to the MediaPipe adapter. The local fetch script remains useful for Android instrumentation and engineering validation.
 
 MediaPipe Tasks Vision `0.10.32` is pinned because its AAR contains the `x86_64` JNI runtime required by the API 35 emulator, in addition to phone ABIs.
 
@@ -34,7 +34,7 @@ val result = extractor.extract(
 )
 ```
 
-`AndroidVideoPoseExtractor` accepts plain paths, `file:` URIs, and `content:` URIs. Content URIs are staged into the app cache and deleted after extraction. Both the input video and packaged model are checked against their canonical SHA-256 values.
+`AndroidVideoPoseExtractor` accepts plain paths, `file:` URIs, and `content:` URIs. Content URIs are staged into the app cache and deleted after extraction. Both the input video and the installed/private model are checked against their canonical SHA-256 values.
 
 The decoder:
 

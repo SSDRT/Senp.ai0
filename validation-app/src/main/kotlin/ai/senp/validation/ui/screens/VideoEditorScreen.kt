@@ -148,27 +148,38 @@ fun VideoEditorScreen(
                 },
                 actions = {
                     Text("SAVE", color = if (isExporting) SenpMuted else SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp, modifier = Modifier.padding(horizontal = 16.dp).clickable(enabled = !isExporting) {
-                        isExporting = true
-                        coroutineScope.launch {
-                            exportVideo(
-                                context = context,
-                                uri = videoUri,
-                                trimStartMs = trimStartMs,
-                                trimEndMs = trimEndMs,
-                                cropLeft = cropLeft,
-                                cropTop = cropTop,
-                                cropRight = cropRight,
-                                cropBottom = cropBottom,
-                                onProgress = { exportProgress = it },
-                                onSuccess = { outUri ->
-                                    isExporting = false
-                                    onSave(outUri)
-                                },
-                                onError = { e ->
-                                    isExporting = false
-                                    Toast.makeText(context, "Export Failed: ${e.message}", Toast.LENGTH_LONG).show()
-                                }
-                            )
+                        val trimChanged = trimStartMs > 0L || trimEndMs < (videoDurationMs - 50L).coerceAtLeast(0L)
+                        val cropChanged = abs(cropLeft) > 0.001f || abs(cropTop) > 0.001f ||
+                            abs(cropRight - 1f) > 0.001f || abs(cropBottom - 1f) > 0.001f
+
+                        if (!trimChanged && !cropChanged) {
+                            // Do not transcode an untouched upload. OpenDocument grants a persisted
+                            // content URI and the pose adapter can stage it directly for decoding.
+                            // Avoiding a redundant Media3 export cuts memory/codec pressure before analysis.
+                            onSave(videoUri)
+                        } else {
+                            isExporting = true
+                            coroutineScope.launch {
+                                exportVideo(
+                                    context = context,
+                                    uri = videoUri,
+                                    trimStartMs = trimStartMs,
+                                    trimEndMs = trimEndMs,
+                                    cropLeft = cropLeft,
+                                    cropTop = cropTop,
+                                    cropRight = cropRight,
+                                    cropBottom = cropBottom,
+                                    onProgress = { exportProgress = it },
+                                    onSuccess = { outUri ->
+                                        isExporting = false
+                                        onSave(outUri)
+                                    },
+                                    onError = { e ->
+                                        isExporting = false
+                                        Toast.makeText(context, "Export Failed: ${e.message}", Toast.LENGTH_LONG).show()
+                                    }
+                                )
+                            }
                         }
                     })
                 },

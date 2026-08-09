@@ -22,21 +22,19 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     buildFeatures {
         compose = true
     }
 
-    androidResources { noCompress += "task" }
-    sourceSets["main"].assets.srcDir(rootProject.layout.projectDirectory.dir("local-models"))
 }
 
 kotlin {
     compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
+        jvmTarget.set(JvmTarget.JVM_21)
         freeCompilerArgs.add("-opt-in=androidx.compose.material3.ExperimentalMaterial3Api")
     }
 }
@@ -53,6 +51,13 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.guava.android)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
@@ -67,4 +72,3 @@ dependencies {
     implementation(libs.androidx.media3.transformer)
     implementation(libs.androidx.media3.effect)
 }
-
