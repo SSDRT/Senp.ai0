@@ -2,6 +2,7 @@ package ai.senp.motion
 
 import ai.senp.core.contracts.CanonicalObservationSequence
 import kotlin.math.abs
+import kotlin.math.ceil
 import kotlin.math.exp
 import kotlin.math.floor
 import kotlin.math.max
@@ -64,11 +65,20 @@ class ReferenceActionCompiler(
             robustScale(filteredSamples.mapNotNull { it.values[feature] }, feature)
         }
         val trends = buildTrends(filteredSamples, featureScales)
-        val cycles = detectCycles(filteredSamples, trends)
-        val stateCount = min(
-            config.targetStateCount,
-            max(config.minimumStateCount, filteredSamples.size / config.minimumSamplesPerState),
-        )
+        val hasPhaseMotion = hasSufficientCyclicMotion(filteredSamples, featureNames)
+        val cycles = if (hasPhaseMotion) {
+            detectCycles(filteredSamples, trends)
+        } else {
+            null
+        }
+        val stateCount = if (hasPhaseMotion) {
+            min(
+                config.targetStateCount,
+                max(config.minimumStateCount, filteredSamples.size / config.minimumSamplesPerState),
+            )
+        } else {
+            1
+        }
         val assignment = if (cycles != null) {
             assignCyclicStates(filteredSamples, cycles.boundariesMs, stateCount)
         } else {
@@ -144,7 +154,14 @@ class ReferenceActionCompiler(
             confidence = confidence,
             validation = placeholderValidation,
         )
-        val validation = validateProfile(baseProfile, assignment.assignments, trends, analyzableFraction, referenceOutlierFraction)
+        val validation = validateProfile(
+            profile = baseProfile,
+            reference = reference,
+            assignments = assignment.assignments,
+            trends = trends,
+            analyzableFraction = analyzableFraction,
+            referenceOutlierFraction = referenceOutlierFraction,
+        )
         return ReferenceActionCompilation.Success(baseProfile.copy(validation = validation))
     }
 
@@ -160,6 +177,27 @@ class ReferenceActionCompiler(
             previous = sample
         }
         return result
+    }
+
+    private fun hasSufficientCyclicMotion(
+        samples: List<ActionSample>,
+        featureNames: List<String>,
+    ): Boolean {
+        if (samples.isEmpty() || featureNames.isEmpty()) return false
+        val movingFeatures = featureNames.count { feature ->
+            val values = samples.mapNotNull { it.values[feature] }
+            if (values.size < config.minimumAnalyzableFrames) {
+                false
+            } else {
+                val robustRange = quantile(values, 0.90) - quantile(values, 0.10)
+                robustRange >= semanticFeatureFloor(feature) * config.minimumCyclicMotionRangeFloorMultiples
+            }
+        }
+        val requiredMovingFeatures = max(
+            config.minimumCyclicMovingFeatureCount,
+            ceil(featureNames.size * config.minimumCyclicMovingFeatureFraction).toInt(),
+        )
+        return movingFeatures >= requiredMovingFeatures
     }
 
     private fun detectCycles(
@@ -477,29 +515,64 @@ class ReferenceActionCompiler(
 
     private fun validateProfile(
         profile: ActionProfile,
+        reference: SpatialSequenceAnalysis,
         assignments: List<AssignedSample>,
         trends: Map<Long, Map<String, Double>>,
         analyzableFraction: Double,
         referenceOutlierFraction: Double,
     ): ActionProfileValidation {
-        val predicted = assignments.map { assignment ->
-            val matches = matchActionStates(
+        val assignedMatches = assignments.map { assignment ->
+            val trajectory = trends[assignment.sample.timestampMs].orEmpty()
+            matchActionStates(
                 profile = profile,
                 geometry = assignment.sample.values,
-                trajectory = trends[assignment.sample.timestampMs].orEmpty(),
-                candidateStates = profile.states.indices.toList(),
+                trajectory = trajectory,
+                candidateStates = listOf(assignment.stateIndex),
                 mirrorModes = listOf(ActionMirrorMode.DIRECT),
-            )
-            assignment to matches.firstOrNull()
+            ).firstOrNull()
         }
-        val accuracy = if (predicted.isEmpty()) 0.0 else predicted.count { (assignment, match) ->
-            match?.stateIndex == assignment.stateIndex
-        }.toDouble() / predicted.size.toDouble()
-        val meanConfidence = predicted.mapNotNull { it.second?.score }.averageOrZeroAction().coerceIn(0.0, 1.0)
-        val recognizedTransitions = predicted.mapNotNull { it.second?.stateIndex }.fold(mutableListOf<Int>()) { acc, state ->
+        val accuracy = if (assignedMatches.isEmpty()) 0.0 else assignedMatches.count { match ->
+            match != null &&
+                match.score >= config.minimumSelfReconstructionScore &&
+                match.coverage >= config.minimumSelfReconstructionFeatureCoverage
+        }.toDouble() / assignedMatches.size.toDouble()
+        val meanConfidence = assignedMatches.mapNotNull { it?.score }.averageOrZeroAction().coerceIn(0.0, 1.0)
+        val selfRecognition = ActionStateRecognizer(profile).recognize(reference)
+        val firstTrackedEstimateIndex = selfRecognition.estimates.indexOfFirst { estimate ->
+            estimate.status == ActionTrackingStatus.TRACKING ||
+                (estimate.status == ActionTrackingStatus.COMPLETED && estimate.stateIndex != null)
+        }
+        val confirmedEntryOrigin = if (firstTrackedEstimateIndex > 0) {
+            selfRecognition.estimates
+                .subList(0, firstTrackedEstimateIndex)
+                .asReversed()
+                .firstOrNull { estimate ->
+                    estimate.status == ActionTrackingStatus.POSSIBLE_ENTRY && estimate.stateIndex != null
+                }
+                ?.stateIndex
+        } else {
+            null
+        }
+        val recognizedStatePath = buildList {
+            confirmedEntryOrigin?.let(::add)
+            if (firstTrackedEstimateIndex >= 0) {
+                selfRecognition.estimates
+                    .drop(firstTrackedEstimateIndex)
+                    .asSequence()
+                    .filter { estimate ->
+                        estimate.status == ActionTrackingStatus.TRACKING ||
+                            (estimate.status == ActionTrackingStatus.COMPLETED && estimate.stateIndex != null)
+                    }
+                    .mapNotNull(ActionStateEstimate::stateIndex)
+                    .forEach(::add)
+            }
+        }.fold(mutableListOf<Int>()) { acc, state ->
             if (acc.lastOrNull() != state) acc += state
             acc
-        }.zipWithNext().toSet()
+        }
+        val recognizedTransitions = recognizedStatePath.zipWithNext().flatMap { (from, to) ->
+            expandedValidationTransitions(profile, from, to)
+        }.toSet()
         val expectedTransitions = profile.transitions.map { it.fromStateIndex to it.toStateIndex }.toSet()
         val transitionCoverage = if (expectedTransitions.isEmpty()) 1.0 else {
             expectedTransitions.count { it in recognizedTransitions }.toDouble() / expectedTransitions.size.toDouble()
@@ -511,6 +584,28 @@ class ReferenceActionCompiler(
             analyzableFraction = analyzableFraction.coerceIn(0.0, 1.0),
             referenceOutlierFraction = referenceOutlierFraction.coerceIn(0.0, 1.0),
         )
+    }
+
+    private fun expandedValidationTransitions(
+        profile: ActionProfile,
+        from: Int,
+        to: Int,
+    ): List<Pair<Int, Int>> {
+        if (from == to || profile.states.isEmpty()) return emptyList()
+        val stateCount = profile.states.size
+        val forwardSteps = if (profile.cyclic) {
+            (to - from + stateCount) % stateCount
+        } else {
+            to - from
+        }
+        if (forwardSteps !in 1..config.maximumValidationStateSkip) {
+            return listOf(from to to)
+        }
+        return (0 until forwardSteps).map { step ->
+            val left = if (profile.cyclic) (from + step) % stateCount else from + step
+            val right = if (profile.cyclic) (from + step + 1) % stateCount else from + step + 1
+            left to right
+        }
     }
 
     private fun nearestSample(samples: List<ActionSample>, targetTimestampMs: Double): ActionSample? {
@@ -583,11 +678,16 @@ data class ReferenceActionCompilerConfig(
     val minimumFrameConfidence: Double = 0.35,
     val minimumFeatureObservability: Double = 0.60,
     val minimumFeatureCount: Int = 3,
+    val minimumSelfReconstructionScore: Double = 0.58,
+    val minimumSelfReconstructionFeatureCoverage: Double = 0.60,
     val targetStateCount: Int = 6,
     val minimumStateCount: Int = 3,
     val minimumSamplesPerState: Int = 3,
     val maximumTrendGapMs: Long = 500L,
     val minimumCycleDurationMs: Long = 450L,
+    val minimumCyclicMotionRangeFloorMultiples: Double = 3.0,
+    val minimumCyclicMovingFeatureFraction: Double = 0.15,
+    val minimumCyclicMovingFeatureCount: Int = 2,
     val maximumReferenceCycles: Int = 10,
     val maximumRecurrenceSamples: Int = 120,
     val recurrenceCandidateDistance: Double = 0.12,
@@ -610,6 +710,7 @@ data class ReferenceActionCompilerConfig(
     val minimumTrajectoryMotionFraction: Double = 0.20,
     val minimumTimingScaleMs: Double = 20.0,
     val nonCyclicStructuralConfidence: Double = 0.82,
+    val maximumValidationStateSkip: Int = 2,
 ) {
     init {
         require(minimumReferenceDurationMs > 0L)
@@ -618,10 +719,15 @@ data class ReferenceActionCompilerConfig(
         requireActionProbability(minimumFrameConfidence)
         requireActionProbability(minimumFeatureObservability)
         require(minimumFeatureCount >= 1)
+        requireActionProbability(minimumSelfReconstructionScore)
+        requireActionProbability(minimumSelfReconstructionFeatureCoverage)
         require(targetStateCount >= minimumStateCount && minimumStateCount >= 2)
         require(minimumSamplesPerState >= 1)
         require(maximumTrendGapMs > 0L)
         require(minimumCycleDurationMs > 0L)
+        require(minimumCyclicMotionRangeFloorMultiples > 0.0)
+        requireActionProbability(minimumCyclicMovingFeatureFraction)
+        require(minimumCyclicMovingFeatureCount >= 1)
         require(maximumReferenceCycles >= 2)
         require(maximumRecurrenceSamples > 0 && maximumPeriodScoreSamples > 0 && maximumAnchorCandidates > 0)
         require(recurrenceCandidateDistance > 0.0)
@@ -638,5 +744,6 @@ data class ReferenceActionCompilerConfig(
         requireActionProbability(minimumTrajectoryMotionFraction)
         require(minimumTimingScaleMs > 0.0)
         requireActionProbability(nonCyclicStructuralConfidence)
+        require(maximumValidationStateSkip >= 1)
     }
 }

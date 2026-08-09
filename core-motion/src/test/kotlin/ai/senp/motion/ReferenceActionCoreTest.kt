@@ -292,6 +292,25 @@ class ReferenceActionCoreTest {
     }
 
     @Test
+    fun `near static hold becomes a sustained single state instead of manufactured repetitions`() {
+        val profile = compileProfile(staticHoldSequence(VideoRole.REFERENCE))
+        val result = ActionStateRecognizer(profile).recognize(staticHoldSequence(VideoRole.SOURCE))
+
+        assertFalse(profile.cyclic)
+        assertEquals(1, profile.states.size)
+        assertEquals(1, profile.referenceRepetitions)
+        assertTrue(profile.cycleDurationMs == null)
+        assertEquals(ActionTrackingStatus.COMPLETED, result.finalStatus)
+        assertEquals(1, result.completedRepetitions)
+        assertTrue(result.trackedFraction > 0.80, result.toString())
+        assertTrue(result.estimates.any { it.status == ActionTrackingStatus.TRACKING && it.stateIndex == 0 })
+
+        val unrelated = ActionStateRecognizer(profile).recognize(unrelatedSequence(VideoRole.SOURCE, durationMs = 3_000L))
+        assertEquals(ActionTrackingStatus.NO_ACTION, unrelated.finalStatus)
+        assertEquals(0, unrelated.completedRepetitions)
+    }
+
+    @Test
     fun `finite non cyclic action compiles and completes in order`() {
         val reference = finiteSequence(VideoRole.REFERENCE)
         val profile = compileProfile(reference)
@@ -300,8 +319,21 @@ class ReferenceActionCoreTest {
 
         assertFalse(profile.cyclic)
         assertEquals(1, profile.referenceRepetitions)
+        assertTrue(profile.validation.transitionCoverage >= 0.80, profile.validation.toString())
         assertEquals(ActionTrackingStatus.COMPLETED, result.finalStatus)
         assertEquals(1, result.completedRepetitions)
+        val trackedStates = result.estimates.mapNotNull { estimate ->
+            estimate.stateIndex?.takeIf {
+                estimate.status == ActionTrackingStatus.TRACKING || estimate.status == ActionTrackingStatus.COMPLETED
+            }
+        }
+        assertTrue(trackedStates.zipWithNext().all { (left, right) -> right - left in 0..1 }, trackedStates.toString())
+
+        val twiceSpeed = ActionStateRecognizer(profile).recognize(
+            finiteSequence(VideoRole.SOURCE, startOffsetMs = 24_000L, durationScale = 0.50),
+        )
+        assertEquals(ActionTrackingStatus.COMPLETED, twiceSpeed.finalStatus)
+        assertTrue(twiceSpeed.trackedFraction > 0.55, twiceSpeed.toString())
     }
 
     @Test
@@ -442,6 +474,32 @@ class ReferenceActionCoreTest {
             role = role,
             duration = DurationMs(frames.last().timestamp.value + step + 1L),
             sampling = ObservationSampling(analysisFramesPerSecond = 24.0 / durationScale),
+            frames = frames,
+            analyzableFraction = 1.0,
+        )
+    }
+
+    private fun staticHoldSequence(role: VideoRole): SpatialSequenceAnalysis {
+        val stepMs = 80L
+        val frames = (0 until 90).map { index ->
+            val jitter = if (index % 2 == 0) 1.0 else -1.0
+            spatialFrame(
+                timestampMs = index * stepMs,
+                values = linkedMapOf(
+                    "angle.left_elbow" to 158.0 + 0.25 * jitter,
+                    "angle.right_elbow" to 157.0 - 0.20 * jitter,
+                    "angle.left_knee" to 171.0 + 0.20 * jitter,
+                    "angle.right_knee" to 170.0 - 0.25 * jitter,
+                    "ratio.left_forearm" to 1.02 + 0.001 * jitter,
+                    "ratio.right_forearm" to 1.01 - 0.001 * jitter,
+                ),
+                confidence = 0.96,
+            )
+        }
+        return SpatialSequenceAnalysis(
+            role = role,
+            duration = DurationMs(frames.last().timestamp.value + stepMs + 1L),
+            sampling = ObservationSampling(analysisFramesPerSecond = 12.5),
             frames = frames,
             analyzableFraction = 1.0,
         )

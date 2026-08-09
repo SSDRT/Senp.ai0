@@ -170,12 +170,58 @@ class ReferenceActionValidationTest(unittest.TestCase):
         with self.assertRaises(module.ValidationError):
             module.validate_normalized_result(result, "self-reconstruction")
 
+    def test_normalized_result_allows_explicit_unusable_empty_profile_for_safe_suppression(self) -> None:
+        result = self.make_result("weak-reference", self.fixture)
+        result["classification"] = "SUPPRESSED"
+        result["confidence"] = 0.95
+        result["profile"] = {"usable": False, "state_ids": [], "legal_transitions": []}
+        for observation in result["observations"]:
+            observation["state_id"] = None
+            observation["classification"] = "SUPPRESSED"
+            observation["confidence"] = 0.0
+        result["repetition_count"] = None
+        summary = module.validate_normalized_result(result, "weak-reference")
+        metrics = module.result_metrics(result)
+        self.assertEqual(summary["states"], 0)
+        self.assertEqual(metrics["state_coverage"], 0.0)
+
     def test_result_metrics_measure_state_coverage_and_legal_order(self) -> None:
         result = self.make_result("self-reconstruction", self.fixture)
         metrics = module.result_metrics(result)
         self.assertEqual(metrics["state_coverage"], 1.0)
         self.assertEqual(metrics["legal_transition_fraction"], 1.0)
         self.assertEqual(metrics["distinct_state_path"], ["S0", "S1", "S2"])
+
+    def test_result_metrics_count_observed_entry_state_but_only_confirmed_transition_order(self) -> None:
+        result = self.make_result("confirmed-only", self.fixture)
+        result["profile"]["legal_transitions"] = [["S0", "S2"]]
+        result["observations"] = [
+            {
+                "timestamp_ms": 0,
+                "state_id": "S1",
+                "tracking_status": "POSSIBLE_ENTRY",
+                "classification": "UNCERTAIN",
+                "confidence": 0.60,
+            },
+            {
+                "timestamp_ms": 100,
+                "state_id": "S0",
+                "tracking_status": "TRACKING",
+                "classification": "ACTION",
+                "confidence": 0.90,
+            },
+            {
+                "timestamp_ms": 200,
+                "state_id": "S2",
+                "tracking_status": "TRACKING",
+                "classification": "ACTION",
+                "confidence": 0.90,
+            },
+        ]
+        metrics = module.result_metrics(result)
+        self.assertEqual(metrics["distinct_state_path"], ["S0", "S2"])
+        self.assertEqual(metrics["state_coverage"], 1.0)
+        self.assertEqual(metrics["legal_transition_fraction"], 1.0)
 
     def test_evaluator_covers_required_metric_families_without_fabricated_scores(self) -> None:
         with tempfile.TemporaryDirectory() as temp:

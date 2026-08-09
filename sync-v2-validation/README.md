@@ -14,7 +14,27 @@ Three local seams keep future integration narrow:
 
 The CLI/media layer uses a separate executable adapter protocol (`senp-sync-v2-validation-adapter/1`) so real-video and performance validation can be wired after spatial/temporal integration without importing their production modules here.
 
-The experimental generic reference-derived action work has a second, intentionally core-agnostic validation surface in `tools/reference_action_validation.py`. It owns deterministic MediaPipe-33 pose perturbations, the complete real-video reference-action manifest, pose-coverage provenance, and normalized future-adapter metrics. It does **not** implement or guess the new action compiler/recognizer API. See [`docs/REFERENCE_ACTION_VALIDATION.md`](../docs/REFERENCE_ACTION_VALIDATION.md).
+The experimental generic reference-derived action work has a second validation surface in `tools/reference_action_validation.py`. It owns deterministic MediaPipe-33 pose perturbations, the complete real-video reference-action manifest, pose-coverage provenance, and acceptance metrics. The production generic action API is exercised by `ReferenceActionValidationAdapter`: saved `VideoPoseExtraction` JSON is adapted and canonicalized one sequence at a time, the reference is compiled/self-validated, and the candidate is recognized/evaluated independently. This path intentionally does **not** invoke Sync-v2 correspondence, so a synchronization refusal cannot gate generic action understanding. See [`docs/REFERENCE_ACTION_VALIDATION.md`](../docs/REFERENCE_ACTION_VALIDATION.md).
+
+### Generic reference-action saved-pose adapter
+
+Build the JVM distribution, then pass the existing validation protocol request to the adapter:
+
+```bash
+./gradlew :sync-v2-validation:installDist
+scripts/reference-action-adapter test-artifacts/reference-action-request.json
+```
+
+The request uses `senp-reference-action-validation-adapter/1` and names the reference/candidate pose-extraction JSON plus the result path. The adapter emits `reference-action-normalized-result/1` with compile/self-validation status, ACTION/NO_ACTION/SUPPRESSED/UNCERTAIN classification and confidence, profile states/legal transitions, per-frame recognition evidence, repetition count/delta, reference-relative deviation spans, candidate coverage, and runtime timings. Classification thresholds are generic and fixed; fixture filenames never select runtime rules. Single-sequence canonical analysis excludes any pre-first-observation timeline gap from coverage/reliability scoring while preserving original observation timestamps, so an absolute clip start offset does not manufacture missing motion.
+
+Run the currently saved API35 multi-family matrix plus the available Jofra self/batting-negative pair:
+
+```bash
+scripts/reference-action-real-benchmark \
+  --output-dir test-artifacts/reference-action-real-adapter
+```
+
+Exercise wrong-vs-reference pairs are report-only for semantics. Available self controls and the saved clean cricket batting negative are gating. The benchmark explicitly reports that unrelated-negative coverage is incomplete until the second manifest batting-negative pose extraction exists; it does not fake that missing case. Generated adapter results remain under ignored `test-artifacts/`.
 
 ## Synthetic suite
 

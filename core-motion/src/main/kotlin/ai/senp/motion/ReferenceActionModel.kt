@@ -117,7 +117,7 @@ data class ActionProfile(
         require(version.isNotBlank())
         requireActionProbability(cyclicityConfidence)
         require(referenceRepetitions >= 1)
-        require(states.size >= 2)
+        require(states.isNotEmpty())
         require(states.mapIndexed { index, state -> state.index == index }.all { it })
         require(states.zipWithNext().all { (left, right) -> left.phaseEndExclusive <= right.phaseStart })
         require(states.first().phaseStart == 0.0)

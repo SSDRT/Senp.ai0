@@ -23,6 +23,7 @@ class ActionStateRecognizer(
     private var lastGoodMs: Long? = null
     private var completedRepetitions = 0
     private val visitedSinceWrap = linkedSetOf<Int>()
+    private var cycleEvidenceEligible = false
 
     fun reset() {
         estimates.clear()
@@ -41,6 +42,7 @@ class ActionStateRecognizer(
         lastGoodMs = null
         completedRepetitions = 0
         visitedSinceWrap.clear()
+        cycleEvidenceEligible = false
     }
 
     fun recognize(sequence: SpatialSequenceAnalysis): ActionRecognitionResult {
@@ -57,7 +59,7 @@ class ActionStateRecognizer(
         }
         lastTimestampMs = timestampMs
         if (status == ActionTrackingStatus.COMPLETED) {
-            return emit(frame.timestamp, status, trackingState, 1.0, 1.0, mirrorMode, null)
+            return emit(frame.timestamp, status, null, 1.0, 1.0, mirrorMode, null)
         }
 
         val geometry = frame.intrinsicDescriptor.values
@@ -90,7 +92,11 @@ class ActionStateRecognizer(
         val effectiveRepetitions: Int
         val finalStatus: ActionTrackingStatus
         if (profile.cyclic) {
-            val trailingCompleteCycle = if (visitedSinceWrap.size == profile.states.size) 1 else 0
+            val trailingCompleteCycle = when {
+                cycleEvidenceEligible && hasSufficientObservedCycleEvidence() -> 1
+                !cycleEvidenceEligible && visitedSinceWrap.size == profile.states.size -> 1
+                else -> 0
+            }
             effectiveRepetitions = completedRepetitions + trailingCompleteCycle
             finalStatus = if (effectiveRepetitions > 0) ActionTrackingStatus.COMPLETED else when (status) {
                 ActionTrackingStatus.NO_ACTION -> ActionTrackingStatus.NO_ACTION
@@ -105,7 +111,8 @@ class ActionStateRecognizer(
             }
         }
         val trackedCount = estimates.count {
-            it.status == ActionTrackingStatus.TRACKING || it.status == ActionTrackingStatus.COMPLETED
+            it.status == ActionTrackingStatus.TRACKING ||
+                (it.status == ActionTrackingStatus.COMPLETED && it.stateIndex != null)
         }
         return ActionRecognitionResult(
             estimates = estimates.toList(),
@@ -133,23 +140,34 @@ class ActionStateRecognizer(
             profile.states.indices.take(config.finiteEntryStateCount)
         }
         val matches = matchActionStates(profile, geometry, trajectory, candidateStates)
-        val best = matches.firstOrNull()
+        val evidenceBest = matches.firstOrNull()
         val second = matches.drop(1).firstOrNull()
-        if (!isStrongEntry(best, second)) {
+        if (!isStrongEntry(evidenceBest, second)) {
             status = ActionTrackingStatus.NO_ACTION
             clearCandidate()
-            return emit(frame.timestamp, status, null, best?.score ?: 0.0, best?.coverage ?: 0.0, ActionMirrorMode.UNKNOWN, null)
+            return emit(frame.timestamp, status, null, evidenceBest?.score ?: 0.0, evidenceBest?.coverage ?: 0.0, ActionMirrorMode.UNKNOWN, null)
         }
-        best!!
+        evidenceBest!!
+        val selected = if (profile.cyclic) {
+            evidenceBest
+        } else {
+            matches.filter { match ->
+                evidenceBest.score - match.score <= config.continuityPreferenceScoreMargin &&
+                    match.score >= config.minimumEntryScore &&
+                    match.coverage >= config.minimumFeatureCoverage
+            }.minWithOrNull(
+                compareBy<ActionStateMatch>(ActionStateMatch::stateIndex).thenByDescending(ActionStateMatch::score),
+            ) ?: evidenceBest
+        }
         status = ActionTrackingStatus.POSSIBLE_ENTRY
-        candidateState = best.stateIndex
+        candidateState = selected.stateIndex
         candidateStartMs = frame.timestamp.value
         candidateStateEnteredMs = frame.timestamp.value
         candidateProgressSteps = 0
         candidateVisited.clear()
-        candidateVisited += best.stateIndex
-        mirrorMode = best.mirrorMode
-        return emit(frame.timestamp, status, best.stateIndex, best.score, best.coverage, mirrorMode, null)
+        candidateVisited += selected.stateIndex
+        mirrorMode = selected.mirrorMode
+        return emit(frame.timestamp, status, selected.stateIndex, selected.score, selected.coverage, mirrorMode, null)
     }
 
     private fun handlePossibleEntry(
@@ -171,14 +189,27 @@ class ActionStateRecognizer(
             }
             return emit(frame.timestamp, status, candidate, 0.0, 0.0, mirrorMode, null)
         }
+        val entryElapsedBeforeMatch = frame.timestamp.value - (candidateStartMs ?: frame.timestamp.value)
+        if (profile.states.size > 1 && candidateProgressSteps == 0 && entryElapsedBeforeMatch > config.entryGraceMs) {
+            status = ActionTrackingStatus.NO_ACTION
+            clearCandidate()
+            return handleEntry(frame, geometry, trajectory, usable = true)
+        }
+        val entrySkipLimit = if (profile.cyclic) config.maximumEntryStateSkip else 1
+        val possibleEntryStates = buildList {
+            add(candidate)
+            for (step in 1..entrySkipLimit) {
+                nextState(candidate, step)?.let(::add)
+            }
+        }.distinct()
         val matches = matchActionStates(
             profile,
             geometry,
             trajectory,
-            profile.states.indices.toList(),
+            possibleEntryStates,
             mirrorModes = listOf(mirrorMode),
         )
-        val best = matches.firstOrNull()
+        val best = selectContinuityMatch(matches, candidate)
         if (best == null || best.score < config.minimumTrackingScore || best.coverage < config.minimumFeatureCoverage) {
             val start = candidateStartMs ?: frame.timestamp.value
             if (frame.timestamp.value - start > config.entryGraceMs) {
@@ -189,20 +220,27 @@ class ActionStateRecognizer(
             return emit(frame.timestamp, status, candidate, best?.score ?: 0.0, best?.coverage ?: 0.0, mirrorMode, null)
         }
         val forward = forwardDistance(candidate, best.stateIndex)
-        if (forward in 0..config.maximumEntryStateSkip) {
+        if (forward in 0..entrySkipLimit) {
             if (forward > 0) {
-                markForwardStates(candidateVisited, candidate, forward)
+                candidateVisited += best.stateIndex
                 candidateProgressSteps += forward
                 candidateStateEnteredMs = frame.timestamp.value
             }
             candidateState = best.stateIndex
             val entryElapsed = frame.timestamp.value - (candidateStartMs ?: frame.timestamp.value)
-            if (candidateProgressSteps >= 1 && entryElapsed >= config.minimumEntryConfirmationMs) {
+            val entryConfirmed = if (profile.states.size == 1) {
+                entryElapsed >= config.minimumSingleStateConfirmationMs
+            } else {
+                candidateProgressSteps >= 1 && entryElapsed >= config.minimumEntryConfirmationMs
+            }
+            if (entryConfirmed) {
                 status = ActionTrackingStatus.TRACKING
                 trackingState = best.stateIndex
                 stateEnteredMs = candidateStateEnteredMs ?: frame.timestamp.value
                 lastGoodMs = frame.timestamp.value
+                visitedSinceWrap.clear()
                 visitedSinceWrap += candidateVisited
+                cycleEvidenceEligible = profile.cyclic
                 return emit(frame.timestamp, status, best.stateIndex, best.score, best.coverage, mirrorMode, null)
             }
             return emit(frame.timestamp, status, best.stateIndex, best.score, best.coverage, mirrorMode, null)
@@ -227,19 +265,21 @@ class ActionStateRecognizer(
     ): ActionStateEstimate {
         val current = trackingState ?: error("tracking status requires a current state")
         if (!usable) return handleTrackingGap(frame, current)
+        val trackingSkipLimit = if (profile.cyclic) config.maximumTrackingStateSkip else 1
         val candidates = buildList {
             add(current)
-            for (step in 1..config.maximumTrackingStateSkip) {
+            for (step in 1..trackingSkipLimit) {
                 nextState(current, step)?.let(::add)
             }
         }.distinct()
-        val best = matchActionStates(
+        val matches = matchActionStates(
             profile,
             geometry,
             trajectory,
             candidates,
             mirrorModes = listOf(mirrorMode),
-        ).firstOrNull()
+        )
+        val best = selectContinuityMatch(matches, current)
         if (best == null || best.score < config.minimumTrackingScore || best.coverage < config.minimumFeatureCoverage) {
             return handleTrackingGap(frame, current, best)
         }
@@ -247,22 +287,36 @@ class ActionStateRecognizer(
         var timing: PhaseTimingComparison? = null
         if (best.stateIndex != current) {
             val distance = forwardDistance(current, best.stateIndex)
-            if (distance <= 0 || distance > config.maximumTrackingStateSkip) {
+            if (distance <= 0 || distance > trackingSkipLimit) {
                 return handleTrackingGap(frame, current, best)
             }
             val entered = stateEnteredMs ?: frame.timestamp.value
-            timing = timingForState(current, frame.timestamp.value - entered, best.score)
+            val observedDurationMs = frame.timestamp.value - entered
+            val minimumDwellMs = (
+                profile.states[current].durationMs.median * config.minimumTrackingStateDwellFraction
+                ).toLong()
+            if (observedDurationMs < minimumDwellMs) {
+                val currentMatch = matches.firstOrNull { it.stateIndex == current }
+                return emit(
+                    frame.timestamp,
+                    ActionTrackingStatus.TRACKING,
+                    current,
+                    currentMatch?.score ?: best.score,
+                    0.0,
+                    mirrorMode,
+                    null,
+                )
+            }
+            timing = timingForState(current, observedDurationMs, best.score)
             if (profile.cyclic && best.stateIndex < current) {
-                markForwardStatesAcrossWrap(current, distance)
-            } else {
-                markForwardStates(visitedSinceWrap, current, distance)
+                handleCycleWrap()
             }
             trackingState = best.stateIndex
             stateEnteredMs = frame.timestamp.value
         }
         val selectedState = trackingState ?: current
         visitedSinceWrap += selectedState
-        if (!profile.cyclic && selectedState == profile.states.lastIndex) {
+        if (!profile.cyclic && profile.states.size > 1 && selectedState == profile.states.lastIndex) {
             val entered = stateEnteredMs ?: frame.timestamp.value
             if (frame.timestamp.value - entered >= config.minimumFiniteCompletionHoldMs) {
                 status = ActionTrackingStatus.COMPLETED
@@ -292,6 +346,7 @@ class ActionStateRecognizer(
         trackingState = null
         stateEnteredMs = null
         visitedSinceWrap.clear()
+        cycleEvidenceEligible = false
         clearCandidate()
         return emit(frame.timestamp, status, null, weakMatch?.score ?: 0.0, weakMatch?.coverage ?: 0.0, mirrorMode, null)
     }
@@ -303,6 +358,17 @@ class ActionStateRecognizer(
         return margin >= config.minimumEntryMargin || best.score >= config.highConfidenceEntryScore
     }
 
+    private fun selectContinuityMatch(matches: List<ActionStateMatch>, currentState: Int): ActionStateMatch? {
+        val best = matches.firstOrNull() ?: return null
+        val closeMatches = matches.filter { match ->
+            best.score - match.score <= config.continuityPreferenceScoreMargin
+        }
+        return closeMatches.minWithOrNull(
+            compareBy<ActionStateMatch> { match -> forwardDistance(currentState, match.stateIndex) }
+                .thenByDescending(ActionStateMatch::score),
+        ) ?: best
+    }
+
     private fun forwardDistance(from: Int, to: Int): Int {
         if (to == from) return 0
         return if (profile.cyclic) {
@@ -312,24 +378,16 @@ class ActionStateRecognizer(
         }
     }
 
-    private fun markForwardStates(target: MutableSet<Int>, from: Int, steps: Int) {
-        for (step in 1..steps) {
-            nextState(from, step)?.let { target += it }
+    private fun handleCycleWrap() {
+        if (cycleEvidenceEligible && hasSufficientObservedCycleEvidence()) {
+            completedRepetitions += 1
         }
+        visitedSinceWrap.clear()
+        cycleEvidenceEligible = true
     }
 
-    private fun markForwardStatesAcrossWrap(from: Int, steps: Int) {
-        for (step in 1..steps) {
-            val state = nextState(from, step) ?: continue
-            if (state == 0) {
-                if (visitedSinceWrap.size == profile.states.size) completedRepetitions += 1
-                visitedSinceWrap.clear()
-                visitedSinceWrap += 0
-            } else {
-                visitedSinceWrap += state
-            }
-        }
-    }
+    private fun hasSufficientObservedCycleEvidence(): Boolean =
+        visitedSinceWrap.size.toDouble() / profile.states.size.toDouble() >= config.minimumObservedStateFractionPerRepetition
 
     private fun nextState(from: Int, step: Int): Int? {
         val raw = from + step
@@ -395,10 +453,14 @@ data class ActionStateRecognizerConfig(
     val highConfidenceEntryScore: Double = 0.78,
     val minimumEntryMargin: Double = 0.025,
     val minimumTrackingScore: Double = 0.48,
-    val finiteEntryStateCount: Int = 2,
+    val continuityPreferenceScoreMargin: Double = 0.04,
+    val finiteEntryStateCount: Int = 1,
     val maximumEntryStateSkip: Int = 2,
     val maximumTrackingStateSkip: Int = 2,
+    val minimumTrackingStateDwellFraction: Double = 0.42,
+    val minimumObservedStateFractionPerRepetition: Double = 0.80,
     val minimumEntryConfirmationMs: Long = 45L,
+    val minimumSingleStateConfirmationMs: Long = 500L,
     val entryGraceMs: Long = 500L,
     val trackingLossGraceMs: Long = 450L,
     val maximumMotionHistoryGapMs: Long = 650L,
@@ -412,11 +474,15 @@ data class ActionStateRecognizerConfig(
             highConfidenceEntryScore,
             minimumEntryMargin,
             minimumTrackingScore,
+            continuityPreferenceScoreMargin,
+            minimumTrackingStateDwellFraction,
+            minimumObservedStateFractionPerRepetition,
         ).forEach(::requireActionProbability)
         require(highConfidenceEntryScore >= minimumEntryScore)
         require(finiteEntryStateCount >= 1)
         require(maximumEntryStateSkip >= 1 && maximumTrackingStateSkip >= 1)
         require(minimumEntryConfirmationMs >= 0L)
+        require(minimumSingleStateConfirmationMs >= minimumEntryConfirmationMs)
         require(entryGraceMs >= minimumEntryConfirmationMs)
         require(trackingLossGraceMs >= 0L)
         require(maximumMotionHistoryGapMs > 0L)

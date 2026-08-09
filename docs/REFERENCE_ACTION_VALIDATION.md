@@ -1,6 +1,6 @@
 # Generic reference-action validation
 
-This validation lane is deliberately separate from the generic action engine. It does not infer action states, train/fine-tune a model, or invent action scores. It prepares deterministic pose-level perturbations, locks real-video cases, normalizes future adapter outputs, and computes benchmark metrics after a concrete core adapter exists.
+This validation lane is deliberately separate from the generic action engine. It does not train/fine-tune a model or invent action scores. It prepares deterministic pose-level perturbations, locks real-video cases, validates the production JVM adapter's normalized outputs, and computes benchmark metrics from the already-implemented generic compiler/recognizer/deviation engine.
 
 ## Inputs and boundaries
 
@@ -8,7 +8,7 @@ This validation lane is deliberately separate from the generic action engine. It
 - Synthetic perturbations operate on existing MediaPipe-33 pose extraction JSON; they do not re-encode video.
 - Real media stays under the external 21-video corpus. Git stores only manifests, hashes, diagnostic summaries, and small fixtures/plans.
 - One reference is evaluated relative to itself. Exercise filenames are selection hints, not universal biomechanics truth.
-- A future adapter receives `senp-reference-action-validation-adapter/1` requests and writes `reference-action-normalized-result/1`. This keeps the harness independent of the core implementation API.
+- `scripts/reference-action-adapter` receives `senp-reference-action-validation-adapter/1` requests and writes `reference-action-normalized-result/1`. The JVM adapter uses the same `PoseObservationAdapter` and single-sequence spatial/action APIs as product integration, while the Python harness remains independent of those Kotlin implementation details.
 
 ## Reusable commands
 
@@ -36,18 +36,19 @@ python3 sync-v2-validation/tools/reference_action_validation.py materialize \
   --output-dir test-artifacts/reference-action-validation/poses
 ```
 
-Stage the full benchmark before the new core exists:
+Materialize and run the synthetic benchmark through the production adapter:
 
 ```bash
 python3 sync-v2-validation/tools/reference_action_validation.py run \
   --pose-json /path/to/reference_pose_extraction.json \
   --unrelated-pose-json /path/to/unrelated_pose_extraction.json \
-  --output-dir test-artifacts/reference-action-validation/run
+  --output-dir test-artifacts/reference-action-validation/run \
+  --adapter-executable scripts/reference-action-adapter
 ```
 
 Without `--adapter-executable`, `summary.json` is `STAGED` and contains no action-model scores. With an adapter, the harness invokes the executable once per materialized case with a JSON request path as its only argument, validates normalized results, computes metrics, and writes a machine-readable pass/fail summary.
 
-After the parent/core lane produces one normalized result per real manifest case (`<case-id>.json`), aggregate the real corpus without changing the core API:
+After adapter execution produces one normalized result per real manifest case (`<case-id>.json`), aggregate the real corpus without changing the core API:
 
 ```bash
 scripts/reference-action-validation evaluate-real \
@@ -56,6 +57,8 @@ scripts/reference-action-validation evaluate-real \
 ```
 
 The real evaluator gates exact same-video controls, aggregates the two visually unrelated cricket negatives into a false-positive rate, keeps filename-selected exercise wrong-vs-reference pairs report-only, and records missing gating cases instead of silently treating a partial corpus as a pass.
+
+For the pose evidence currently saved on disk, `scripts/reference-action-real-benchmark` executes all available exercise self/wrong pairs plus Jofra self and the one extracted batting negative. Its summary explicitly reports `negative_coverage_complete: false` until the second clean batting negative is extracted; a 1/1 result is never relabeled as the manifest's required 2/2 coverage.
 
 ## Normalized adapter result
 
@@ -72,7 +75,7 @@ Each adapter result must contain:
 - optional timestamped cue keys
 - explicit boolean capabilities such as `mirror_invariant`, `viewpoint_invariant`, and `live_cues`
 
-The adapter is only a normalization seam. It may call whatever final core API lands; the validation lane does not prescribe core classes or engine behavior.
+The adapter is only a normalization seam. The current JVM implementation delegates to the generic `PoseObservationAdapter`, single-sequence spatial analysis, `ReferenceActionCompiler`, `ActionStateRecognizer`, and `ReferenceDeviationEvaluator`; validation still judges only the normalized contract rather than prescribing internal state-building algorithms.
 
 ## Metrics and gates
 
@@ -120,4 +123,4 @@ Generated overview images live under ignored `test-artifacts/reference-action-va
 
 `reference-action-cricket-pose-coverage-baseline.json` records a fresh API35 extraction performed through `scripts/sync-v2-validation-adapter` at 15 analysis FPS / 640 px long edge for one bowling reference and one batting negative. The Jofra reference produced 281/281 detected usable sampled frames, and the batting negative produced 172/172. Existing Sync-v2 output from that drive run is explicitly not a generic-action score.
 
-These coverage numbers only establish that pose evidence exists and is suitable to feed the future action core. They do not establish recognition accuracy.
+These coverage numbers only establish that pose evidence exists and is suitable to feed the generic action core. They do not establish recognition accuracy; recognition claims must come from the normalized adapter runs described above.

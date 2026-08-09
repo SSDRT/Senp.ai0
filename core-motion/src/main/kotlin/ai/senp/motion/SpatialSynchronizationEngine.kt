@@ -50,7 +50,7 @@ class SpatialSynchronizationEngine(
      * a dummy reference when callers only need body-centric frames.
      */
     fun analyzeSequence(sequence: CanonicalObservationSequence): SpatialSequenceAnalysis =
-        processSequence(sequence).toPublicAnalysis()
+        processSequence(sequence, ignoreLeadingTimelineGap = true).toPublicAnalysis()
 
     fun analyze(
         source: CanonicalObservationSequence,
@@ -83,7 +83,10 @@ class SpatialSynchronizationEngine(
         )
     }
 
-    private fun processSequence(sequence: CanonicalObservationSequence): SequenceWork {
+    private fun processSequence(
+        sequence: CanonicalObservationSequence,
+        ignoreLeadingTimelineGap: Boolean = false,
+    ): SequenceWork {
         if (sequence.observations.isEmpty()) {
             val reliability = if (sequence.duration.value > 0L) {
                 listOf(
@@ -125,16 +128,18 @@ class SpatialSynchronizationEngine(
         val segments = summarizeSegments(works)
         markSideInstability(works, segments)
         val transforms = summarizeTransformRuns(sequence.role, works)
-        val reliability = buildReliabilitySegments(sequence, works)
+        val timelineStartMs = if (ignoreLeadingTimelineGap) works.first().timestampMs else 0L
+        val timelineDurationMs = (sequence.duration.value - timelineStartMs).coerceAtLeast(0L)
+        val reliability = buildReliabilitySegments(sequence, works, timelineStartMs)
         val analyzableDuration = works.sumOf { work ->
             if (work.transform != null && !work.subjectAmbiguous) work.intervalDurationMs else 0L
         }
-        val analyzableFraction = if (sequence.duration.value > 0L) {
-            (analyzableDuration.toDouble() / sequence.duration.value.toDouble()).coerceIn(0.0, 1.0)
+        val analyzableFraction = if (timelineDurationMs > 0L) {
+            (analyzableDuration.toDouble() / timelineDurationMs.toDouble()).coerceIn(0.0, 1.0)
         } else {
             0.0
         }
-        val reliabilityScore = reliabilityScore(sequence.duration.value, reliability)
+        val reliabilityScore = reliabilityScore(timelineDurationMs, reliability)
         return SequenceWork(
             sequence = sequence,
             frames = works,
@@ -844,13 +849,14 @@ class SpatialSynchronizationEngine(
     private fun buildReliabilitySegments(
         sequence: CanonicalObservationSequence,
         works: List<FrameWork>,
+        timelineStartMs: Long = 0L,
     ): List<SpatialReliabilitySegment> {
         if (sequence.duration.value <= 0L) return emptyList()
         val spans = mutableListOf<ReliabilitySpan>()
         val firstTimestamp = works.first().timestampMs
-        if (firstTimestamp > 0L) {
+        if (firstTimestamp > timelineStartMs) {
             spans += ReliabilitySpan(
-                start = 0L,
+                start = timelineStartMs,
                 end = firstTimestamp,
                 status = SpatialReliabilityStatus.UNRELIABLE,
                 confidence = 0.0,

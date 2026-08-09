@@ -49,6 +49,29 @@ class SpatialSynchronizationEngineTest {
     }
 
     @Test
+    fun `single sequence coverage ignores absolute timestamp origin while paired analysis keeps full timeline semantics`() {
+        val baseline = sequence(VideoRole.SOURCE)
+        val offsetMs = 30_000L
+        val shifted = baseline.copy(
+            duration = DurationMs(baseline.duration.value + offsetMs),
+            observations = baseline.observations.map { observation ->
+                observation.copy(timestamp = TimestampMs(observation.timestamp.value + offsetMs))
+            },
+        )
+
+        val baselineSingle = engine.analyzeSequence(baseline)
+        val shiftedSingle = engine.analyzeSequence(shifted)
+        val shiftedPaired = engine.analyze(shifted, sequence(VideoRole.REFERENCE)).source
+
+        assertEquals(baselineSingle.analyzableFraction, shiftedSingle.analyzableFraction, 1e-12)
+        assertEquals(
+            baselineSingle.frames.map { it.intrinsicDescriptor },
+            shiftedSingle.frames.map { it.intrinsicDescriptor },
+        )
+        assertTrue(shiftedPaired.analyzableFraction < shiftedSingle.analyzableFraction)
+    }
+
+    @Test
     fun `reference action compiler accepts canonical observations through the single sequence seam`() {
         val reference = sequence(VideoRole.REFERENCE)
         val compiler = ReferenceActionCompiler(
@@ -59,7 +82,8 @@ class SpatialSynchronizationEngineTest {
 
         assertTrue(compilation is ReferenceActionCompilation.Success, compilation.toString())
         val profile = (compilation as ReferenceActionCompilation.Success).profile
-        assertTrue(profile.states.size >= 3)
+        assertEquals(1, profile.states.size)
+        assertTrue(!profile.cyclic)
         assertEquals(reference.observations.size, engine.analyzeSequence(reference).frames.size)
     }
 

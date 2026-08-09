@@ -483,10 +483,15 @@ def validate_normalized_result(result: dict[str, Any], case_id: str | None = Non
     profile = result.get("profile")
     if not isinstance(profile, dict):
         raise ValidationError("normalized result requires profile object")
+    usable = profile.get("usable", True)
+    if not isinstance(usable, bool):
+        raise ValidationError("profile.usable must be boolean when present")
     state_ids = profile.get("state_ids")
     legal = profile.get("legal_transitions")
-    if not isinstance(state_ids, list) or not state_ids or any(not isinstance(item, str) or not item for item in state_ids):
-        raise ValidationError("profile.state_ids must be a non-empty string list")
+    if not isinstance(state_ids, list) or any(not isinstance(item, str) or not item for item in state_ids):
+        raise ValidationError("profile.state_ids must be a string list")
+    if usable and not state_ids:
+        raise ValidationError("usable profile.state_ids must be non-empty")
     if len(state_ids) != len(set(state_ids)):
         raise ValidationError("profile.state_ids must be unique")
     if not isinstance(legal, list):
@@ -558,21 +563,35 @@ def _distinct_state_path(result: dict[str, Any]) -> list[str]:
 def result_metrics(result: dict[str, Any]) -> dict[str, Any]:
     validate_normalized_result(result)
     state_ids = set(result["profile"]["state_ids"])
-    observed = [item.get("state_id") for item in result["observations"] if item.get("state_id") is not None]
-    unique = set(observed)
-    path = _distinct_state_path(result)
+    observations = result["observations"]
+    has_tracking_status = any("tracking_status" in item for item in observations)
+    metric_observations = (
+        [item for item in observations if item.get("tracking_status") in {"TRACKING", "COMPLETED"}]
+        if has_tracking_status
+        else observations
+    )
+    path: list[str] = []
+    for observation in metric_observations:
+        state = observation.get("state_id")
+        if state is not None and (not path or state != path[-1]):
+            path.append(state)
     legal = {tuple(edge) for edge in result["profile"]["legal_transitions"]}
     edges = list(zip(path, path[1:]))
     legal_fraction = sum(edge in legal for edge in edges) / len(edges) if edges else (1.0 if path else 0.0)
-    classes = [str(item.get("classification", result["classification"])) for item in result["observations"]]
+    observed_states = {
+        item.get("state_id")
+        for item in observations
+        if item.get("state_id") is not None
+    }
+    classes = [str(item.get("classification", result["classification"])) for item in observations]
     suppressed = sum(item in {"SUPPRESSED", "UNCERTAIN"} for item in classes)
     return {
         "classification": result["classification"],
         "confidence": float(result["confidence"]),
-        "state_coverage": len(unique) / len(state_ids),
+        "state_coverage": len(observed_states & state_ids) / len(state_ids) if state_ids else 0.0,
         "legal_transition_fraction": legal_fraction,
         "distinct_state_path": path,
-        "observation_count": len(result["observations"]),
+        "observation_count": len(observations),
         "suppressed_or_uncertain_fraction": suppressed / len(classes) if classes else 0.0,
         "repetition_count": result.get("repetition_count"),
         "deviation_count": len(result.get("deviations", [])),

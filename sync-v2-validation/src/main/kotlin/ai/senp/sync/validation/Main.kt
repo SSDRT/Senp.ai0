@@ -39,7 +39,7 @@ private val json = Json {
 
 fun main(args: Array<String>) {
     require(args.isNotEmpty()) {
-        "usage: generate <output-dir> [seed] | validate <scenario-id> <result-json> <report-json> [seed] | evaluate-production <output-dir> [seed] | benchmark-adapter <request-json>"
+        "usage: generate <output-dir> [seed] | validate <scenario-id> <result-json> <report-json> [seed] | evaluate-production <output-dir> [seed] | benchmark-adapter <request-json> | evaluate-pose-pair <source-extraction-json> <reference-extraction-json> <output-dir> [analysis-fps] | reference-action-adapter <request-json>"
     }
     when (args[0]) {
         "generate" -> generate(args)
@@ -47,6 +47,10 @@ fun main(args: Array<String>) {
         "evaluate-production" -> evaluateProduction(args)
         "benchmark-adapter" -> benchmarkAdapter(args)
         "evaluate-pose-pair" -> evaluatePosePair(args)
+        "reference-action-adapter" -> {
+            require(args.size == 2) { "reference-action-adapter requires <request-json>" }
+            runReferenceActionValidationAdapter(Path.of(args[1]))
+        }
         else -> error("unknown validation command: " + args[0])
     }
 }
