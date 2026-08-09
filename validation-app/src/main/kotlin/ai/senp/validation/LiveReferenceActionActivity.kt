@@ -15,10 +15,12 @@ import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowInsets
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -149,10 +151,11 @@ class LiveReferenceActionActivity : ComponentActivity() {
         }
         progress.addView(repsView)
         progress.addView(repsLabel)
-        root.addView(progress, FrameLayout.LayoutParams(WRAP, WRAP).apply {
+        val progressLayoutParams = FrameLayout.LayoutParams(WRAP, WRAP).apply {
             gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
             topMargin = dp(78)
-        })
+        }
+        root.addView(progress, progressLayoutParams)
 
         val bottom = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -205,7 +208,25 @@ class LiveReferenceActionActivity : ComponentActivity() {
         bottom.addView(detailView)
         bottom.addView(resetButton, LinearLayout.LayoutParams(MATCH, dp(50)))
         root.addView(bottom, FrameLayout.LayoutParams(MATCH, WRAP).apply { gravity = Gravity.BOTTOM })
+
+        root.setOnApplyWindowInsetsListener { _, insets ->
+            val (topInset, bottomInset) = systemBarInsets(insets)
+            top.setPadding(dp(20), dp(18) + topInset, dp(20), dp(14))
+            progressLayoutParams.topMargin = dp(78) + topInset
+            progress.layoutParams = progressLayoutParams
+            bottom.setPadding(dp(20), dp(15), dp(20), dp(22) + bottomInset)
+            insets
+        }
+        root.requestApplyInsets()
         return root
+    }
+
+    @Suppress("DEPRECATION")
+    private fun systemBarInsets(insets: WindowInsets): Pair<Int, Int> = if (Build.VERSION.SDK_INT >= 30) {
+        val bars = insets.getInsets(WindowInsets.Type.systemBars())
+        bars.top to bars.bottom
+    } else {
+        insets.systemWindowInsetTop to insets.systemWindowInsetBottom
     }
 
     private fun startCamera() {
