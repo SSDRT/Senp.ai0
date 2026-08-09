@@ -14,6 +14,8 @@ import ai.senp.validation.ui.theme.SenpMuted
 import ai.senp.validation.ui.theme.SenpSurface
 import ai.senp.validation.ui.theme.SenpSurfaceRaised
 import ai.senp.validation.ui.theme.SenpViolet
+import ai.senp.validation.ui.theme.SenpPageBackdrop
+import ai.senp.validation.ui.theme.glassBackground
 import android.Manifest
 import android.content.Context
 import android.content.Intent
@@ -198,6 +200,8 @@ fun ConfigurationScreen(
         onRecordUser = { chooseCamera() },
         onEditReference = { selectionState.referenceUri?.let { openEditor(VideoSlot.REFERENCE, it) } },
         onEditUser = { selectionState.sourceUri?.let { openEditor(VideoSlot.USER, it) } },
+        onRemoveReference = viewModel::clearReferenceVideo,
+        onRemoveUser = viewModel::clearSourceVideo,
         onUpdateFps = viewModel::updateTargetFps,
         onUpdateResolution = viewModel::updateLongEdgeCap,
         onOpenLiveReference = onOpenLiveReference,
@@ -395,6 +399,8 @@ private fun WorkspaceScreen(
     onRecordUser: () -> Unit,
     onEditReference: () -> Unit,
     onEditUser: () -> Unit,
+    onRemoveReference: () -> Unit,
+    onRemoveUser: () -> Unit,
     onUpdateFps: (Int) -> Unit,
     onUpdateResolution: (Int) -> Unit,
     onOpenLiveReference: (() -> Unit)?,
@@ -404,7 +410,7 @@ private fun WorkspaceScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(SenpBackdrop)
+            .background(SenpPageBackdrop)
             .statusBarsPadding()
             .navigationBarsPadding()
             .verticalScroll(rememberScrollState())
@@ -415,9 +421,6 @@ private fun WorkspaceScreen(
             Column {
                 Text("Senp.ai", color = SenpCream, fontSize = 25.sp, fontWeight = FontWeight.Black, letterSpacing = (-0.5).sp)
                 Text("MOTION ANALYSIS", color = SenpMuted, fontSize = 8.sp, letterSpacing = 1.2.sp)
-            }
-            Box(Modifier.size(42.dp).clip(CircleShape).background(SenpSurfaceRaised).border(1.dp, SenpBorder, CircleShape), contentAlignment = Alignment.Center) {
-                Text("S", color = SenpBlueBright, fontSize = 18.sp, fontWeight = FontWeight.Bold)
             }
         }
 
@@ -449,6 +452,7 @@ private fun WorkspaceScreen(
                 uri = selectionState.referenceUri,
                 accent = SenpBlueBright,
                 onEdit = onEditReference,
+                onRemove = onRemoveReference,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -467,13 +471,14 @@ private fun WorkspaceScreen(
                 uri = selectionState.sourceUri,
                 accent = SenpViolet,
                 onEdit = onEditUser,
+                onRemove = onRemoveUser,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
 
         Spacer(Modifier.height(26.dp))
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().glassBackground(),
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Transparent),
             border = BorderStroke(1.dp, SenpBorder),
@@ -553,9 +558,9 @@ private fun ReferenceActionEntry(
         is ReferenceProfileUiState.Rejected -> "This clip could not produce a reliable reference profile: ${referenceProfileState.message}"
     }
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().glassBackground(),
         shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = SenpBlue.copy(alpha = 0.12f)),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         border = BorderStroke(1.dp, SenpBlueBright.copy(alpha = 0.46f)),
     ) {
         Column(Modifier.fillMaxWidth().padding(18.dp)) {
@@ -639,9 +644,9 @@ private fun Eyebrow(title: String, subtitle: String) {
 @Composable
 private fun UploadPanel(title: String, subtitle: String, action: String, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth().height(132.dp).clickable { onClick() },
+        modifier = Modifier.fillMaxWidth().height(132.dp).glassBackground().clickable { onClick() },
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0x4412182C)),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         border = BorderStroke(1.dp, SenpBorder),
     ) {
         Row(Modifier.fillMaxSize().padding(horizontal = 20.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -660,9 +665,9 @@ private fun UploadPanel(title: String, subtitle: String, action: String, onClick
 @Composable
 private fun ActionPanel(title: String, subtitle: String, symbol: String, onClick: () -> Unit, modifier: Modifier) {
     Card(
-        modifier = modifier.height(116.dp).clickable { onClick() },
+        modifier = modifier.height(116.dp).glassBackground().clickable { onClick() },
         shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = SenpSurface),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
         border = BorderStroke(1.dp, SenpBorder),
     ) {
         Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.SpaceBetween) {
@@ -682,6 +687,7 @@ private fun VideoPreviewCard(
     uri: Uri,
     accent: Color,
     onEdit: () -> Unit,
+    onRemove: () -> Unit,
     modifier: Modifier = Modifier,
     compact: Boolean = false,
 ) {
@@ -728,8 +734,9 @@ private fun VideoPreviewCard(
                 }
                 Text(label, color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, modifier = Modifier.align(Alignment.TopStart).padding(10.dp))
             }
-            Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 9.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 9.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
                 Text(if (isPlaying) "Playing preview" else "Ready to edit", color = SenpMuted, fontSize = 11.sp)
+                Spacer(Modifier.weight(1f))
                 Button(
                     onClick = onEdit,
                     contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
@@ -737,6 +744,13 @@ private fun VideoPreviewCard(
                     colors = ButtonDefaults.buttonColors(containerColor = accent.copy(alpha = 0.18f), contentColor = accent),
                     shape = RoundedCornerShape(8.dp),
                 ) { Text("EDIT", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                Button(
+                    onClick = onRemove,
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 0.dp),
+                    modifier = Modifier.height(30.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent, contentColor = SenpMuted),
+                    shape = RoundedCornerShape(8.dp),
+                ) { Text("REMOVE", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
             }
         }
     }

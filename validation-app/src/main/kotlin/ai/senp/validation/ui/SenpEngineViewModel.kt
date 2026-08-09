@@ -66,6 +66,21 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
         calculateVideoHash(uri, isSource = false)
     }
 
+    fun clearSourceVideo() {
+        _videoSelectionState.update {
+            it.copy(sourceUri = null, sourceSha256 = null, errorMessage = null)
+        }
+    }
+
+    fun clearReferenceVideo() {
+        referencePreparationJob?.cancel()
+        ReferenceActionProfileStore.clear()
+        _referenceProfileState.value = ReferenceProfileUiState.Empty
+        _videoSelectionState.update {
+            it.copy(referenceUri = null, referenceSha256 = null, errorMessage = null)
+        }
+    }
+
     private fun calculateVideoHash(uri: Uri, isSource: Boolean) {
         viewModelScope.launch {
             _videoSelectionState.update { it.copy(isCalculatingHash = true, errorMessage = null) }

@@ -4,21 +4,24 @@ import ai.senp.validation.ui.screens.AnalysisPlayerScreen
 import ai.senp.validation.ui.screens.AnalysisProgressScreen
 import ai.senp.validation.ui.screens.ConfigurationScreen
 import ai.senp.validation.ui.state.AnalysisUiState
-import ai.senp.validation.ui.theme.SenpBackground
 import ai.senp.validation.ui.theme.SenpBlue
 import ai.senp.validation.ui.theme.SenpCream
 import ai.senp.validation.ui.theme.SenpMuted
 import ai.senp.validation.ui.theme.SenpSurface
+import ai.senp.validation.ui.theme.SenpPageBackdrop
 import ai.senp.validation.ui.theme.SenpTheme
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -67,6 +70,7 @@ fun SenpApp(
                         activeStage = state.activeStage,
                         progressPercent = state.progressPercent,
                         statusMessage = state.statusMessage,
+                        onBack = { viewModel.resetAnalysis() },
                     )
                 }
 
@@ -81,6 +85,7 @@ fun SenpApp(
                         referenceAction = state.referenceAction,
                         referenceActionMessage = state.referenceActionMessage,
                         onReset = { viewModel.resetAnalysis() },
+                        onBack = { viewModel.resetAnalysis() },
                     )
                 }
 
@@ -105,11 +110,16 @@ private fun ErrorScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(SenpBackground)
+            .background(SenpPageBackdrop)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text("←", color = SenpCream, fontSize = 28.sp, modifier = Modifier.size(42.dp).clickable { onRetry() })
+            Text("ANALYSIS", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.6.sp)
+        }
+        Spacer(Modifier.height(18.dp))
         Card(
             colors = CardDefaults.cardColors(containerColor = SenpSurface),
             shape = RoundedCornerShape(16.dp),

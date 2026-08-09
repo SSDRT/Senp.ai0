@@ -99,8 +99,16 @@ class LivePushUpActivity : ComponentActivity() {
         val top = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(18), dp(20), dp(12))
-            setBackgroundColor(Color.argb(150, 5, 7, 10))
+            setBackgroundColor(Color.argb(210, 6, 21, 45))
         }
+        val backButton = TextView(this).apply {
+            text = "←"
+            setTextColor(Color.rgb(124, 207, 255))
+            textSize = 26f
+            isClickable = true
+            setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        }
+        top.addView(backButton, LinearLayout.LayoutParams(WRAP, dp(34)))
         val title = TextView(this).apply {
             text = "PUSH-UP ARENA"
             setTextColor(Color.WHITE)

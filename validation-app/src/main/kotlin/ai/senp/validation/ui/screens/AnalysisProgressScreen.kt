@@ -1,11 +1,11 @@
 package ai.senp.validation.ui.screens
 
 import ai.senp.core.contracts.PipelineStageId
-import ai.senp.validation.ui.theme.SenpBackground
 import ai.senp.validation.ui.theme.SenpBlue
 import ai.senp.validation.ui.theme.SenpBlueBright
 import ai.senp.validation.ui.theme.SenpCream
 import ai.senp.validation.ui.theme.SenpMuted
+import ai.senp.validation.ui.theme.SenpPageBackdrop
 import ai.senp.validation.ui.theme.SenpSurface
 import ai.senp.validation.ui.theme.SenpSurfaceRaised
 import androidx.compose.animation.core.RepeatMode
@@ -15,6 +15,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -37,7 +38,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -49,6 +49,7 @@ fun AnalysisProgressScreen(
     activeStage: PipelineStageId,
     progressPercent: Float,
     statusMessage: String,
+    onBack: () -> Unit,
 ) {
     val transition = rememberInfiniteTransition(label = "analysisPulse")
     val pulse by transition.animateFloat(
@@ -63,7 +64,7 @@ fun AnalysisProgressScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Brush.verticalGradient(listOf(Color(0xFF06172F), SenpBackground, Color(0xFF100D25)))),
+            .background(SenpPageBackdrop),
     ) {
         Canvas(Modifier.fillMaxSize()) {
             drawCircle(SenpBlue.copy(alpha = 0.09f * pulse), radius = size.minDimension * 0.58f, center = center.copy(y = size.height * 0.28f))
@@ -74,8 +75,20 @@ fun AnalysisProgressScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    "←",
+                    color = SenpCream,
+                    fontSize = 28.sp,
+                    modifier = Modifier
+                        .size(42.dp)
+                        .clickable { onBack() },
+                )
+                Text("ANALYSIS", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.8.sp)
+            }
+            Spacer(Modifier.height(26.dp))
             Text("Senp.ai", color = SenpCream, fontSize = 26.sp, fontWeight = FontWeight.Black, letterSpacing = (-0.6).sp)
-            Text("MOTION AWAKENING", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp, modifier = Modifier.padding(top = 4.dp))
+            Text("MOTION ANALYSIS", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 2.sp, modifier = Modifier.padding(top = 4.dp))
             Spacer(Modifier.height(50.dp))
             Box(contentAlignment = Alignment.Center) {
                 Box(Modifier.size(174.dp).clip(CircleShape).background(SenpBlue.copy(alpha = 0.08f * pulse)))

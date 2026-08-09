@@ -108,8 +108,16 @@ class LiveReferenceActionActivity : ComponentActivity() {
         val top = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(dp(20), dp(18), dp(20), dp(14))
-            setBackgroundColor(Color.argb(178, 4, 10, 22))
+            setBackgroundColor(Color.argb(210, 6, 21, 45))
         }
+        val backButton = TextView(this).apply {
+            text = "←"
+            setTextColor(Color.rgb(124, 207, 255))
+            textSize = 26f
+            isClickable = true
+            setOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        }
+        top.addView(backButton, LinearLayout.LayoutParams(WRAP, dp(34)))
         val title = TextView(this).apply {
             text = "REFERENCE LIVE"
             setTextColor(Color.rgb(124, 207, 255))
