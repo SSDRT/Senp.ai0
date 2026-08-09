@@ -1,4 +1,5 @@
 import org.gradle.api.artifacts.ProjectDependency
+import org.gradle.api.tasks.Exec
 
 plugins {
     base
@@ -13,6 +14,26 @@ plugins {
 allprojects {
     group = "ai.senp"
     version = "0.1.0"
+}
+
+val generatedPoseModelAssets = layout.buildDirectory.dir("generated/pose-model-assets")
+val generatedPoseModelFile = generatedPoseModelAssets.map { it.file("pose_landmarker_full.task") }
+
+val preparePoseModelAsset by tasks.registering(Exec::class) {
+    group = "build setup"
+    description = "Fetches and SHA-256 verifies the pinned MediaPipe Pose Landmarker model for APK/test assets."
+    inputs.file(layout.projectDirectory.file("scripts/fetch_pose_model.sh"))
+    inputs.file(layout.projectDirectory.file("models/pose_landmarker_full.provenance.json"))
+    outputs.file(generatedPoseModelFile)
+    doFirst {
+        val output = generatedPoseModelFile.get().asFile
+        output.parentFile.mkdirs()
+        commandLine(
+            "bash",
+            layout.projectDirectory.file("scripts/fetch_pose_model.sh").asFile.absolutePath,
+            output.absolutePath,
+        )
+    }
 }
 
 val allowedProjectDependencies = mapOf(

@@ -1,11 +1,10 @@
 package ai.senp.validation.ui.state
 
 import ai.senp.core.contracts.AnalysisFailure
-import ai.senp.core.contracts.AnalysisResult
 import ai.senp.core.contracts.PipelineStageId
-import ai.senp.core.contracts.PoseSequence
 import ai.senp.core.contracts.Sha256
 import ai.senp.core.contracts.StageTiming
+import ai.senp.sync.v2.VideoSynchronizationRun
 import android.net.Uri
 
 data class VideoSelectionState(
@@ -38,15 +37,13 @@ sealed interface AnalysisUiState {
     ) : AnalysisUiState
 
     data class Success(
-        val result: AnalysisResult,
-        val sourcePoses: PoseSequence?,
-        val referencePoses: PoseSequence?,
+        val run: VideoSynchronizationRun,
         val sourceUri: Uri,
         val referenceUri: Uri,
     ) : AnalysisUiState
 
     data class Failure(
         val failure: AnalysisFailure,
-        val timings: List<StageTiming>,
+        val timings: List<StageTiming> = emptyList(),
     ) : AnalysisUiState
 }

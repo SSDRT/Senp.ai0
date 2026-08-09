@@ -31,7 +31,11 @@ android {
     }
 
     androidResources { noCompress += "task" }
-    sourceSets["main"].assets.srcDir(rootProject.layout.projectDirectory.dir("local-models"))
+    sourceSets["main"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/pose-model-assets"))
+}
+
+tasks.matching { it.name.startsWith("merge") && it.name.endsWith("Assets") }.configureEach {
+    dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
 }
 
 kotlin {

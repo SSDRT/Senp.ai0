@@ -167,6 +167,23 @@ class SpatialSynchronizationEngineTest {
     }
 
     @Test
+    fun `strong torso anchors are not capped by whole channel confidence`() {
+        fun lowerChannelConfidence(sequence: CanonicalObservationSequence): CanonicalObservationSequence = sequence.copy(
+            observations = sequence.observations.map { observation ->
+                observation.copy(channels = observation.channels.map { channel -> channel.copy(confidence = 0.35) })
+            },
+        )
+        val source = lowerChannelConfidence(sequence(VideoRole.SOURCE, image2d = true))
+        val reference = lowerChannelConfidence(sequence(VideoRole.REFERENCE, image2d = true))
+
+        val output = engine.analyze(source, reference)
+
+        assertEquals(1.0, output.source.analyzableFraction)
+        assertTrue(output.source.frames.all { it.bodyTransform != null })
+        assertTrue(output.source.frames.all { it.evidenceKind == SpatialEvidenceKind.IMAGE_2D })
+    }
+
+    @Test
     fun `unqualified xyz evidence remains partial and cannot fabricate calibrated 3d orientation`() {
         val source = sequence(VideoRole.SOURCE, unqualifiedDepth = true)
         val reference = sequence(VideoRole.REFERENCE, unqualifiedDepth = true)

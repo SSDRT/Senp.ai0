@@ -99,6 +99,7 @@ def run_real_video(descriptor_path: Path, descriptor: dict) -> None:
     started = time.monotonic()
     launch = adb(
         "shell", "am", "start", "-W", "-n", ACTIVITY,
+        "--ez", "RUN_HEADLESS", "true",
         "--es", "mode", "sync_v2",
         "--es", "source_video", source_remote,
         "--es", "reference_video", reference_remote,

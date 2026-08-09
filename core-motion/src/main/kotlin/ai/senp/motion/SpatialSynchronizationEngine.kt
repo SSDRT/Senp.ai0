@@ -215,7 +215,7 @@ class SpatialSynchronizationEngine(
         } == true || "3d" in semanticType
         val threeDimensionalCandidate = zIndex >= 0 && explicitThreeDimensionalSpace && !imageLike
         val points = channel.values.associate { value ->
-            value.key to extractPoint(value, channel.confidence, xIndex, yIndex, zIndex)
+            value.key to extractPoint(value, xIndex, yIndex, zIndex)
         }
         val schema = config.landmarkSchema
         val anchors = listOf(schema.leftShoulder, schema.rightShoulder, schema.leftHip, schema.rightHip)
@@ -241,7 +241,6 @@ class SpatialSynchronizationEngine(
 
     private fun extractPoint(
         value: ObservationValue,
-        channelConfidence: Double,
         xIndex: Int,
         yIndex: Int,
         zIndex: Int,
@@ -254,7 +253,7 @@ class SpatialSynchronizationEngine(
             position = if (xyPresent) Vec3(x!!, y!!, z ?: 0.0) else null,
             xyPresent = xyPresent,
             zPresent = z != null,
-            confidence = min(value.confidence, channelConfidence),
+            confidence = value.confidence,
         )
     }
 

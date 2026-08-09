@@ -21,8 +21,12 @@ android {
     }
 
     androidResources { noCompress += "task" }
-    sourceSets["androidTest"].assets.srcDir(rootProject.layout.projectDirectory.dir("local-models"))
+    sourceSets["androidTest"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/pose-model-assets"))
     testOptions { unitTests.isReturnDefaultValues = true }
+}
+
+tasks.matching { it.name.startsWith("merge") && it.name.endsWith("AndroidTestAssets") }.configureEach {
+    dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
 }
 
 kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_21) } }

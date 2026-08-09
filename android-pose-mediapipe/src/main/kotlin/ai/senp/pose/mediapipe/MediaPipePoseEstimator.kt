@@ -370,9 +370,9 @@ internal class MediaPipePoseEstimator private constructor(
         val detectionConfidence: Float = 0.5f,
         val presenceConfidence: Float = 0.5f,
         val trackingConfidence: Float = 0.5f,
-        val minimumUsableLandmarks: Int = 20,
-        val usableVisibility: Float = 0.35f,
-        val usablePresence: Float = 0.35f,
+        val minimumUsableLandmarks: Int = 12,
+        val usableVisibility: Float = 0.30f,
+        val usablePresence: Float = 0.30f,
     ) {
         init {
             require(detectionConfidence in 0f..1f)
@@ -423,9 +423,9 @@ internal class MediaPipePoseEstimator private constructor(
 }
 
 internal class PoseResultMapper(
-    private val minimumUsableLandmarks: Int = 20,
-    private val usableVisibility: Float = 0.35f,
-    private val usablePresence: Float = 0.35f,
+    private val minimumUsableLandmarks: Int = 12,
+    private val usableVisibility: Float = 0.30f,
+    private val usablePresence: Float = 0.30f,
 ) {
     fun map(timestampMs: Long, frameIndex: Long, result: RawPoseResult, inferenceNanos: Long): PoseEstimate {
         val mappingStarted = System.nanoTime()

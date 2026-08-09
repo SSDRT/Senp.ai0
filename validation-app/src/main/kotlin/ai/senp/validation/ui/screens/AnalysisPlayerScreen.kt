@@ -1,9 +1,12 @@
 package ai.senp.validation.ui.screens
 
-import ai.senp.core.contracts.AlignmentPoint
-import ai.senp.core.contracts.AnalysisResult
+import ai.senp.core.contracts.MotionUnitCorrespondence
 import ai.senp.core.contracts.PoseFrame
 import ai.senp.core.contracts.PoseSequence
+import ai.senp.core.contracts.SynchronizationResult
+import ai.senp.core.contracts.SynchronizationStatus
+import ai.senp.core.contracts.TimestampCorrespondence
+import ai.senp.sync.v2.VideoSynchronizationRun
 import ai.senp.validation.ui.components.DiagnosticsBottomSheet
 import ai.senp.validation.ui.components.PoseLandmarkOverlay
 import ai.senp.validation.ui.theme.SenpBackground
@@ -93,9 +96,7 @@ private const val PLAY_REFERENCE = 3
 @OptIn(UnstableApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AnalysisPlayerScreen(
-    result: AnalysisResult,
-    sourcePoses: PoseSequence?,
-    referencePoses: PoseSequence?,
+    run: VideoSynchronizationRun,
     sourceUri: Uri,
     referenceUri: Uri,
     onReset: () -> Unit,
@@ -128,9 +129,26 @@ fun AnalysisPlayerScreen(
     var skeletonVisible by remember { mutableStateOf(true) }
     var showDiagnostics by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val alignmentPoints = result.payload.alignment.points
-    val totalDuration = result.payload.sourceDuration.value.coerceAtLeast(1L)
-    val referenceDuration = result.payload.referenceDuration.value.coerceAtLeast(1L)
+    val synchronization = run.synchronization.result
+    val sourcePoses = run.sourcePoseExtraction.poses
+    val referencePoses = run.referencePoseExtraction.poses
+    val alignmentPoints = remember(synchronization) { synchronization.playbackPoints() }
+    val totalDuration = run.sourcePoseExtraction.duration.value.coerceAtLeast(1L)
+    val referenceDuration = run.referencePoseExtraction.duration.value.coerceAtLeast(1L)
+    val matchedUnitCount = synchronization.correspondences.count { it is MotionUnitCorrespondence.MatchedUnit }
+    val unmatchedUnitCount = synchronization.correspondences.count {
+        it is MotionUnitCorrespondence.SourceUnmatchedUnit || it is MotionUnitCorrespondence.ReferenceUnmatchedUnit
+    }
+    val statusAccent = when (synchronization.status) {
+        SynchronizationStatus.SYNCHRONIZED -> SenpSuccess
+        SynchronizationStatus.PARTIAL -> SenpWarning
+        SynchronizationStatus.REFUSED -> SenpError
+    }
+    val statusLabel = when (synchronization.status) {
+        SynchronizationStatus.SYNCHRONIZED -> "FULL"
+        SynchronizationStatus.PARTIAL -> "PARTIAL"
+        SynchronizationStatus.REFUSED -> "REFUSED"
+    }
     val stackVideos = sourceAspectRatio >= 1.2f || referenceAspectRatio >= 1.2f
 
     DisposableEffect(sourcePlayer) {
@@ -210,6 +228,10 @@ fun AnalysisPlayerScreen(
     }
 
     fun start(mode: Int) {
+        if (mode == PLAY_BOTH && alignmentPoints.isEmpty()) {
+            playbackMode = PLAY_NONE
+            return
+        }
         playbackMode = mode
         when (mode) {
             PLAY_BOTH -> {
@@ -268,8 +290,8 @@ fun AnalysisPlayerScreen(
             Spacer(Modifier.height(16.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Column {
-                    Text("ANALYSIS COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
-                    Text("Your movement, awakened", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
+                    Text("SYNC-V2 COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+                    Text("Motion correspondence", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
                 }
                 OutlinedButton(
                     onClick = { showDiagnostics = true },
@@ -283,9 +305,9 @@ fun AnalysisPlayerScreen(
 
             Spacer(Modifier.height(22.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                StatPill("ALIGNMENT", "${(result.payload.alignment.aggregateConfidence * 100).toInt()}%", SenpBlueBright, Modifier.weight(1f))
-                StatPill("FRAMES", "${result.payload.sourceFrameCount}", SenpViolet, Modifier.weight(1f))
-                StatPill("ISSUES", result.payload.problems.size.toString(), if (result.payload.problems.isEmpty()) SenpSuccess else SenpError, Modifier.weight(1f))
+                StatPill("SYNC", "${(synchronization.diagnostics.overallConfidence * 100).toInt()}%", SenpBlueBright, Modifier.weight(1f))
+                StatPill("STATUS", statusLabel, statusAccent, Modifier.weight(1f))
+                StatPill("MATCHES", alignmentPoints.size.toString(), SenpViolet, Modifier.weight(1f))
             }
 
             Spacer(Modifier.height(28.dp))
@@ -395,7 +417,13 @@ fun AnalysisPlayerScreen(
                         colors = SliderDefaults.colors(thumbColor = SenpBlueBright, activeTrackColor = SenpBlue),
                     )
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        PlaybackButton("▶ BOTH", playbackMode == PLAY_BOTH, SenpBlue, Modifier.weight(1f)) { toggle(PLAY_BOTH) }
+                        PlaybackButton(
+                            text = if (alignmentPoints.isEmpty()) "NO SYNC" else "▶ BOTH",
+                            active = playbackMode == PLAY_BOTH,
+                            accent = SenpBlue,
+                            modifier = Modifier.weight(1f),
+                            enabled = alignmentPoints.isNotEmpty(),
+                        ) { toggle(PLAY_BOTH) }
                         PlaybackButton("▶ YOU", playbackMode == PLAY_SOURCE, SenpViolet, Modifier.weight(1f)) { toggle(PLAY_SOURCE) }
                         PlaybackButton("▶ MASTER", playbackMode == PLAY_REFERENCE, SenpBlueBright, Modifier.weight(1f)) { toggle(PLAY_REFERENCE) }
                     }
@@ -403,27 +431,24 @@ fun AnalysisPlayerScreen(
             }
 
             Spacer(Modifier.height(26.dp))
-            Text("RAW EXTRACTS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
-            Text("Feedback windows from the local motion engine", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
+            Text("SYNC DECISIONS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+            Text("Correspondence and refusal decisions from Synchronization Kernel v2", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
             Spacer(Modifier.height(11.dp))
-            if (result.payload.problems.isEmpty()) {
+            if (synchronization.status == SynchronizationStatus.REFUSED) {
                 ExtractCard(
-                    title = "FORM LOCKED",
-                    detail = "No genuine problem windows were detected in the aligned motion.",
-                    value = "CLEAN",
-                    accent = SenpSuccess,
+                    title = "CORRESPONDENCE REFUSED",
+                    detail = synchronization.refusal?.message ?: "The available motion evidence was not reliable enough to synchronize.",
+                    value = synchronization.refusal?.reason?.name ?: "REFUSED",
+                    accent = SenpError,
                 )
             } else {
-                result.payload.problems.forEach { problem ->
-                    ExtractCard(
-                        title = problem.label,
-                        detail = "${problem.metric} · ${formatTime(problem.sourceStart.value)}–${formatTime(problem.sourceEndExclusive.value)}",
-                        value = "${(problem.severity * 100).toInt()}%",
-                        accent = if (problem.certainty.name == "GENUINE") SenpError else SenpWarning,
-                        extra = "Mean deviation ${formatDecimal(problem.meanDeviation)} · Peak ${formatDecimal(problem.peakDeviation)}",
-                    )
-                    Spacer(Modifier.height(9.dp))
-                }
+                ExtractCard(
+                    title = "MATCHED MOTION",
+                    detail = "$matchedUnitCount matched units · $unmatchedUnitCount unmatched units · ${alignmentPoints.size} timestamp decisions",
+                    value = "${(synchronization.diagnostics.correspondenceConfidence * 100).toInt()}%",
+                    accent = statusAccent,
+                    extra = "Source coverage ${(synchronization.diagnostics.sourceAnalyzableFraction * 100).toInt()}% · Reference ${(synchronization.diagnostics.referenceAnalyzableFraction * 100).toInt()}%",
+                )
             }
 
             Card(
@@ -433,12 +458,12 @@ fun AnalysisPlayerScreen(
             ) {
                 Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
-                        Text("ALIGNMENT TRACE", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                        Text(result.payload.alignment.mode, color = SenpCream, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 5.dp))
+                        Text("SYNC TRACE", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                        Text(synchronization.status.name, color = statusAccent, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 5.dp))
                     }
                     Column(horizontalAlignment = Alignment.End) {
-                        Text("${result.payload.alignment.points.size} points", color = SenpCream, fontSize = 13.sp)
-                        Text("${result.payload.sourceFrameCount} + ${result.payload.referenceFrameCount} frames", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 5.dp))
+                        Text("${alignmentPoints.size} mapped points", color = SenpCream, fontSize = 13.sp)
+                        Text("${run.sourcePoseExtraction.diagnostics.sampledFrameCount} + ${run.referencePoseExtraction.diagnostics.sampledFrameCount} frames", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 5.dp))
                     }
                 }
             }
@@ -455,7 +480,7 @@ fun AnalysisPlayerScreen(
     }
 
     if (showDiagnostics) {
-        DiagnosticsBottomSheet(result = result, sheetState = sheetState, onDismiss = { showDiagnostics = false })
+        DiagnosticsBottomSheet(run = run, sheetState = sheetState, onDismiss = { showDiagnostics = false })
     }
 }
 
@@ -471,8 +496,8 @@ private fun AiAnalysisSlot() {
             modifier = Modifier.fillMaxSize().padding(18.dp),
             verticalArrangement = Arrangement.Center,
         ) {
-            Text("AI ANALYSIS", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-            Text("Reserved space for generated coaching insights", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 8.dp))
+            Text("FORM ANALYSIS", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
+            Text("Synchronization aligns reliable moments; coaching and form scoring stay separate so uncertain motion is never presented as a verdict.", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 8.dp))
         }
     }
 }
@@ -529,9 +554,17 @@ private fun ComparisonVideoTile(
 }
 
 @Composable
-private fun PlaybackButton(text: String, active: Boolean, accent: Color, modifier: Modifier, onClick: () -> Unit) {
+private fun PlaybackButton(
+    text: String,
+    active: Boolean,
+    accent: Color,
+    modifier: Modifier,
+    enabled: Boolean = true,
+    onClick: () -> Unit,
+) {
     Button(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier.height(38.dp),
         contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 2.dp),
         colors = ButtonDefaults.buttonColors(containerColor = if (active) accent else SenpSurfaceRaised, contentColor = if (active) Color.White else SenpMuted),
@@ -567,19 +600,30 @@ private fun currentTimelinePosition(mode: Int, sourceMs: Long, referenceMs: Long
 private fun activeTimelineDuration(mode: Int, sourceDurationMs: Long, referenceDurationMs: Long): Long =
     if (mode == PLAY_REFERENCE) referenceDurationMs else sourceDurationMs
 
-private fun mapSourceMsToRefMs(sourceMs: Long, points: List<AlignmentPoint>): Long =
-    interpolateAlignedTimestamp(sourceMs, points) { point -> point.sourceTimestamp.value to point.referenceTimestamp.value }
+private data class PlaybackPoint(val sourceMs: Long, val referenceMs: Long)
 
-private fun mapReferenceMsToSourceMs(referenceMs: Long, points: List<AlignmentPoint>): Long =
-    interpolateAlignedTimestamp(referenceMs, points) { point -> point.referenceTimestamp.value to point.sourceTimestamp.value }
+private fun SynchronizationResult.playbackPoints(): List<PlaybackPoint> =
+    correspondences
+        .filterIsInstance<MotionUnitCorrespondence.MatchedUnit>()
+        .flatMap { unit ->
+            unit.timeline.mapNotNull { decision ->
+                (decision as? TimestampCorrespondence.Matched)?.let {
+                    PlaybackPoint(it.sourceTimestamp.value, it.referenceTimestamp.value)
+                }
+            }
+        }
+        .distinct()
+        .sortedBy(PlaybackPoint::sourceMs)
 
-private fun interpolateAlignedTimestamp(
-    timestampMs: Long,
-    points: List<AlignmentPoint>,
-    coordinates: (AlignmentPoint) -> Pair<Long, Long>,
-): Long {
-    if (points.isEmpty()) return timestampMs
-    val ordered = points.map(coordinates).sortedBy { it.first }
+private fun mapSourceMsToRefMs(sourceMs: Long, points: List<PlaybackPoint>): Long =
+    interpolateAlignedTimestamp(sourceMs, points.map { it.sourceMs to it.referenceMs })
+
+private fun mapReferenceMsToSourceMs(referenceMs: Long, points: List<PlaybackPoint>): Long =
+    interpolateAlignedTimestamp(referenceMs, points.map { it.referenceMs to it.sourceMs })
+
+private fun interpolateAlignedTimestamp(timestampMs: Long, coordinates: List<Pair<Long, Long>>): Long {
+    if (coordinates.isEmpty()) return timestampMs
+    val ordered = coordinates.sortedBy { it.first }
     if (ordered.size == 1) return ordered.first().second
 
     val before = ordered.lastOrNull { it.first <= timestampMs } ?: ordered.first()

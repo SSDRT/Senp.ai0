@@ -70,12 +70,10 @@ fun SenpApp(
 
                 is AnalysisUiState.Success -> {
                     AnalysisPlayerScreen(
-                        result = state.result,
-                        sourcePoses = state.sourcePoses,
-                        referencePoses = state.referencePoses,
+                        run = state.run,
                         sourceUri = state.sourceUri,
                         referenceUri = state.referenceUri,
-                        onReset = { viewModel.resetAnalysis() }
+                        onReset = { viewModel.resetAnalysis() },
                     )
                 }
 
