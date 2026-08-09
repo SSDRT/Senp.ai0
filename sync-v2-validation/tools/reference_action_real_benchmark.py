@@ -46,26 +46,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--exercise-root",
         type=Path,
-        default=Path(
-            "/home/coder/mcp_workspace/Senp-ai0-product-release/test-artifacts/"
-            "product-release/real-extended-final"
-        ),
+        default=repo_root / "test-artifacts" / "product-release" / "real-extended-final",
     )
     parser.add_argument(
         "--cricket-root",
         type=Path,
-        default=Path(
-            "/home/coder/mcp_workspace/Senp-ai0-reference-action-validation/test-artifacts/"
-            "reference-action-validation/api35-cricket/jofra-vs-net-batting"
-        ),
+        default=repo_root / "test-artifacts" / "reference-action-validation" / "api35-cricket" / "jofra-vs-net-batting",
     )
     parser.add_argument(
         "--cricket-crease-root",
         type=Path,
-        default=Path(
-            "/home/coder/mcp_workspace/Senp-ai0-reference-action-validation/test-artifacts/"
-            "reference-action-validation/api35-cricket/jofra-vs-crease-batting"
-        ),
+        default=repo_root / "test-artifacts" / "reference-action-validation" / "api35-cricket" / "jofra-vs-crease-batting",
     )
     parser.add_argument(
         "--output-dir",
