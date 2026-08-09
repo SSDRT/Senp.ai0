@@ -8,6 +8,8 @@ import ai.senp.core.contracts.SynchronizationSemantics
 import ai.senp.core.contracts.TemporalStructure
 import ai.senp.core.contracts.TimestampCorrespondence
 import ai.senp.core.contracts.UnmatchedReason
+import ai.senp.core.contracts.UnitBoundaryStatus
+import ai.senp.core.contracts.UnitCompleteness
 import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.exp
@@ -54,9 +56,18 @@ internal class TemporalCorrespondenceSolver(
             }
             val referenceUnit = referenceStructure.motionUnits.first { it.unitId == assignment.referenceUnitId }
             val fine = fineAlign(sourceUnit, referenceUnit, assignment)
+            if (fine != null) {
+                stats.bestFineMatchedFraction = maxOf(stats.bestFineMatchedFraction ?: 0.0, fine.matchedFraction)
+                stats.bestFineDecisionConfidence = maxOf(stats.bestFineDecisionConfidence ?: 0.0, fine.decisionConfidence)
+            }
+            val crossClass = sourceUnit.structureClass != referenceUnit.structureClass
+            val crossClassAmbiguous = crossClass &&
+                assignment.ambiguity > config.maximumCrossClassAmbiguityForMatch
+            val crossClassLowConfidence = crossClass && fine != null &&
+                fine.decisionConfidence < config.minimumCrossClassMatchedUnitConfidence
             if (
                 fine == null || fine.matchedFraction < config.minimumMatchedTimestampFraction ||
-                fine.decisionConfidence < config.minimumMatchedUnitConfidence
+                fine.decisionConfidence < config.minimumMatchedUnitConfidence || crossClassAmbiguous || crossClassLowConfidence
             ) {
                 output += MotionUnitCorrespondence.SourceUnmatchedUnit(
                     sourceUnit.unitId,
@@ -98,8 +109,20 @@ internal class TemporalCorrespondenceSolver(
             hasUnmatchedUnits = output.any {
                 it is MotionUnitCorrespondence.SourceUnmatchedUnit || it is MotionUnitCorrespondence.ReferenceUnmatchedUnit
             },
-            hasUnmatchedTimestamps = matched.any { unit -> unit.timeline.any { it is TimestampCorrespondence.UnmatchedSource } },
+            hasUnmatchedTimestamps = matched.any { unit -> hasMaterialTimestampHole(unit) },
         )
+    }
+
+    private fun hasMaterialTimestampHole(unit: MotionUnitCorrespondence.MatchedUnit): Boolean {
+        val matchedIndices = unit.timeline.mapIndexedNotNull { index, decision ->
+            index.takeIf { decision is TimestampCorrespondence.Matched }
+        }
+        if (matchedIndices.isEmpty()) return unit.timeline.any { it is TimestampCorrespondence.UnmatchedSource }
+        val firstMatched = matchedIndices.first()
+        val lastMatched = matchedIndices.last()
+        return unit.timeline.withIndex().any { (index, decision) ->
+            decision is TimestampCorrespondence.UnmatchedSource && index in firstMatched..lastMatched
+        }
     }
 
     private fun buildCandidates(
@@ -110,7 +133,7 @@ internal class TemporalCorrespondenceSolver(
         val output = linkedMapOf<Pair<String, String>, UnitCandidate>()
         sourceUnits.forEachIndexed { sourceIndex, sourceUnit ->
             val ranked = referenceUnits.mapIndexedNotNull { referenceIndex, referenceUnit ->
-                if (!compatibleClasses(sourceUnit.structureClass, referenceUnit.structureClass)) return@mapIndexedNotNull null
+                if (!compatibleUnits(sourceUnit, referenceUnit)) return@mapIndexedNotNull null
                 stats.coarseComparisons += 1L
                 coarseCompare(semantics, sourceUnit, referenceUnit)?.let { candidate ->
                     val contextualCost = candidate.cost + unitPositionPrior(
@@ -119,6 +142,8 @@ internal class TemporalCorrespondenceSolver(
                         referenceIndex,
                         referenceUnits.size,
                     )
+                    val previousBest = stats.bestCoarseCandidateCost
+                    if (previousBest == null || contextualCost < previousBest) stats.bestCoarseCandidateCost = contextualCost
                     referenceUnit.unitId to candidate.copy(cost = contextualCost)
                 }
             }.sortedBy { it.second.cost }
@@ -130,6 +155,7 @@ internal class TemporalCorrespondenceSolver(
                         min(1.0, candidate.cost / config.coarseMaximumCost)
                     }
                     output[sourceUnit.unitId to referenceId] = candidate.copy(ambiguity = ambiguity)
+                    stats.coarseAcceptedCandidateCount += 1
                 }
             }
         }
@@ -147,11 +173,15 @@ internal class TemporalCorrespondenceSolver(
         var bestCost = Double.POSITIVE_INFINITY
         var bestShift = 0
         var bestCoverage = 0.0
-        val shifts = if (semantics.scope == SynchronizationScope.FULL_SEQUENCE) {
-            0..0
-        } else {
-            -config.coarseShiftSamples..config.coarseShiftSamples
+        val maximumShiftSamples = when {
+            semantics.scope == SynchronizationScope.FULL_SEQUENCE -> 0
+            sourceUnit.structureClass == MotionStructureClass.CYCLIC &&
+                referenceUnit.structureClass == MotionStructureClass.CYCLIC -> config.coarseShiftSamples
+            sourceUnit.completeness == UnitCompleteness.PARTIAL ||
+                referenceUnit.completeness == UnitCompleteness.PARTIAL -> min(config.coarseShiftSamples, 2)
+            else -> 0
         }
+        val shifts = -maximumShiftSamples..maximumShiftSamples
         for (shift in shifts) {
             var cost = 0.0
             var coverage = 0.0
@@ -201,7 +231,7 @@ internal class TemporalCorrespondenceSolver(
         val orderedSource = sourceUnits.filter { it.unitId !in output }
         if (orderedSource.isEmpty()) return output
         val orderedReference = referenceUnits.filter { referenceUnit ->
-            orderedSource.any { compatibleClasses(it.structureClass, referenceUnit.structureClass) }
+            orderedSource.any { compatibleUnits(it, referenceUnit) }
         }
         output += orderedAssignment(semantics, orderedSource, orderedReference, candidates)
         return output
@@ -276,7 +306,7 @@ internal class TemporalCorrespondenceSolver(
             for (j in max(0, expected - band)..min(m - 1, expected + band)) {
                 stats.fineCells += 1L
                 val distance = space.distance(sourceFrames[i], referenceFrames[j])
-                val localCost = distance.cost + if (distance.oppositeReliable) 0.75 else 0.0
+                val localCost = distance.cost + if (distance.oppositeReliable) config.oppositeDirectionCellPenalty else 0.0
                 if (i == 0) {
                     current[j] = localCost
                     back[i][j] = j
@@ -317,12 +347,20 @@ internal class TemporalCorrespondenceSolver(
         val timeline = sourceFrames.mapIndexed { index, frame ->
             val target = referenceFrames[mapping[index]]
             val distance = space.distance(frame, target)
-            val defensible = frame.confidence >= config.minimumFrameConfidence &&
-                target.confidence >= config.minimumFrameConfidence &&
-                distance.coverage >= config.descriptorMinimumCoverage &&
-                !distance.oppositeReliable && distance.cost <= config.fineMaximumCellCost &&
-                slopeValid[index] && frozenValid[index]
+            stats.finePathTimestamps += 1L
+            val confidenceValid = frame.confidence >= config.minimumFrameConfidence && target.confidence >= config.minimumFrameConfidence
+            val coverageValid = distance.coverage >= config.descriptorMinimumCoverage
+            val directionValid = !distance.oppositeReliable
+            val costValid = distance.cost <= config.fineMaximumCellCost
+            val warpValid = slopeValid[index] && frozenValid[index]
+            if (!confidenceValid) stats.fineRejectedConfidence += 1L
+            if (!coverageValid) stats.fineRejectedCoverage += 1L
+            if (!directionValid) stats.fineRejectedOppositeDirection += 1L
+            if (!costValid) stats.fineRejectedCost += 1L
+            if (!warpValid) stats.fineRejectedWarp += 1L
+            val defensible = confidenceValid && coverageValid && directionValid && costValid && warpValid
             if (defensible) {
+                stats.fineAcceptedTimestamps += 1L
                 TimestampCorrespondence.Matched(
                     frame.timestamp,
                     target.timestamp,
@@ -411,8 +449,15 @@ internal class TemporalCorrespondenceSolver(
         return (1.0 - (second.cost - best.cost).coerceAtLeast(0.0) / max(1e-6, second.cost)).coerceIn(0.0, 1.0)
     }
 
-    private fun compatibleClasses(sourceClass: MotionStructureClass, referenceClass: MotionStructureClass): Boolean =
-        sourceClass == referenceClass
+    private fun compatibleUnits(sourceUnit: MotionUnit, referenceUnit: MotionUnit): Boolean {
+        if (sourceUnit.structureClass == referenceUnit.structureClass) return true
+        val cyclicAcyclicPair = setOf(sourceUnit.structureClass, referenceUnit.structureClass) ==
+            setOf(MotionStructureClass.CYCLIC, MotionStructureClass.ACYCLIC)
+        if (!cyclicAcyclicPair) return false
+        val fragment = if (sourceUnit.structureClass == MotionStructureClass.ACYCLIC) sourceUnit else referenceUnit
+        return fragment.completeness == UnitCompleteness.PARTIAL &&
+            (fragment.startBoundary == UnitBoundaryStatus.OPEN || fragment.endBoundary == UnitBoundaryStatus.OPEN)
+    }
 
     private fun expectedReferenceIndex(
         sourceFrame: PreparedTemporalFrame,
@@ -536,7 +581,18 @@ internal data class MutableTemporalStats(
     var sourceUnits: Int = 0,
     var referenceUnits: Int = 0,
     var coarseComparisons: Long = 0L,
+    var coarseAcceptedCandidateCount: Int = 0,
+    var bestCoarseCandidateCost: Double? = null,
     var fineCells: Long = 0L,
+    var finePathTimestamps: Long = 0L,
+    var fineAcceptedTimestamps: Long = 0L,
+    var fineRejectedOppositeDirection: Long = 0L,
+    var fineRejectedCost: Long = 0L,
+    var fineRejectedCoverage: Long = 0L,
+    var fineRejectedConfidence: Long = 0L,
+    var fineRejectedWarp: Long = 0L,
+    var bestFineMatchedFraction: Double? = null,
+    var bestFineDecisionConfidence: Double? = null,
     var maximumFineBandWidth: Int = 0,
     var fineAlignmentCount: Int = 0,
 ) {
@@ -546,7 +602,18 @@ internal data class MutableTemporalStats(
         sourceUnitCount = sourceUnits,
         referenceUnitCount = referenceUnits,
         coarseUnitComparisons = coarseComparisons,
+        coarseAcceptedCandidateCount = coarseAcceptedCandidateCount,
+        bestCoarseCandidateCost = bestCoarseCandidateCost,
         fineCellsEvaluated = fineCells,
+        finePathTimestampCount = finePathTimestamps,
+        fineAcceptedTimestampCount = fineAcceptedTimestamps,
+        fineRejectedOppositeDirectionCount = fineRejectedOppositeDirection,
+        fineRejectedCostCount = fineRejectedCost,
+        fineRejectedCoverageCount = fineRejectedCoverage,
+        fineRejectedConfidenceCount = fineRejectedConfidence,
+        fineRejectedWarpCount = fineRejectedWarp,
+        bestFineMatchedFraction = bestFineMatchedFraction,
+        bestFineDecisionConfidence = bestFineDecisionConfidence,
         maximumFineBandWidth = maximumFineBandWidth,
         fineAlignmentCount = fineAlignmentCount,
     )

@@ -185,6 +185,7 @@ data class SpatialSynchronizationConfig(
     val cameraDiscontinuityScaleRatio: Double = 1.70,
     val stableIntrinsicDistance: Double = 0.08,
     val mirrorDecisionMargin: Double = 0.045,
+    val minimumChiralityMagnitude: Double = 0.012,
     val sideCoverageThreshold: Double = 0.45,
     val sideDominanceMargin: Double = 0.12,
     val minimumSideSelectionStability: Double = 0.70,
@@ -209,6 +210,7 @@ data class SpatialSynchronizationConfig(
         require(cameraDiscontinuityScaleRatio.isFinite() && cameraDiscontinuityScaleRatio > 1.0)
         require(stableIntrinsicDistance.isFinite() && stableIntrinsicDistance >= 0.0)
         require(mirrorDecisionMargin.isFinite() && mirrorDecisionMargin >= 0.0)
+        require(minimumChiralityMagnitude.isFinite() && minimumChiralityMagnitude >= 0.0)
         requireSpatialProbability(sideCoverageThreshold, "side coverage threshold")
         requireSpatialProbability(sideDominanceMargin, "side dominance margin")
         requireSpatialProbability(minimumSideSelectionStability, "minimum side-selection stability")

@@ -6,6 +6,9 @@ plugins {
 
 dependencies {
     implementation(project(":core-contracts"))
+    implementation(project(":core-motion"))
+    implementation(project(":core-alignment"))
+    implementation(project(":sync-v2-integration"))
     implementation(libs.kotlinx.serialization.json)
     testImplementation(kotlin("test"))
 }

@@ -37,6 +37,7 @@ dependencies {
     implementation(project(":core-cache"))
     implementation(project(":core-motion"))
     implementation(project(":core-alignment"))
+    implementation(project(":sync-v2-integration"))
     implementation(project(":android-video"))
     implementation(project(":android-pose-mediapipe"))
     implementation(libs.kotlinx.coroutines.core)

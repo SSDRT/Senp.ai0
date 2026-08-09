@@ -498,6 +498,30 @@ class SpatialSynchronizationEngine(
             ratio("right_thigh_over_torso", schema.rightHip, schema.rightKnee)
             ratio("left_shin_over_torso", schema.leftKnee, schema.leftAnkle)
             ratio("right_shin_over_torso", schema.rightKnee, schema.rightAnkle)
+
+            if (evidence.isReliable3d) {
+                val leftWrist = evidence.usablePoint(schema.leftWrist, config.minimumDescriptorConfidence)
+                val rightWrist = evidence.usablePoint(schema.rightWrist, config.minimumDescriptorConfidence)
+                if (leftWrist != null && rightWrist != null && leftShoulder != null && rightShoulder != null) {
+                    val stableRoot = requireNotNull(root)
+                    val stableShoulderCenter = requireNotNull(shoulderCenter)
+                    val lateral = comparablePosition(rightShoulder) - comparablePosition(leftShoulder)
+                    val up = stableShoulderCenter - stableRoot
+                    val handCenter = (comparablePosition(leftWrist) + comparablePosition(rightWrist)) / 2.0
+                    val handOffset = handCenter - stableShoulderCenter
+                    val normalizedSignedVolume = lateral.dot(up.cross(handOffset)) / (torso * torso * torso)
+                    if (normalizedSignedVolume.isFinite()) {
+                        // Proper rotations preserve scalar-triple-product parity; reflections invert it.
+                        values["signed.chirality"] = normalizedSignedVolume
+                        confidences += minOf(
+                            leftShoulder.confidence,
+                            rightShoulder.confidence,
+                            leftWrist.confidence,
+                            rightWrist.confidence,
+                        )
+                    }
+                }
+            }
         }
         val confidence = if (values.isEmpty()) 0.0 else (
             confidences.averageOrZero() * min(1.0, values.size / 8.0)
@@ -1020,7 +1044,10 @@ class SpatialSynchronizationEngine(
         source: SegmentSummary,
         reference: SegmentSummary,
     ): MirrorDecision {
+        val chiralityDecision = chiralityMirrorDecision(source, reference)
+        if (chiralityDecision?.hypothesis == MirrorHypothesis.MIRRORED) return chiralityDecision
         if (direct == null || mirrored == null || direct.commonFeatureCount < 4 || mirrored.commonFeatureCount < 4) {
+            if (chiralityDecision != null) return chiralityDecision
             return MirrorDecision(MirrorHypothesis.UNKNOWN, 0.0)
         }
         val base = min(source.descriptor.confidence, reference.descriptor.confidence)
@@ -1033,6 +1060,23 @@ class SpatialSynchronizationEngine(
         val selected = if (difference > 0.0) MirrorHypothesis.MIRRORED else MirrorHypothesis.NOT_MIRRORED
         val separation = abs(difference) / max(0.05, min(direct.distance, mirrored.distance) + abs(difference))
         return MirrorDecision(selected, (base * (0.60 + 0.40 * separation.coerceIn(0.0, 1.0))).coerceIn(0.0, 1.0))
+    }
+
+    private fun chiralityMirrorDecision(source: SegmentSummary, reference: SegmentSummary): MirrorDecision? {
+        val sourceChirality = source.descriptor.values["signed.chirality"] ?: return null
+        val referenceChirality = reference.descriptor.values["signed.chirality"] ?: return null
+        val strength = min(abs(sourceChirality), abs(referenceChirality))
+        if (strength < config.minimumChiralityMagnitude) return null
+        val base = min(source.descriptor.confidence, reference.descriptor.confidence)
+        val hypothesis = if (sourceChirality * referenceChirality < 0.0) {
+            MirrorHypothesis.MIRRORED
+        } else {
+            MirrorHypothesis.NOT_MIRRORED
+        }
+        val confidence = (
+            base * (0.70 + 0.30 * (strength / (config.minimumChiralityMagnitude * 4.0)).coerceIn(0.0, 1.0))
+            ).coerceIn(0.0, 1.0)
+        return MirrorDecision(hypothesis, confidence)
     }
 
     private fun selectCommonSide(
@@ -1298,10 +1342,10 @@ class SpatialSynchronizationEngine(
         val wy = q.w * q.y
         val wz = q.w * q.z
         val m02 = 2.0 * (xz + wy)
-        val m12 = 2.0 * (yz - wx)
+        val m21 = 2.0 * (yz + wx)
         val m22 = 1.0 - 2.0 * (xx + yy)
         val yaw = atan2(m02, m22) * 180.0 / PI
-        val elevation = asin((-m12).coerceIn(-1.0, 1.0)) * 180.0 / PI
+        val elevation = asin(m21.coerceIn(-1.0, 1.0)) * 180.0 / PI
         return normalizeDegrees(yaw) to elevation.coerceIn(-90.0, 90.0)
     }
 

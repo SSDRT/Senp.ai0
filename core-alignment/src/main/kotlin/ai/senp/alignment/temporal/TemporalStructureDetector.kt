@@ -13,6 +13,7 @@ import ai.senp.core.contracts.VideoRole
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 internal data class DetectedTemporalStructure(
     val structure: TemporalStructure,
@@ -234,14 +235,20 @@ internal class TemporalStructureDetector(
         if (segments.isEmpty()) return emptyList()
         val units = mutableListOf<UnitCandidate>()
         val activeLike = setOf(ActivitySegmentKind.ACTIVE, ActivitySegmentKind.HOLD)
+        fun belongsToMotionBlock(segment: ActivitySegment): Boolean =
+            segment.kind in activeLike || (
+                segment.kind == ActivitySegmentKind.UNRELIABLE &&
+                    config.maximumBridgeUnreliableGapMs > 0L &&
+                    segment.range.duration().value <= config.maximumBridgeUnreliableGapMs
+                )
         var index = 0
         while (index < segments.size) {
-            if (segments[index].kind !in activeLike) {
+            if (!belongsToMotionBlock(segments[index])) {
                 index += 1
                 continue
             }
             val start = index
-            while (index < segments.size && segments[index].kind in activeLike) index += 1
+            while (index < segments.size && belongsToMotionBlock(segments[index])) index += 1
             val block = segments.subList(start, index)
             val blockStart = block.first().range.start.value
             val blockEnd = block.last().range.endExclusive.value
@@ -278,7 +285,7 @@ internal class TemporalStructureDetector(
                 (clipStartsMoving && candidate.structureClass != MotionStructureClass.CYCLIC)
             val openEnd = candidate.openEnd ||
                 (clipEndsMoving && candidate.structureClass != MotionStructureClass.CYCLIC)
-            val complete = candidate.complete && !openStart && !openEnd
+            val complete = !openStart && !openEnd
             MotionUnit(
                 unitId = "${prepared.signal.role.name.lowercase()}-u${unitIndex.toString().padStart(4, '0')}",
                 range = TimestampRange(TimestampMs(candidate.startMs), TimestampMs(candidate.endMs)),
@@ -326,7 +333,7 @@ internal class TemporalStructureDetector(
             val startValue = frames.first().values[feature]?.value
             val endValue = frames.last().values[feature]?.value
             val closesLoop = startValue != null && endValue != null &&
-                abs(startValue - endValue) <= valueRange * 0.20
+                abs(startValue - endValue) <= valueRange * config.singleCycleEndpointToleranceFraction
             return if (turns.isNotEmpty() && closesLoop && endMs - startMs >= config.minimumCycleMs) {
                 listOf(
                     UnitCandidate(
@@ -351,12 +358,35 @@ internal class TemporalStructureDetector(
         if (period < config.minimumCycleMs) return emptyList()
         val boundaryValues = boundaryCore.mapNotNull { timestamp -> nearestFrame(frames, timestamp).values[feature]?.value }
         val targetValue = boundaryValues.averageOrZero()
-        val boundaries = boundaryCore.toMutableList()
-        if (endpointMatches(frames.first(), feature, targetValue, valueRange) &&
+        val startValue = frames.first().values[feature]?.value
+        val onePeriodLater = nearestFrame(frames, startMs + period)
+        val durationInPeriods = (endMs - startMs).toDouble() / period.toDouble()
+        val nearestWholePeriods = durationInPeriods.roundToInt()
+        val durationSupportsEndpointPhase = nearestWholePeriods >= 2 &&
+            abs(durationInPeriods - nearestWholePeriods.toDouble()) <= 0.15
+        val endpointPhaseRepeats = durationSupportsEndpointPhase || (
+            startValue != null && endpointMatches(frames.first(), feature, targetValue, valueRange) &&
+                abs(onePeriodLater.timestamp.value - (startMs + period)) <= max(120L, period / 5L) &&
+                onePeriodLater.values[feature]?.value?.let { repeated -> abs(repeated - startValue) <= valueRange * 0.20 } == true
+            )
+        val boundaries = if (endpointPhaseRepeats) {
+            buildList {
+                add(startMs)
+                var boundary = startMs + period
+                while (boundary < endMs) {
+                    add(boundary)
+                    boundary += period
+                }
+                if (endMs - last() >= (period * 0.55).toLong()) add(endMs)
+            }.toMutableList()
+        } else {
+            boundaryCore.toMutableList()
+        }
+        if (!endpointPhaseRepeats && endpointMatches(frames.first(), feature, targetValue, valueRange) &&
             boundaries.first() - startMs <= (period * 0.25).toLong()
         ) {
             boundaries[0] = startMs
-        } else if (boundaries.first() - startMs >= (period * 0.55).toLong()) {
+        } else if (!endpointPhaseRepeats && boundaries.first() - startMs >= (period * 0.55).toLong()) {
             boundaries.add(0, startMs)
         }
         if (endpointMatches(frames.last(), feature, targetValue, valueRange) &&

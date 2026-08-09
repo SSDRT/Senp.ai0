@@ -298,13 +298,19 @@ object InvariantValidator {
             )
         }
         scenario.expectedOutcome.expectedSourceUnmatchedRanges.forEach { expectedRange ->
-            val represented = matched.flatMap { it.timeline }
+            val representedByTimestamp = matched.flatMap { it.timeline }
                 .filterIsInstance<TimestampCorrespondence.UnmatchedSource>()
                 .any { expectedRange.contains(it.sourceTimestamp) }
+            val unmatchedUnitIds = sourceUnmatched.mapTo(mutableSetOf()) { it.sourceUnitId }
+            val representedByWholeUnit = result.sourceTemporalStructure.motionUnits.any { unit ->
+                unit.unitId in unmatchedUnitIds &&
+                    unit.range.start.value < expectedRange.endExclusive.value &&
+                    expectedRange.start.value < unit.range.endExclusive.value
+            }
             check(
                 "SOURCE_TIMESTAMP_UNMATCHED_ALLOWED",
-                represented,
-                "expected an explicit unmatched source timestamp inside $expectedRange",
+                representedByTimestamp || representedByWholeUnit,
+                "expected the unreliable source range $expectedRange to be represented by an unmatched timestamp or an overlapping source-unmatched unit",
             )
         }
 

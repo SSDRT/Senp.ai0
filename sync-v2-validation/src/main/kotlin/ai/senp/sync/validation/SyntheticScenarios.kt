@@ -41,6 +41,7 @@ object SyntheticScenarioGenerator {
         val elevationDegrees: Double = 0.0,
         val mirrored: Boolean = false,
         val uniformScale: Double = 1.0,
+        val sideAsymmetry: Double = 0.0,
     )
 
     fun generate(seed: Long = DEFAULT_SEED): SyntheticSuiteManifest {
@@ -112,15 +113,18 @@ object SyntheticScenarioGenerator {
                 spatial = spatial.copy(relativeYawDegrees = 68.0, relativeElevationDegrees = 23.0)
             }
             "mirror" -> {
-                source = cyclic(VideoRole.SOURCE, 3, poseView = PoseView(mirrored = true))
-                reference = cyclic(VideoRole.REFERENCE, 3)
+                source = cyclic(VideoRole.SOURCE, 3, poseView = PoseView(mirrored = true, sideAsymmetry = 1.0))
+                reference = cyclic(VideoRole.REFERENCE, 3, poseView = PoseView(sideAsymmetry = 1.0))
                 spatial = spatial.copy(mirror = MirrorHypothesis.MIRRORED, selectedSide = BodySideHypothesis.LEFT)
             }
-            "side_selection_stability" -> spatial = spatial.copy(
-                mirror = MirrorHypothesis.AMBIGUOUS,
-                selectedSide = BodySideHypothesis.UNKNOWN,
-                expectedStableSide = false,
-            )
+            "side_selection_stability" -> {
+                source = cyclic(VideoRole.SOURCE, 3, alternatingSideCoverage = true)
+                spatial = spatial.copy(
+                    mirror = MirrorHypothesis.AMBIGUOUS,
+                    selectedSide = BodySideHypothesis.UNKNOWN,
+                    expectedStableSide = false,
+                )
+            }
             "camera_movement_discontinuity" -> {
                 val gap = range(1400, 1900)
                 source = cyclic(
@@ -152,15 +156,18 @@ object SyntheticScenarioGenerator {
                 source = multipleSets(VideoRole.SOURCE); reference = multipleSets(VideoRole.REFERENCE)
             }
             "extra_source_action" -> {
-                source = cyclic(VideoRole.SOURCE, 3)
+                source = cyclicWithExtraAction(VideoRole.SOURCE)
                 reference = cyclic(VideoRole.REFERENCE, 2)
-                outcome = partial(sourceUnmatched = setOf("source-u2"))
+                outcome = partial(sourceUnmatched = setOf("source-extra"))
             }
             "missing_source_action" -> {
                 source = cyclic(VideoRole.SOURCE, 2); reference = cyclic(VideoRole.REFERENCE, 3)
                 outcome = partial(referenceUnmatched = setOf("reference-u2"))
             }
-            "repeated_identical_phase" -> outcome = partial(ambiguity = true)
+            "repeated_identical_phase" -> {
+                reference = cyclic(VideoRole.REFERENCE, 6)
+                outcome = partial(ambiguity = true)
+            }
             "variable_speed" -> source = cyclic(VideoRole.SOURCE, 3, phaseExponent = 1.65)
             "pause_hold" -> {
                 val hold = range(1300, 1700)
@@ -219,8 +226,16 @@ object SyntheticScenarioGenerator {
                 outcome = refusedOrPartial(SynchronizationRefusalReason.UNRELIABLE_CORRESPONDENCE, ambiguity = true)
             }
             "edited_spliced_video" -> {
-                val cut = range(1450, 1550)
-                source = cyclic(VideoRole.SOURCE, 3, discontinuities = listOf(cut), phaseJumpAfterMs = 1500)
+                val cut = range(1400, 1800)
+                source = cyclic(
+                    VideoRole.SOURCE,
+                    3,
+                    unreliable = listOf(cut),
+                    discontinuities = listOf(cut),
+                    phaseJumpAfterMs = cut.endExclusive.value,
+                    poseViewAfterMs = cut.endExclusive.value,
+                    poseViewAfter = PoseView(yawDegrees = 58.0, elevationDegrees = 9.0, uniformScale = 1.04),
+                )
                 spatial = spatial.copy(expectedDiscontinuities = listOf(cut))
                 outcome = partial()
             }
@@ -306,29 +321,39 @@ object SyntheticScenarioGenerator {
         poseView: PoseView = PoseView(),
         poseViewAfterMs: Long? = null,
         poseViewAfter: PoseView? = null,
+        formByUnit: Map<Int, Double> = emptyMap(),
+        alternatingSideCoverage: Boolean = false,
     ): Generated {
         require(unitCount > 0)
-        val duration = unitCount * unitMs
+        val openBeginOffsetMs = if (openBegin) (unitMs * 0.23).toLong() else 0L
+        val openEndTrimMs = if (openEnd) (unitMs * 0.23).toLong() else 0L
+        val holdDurationMs = holds.sumOf { it.duration().value }
+        val duration = unitCount * unitMs - openBeginOffsetMs - openEndTrimMs + holdDurationMs
         val samples = mutableListOf<SyntheticTimestampTruth>()
         val observations = mutableListOf<CanonicalObservation>()
         var t = 0L
         while (t < duration) {
-            val unitStart = (t / unitMs) * unitMs
-            var phase = ((t - unitStart).toDouble() / unitMs).coerceIn(0.0, 0.999999)
+            val elapsedHoldMs = holds.sumOf { hold ->
+                when {
+                    t <= hold.start.value -> 0L
+                    t >= hold.endExclusive.value -> hold.duration().value
+                    else -> t - hold.start.value
+                }
+            }
+            val virtualTime = t - elapsedHoldMs + openBeginOffsetMs
+            val unitIndex = (virtualTime / unitMs).toInt().coerceIn(0, unitCount - 1)
+            val unitStart = unitIndex.toLong() * unitMs
+            var phase = ((virtualTime - unitStart).toDouble() / unitMs).coerceIn(0.0, 0.999999)
             phase = phase.powSafe(phaseExponent)
             val activeHold = holds.firstOrNull { it.contains(TimestampMs(t)) }
-            if (activeHold != null) {
-                phase = ((activeHold.start.value - unitStart).toDouble() / unitMs).coerceIn(0.0, 0.999999)
-                    .powSafe(phaseExponent)
-            }
             if (phaseJumpAfterMs != null && t >= phaseJumpAfterMs) phase = (phase + 0.38) % 1.0
             if (reversed) phase = 1.0 - phase
             val inHold = activeHold != null
             val reliable = unreliable.none { it.contains(TimestampMs(t)) }
             val direction = when {
                 !reliable || inHold -> 0
-                cos(2.0 * PI * phase) > 0.08 -> if (reversed) -1 else 1
-                cos(2.0 * PI * phase) < -0.08 -> if (reversed) 1 else -1
+                sin(2.0 * PI * phase) > 0.08 -> if (reversed) -1 else 1
+                sin(2.0 * PI * phase) < -0.08 -> if (reversed) 1 else -1
                 else -> 0
             }
             val state = when {
@@ -339,16 +364,23 @@ object SyntheticScenarioGenerator {
                 else -> "TURN"
             }
             val subject = if (reenterAfterMs != null && t >= reenterAfterMs) "subject-a-reentry" else "subject-a"
-            val truth = SyntheticTimestampTruth(t, state, direction, phase, reliable, form, subjectId = subject)
+            val frameForm = formByUnit[unitIndex] ?: form
+            val truth = SyntheticTimestampTruth(t, state, direction, phase, reliable, frameForm, subjectId = subject)
             samples += truth
             val activeView = if (poseViewAfterMs != null && t >= poseViewAfterMs) poseViewAfter ?: poseView else poseView
-            observations += CanonicalObservation(TimestampMs(t), channelsFor(truth, noise + jitter, multipleSubjects, activeView))
+            observations += CanonicalObservation(
+                TimestampMs(t),
+                channelsFor(truth, noise + jitter, multipleSubjects, activeView, alternatingSideCoverage),
+            )
             t += samplePeriodMs
         }
-        val units = (0 until unitCount).map { index ->
+        val units = (0 until unitCount).mapNotNull { index ->
+            val observedStart = maxOf(0L, index * unitMs - openBeginOffsetMs)
+            val observedEnd = minOf(duration, (index + 1L) * unitMs - openBeginOffsetMs)
+            if (observedEnd <= observedStart) return@mapNotNull null
             SyntheticUnitTruth(
                 unitId = "${role.name.lowercase()}-u$index",
-                range = range(index * unitMs, (index + 1) * unitMs),
+                range = range(observedStart, observedEnd),
                 structureClass = MotionStructureClass.CYCLIC,
                 openBegin = openBegin && index == 0,
                 openEnd = openEnd && index == unitCount - 1,
@@ -392,9 +424,9 @@ object SyntheticScenarioGenerator {
         val duration = 5000L
         val samples = (0L until duration step 100).map { t ->
             val rest = t in 2000 until 3000
-            val phase = if (rest) 0.5 else ((t % 1000).toDouble() / 1000.0)
+            val phase = if (rest) 0.0 else ((t % 1000).toDouble() / 1000.0)
             val direction = if (rest) 0 else if (phase < 0.5) 1 else -1
-            SyntheticTimestampTruth(t, if (rest) "REST" else if (direction > 0) "POSITIVE" else "NEGATIVE", direction, phase, true, 0.0, if (t < 2500) "set-1" else "set-2")
+            SyntheticTimestampTruth(t, if (rest) "REST" else if (direction > 0) "POSITIVE" else "NEGATIVE", direction, phase, true, 0.0, "subject-a")
         }
         return Generated(
             CanonicalObservationSequence(role, DurationMs(duration), ObservationSampling(30.0, 10.0), samples.map { CanonicalObservation(TimestampMs(it.timestampMs), channelsFor(it, 0.0, false)) }),
@@ -402,6 +434,62 @@ object SyntheticScenarioGenerator {
                 MotionStructureClass.CYCLIC,
                 samples,
                 unitRanges.mapIndexed { index, r -> SyntheticUnitTruth("${role.name.lowercase()}-u$index", r, MotionStructureClass.CYCLIC) },
+                listOf(ActivitySegmentKind.ACTIVE, ActivitySegmentKind.REST),
+            ),
+        )
+    }
+
+    private fun cyclicWithExtraAction(role: VideoRole): Generated {
+        val duration = 3800L
+        val samples = mutableListOf<SyntheticTimestampTruth>()
+        val observations = mutableListOf<CanonicalObservation>()
+        (0L until duration step 100L).forEach { t ->
+            val truth = when {
+                t < 2000L -> {
+                    val phase = (t % 1000L).toDouble() / 1000.0
+                    val sine = sin(2.0 * PI * phase)
+                    val direction = when {
+                        sine > 0.08 -> 1
+                        sine < -0.08 -> -1
+                        else -> 0
+                    }
+                    SyntheticTimestampTruth(
+                        timestampMs = t,
+                        state = when {
+                            direction > 0 -> "POSITIVE"
+                            direction < 0 -> "NEGATIVE"
+                            else -> "TURN"
+                        },
+                        direction = direction,
+                        phaseProgress = phase,
+                        reliable = true,
+                        formSignature = 0.0,
+                    )
+                }
+                t < 2800L -> SyntheticTimestampTruth(t, "REST", 0, 0.0, true, 0.0)
+                else -> {
+                    val phase = ((t - 2800L).toDouble() / 1000.0).coerceIn(0.0, 0.999999)
+                    SyntheticTimestampTruth(t, "STEP-EXTRA", 1, phase, true, 0.85)
+                }
+            }
+            samples += truth
+            observations += CanonicalObservation(TimestampMs(t), channelsFor(truth, 0.0, false))
+        }
+        return Generated(
+            CanonicalObservationSequence(
+                role,
+                DurationMs(duration),
+                ObservationSampling(30.0, 10.0),
+                observations,
+            ),
+            SyntheticTemporalTruth(
+                MotionStructureClass.MIXED,
+                samples,
+                listOf(
+                    SyntheticUnitTruth("${role.name.lowercase()}-u0", range(0, 1000), MotionStructureClass.CYCLIC),
+                    SyntheticUnitTruth("${role.name.lowercase()}-u1", range(1000, 2000), MotionStructureClass.CYCLIC),
+                    SyntheticUnitTruth("${role.name.lowercase()}-extra", range(2800, 3800), MotionStructureClass.ACYCLIC),
+                ),
                 listOf(ActivitySegmentKind.ACTIVE, ActivitySegmentKind.REST),
             ),
         )
@@ -415,7 +503,8 @@ object SyntheticScenarioGenerator {
             (0L until 1000L step 100L).forEach { offset ->
                 val t = index * 1000L + offset
                 val phase = offset / 1000.0
-                val truth = SyntheticTimestampTruth(t, step.uppercase(), 1, phase, true, index * 0.1)
+                val stableStepSignature = ((step.hashCode().toLong() and 0x7fffffffL) % 17L).toDouble() / 20.0
+                val truth = SyntheticTimestampTruth(t, step.uppercase(), 1, phase, true, stableStepSignature)
                 samples += truth
                 observations += CanonicalObservation(TimestampMs(t), channelsFor(truth, 0.0, false))
             }
@@ -436,6 +525,7 @@ object SyntheticScenarioGenerator {
         noise: Double,
         multipleSubjects: Boolean,
         poseView: PoseView = PoseView(),
+        alternatingSideCoverage: Boolean = false,
     ): List<ObservationChannel> {
         val reliable = truth.reliable
         val confidence = if (reliable) 0.98 else 0.0
@@ -464,19 +554,51 @@ object SyntheticScenarioGenerator {
         )
 
         fun humanPose(channelId: String, subjectId: String, subjectOffsetX: Double): ObservationChannel {
-            val movement = sin(2.0 * PI * truth.phaseProgress)
+            val acyclicStep = truth.state.startsWith("STEP-")
+            val movement = if (acyclicStep) {
+                2.0 * truth.phaseProgress - 1.0 + 1.6 * truth.formSignature
+            } else {
+                -cos(2.0 * PI * truth.phaseProgress)
+            }
+            val secondaryMovement = if (acyclicStep) {
+                truth.phaseProgress * truth.phaseProgress + 0.9 * truth.formSignature
+            } else {
+                sin(2.0 * PI * truth.phaseProgress)
+            }
             val shoulderHalfWidth = 0.42 * (1.0 + truth.formSignature)
-            val ankleLength = 1.0 * (1.0 - truth.formSignature * 0.25)
+            val ankleLength = 1.0
             val base = linkedMapOf(
                 "pelvis" to doubleArrayOf(0.0, 0.0, 0.0),
                 "left_hip" to doubleArrayOf(-0.20, -0.05, 0.0),
                 "right_hip" to doubleArrayOf(0.20, -0.05, 0.0),
                 "left_shoulder" to doubleArrayOf(-shoulderHalfWidth, 0.95, 0.0),
                 "right_shoulder" to doubleArrayOf(shoulderHalfWidth, 0.95, 0.0),
+                "left_elbow" to doubleArrayOf(
+                    -0.56 - 0.01 * poseView.sideAsymmetry,
+                    0.69 + (0.20 + 0.01 * poseView.sideAsymmetry) * secondaryMovement,
+                    (0.10 + 0.01 * poseView.sideAsymmetry) * movement,
+                ),
+                "right_elbow" to doubleArrayOf(
+                    0.56 - 0.02 * poseView.sideAsymmetry,
+                    0.69 - 0.02 * poseView.sideAsymmetry + (0.20 - 0.04 * poseView.sideAsymmetry) * secondaryMovement,
+                    (0.10 - 0.02 * poseView.sideAsymmetry) * movement,
+                ),
+                "left_wrist" to doubleArrayOf(
+                    -0.66 - 0.03 * poseView.sideAsymmetry,
+                    0.42 - 0.01 * poseView.sideAsymmetry + (0.32 + 0.02 * poseView.sideAsymmetry) * movement,
+                    (0.16 + 0.01 * poseView.sideAsymmetry) * movement + 0.045 * poseView.sideAsymmetry,
+                ),
+                "right_wrist" to doubleArrayOf(
+                    0.66 - 0.03 * poseView.sideAsymmetry,
+                    0.42 + 0.03 * poseView.sideAsymmetry + (0.32 - 0.04 * poseView.sideAsymmetry) * movement,
+                    (0.16 - 0.03 * poseView.sideAsymmetry) * movement - 0.005 * poseView.sideAsymmetry,
+                ),
+                "left_knee" to doubleArrayOf(-0.20, -0.55 + (0.08 + 0.01 * poseView.sideAsymmetry) * secondaryMovement, (0.05 + 0.005 * poseView.sideAsymmetry) * movement),
+                "right_knee" to doubleArrayOf(0.20, -0.55 - 0.01 * poseView.sideAsymmetry + (0.08 - 0.02 * poseView.sideAsymmetry) * secondaryMovement, (0.05 - 0.01 * poseView.sideAsymmetry) * movement),
                 "left_ankle" to doubleArrayOf(-0.20, -ankleLength, 0.0),
                 "right_ankle" to doubleArrayOf(0.20, -ankleLength, 0.0),
-                "left_wrist" to doubleArrayOf(-0.66, 0.42 + 0.32 * movement, 0.16 * movement),
-                "right_wrist" to doubleArrayOf(0.66, 0.42 + 0.32 * movement, 0.16 * movement),
+                "left_foot" to doubleArrayOf(-0.20, -ankleLength - 0.16, 0.18),
+                "right_foot" to doubleArrayOf(0.20, -ankleLength - 0.16, 0.18),
             )
             return ObservationChannel(
                 channelId = channelId,
@@ -486,14 +608,27 @@ object SyntheticScenarioGenerator {
                 subjectId = subjectId,
                 componentAxes = listOf("x", "y", "z"),
                 values = base.map { (key, point) ->
+                    val dynamicSideLandmark = key.endsWith("elbow") || key.endsWith("wrist") ||
+                        key.endsWith("knee") || key.endsWith("ankle")
+                    val alternatingBucket = (truth.timestampMs / 300L) % 2L
+                    val hiddenByAlternation = alternatingSideCoverage && dynamicSideLandmark && when {
+                        key.startsWith("left_") -> alternatingBucket == 1L
+                        key.startsWith("right_") -> alternatingBucket == 0L
+                        else -> false
+                    }
+                    val observed = reliable && !hiddenByAlternation
                     ObservationValue(
                         key,
-                        if (reliable) transformPoint(point, poseView, subjectOffsetX).map { it + noise } else listOf(null, null, null),
-                        List(3) { reliable },
-                        confidence,
+                        if (observed) transformPoint(point, poseView, subjectOffsetX).map { it + noise } else listOf(null, null, null),
+                        List(3) { observed },
+                        if (observed) confidence else 0.0,
                     )
                 },
-                availability = if (reliable) ChannelAvailability.OBSERVED else ChannelAvailability.MISSING,
+                availability = when {
+                    !reliable -> ChannelAvailability.MISSING
+                    alternatingSideCoverage -> ChannelAvailability.PARTIAL
+                    else -> ChannelAvailability.OBSERVED
+                },
                 confidence = confidence,
             )
         }

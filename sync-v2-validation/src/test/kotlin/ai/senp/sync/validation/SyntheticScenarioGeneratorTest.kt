@@ -30,7 +30,7 @@ class SyntheticScenarioGeneratorTest {
         assertEquals(expected, suite.scenarios.map { it.scenarioId }.toSet())
         assertTrue(suite.coverage.all { it.fixtureGeneration == CoverageState.EXECUTABLE })
         assertTrue(suite.coverage.all { it.invariantValidation == CoverageState.EXECUTABLE })
-        assertTrue(suite.coverage.all { it.productionIntegration == CoverageState.STAGED })
+        assertTrue(suite.coverage.all { it.productionIntegration == CoverageState.EXECUTABLE })
         val json = Json { encodeDefaults = true; classDiscriminator = "type" }
         assertEquals(json.encodeToString(suite), json.encodeToString(SyntheticScenarioGenerator.generate()))
         assertNotEquals(json.encodeToString(suite), json.encodeToString(SyntheticScenarioGenerator.generate(42L)))

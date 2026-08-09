@@ -25,7 +25,7 @@ data class ScenarioCoverage(
     val scenarioId: String,
     val fixtureGeneration: CoverageState = CoverageState.EXECUTABLE,
     val invariantValidation: CoverageState = CoverageState.EXECUTABLE,
-    val productionIntegration: CoverageState = CoverageState.STAGED,
+    val productionIntegration: CoverageState = CoverageState.EXECUTABLE,
     val integrationLanes: Set<String>,
 )
 

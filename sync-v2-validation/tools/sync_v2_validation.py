@@ -469,6 +469,15 @@ def _render_html(case: dict[str, Any], plan: dict[str, Any], rows: list[dict[str
     )
     origin = html.escape(str(plan.get("origin", "adapter_output")))
     purpose = html.escape(str(plan.get("purpose", "Human verification of mapped timestamps")))
+    production_status = html.escape(str(plan.get("production_status", "UNKNOWN")))
+    production_confidence = plan.get("confidence")
+    source_coverage = plan.get("source_analyzable_fraction")
+    reference_coverage = plan.get("reference_analyzable_fraction")
+    refusal_reason = str(plan.get("refusal_reason") or "—")
+    production_summary = html.escape(
+        f"STATUS {production_status} · CONF {float(production_confidence):.3f} · "
+        f"COVERAGE src {float(source_coverage):.3f} / ref {float(reference_coverage):.3f} · REFUSAL {refusal_reason}"
+    ) if all(isinstance(value, (int, float)) for value in (production_confidence, source_coverage, reference_coverage)) else f"STATUS {production_status} · REFUSAL {refusal_reason}"
     cards = []
     for index, row in enumerate(rows):
         ref = "UNMATCHED" if row.get("reference_ms") is None else f"{row.get('reference_actual_ms')} ms"
@@ -497,6 +506,7 @@ def _render_html(case: dict[str, Any], plan: dict[str, Any], rows: list[dict[str
 * {{ box-sizing:border-box; }} body {{ margin:0; background:#0d0f10; }} main {{ width:min(100%, 980px); margin:0 auto; padding:18px 14px 56px; }}
 .eyebrow {{ letter-spacing:.12em; text-transform:uppercase; font-size:11px; color:#b7b8b3; }} h1 {{ font:700 clamp(25px,8vw,46px)/1.02 system-ui,sans-serif; margin:8px 0 10px; max-width:14ch; }}
 .lede {{ color:#c9c9c2; line-height:1.55; max-width:72ch; }} .origin {{ display:inline-block; border:1px solid #6c6f70; padding:6px 8px; margin:8px 0 12px; font-size:11px; }}
+.production-summary {{ border:1px solid #6c6f70; padding:8px 9px; margin:0 0 10px; font-size:11px; line-height:1.5; overflow-wrap:anywhere; }}
 .spatial-summary {{ border-block:1px solid #474a4b; padding:9px 0; margin:0 0 20px; color:#d7d6cf; font-size:10px; line-height:1.55; overflow-wrap:anywhere; }}
 .mapping-card {{ border-top:1px solid #474a4b; padding:16px 0 22px; }} .mapping-card header {{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:10px; }}
 .row-id {{ font-weight:800; }} .expectation {{ font-size:11px; border:1px solid #f4f1e8; padding:4px 6px; text-align:right; }}
@@ -507,6 +517,7 @@ def _render_html(case: dict[str, Any], plan: dict[str, Any], rows: list[dict[str
 </style></head><body><main>
 <p class="eyebrow">SENP.AI0 / SYNCHRONIZATION KERNEL V2 / HUMAN VERIFICATION</p>
 <h1>{html.escape(case['id'])}</h1><p class="lede">{purpose}</p><span class="origin">ORIGIN: {origin}</span>
+<p class="production-summary">{production_summary}</p>
 <p class="spatial-summary">{spatial_summary}</p>
 <section><h2>Review checks</h2><ul class="checks"><li>Raised vs flat legs must be visually obvious.</li><li>Opposite motion direction must not hide behind a similar pose.</li><li>UNMATCHED stays visibly blank instead of forcing correspondence through rest or coverage holes.</li><li>Spatial diagnostics expose mirror, side, view and global scale; non-uniform scale or shear is invalid.</li></ul></section>
 <section><h2>Timeline</h2><img class="timeline" src="{html.escape(timeline_file)}" alt="Source to reference timestamp correspondence timeline"></section>
@@ -546,7 +557,7 @@ def performance(args: argparse.Namespace) -> dict[str, Any]:
         {"id": "sequence-1200-scaling", "samples": 1200, "analysis_fps": 30, "scenario": "variable_speed"},
         {"id": "reference-reuse-1-to-10", "samples": None, "analysis_fps": 15, "scenario": "one_reference_ten_source"},
         {"id": "repeated-units-2-to-7", "samples": None, "analysis_fps": 15, "scenario": "two_reference_seven_source"},
-        {"id": "long-idle-rest", "samples": None, "analysis_fps": 15, "scenario": "multiple_sets_rests"},
+        {"id": "long-idle-rest", "samples": 1200, "analysis_fps": 15, "scenario": "multiple_sets_rests"},
     ]
     measurements = [_legacy_stage_summary(Path(path)) for path in args.stage_report]
     output = Path(args.output).resolve()
@@ -576,6 +587,7 @@ def performance(args: argparse.Namespace) -> dict[str, Any]:
             samples: list[float] = []
             total_samples: list[float] = []
             rss: list[int] = []
+            raw_measurements: list[dict[str, Any]] = []
             for repetition in range(args.repetitions):
                 measurement_path = run_root / f"{plan['id']}-{repetition}.json"
                 descriptor_path = run_root / f"{plan['id']}-{repetition}-request.json"
@@ -593,11 +605,13 @@ def performance(args: argparse.Namespace) -> dict[str, Any]:
                 if completed.returncode != 0 or not measurement_path.is_file():
                     raise ValidationError(f"benchmark adapter failed for {plan['id']} repetition {repetition}")
                 measured = load_json(measurement_path)
+                raw_measurements.append(measured)
                 samples.append(float(measured["post_pose_sync_ms"]))
-                total_samples.append(float(measured["total_pipeline_ms"]))
+                if measured.get("total_pipeline_ms") is not None:
+                    total_samples.append(float(measured["total_pipeline_ms"]))
                 rss.append(int(measured["peak_rss_bytes"]))
             median_ms = statistics.median(samples)
-            total_pipeline_ms = statistics.median(total_samples)
+            total_pipeline_ms = statistics.median(total_samples) if total_samples else None
             fraction = median_ms / total_pipeline_ms if total_pipeline_ms else None
             v2_measurements.append({
                 **plan,
@@ -608,11 +622,25 @@ def performance(args: argparse.Namespace) -> dict[str, Any]:
                 "peak_rss_bytes": max(rss),
                 "total_pipeline_ms": total_pipeline_ms,
                 "post_pose_sync_fraction_of_total": fraction,
+                "source_frames": max(int(item.get("source_frames", 0)) for item in raw_measurements),
+                "reference_frames": max(int(item.get("reference_frames", 0)) for item in raw_measurements),
+                "coarse_unit_comparisons": max(int(item.get("coarse_unit_comparisons", 0)) for item in raw_measurements),
+                "fine_cells_evaluated": max(int(item.get("fine_cells_evaluated", 0)) for item in raw_measurements),
+                "maximum_fine_band_width": max(int(item.get("maximum_fine_band_width", 0)) for item in raw_measurements),
+                "fine_alignment_count": max(int(item.get("fine_alignment_count", 0)) for item in raw_measurements),
+                "naive_whole_video_cells": max(int(item.get("naive_whole_video_cells", 0)) for item in raw_measurements),
+                "fine_to_naive_fraction": max(float(item.get("fine_to_naive_fraction", 0.0)) for item in raw_measurements),
             })
         result["sync_v2_measurements"] = v2_measurements
         result["sync_v2_integration_status"] = "EXECUTED"
-        over_budget = [item for item in v2_measurements if item["post_pose_sync_fraction_of_total"] is not None and item["post_pose_sync_fraction_of_total"] > BUDGET_FRACTION]
-        result["budget_evaluation"] = "OVER_BUDGET" if over_budget else "WITHIN_BUDGET"
+        evaluated = [item for item in v2_measurements if item["post_pose_sync_fraction_of_total"] is not None]
+        over_budget = [item for item in evaluated if item["post_pose_sync_fraction_of_total"] > BUDGET_FRACTION]
+        result["budget_evaluation"] = (
+            "NOT_APPLICABLE_POST_POSE_ONLY" if not evaluated else "OVER_BUDGET" if over_budget else "WITHIN_BUDGET"
+        )
+        if args.enforce_budget and not evaluated:
+            write_json(output, result)
+            raise ValidationError("cannot enforce total-pipeline budget from post-pose-only benchmark measurements")
         if args.enforce_budget and over_budget:
             write_json(output, result)
             raise ValidationError("explicit Sync-v2 performance budget enforcement failed")

@@ -62,14 +62,17 @@ data class TemporalSynchronizationConfig(
     val minimumNormalizedActiveSpeedPerSecond: Double = 0.10,
     val minimumActiveRunMs: Long = 220L,
     val bridgeQuietGapMs: Long = 160L,
+    val maximumBridgeUnreliableGapMs: Long = 0L,
     val minimumHoldMs: Long = 320L,
     val restGapMs: Long = 900L,
     val minimumMotionUnitMs: Long = 260L,
     val minimumCycleMs: Long = 360L,
+    val singleCycleEndpointToleranceFraction: Double = 0.20,
     val derivativeContextMs: Long = 160L,
     val temporalContextMs: Long = 240L,
     val reliableDirectionMagnitude: Double = 0.18,
     val oppositeDirectionFraction: Double = 0.55,
+    val oppositeDirectionCellPenalty: Double = 0.75,
     val descriptorMinimumCoverage: Double = 0.35,
     val coarseSamplesPerUnit: Int = 12,
     val coarseShiftSamples: Int = 4,
@@ -81,6 +84,7 @@ data class TemporalSynchronizationConfig(
     val fineMaximumCellCost: Double = 1.45,
     val minimumMatchedTimestampFraction: Double = 0.45,
     val minimumMatchedUnitConfidence: Double = 0.32,
+    val minimumCrossClassMatchedUnitConfidence: Double = 0.10,
     val minimumSynchronizedConfidence: Double = 0.62,
     val minimumCorrespondenceForPartial: Double = 0.20,
     val minimumWarpSlope: Double = 0.16,
@@ -88,6 +92,7 @@ data class TemporalSynchronizationConfig(
     val slopeWindowMs: Long = 300L,
     val maximumFrozenMappingMs: Long = 550L,
     val maximumAmbiguityForConfidentMatch: Double = 0.92,
+    val maximumCrossClassAmbiguityForMatch: Double = 0.90,
 ) {
     init {
         listOf(
@@ -96,27 +101,32 @@ data class TemporalSynchronizationConfig(
             minimumAnalyzableFraction,
             activeVelocityQuantile,
             activeVelocityMultiplier,
+            singleCycleEndpointToleranceFraction,
             reliableDirectionMagnitude,
             oppositeDirectionFraction,
             descriptorMinimumCoverage,
             fineBandFraction,
             minimumMatchedTimestampFraction,
             minimumMatchedUnitConfidence,
+            minimumCrossClassMatchedUnitConfidence,
             minimumSynchronizedConfidence,
             minimumCorrespondenceForPartial,
             maximumAmbiguityForConfidentMatch,
+            maximumCrossClassAmbiguityForMatch,
         ).forEach { value -> requireProbability(value, "temporal synchronization probability/fraction") }
         require(discontinuityGapMs > 0L)
         require(motionSmoothingRadiusMs >= 0L)
         require(minimumNormalizedActiveSpeedPerSecond > 0.0)
         require(minimumActiveRunMs > 0L)
         require(bridgeQuietGapMs >= 0L)
+        require(maximumBridgeUnreliableGapMs >= 0L)
         require(minimumHoldMs > 0L)
         require(restGapMs >= minimumHoldMs)
         require(minimumMotionUnitMs > 0L)
         require(minimumCycleMs >= minimumMotionUnitMs)
         require(derivativeContextMs > 0L)
         require(temporalContextMs >= derivativeContextMs)
+        require(oppositeDirectionCellPenalty >= 0.0)
         require(coarseSamplesPerUnit >= 6)
         require(coarseShiftSamples >= 0)
         require(coarseMaximumCost > 0.0)
@@ -137,17 +147,50 @@ data class TemporalComputationStats(
     val sourceUnitCount: Int,
     val referenceUnitCount: Int,
     val coarseUnitComparisons: Long,
+    val coarseAcceptedCandidateCount: Int,
+    val bestCoarseCandidateCost: Double?,
     val fineCellsEvaluated: Long,
+    val finePathTimestampCount: Long,
+    val fineAcceptedTimestampCount: Long,
+    val fineRejectedOppositeDirectionCount: Long,
+    val fineRejectedCostCount: Long,
+    val fineRejectedCoverageCount: Long,
+    val fineRejectedConfidenceCount: Long,
+    val fineRejectedWarpCount: Long,
+    val bestFineMatchedFraction: Double?,
+    val bestFineDecisionConfidence: Double?,
     val maximumFineBandWidth: Int,
     val fineAlignmentCount: Int,
 ) {
     init {
         require(
-            listOf(sourceFrameCount, referenceFrameCount, sourceUnitCount, referenceUnitCount, maximumFineBandWidth, fineAlignmentCount)
+            listOf(
+                sourceFrameCount,
+                referenceFrameCount,
+                sourceUnitCount,
+                referenceUnitCount,
+                coarseAcceptedCandidateCount,
+                maximumFineBandWidth,
+                fineAlignmentCount,
+            )
                 .all { it >= 0 },
         )
         require(coarseUnitComparisons >= 0L)
-        require(fineCellsEvaluated >= 0L)
+        bestCoarseCandidateCost?.let { require(it.isFinite() && it >= 0.0) }
+        require(
+            listOf(
+                fineCellsEvaluated,
+                finePathTimestampCount,
+                fineAcceptedTimestampCount,
+                fineRejectedOppositeDirectionCount,
+                fineRejectedCostCount,
+                fineRejectedCoverageCount,
+                fineRejectedConfidenceCount,
+                fineRejectedWarpCount,
+            ).all { it >= 0L },
+        )
+        bestFineMatchedFraction?.let { requireProbability(it, "best fine matched fraction") }
+        bestFineDecisionConfidence?.let { requireProbability(it, "best fine decision confidence") }
     }
 
     val naiveWholeVideoCellCount: Long
