@@ -24,6 +24,10 @@ internal class EngineComposition(context: Context) {
         videoPoseExtractor = videoPoseExtractor,
         poseCache = synchronizationPoseCache,
     )
+    val referenceActionSession = ReferenceActionSessionEngine(
+        videoPoseExtractor = videoPoseExtractor,
+        poseCache = synchronizationPoseCache,
+    )
 
     val pipeline = AnalysisPipeline(
         videoPoseExtractor = videoPoseExtractor,

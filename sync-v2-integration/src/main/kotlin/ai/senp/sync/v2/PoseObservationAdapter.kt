@@ -34,7 +34,7 @@ class PoseObservationAdapter {
         )
     }
 
-    private fun adaptFrame(frame: PoseFrame): CanonicalObservation = CanonicalObservation(
+    fun adaptFrame(frame: PoseFrame): CanonicalObservation = CanonicalObservation(
         timestamp = frame.timestamp,
         channels = listOf(imageChannel(frame), worldChannel(frame)),
     )
