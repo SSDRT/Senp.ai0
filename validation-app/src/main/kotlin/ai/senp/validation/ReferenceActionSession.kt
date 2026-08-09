@@ -114,14 +114,7 @@ internal class ReferenceActionSessionEngine(
         require(extraction.role == VideoRole.REFERENCE)
         val observations = observationAdapter.adapt(extraction, analysisFramesPerSecond)
         return when (val result = compiler.compile(observations)) {
-            is ReferenceActionCompilation.Success -> {
-                val rejection = referenceProfileUsabilityIssue(result.profile)
-                if (rejection == null) {
-                    ReferencePreparationOutcome.Ready(result.profile, extraction)
-                } else {
-                    ReferencePreparationOutcome.Rejected(rejection, extraction)
-                }
-            }
+            is ReferenceActionCompilation.Success -> ReferencePreparationOutcome.Ready(result.profile, extraction)
             is ReferenceActionCompilation.Failure -> ReferencePreparationOutcome.Rejected(result.message, extraction)
         }
     }
@@ -177,15 +170,15 @@ internal class ReferenceActionSessionEngine(
     )
 }
 
-internal fun referenceProfileUsabilityIssue(profile: ActionProfile): String? {
+internal fun referenceProfileQualityNotice(profile: ActionProfile): String? {
     val validation = profile.validation
     return when {
         validation.reconstructionAccuracy < MIN_REFERENCE_RECONSTRUCTION ->
-            "Self-check could only reconstruct ${(validation.reconstructionAccuracy * 100).roundToInt()}% of the demonstrated states."
+            "Only ${(validation.reconstructionAccuracy * 100).roundToInt()}% of the demonstrated states were reconstructed confidently. Live comparison is still available, but hints may be less specific."
         validation.transitionCoverage < MIN_REFERENCE_TRANSITION_COVERAGE ->
-            "Self-check recovered only ${(validation.transitionCoverage * 100).roundToInt()}% of the demonstrated state transitions."
+            "Only ${(validation.transitionCoverage * 100).roundToInt()}% of the demonstrated transitions were recovered confidently. Live comparison is still available and will rely on the states it can recognize."
         validation.meanRecognitionConfidence < MIN_REFERENCE_RECOGNITION_CONFIDENCE ->
-            "Self-check recognition confidence was only ${(validation.meanRecognitionConfidence * 100).roundToInt()}%."
+            "Reference recognition confidence is ${(validation.meanRecognitionConfidence * 100).roundToInt()}%. Live comparison is still available; low-confidence frames will produce fewer hints."
         else -> null
     }
 }
@@ -230,6 +223,7 @@ internal class LiveReferenceActionProcessor(
             deviations
                 .asSequence()
                 .filter(ReferenceDeviationMeasurement::persistenceCandidate)
+                .filter { measurement -> measurement.feature.startsWith("angle.") }
                 .map { measurement -> measurement.toCoachingObservation(profile) }
                 .toList()
         } else {
@@ -268,22 +262,41 @@ internal object ReferenceActionProfileStore {
 
     fun get(): PreparedReferenceAction? = current
 
+    fun get(referenceSha256: String): PreparedReferenceAction? = current?.takeIf {
+        it.referenceSha256 == referenceSha256
+    }
+
     fun clear() {
         current = null
     }
 }
 
 internal fun ReferenceDeviationMeasurement.toReferenceCueLabel(): String {
-    val parts = feature.split('.')
-    val kind = parts.firstOrNull()?.replace('_', ' ')
-    val subject = parts.drop(1).joinToString(" ").replace('_', ' ')
-    val label = when {
-        subject.isBlank() -> feature.replace('.', ' ').replace('_', ' ')
-        kind == "angle" -> "$subject angle"
-        kind == "ratio" -> "$subject proportion"
-        else -> "$subject $kind"
+    val joint = feature.removePrefix("angle.").takeIf { feature.startsWith("angle.") }
+    if (joint != null) {
+        val readable = joint.replace('_', ' ')
+        val tooOpen = signedDeltaOutsideRange > 0.0
+        return when {
+            joint.endsWith("elbow") || joint.endsWith("knee") -> if (tooOpen) {
+                "Bend your $readable a little more to match the reference"
+            } else {
+                "Straighten your $readable a little more to match the reference"
+            }
+            joint.endsWith("hip") -> if (tooOpen) {
+                "Bend more at your $readable to match the reference"
+            } else {
+                "Open your $readable a little more to match the reference"
+            }
+            joint.endsWith("shoulder") -> if (tooOpen) {
+                "Bring your $readable position closer to the reference"
+            } else {
+                "Raise your $readable position a little more toward the reference"
+            }
+            else -> "Adjust your $readable angle toward the reference"
+        }
     }
-    return label.replaceFirstChar { character -> character.titlecase() } + " differs from reference"
+    val subject = feature.substringAfter('.', feature).replace('_', ' ')
+    return "Adjust $subject toward the reference"
 }
 
 private fun ReferenceDeviationMeasurement.toCoachingObservation(profile: ActionProfile): CoachingObservation {

@@ -34,6 +34,21 @@ class ReferenceActionCoreTest {
     }
 
     @Test
+    fun `low analyzable percentage lowers confidence without rejecting a structurally usable reference`() {
+        val reference = cyclicSequence(
+            VideoRole.REFERENCE,
+            repetitions = 4,
+            occludedFrameRange = 0..95,
+        )
+
+        val profile = compileProfile(reference)
+
+        assertEquals(0.20, profile.validation.analyzableFraction, 1e-9)
+        assertTrue(profile.confidence < 0.30, profile.toString())
+        assertTrue(profile.states.size >= 3)
+    }
+
+    @Test
     fun `absolute start time offset does not affect recognition`() {
         val profile = compileProfile(cyclicSequence(VideoRole.REFERENCE, repetitions = 4))
         val baseline = ActionStateRecognizer(profile).recognize(cyclicSequence(VideoRole.SOURCE, repetitions = 3))

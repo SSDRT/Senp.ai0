@@ -1,5 +1,6 @@
 package ai.senp.validation.ui.screens
 
+import ai.senp.validation.referenceProfileQualityNotice
 import ai.senp.validation.ui.SenpEngineViewModel
 import ai.senp.validation.ui.state.ConfigurationState
 import ai.senp.validation.ui.state.ReferenceProfileUiState
@@ -110,7 +111,6 @@ private data class EditorRequest(val slot: VideoSlot, val uri: Uri)
 fun ConfigurationScreen(
     viewModel: SenpEngineViewModel,
     onStartAnalysis: () -> Unit,
-    onOpenLivePushUp: () -> Unit,
     onOpenLiveReference: (() -> Unit)? = null,
 ) {
     val context = LocalContext.current
@@ -201,7 +201,6 @@ fun ConfigurationScreen(
         onUpdateFps = viewModel::updateTargetFps,
         onUpdateResolution = viewModel::updateLongEdgeCap,
         onOpenLiveReference = onOpenLiveReference,
-        onOpenLivePushUp = onOpenLivePushUp,
         onStartAnalysis = onStartAnalysis,
     )
 }
@@ -398,7 +397,6 @@ private fun WorkspaceScreen(
     onUpdateFps: (Int) -> Unit,
     onUpdateResolution: (Int) -> Unit,
     onOpenLiveReference: (() -> Unit)?,
-    onOpenLivePushUp: () -> Unit,
     onStartAnalysis: () -> Unit,
 ) {
     Column(
@@ -430,7 +428,6 @@ private fun WorkspaceScreen(
             referenceSelected = selectionState.referenceUri != null,
             referenceProfileState = referenceProfileState,
             onOpenLiveReference = onOpenLiveReference,
-            onOpenLivePushUp = onOpenLivePushUp,
         )
 
         Spacer(Modifier.height(26.dp))
@@ -533,7 +530,6 @@ private fun ReferenceActionEntry(
     referenceSelected: Boolean,
     referenceProfileState: ReferenceProfileUiState,
     onOpenLiveReference: (() -> Unit)?,
-    onOpenLivePushUp: () -> Unit,
 ) {
     val profileReady = referenceProfileState is ReferenceProfileUiState.Ready
     val liveReferenceEnabled = profileReady && onOpenLiveReference != null
@@ -548,7 +544,8 @@ private fun ReferenceActionEntry(
         is ReferenceProfileUiState.Preparing -> referenceProfileState.message
         is ReferenceProfileUiState.Ready -> {
             val profile = referenceProfileState.profile
-            "Profile validated against the reference · ${profile.states.size} states · ${profile.referenceRepetitions} reference repetition${if (profile.referenceRepetitions == 1) "" else "s"} · ${(profile.confidence * 100).toInt()}% profile confidence."
+            val base = "Profile built from this movement · ${profile.states.size} states · ${profile.referenceRepetitions} reference repetition${if (profile.referenceRepetitions == 1) "" else "s"} · ${(profile.confidence * 100).toInt()}% profile confidence."
+            referenceProfileQualityNotice(profile)?.let { "$base $it" } ?: base
         }
         is ReferenceProfileUiState.Rejected -> "This clip could not produce a reliable reference profile: ${referenceProfileState.message}"
     }
@@ -605,24 +602,12 @@ private fun ReferenceActionEntry(
                         referenceProfileState is ReferenceProfileUiState.Rejected -> "REFERENCE PROFILE UNAVAILABLE"
                         !profileReady -> "PREPARE REFERENCE FIRST"
                         onOpenLiveReference == null -> "LIVE REFERENCE · UNAVAILABLE"
-                        else -> "OPEN LIVE REFERENCE"
+                        else -> "START LIVE WITH THIS REFERENCE"
                     },
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 0.6.sp,
                 )
-            }
-            HorizontalDivider(color = SenpBorder, modifier = Modifier.padding(vertical = 14.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth().clickable { onOpenLivePushUp() }.padding(vertical = 2.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(Modifier.weight(1f)) {
-                    Text("PUSH-UP ARENA", color = SenpCream, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                    Text("Specialized legacy live coach", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 3.dp))
-                }
-                Text("OPEN  →", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold)
             }
         }
     }

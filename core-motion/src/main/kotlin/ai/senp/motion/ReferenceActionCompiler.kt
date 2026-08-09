@@ -40,12 +40,6 @@ class ReferenceActionCompiler(
         }
         val frameAnalyzableFraction = samples.size.toDouble() / max(1, allFrames.size).toDouble()
         val analyzableFraction = min(reference.analyzableFraction, frameAnalyzableFraction)
-        if (analyzableFraction < config.minimumAnalyzableFraction) {
-            return ReferenceActionCompilation.Failure(
-                ReferenceActionCompilationFailureReason.LOW_REFERENCE_CONFIDENCE,
-                "reference analyzable fraction $analyzableFraction is below ${config.minimumAnalyzableFraction}",
-            )
-        }
 
         val featureNames = samples.flatMap { it.values.keys }.groupingBy { it }.eachCount()
             .filterValues { count -> count.toDouble() / samples.size.toDouble() >= config.minimumFeatureObservability }
@@ -579,7 +573,6 @@ class ReferenceActionCompiler(
 data class ReferenceActionCompilerConfig(
     val minimumReferenceDurationMs: Long = 700L,
     val minimumAnalyzableFrames: Int = 18,
-    val minimumAnalyzableFraction: Double = 0.55,
     val minimumFrameConfidence: Double = 0.35,
     val minimumFeatureObservability: Double = 0.60,
     val minimumFeatureCount: Int = 3,
@@ -614,7 +607,6 @@ data class ReferenceActionCompilerConfig(
     init {
         require(minimumReferenceDurationMs > 0L)
         require(minimumAnalyzableFrames >= 6)
-        requireActionProbability(minimumAnalyzableFraction)
         requireActionProbability(minimumFrameConfidence)
         requireActionProbability(minimumFeatureObservability)
         require(minimumFeatureCount >= 1)
