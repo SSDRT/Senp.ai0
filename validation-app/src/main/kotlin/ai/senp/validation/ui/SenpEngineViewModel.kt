@@ -76,11 +76,6 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
         _configState.update { it.copy(longEdgeCapPx = capPx.coerceIn(240, 1080)) }
     }
 
-    fun updateExerciseProfile(profileId: String) {
-        require(profileId in SUPPORTED_EXERCISE_PROFILES) { "Unsupported exercise profile: $profileId" }
-        _configState.update { it.copy(exerciseProfileId = profileId) }
-    }
-
     fun runAnalysis() {
         val selection = videoSelectionState.value
         val config = configState.value
@@ -166,14 +161,5 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
     companion object {
         private const val MODEL_SHA256 = "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
 
-        val SUPPORTED_EXERCISE_PROFILES = setOf(
-            "generic",
-            "biceps_curl",
-            "pushup",
-            "squat",
-            "leg_raise",
-            "plank",
-            "pullup",
-        )
     }
 }

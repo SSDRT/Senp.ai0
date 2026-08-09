@@ -5,7 +5,6 @@ import ai.senp.core.contracts.PoseFrame
 import ai.senp.core.contracts.PoseSequence
 import ai.senp.core.contracts.SynchronizationResult
 import ai.senp.core.contracts.SynchronizationStatus
-import ai.senp.core.contracts.TimestampCorrespondence
 import ai.senp.sync.v2.VideoSynchronizationRun
 import ai.senp.validation.ui.components.DiagnosticsBottomSheet
 import ai.senp.validation.ui.components.PoseLandmarkOverlay
@@ -86,7 +85,6 @@ import androidx.media3.ui.PlayerView
 import kotlinx.coroutines.delay
 import java.util.Locale
 import kotlin.math.abs
-import kotlin.math.roundToLong
 
 private const val PLAY_NONE = 0
 private const val PLAY_BOTH = 1
@@ -132,7 +130,7 @@ fun AnalysisPlayerScreen(
     val synchronization = run.synchronization.result
     val sourcePoses = run.sourcePoseExtraction.poses
     val referencePoses = run.referencePoseExtraction.poses
-    val alignmentPoints = remember(synchronization) { synchronization.playbackPoints() }
+    val playbackMapping = remember(synchronization) { synchronization.playbackMapping() }
     val totalDuration = run.sourcePoseExtraction.duration.value.coerceAtLeast(1L)
     val referenceDuration = run.referencePoseExtraction.duration.value.coerceAtLeast(1L)
     val matchedUnitCount = synchronization.correspondences.count { it is MotionUnitCorrespondence.MatchedUnit }
@@ -190,8 +188,14 @@ fun AnalysisPlayerScreen(
                 when (playbackMode) {
                     PLAY_BOTH -> {
                         currentSourcePositionMs = sourcePlayer.currentPosition.coerceAtLeast(0L)
-                        val target = mapSourceMsToRefMs(currentSourcePositionMs, alignmentPoints)
-                            .coerceIn(0L, referenceDuration)
+                        val mappedTarget = playbackMapping.sourceToReference(currentSourcePositionMs)
+                        if (mappedTarget == null) {
+                            sourcePlayer.pause()
+                            referencePlayer.pause()
+                            playbackMode = PLAY_NONE
+                            break
+                        }
+                        val target = mappedTarget.coerceIn(0L, referenceDuration)
                         val referencePosition = referencePlayer.currentPosition.coerceAtLeast(0L)
                         val driftMs = target - referencePosition
 
@@ -228,21 +232,16 @@ fun AnalysisPlayerScreen(
     }
 
     fun start(mode: Int) {
-        if (mode == PLAY_BOTH && alignmentPoints.isEmpty()) {
+        if (mode == PLAY_BOTH && !playbackMapping.supportsSource(currentSourcePositionMs)) {
             playbackMode = PLAY_NONE
             return
         }
         playbackMode = mode
         when (mode) {
             PLAY_BOTH -> {
-                if (sourcePlayer.playbackState == Player.STATE_ENDED || referencePlayer.playbackState == Player.STATE_ENDED) {
-                    sourcePlayer.seekTo(0L)
-                    referencePlayer.seekTo(0L)
-                    currentSourcePositionMs = 0L
-                    currentReferencePositionMs = 0L
-                }
-                val target = mapSourceMsToRefMs(currentSourcePositionMs, alignmentPoints)
-                    .coerceIn(0L, referenceDuration)
+                val target = playbackMapping.sourceToReference(currentSourcePositionMs)
+                    ?.coerceIn(0L, referenceDuration)
+                    ?: return
                 currentReferencePositionMs = target
                 sourcePlayer.setPlaybackSpeed(1.0f)
                 referencePlayer.setPlaybackSpeed(1.0f)
@@ -307,7 +306,7 @@ fun AnalysisPlayerScreen(
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 StatPill("SYNC", "${(synchronization.diagnostics.overallConfidence * 100).toInt()}%", SenpBlueBright, Modifier.weight(1f))
                 StatPill("STATUS", statusLabel, statusAccent, Modifier.weight(1f))
-                StatPill("MATCHES", alignmentPoints.size.toString(), SenpViolet, Modifier.weight(1f))
+                StatPill("MATCHES", playbackMapping.pointCount.toString(), SenpViolet, Modifier.weight(1f))
             }
 
             Spacer(Modifier.height(28.dp))
@@ -403,14 +402,22 @@ fun AnalysisPlayerScreen(
                             val selected = position.toLong()
                             if (playbackMode == PLAY_REFERENCE) {
                                 currentReferencePositionMs = selected
-                                currentSourcePositionMs = mapReferenceMsToSourceMs(selected, alignmentPoints)
                                 referencePlayer.seekTo(selected)
-                                sourcePlayer.seekTo(currentSourcePositionMs)
+                                val mappedSource = playbackMapping.referenceToSource(selected)
+                                if (mappedSource != null) {
+                                    currentSourcePositionMs = mappedSource
+                                    sourcePlayer.seekTo(mappedSource)
+                                }
                             } else {
                                 currentSourcePositionMs = selected
-                                currentReferencePositionMs = mapSourceMsToRefMs(selected, alignmentPoints)
                                 sourcePlayer.seekTo(selected)
-                                referencePlayer.seekTo(currentReferencePositionMs)
+                                val mappedReference = playbackMapping.sourceToReference(selected)
+                                if (mappedReference != null) {
+                                    currentReferencePositionMs = mappedReference
+                                    referencePlayer.seekTo(mappedReference)
+                                } else if (playbackMode == PLAY_BOTH) {
+                                    pauseAll()
+                                }
                             }
                         },
                         valueRange = 0f..activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat(),
@@ -418,11 +425,15 @@ fun AnalysisPlayerScreen(
                     )
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         PlaybackButton(
-                            text = if (alignmentPoints.isEmpty()) "NO SYNC" else "▶ BOTH",
+                            text = when {
+                                playbackMapping.pointCount == 0 -> "NO SYNC"
+                                playbackMapping.supportsSource(currentSourcePositionMs) -> "▶ BOTH"
+                                else -> "NO MATCH HERE"
+                            },
                             active = playbackMode == PLAY_BOTH,
                             accent = SenpBlue,
                             modifier = Modifier.weight(1f),
-                            enabled = alignmentPoints.isNotEmpty(),
+                            enabled = playbackMapping.supportsSource(currentSourcePositionMs),
                         ) { toggle(PLAY_BOTH) }
                         PlaybackButton("▶ YOU", playbackMode == PLAY_SOURCE, SenpViolet, Modifier.weight(1f)) { toggle(PLAY_SOURCE) }
                         PlaybackButton("▶ MASTER", playbackMode == PLAY_REFERENCE, SenpBlueBright, Modifier.weight(1f)) { toggle(PLAY_REFERENCE) }
@@ -444,7 +455,7 @@ fun AnalysisPlayerScreen(
             } else {
                 ExtractCard(
                     title = "MATCHED MOTION",
-                    detail = "$matchedUnitCount matched units · $unmatchedUnitCount unmatched units · ${alignmentPoints.size} timestamp decisions",
+                    detail = "$matchedUnitCount matched units · $unmatchedUnitCount unmatched units · ${playbackMapping.pointCount} timestamp decisions",
                     value = "${(synchronization.diagnostics.correspondenceConfidence * 100).toInt()}%",
                     accent = statusAccent,
                     extra = "Source coverage ${(synchronization.diagnostics.sourceAnalyzableFraction * 100).toInt()}% · Reference ${(synchronization.diagnostics.referenceAnalyzableFraction * 100).toInt()}%",
@@ -462,7 +473,7 @@ fun AnalysisPlayerScreen(
                         Text(synchronization.status.name, color = statusAccent, fontSize = 15.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(top = 5.dp))
                     }
                     Column(horizontalAlignment = Alignment.End) {
-                        Text("${alignmentPoints.size} mapped points", color = SenpCream, fontSize = 13.sp)
+                        Text("${playbackMapping.pointCount} mapped points", color = SenpCream, fontSize = 13.sp)
                         Text("${run.sourcePoseExtraction.diagnostics.sampledFrameCount} + ${run.referencePoseExtraction.diagnostics.sampledFrameCount} frames", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 5.dp))
                     }
                 }
@@ -599,40 +610,6 @@ private fun currentTimelinePosition(mode: Int, sourceMs: Long, referenceMs: Long
 
 private fun activeTimelineDuration(mode: Int, sourceDurationMs: Long, referenceDurationMs: Long): Long =
     if (mode == PLAY_REFERENCE) referenceDurationMs else sourceDurationMs
-
-private data class PlaybackPoint(val sourceMs: Long, val referenceMs: Long)
-
-private fun SynchronizationResult.playbackPoints(): List<PlaybackPoint> =
-    correspondences
-        .filterIsInstance<MotionUnitCorrespondence.MatchedUnit>()
-        .flatMap { unit ->
-            unit.timeline.mapNotNull { decision ->
-                (decision as? TimestampCorrespondence.Matched)?.let {
-                    PlaybackPoint(it.sourceTimestamp.value, it.referenceTimestamp.value)
-                }
-            }
-        }
-        .distinct()
-        .sortedBy(PlaybackPoint::sourceMs)
-
-private fun mapSourceMsToRefMs(sourceMs: Long, points: List<PlaybackPoint>): Long =
-    interpolateAlignedTimestamp(sourceMs, points.map { it.sourceMs to it.referenceMs })
-
-private fun mapReferenceMsToSourceMs(referenceMs: Long, points: List<PlaybackPoint>): Long =
-    interpolateAlignedTimestamp(referenceMs, points.map { it.referenceMs to it.sourceMs })
-
-private fun interpolateAlignedTimestamp(timestampMs: Long, coordinates: List<Pair<Long, Long>>): Long {
-    if (coordinates.isEmpty()) return timestampMs
-    val ordered = coordinates.sortedBy { it.first }
-    if (ordered.size == 1) return ordered.first().second
-
-    val before = ordered.lastOrNull { it.first <= timestampMs } ?: ordered.first()
-    val after = ordered.firstOrNull { it.first >= timestampMs } ?: ordered.last()
-    if (before.first == after.first) return before.second
-
-    val ratio = (timestampMs - before.first).toDouble() / (after.first - before.first).toDouble()
-    return (before.second + (after.second - before.second) * ratio).roundToLong()
-}
 
 private fun findMatchingPoseFrame(timestampMs: Long, poses: PoseSequence?): PoseFrame? {
     if (poses == null || poses.frames.isEmpty()) return null

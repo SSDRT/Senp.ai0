@@ -10,7 +10,6 @@ import ai.senp.core.contracts.ObservationValue
 import ai.senp.core.contracts.PoseFrame
 import ai.senp.core.contracts.PoseLandmark
 import ai.senp.core.contracts.VideoPoseExtraction
-import kotlin.math.min
 
 /**
  * Timestamp-preserving bridge from the production MP33 pose envelope into the generic Sync-v2 observation contract.
@@ -64,7 +63,11 @@ class PoseObservationAdapter {
             componentAxes = listOf("x", "y", "z"),
             values = values,
             availability = if (usable) ChannelAvailability.OBSERVED else ChannelAvailability.MISSING,
-            confidence = if (usable) values.map(ObservationValue::confidence).averageOrZero() else 0.0,
+            confidence = if (usable) {
+                minOf(frame.validity.confidence, values.map(ObservationValue::confidence).averageOrZero())
+            } else {
+                0.0
+            },
         )
     }
 
@@ -103,15 +106,19 @@ class PoseObservationAdapter {
             componentAxes = listOf("x", "y", "z"),
             values = values,
             availability = availability,
-            confidence = if (availability == ChannelAvailability.MISSING) 0.0 else confidence,
+            confidence = if (availability == ChannelAvailability.MISSING) {
+                0.0
+            } else {
+                minOf(frame.validity.confidence, confidence)
+            },
         )
     }
 
     private fun landmarkConfidence(frame: PoseFrame, landmark: PoseLandmark): Double {
-        var confidence = frame.validity.confidence
-        landmark.visibility?.let { confidence = min(confidence, it) }
-        landmark.presence?.let { confidence = min(confidence, it) }
-        return confidence.coerceIn(0.0, 1.0)
+        return listOfNotNull(landmark.visibility, landmark.presence)
+            .minOrNull()
+            ?.coerceIn(0.0, 1.0)
+            ?: frame.validity.confidence
     }
 
     private companion object {

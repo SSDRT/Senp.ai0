@@ -6,6 +6,8 @@ import ai.senp.core.contracts.CanonicalObservationSequence
 import ai.senp.core.contracts.ChannelAvailability
 import ai.senp.core.contracts.DurationMs
 import ai.senp.core.contracts.FrameValidity
+import ai.senp.core.contracts.FrameValidityReason
+import ai.senp.core.contracts.FrameValidityStatus
 import ai.senp.core.contracts.ImageLandmark
 import ai.senp.core.contracts.ObservationChannel
 import ai.senp.core.contracts.ObservationSampling
@@ -30,6 +32,8 @@ import ai.senp.core.contracts.VideoRole
 import ai.senp.core.contracts.VideoSource
 import ai.senp.core.contracts.WorldLandmark
 import ai.senp.core.pipeline.VideoPoseExtractor
+import ai.senp.motion.SpatialEvidenceKind
+import ai.senp.motion.SpatialSynchronizationEngine
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -106,6 +110,38 @@ class SynchronizationKernelV2Test {
         assertTrue(!first.timings.sourcePoseCacheHit && !first.timings.referencePoseCacheHit)
         assertTrue(second.timings.sourcePoseCacheHit && second.timings.referencePoseCacheHit)
         assertEquals(first.synchronization.result, second.synchronization.result)
+    }
+
+    @Test
+    fun `adapter preserves strong landmark anchors on a marginal admitted frame`() {
+        val degraded = FrameValidity(
+            status = FrameValidityStatus.DEGRADED,
+            confidence = 0.40,
+            reasons = setOf(FrameValidityReason.BELOW_TRACKING_THRESHOLD),
+        )
+        fun adapted(role: VideoRole): CanonicalObservationSequence {
+            val baseline = poseExtraction(role)
+            val extraction = baseline.copy(
+                poses = baseline.poses.copy(
+                    frames = baseline.poses.frames.map { it.copy(validity = degraded) },
+                ),
+            )
+            return PoseObservationAdapter().adapt(extraction, analysisFramesPerSecond = 10.0)
+        }
+
+        val source = adapted(VideoRole.SOURCE)
+        val reference = adapted(VideoRole.REFERENCE)
+        val world = source.observations.first().channels.first { it.channelId == "human-pose-world" }
+        val leftShoulder = world.values.first { it.key == "left_shoulder" }
+
+        assertEquals(0.40, world.confidence)
+        assertEquals(0.98, leftShoulder.confidence)
+
+        val spatial = SpatialSynchronizationEngine().analyze(source, reference)
+        assertTrue(spatial.source.analyzableFraction > 0.8)
+        assertTrue(spatial.reference.analyzableFraction > 0.8)
+        assertTrue(spatial.source.frames.any { it.evidenceKind == SpatialEvidenceKind.THREE_D && it.transformConfidence > 0.0 })
+        assertTrue(spatial.reference.frames.any { it.evidenceKind == SpatialEvidenceKind.THREE_D && it.transformConfidence > 0.0 })
     }
 
     @Test

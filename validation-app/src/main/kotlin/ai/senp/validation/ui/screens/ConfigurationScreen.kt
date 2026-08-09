@@ -26,7 +26,6 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -111,6 +110,7 @@ fun ConfigurationScreen(
     viewModel: SenpEngineViewModel,
     onStartAnalysis: () -> Unit,
     onOpenLivePushUp: () -> Unit,
+    onOpenLiveReference: (() -> Unit)? = null,
 ) {
     val context = LocalContext.current
     val selectionState by viewModel.videoSelectionState.collectAsState()
@@ -197,7 +197,7 @@ fun ConfigurationScreen(
         onEditUser = { selectionState.sourceUri?.let { openEditor(VideoSlot.USER, it) } },
         onUpdateFps = viewModel::updateTargetFps,
         onUpdateResolution = viewModel::updateLongEdgeCap,
-        onUpdateExercise = viewModel::updateExerciseProfile,
+        onOpenLiveReference = onOpenLiveReference,
         onOpenLivePushUp = onOpenLivePushUp,
         onStartAnalysis = onStartAnalysis,
     )
@@ -393,7 +393,7 @@ private fun WorkspaceScreen(
     onEditUser: () -> Unit,
     onUpdateFps: (Int) -> Unit,
     onUpdateResolution: (Int) -> Unit,
-    onUpdateExercise: (String) -> Unit,
+    onOpenLiveReference: (() -> Unit)?,
     onOpenLivePushUp: () -> Unit,
     onStartAnalysis: () -> Unit,
 ) {
@@ -422,31 +422,10 @@ private fun WorkspaceScreen(
         Text("Build a side-by-side study of your movement.", color = SenpMuted, fontSize = 15.sp, modifier = Modifier.padding(top = 7.dp))
 
         Spacer(Modifier.height(18.dp))
-        Card(
-            modifier = Modifier.fillMaxWidth().clickable { onOpenLivePushUp() },
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = SenpBlue.copy(alpha = 0.14f)),
-            border = BorderStroke(1.dp, SenpBlueBright.copy(alpha = 0.55f)),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 18.dp, vertical = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(Modifier.weight(1f)) {
-                    Text("LIVE PUSH-UP ARENA", color = SenpCream, fontSize = 14.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
-                    Text("Camera-based rep counting + form cues", color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp))
-                }
-                Text("LIVE  →", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-            }
-        }
-
-        Spacer(Modifier.height(30.dp))
-        Eyebrow("EXERCISE", "Choose what the reference comparison should analyse")
-        Spacer(Modifier.height(10.dp))
-        ExerciseSelector(
-            selectedId = configState.exerciseProfileId,
-            onSelected = onUpdateExercise,
+        ReferenceActionEntry(
+            referenceSelected = selectionState.referenceUri != null,
+            onOpenLiveReference = onOpenLiveReference,
+            onOpenLivePushUp = onOpenLivePushUp,
         )
 
         Spacer(Modifier.height(26.dp))
@@ -545,41 +524,80 @@ private fun WorkspaceScreen(
 }
 
 @Composable
-private fun ExerciseSelector(
-    selectedId: String,
-    onSelected: (String) -> Unit,
+private fun ReferenceActionEntry(
+    referenceSelected: Boolean,
+    onOpenLiveReference: (() -> Unit)?,
+    onOpenLivePushUp: () -> Unit,
 ) {
-    val options = listOf(
-        "generic" to "GENERIC",
-        "biceps_curl" to "BICEPS CURL",
-        "pushup" to "PUSH-UP",
-        "squat" to "SQUAT",
-        "leg_raise" to "LEG RAISE",
-        "plank" to "PLANK",
-        "pullup" to "PULL-UP",
-    )
-
-    Row(
-        modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    val liveReferenceEnabled = referenceSelected && onOpenLiveReference != null
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpBlue.copy(alpha = 0.12f)),
+        border = BorderStroke(1.dp, SenpBlueBright.copy(alpha = 0.46f)),
     ) {
-        options.forEach { (id, label) ->
-            val selected = selectedId == id
-            Card(
-                modifier = Modifier.clickable { onSelected(id) },
-                shape = RoundedCornerShape(14.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = if (selected) SenpBlue.copy(alpha = 0.24f) else SenpSurface,
-                ),
-                border = BorderStroke(1.dp, if (selected) SenpBlueBright else SenpBorder),
+        Column(Modifier.fillMaxWidth().padding(18.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = label,
-                    color = if (selected) SenpCream else SenpMuted,
+                    "REFERENCE ACTION",
+                    color = SenpBlueBright,
                     fontSize = 11.sp,
-                    fontWeight = if (selected) FontWeight.Bold else FontWeight.Medium,
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 11.dp),
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.2.sp,
                 )
+                Text(
+                    if (referenceSelected) "REFERENCE SELECTED" else "REFERENCE NEEDED",
+                    color = if (referenceSelected) SenpCream else SenpMuted,
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.6.sp,
+                )
+            }
+            Text(
+                "Compare a recorded movement against the reference clip below. Live reference coaching stays locked until a prepared reference profile is available.",
+                color = SenpMuted,
+                fontSize = 12.sp,
+                lineHeight = 18.sp,
+                modifier = Modifier.padding(top = 8.dp),
+            )
+            Button(
+                onClick = { onOpenLiveReference?.invoke() },
+                enabled = liveReferenceEnabled,
+                modifier = Modifier.fillMaxWidth().height(44.dp).padding(top = 10.dp),
+                shape = RoundedCornerShape(13.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = SenpBlue,
+                    contentColor = Color.White,
+                    disabledContainerColor = SenpSurfaceRaised,
+                    disabledContentColor = SenpMuted,
+                ),
+            ) {
+                Text(
+                    when {
+                        !referenceSelected -> "SELECT A REFERENCE FIRST"
+                        onOpenLiveReference == null -> "LIVE REFERENCE · UNAVAILABLE"
+                        else -> "OPEN LIVE REFERENCE"
+                    },
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.6.sp,
+                )
+            }
+            HorizontalDivider(color = SenpBorder, modifier = Modifier.padding(vertical = 14.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth().clickable { onOpenLivePushUp() }.padding(vertical = 2.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Column(Modifier.weight(1f)) {
+                    Text("PUSH-UP ARENA", color = SenpCream, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    Text("Specialized legacy live coach", color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 3.dp))
+                }
+                Text("OPEN  →", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
