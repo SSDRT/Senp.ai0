@@ -81,6 +81,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -228,6 +229,14 @@ fun AnalysisPlayerScreen(
                     (playbackMode == PLAY_REFERENCE && referenceEnded) ||
                     (playbackMode == PLAY_BOTH && (sourceEnded || referenceEnded)))
                 ) {
+                    // Decelerate both transports briefly before pausing so the end never
+                    // looks like a dropped frame or an abrupt render stall.
+                    sourcePlayer.setPlaybackSpeed(0.62f)
+                    referencePlayer.setPlaybackSpeed(0.62f)
+                    delay(90L)
+                    sourcePlayer.setPlaybackSpeed(0.34f)
+                    referencePlayer.setPlaybackSpeed(0.34f)
+                    delay(90L)
                     sourcePlayer.pause()
                     referencePlayer.pause()
                     playbackMode = PLAY_NONE
@@ -395,7 +404,7 @@ fun AnalysisPlayerScreen(
                         modifier = Modifier.fillMaxWidth(),
                     )
                     ComparisonVideoTile(
-                        title = "REFERENCE MOVEMENT",
+                        title = "REF. VIDEO",
                         subtitle = "Reference",
                         player = referencePlayer,
                          poseFrame = if (referenceSkeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
@@ -425,7 +434,7 @@ fun AnalysisPlayerScreen(
                          modifier = Modifier.weight(1f),
                     )
                     ComparisonVideoTile(
-                        title = "REFERENCE MOVEMENT",
+                        title = "REF. VIDEO",
                         subtitle = "Reference",
                         player = referencePlayer,
                          poseFrame = if (referenceSkeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
@@ -763,8 +772,16 @@ private fun ComparisonVideoTile(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Column {
-                    Text(title, color = accent, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                Column(Modifier.weight(1f).padding(end = 4.dp)) {
+                    Text(
+                        title,
+                        color = accent,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
                     Text(subtitle, color = SenpMuted, fontSize = 9.sp, modifier = Modifier.padding(top = 2.dp))
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {

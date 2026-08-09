@@ -92,7 +92,7 @@ fun AnalysisProgressScreen(
         Spacer(Modifier.height(22.dp))
         Text("ANALYSING", color = SenpCream, fontSize = 28.sp, fontWeight = FontWeight.Bold)
         Text(statusMessage, color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 7.dp))
-        Spacer(Modifier.weight(1f))
+        Spacer(Modifier.height(26.dp))
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
             LottieAnimation(
                 composition = loaderComposition,

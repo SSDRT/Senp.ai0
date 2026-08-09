@@ -59,6 +59,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -559,30 +560,40 @@ private fun ThumbnailStrip(
     positionFraction: Float,
     onRangeChange: (Float, Float) -> Unit,
 ) {
-    Box(
+    val latestStartFraction = rememberUpdatedState(startFraction)
+    val latestEndFraction = rememberUpdatedState(endFraction)
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
             .height(64.dp)
             .clip(RoundedCornerShape(12.dp))
             .background(Color(0xFF13171F))
             .border(BorderStroke(1.dp, Color(0xFF262C36)), RoundedCornerShape(12.dp))
-            .pointerInput(startFraction, endFraction) {
-                var activeHandle: Boolean? = null
+            .pointerInput(Unit) {
+                var draggingStart = true
+                var dragFraction = 0f
                 detectDragGestures(
                     onDragStart = { offset ->
+                        val start = latestStartFraction.value
+                        val end = latestEndFraction.value
                         val fraction = (offset.x / size.width).coerceIn(0f, 1f)
-                        activeHandle = if (abs(fraction - startFraction) <= abs(fraction - endFraction)) true else false
+                        draggingStart = abs(fraction - start) <= abs(fraction - end)
+                        dragFraction = if (draggingStart) start else end
                     },
-                    onDragEnd = { activeHandle = null },
-                    onDragCancel = { activeHandle = null },
-                    onDrag = { change, _ ->
+                    onDrag = { change, dragAmount ->
                         change.consume()
-                        val fraction = (change.position.x / size.width).coerceIn(0f, 1f)
+                        dragFraction = (dragFraction + dragAmount.x / size.width).coerceIn(0f, 1f)
                         val minimum = 0.04f
-                        if (activeHandle == true) {
-                            onRangeChange(fraction.coerceAtMost(endFraction - minimum), endFraction)
-                        } else if (activeHandle == false) {
-                            onRangeChange(startFraction, fraction.coerceAtLeast(startFraction + minimum))
+                        if (draggingStart) {
+                            onRangeChange(
+                                dragFraction.coerceAtMost(latestEndFraction.value - minimum),
+                                latestEndFraction.value,
+                            )
+                        } else {
+                            onRangeChange(
+                                latestStartFraction.value,
+                                dragFraction.coerceAtLeast(latestStartFraction.value + minimum),
+                            )
                         }
                     },
                 )
@@ -658,6 +669,7 @@ private fun ThumbnailStrip(
             drawLine(Color.White, Offset(posX, 0f), Offset(posX, h), strokeWidth = 2.5.dp.toPx())
             drawCircle(Color(0xFF58A6FF), radius = 5.dp.toPx(), center = Offset(posX, 0f))
         }
+
     }
 }
 
