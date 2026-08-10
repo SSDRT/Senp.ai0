@@ -266,6 +266,7 @@ class ActionStateRecognizer(
             val entered = stateEnteredMs ?: frame.timestamp.value
             if (frame.timestamp.value - entered >= config.minimumFiniteCompletionHoldMs) {
                 status = ActionTrackingStatus.COMPLETED
+                completedRepetitions = max(completedRepetitions, 1)
             }
         }
         return emit(frame.timestamp, status, selectedState, best.score, best.coverage, mirrorMode, timing)

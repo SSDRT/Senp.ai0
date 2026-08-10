@@ -222,7 +222,6 @@ internal class LiveReferenceActionProcessor(
         val coachingCandidates = if (actionTracking) {
             deviations
                 .asSequence()
-                .filter(ReferenceDeviationMeasurement::persistenceCandidate)
                 .filter { measurement -> measurement.feature.startsWith("angle.") }
                 .map { measurement -> measurement.toCoachingObservation(profile) }
                 .toList()
@@ -302,8 +301,9 @@ internal fun ReferenceDeviationMeasurement.toReferenceCueLabel(): String {
 private fun ReferenceDeviationMeasurement.toCoachingObservation(profile: ActionProfile): CoachingObservation {
     val state = profile.states.firstOrNull { it.id == stateId }
     val importance = state?.features?.firstOrNull { it.name == feature }?.importance ?: 0.0
+    val direction = if (signedDeltaOutsideRange < 0.0) "below" else "above"
     return CoachingObservation(
-        stableKey = "$stateId|$feature",
+        stableKey = feature + "|" + direction,
         label = toReferenceCueLabel(),
         confidence = confidence,
         severity = (normalizedDeviation / 2.0).coerceIn(0.0, 1.0),

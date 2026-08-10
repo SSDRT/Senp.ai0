@@ -49,6 +49,33 @@ class ReferenceActionCoreTest {
     }
 
     @Test
+    fun `changing style repetitions can form a confident cycle after candidate screening`() {
+        val base = cyclicSequence(VideoRole.REFERENCE, repetitions = 5)
+        val mixed = base.copy(frames = base.frames.mapIndexed { index, frame ->
+            val repetition = index / 30
+            frame.copy(intrinsicDescriptor = frame.intrinsicDescriptor.copy(
+                values = frame.intrinsicDescriptor.values.mapValues { (name, value) ->
+                    when {
+                        name.startsWith("angle.") -> value + repetition * 12.0
+                        name.startsWith("ratio.") -> value + repetition * 0.072
+                        else -> value
+                    }
+                },
+            ))
+        })
+
+        val profile = (compiler.compile(mixed) as ReferenceActionCompilation.Success).profile
+        val strictCandidateProfile = (
+            ReferenceActionCompiler(ReferenceActionCompilerConfig(minimumPeriodCandidateScore = 0.58))
+                .compile(mixed) as ReferenceActionCompilation.Success
+            ).profile
+
+        assertTrue(profile.cyclic)
+        assertTrue(profile.cyclicityConfidence >= 0.58)
+        assertFalse(strictCandidateProfile.cyclic)
+    }
+
+    @Test
     fun `absolute start time offset does not affect recognition`() {
         val profile = compileProfile(cyclicSequence(VideoRole.REFERENCE, repetitions = 4))
         val baseline = ActionStateRecognizer(profile).recognize(cyclicSequence(VideoRole.SOURCE, repetitions = 3))
@@ -148,14 +175,15 @@ class ReferenceActionCoreTest {
     }
 
     @Test
-    fun `deviation persistence resets when action state changes`() {
+    fun `deviation persistence survives state changes for the same feature and direction`() {
         val profile = compileProfile(cyclicSequence(VideoRole.REFERENCE, repetitions = 5))
         val evaluator = ReferenceDeviationEvaluator(profile)
-        val state = profile.states.first()
-        val feature = state.features.first {
+        val firstFeature = profile.states[0].features.first {
             it.kind == ActionFeatureKind.GEOMETRY && it.importance >= 0.08 && it.confidence >= 0.45
         }
-        val deviatedValue = feature.reference.upper + feature.scale * 2.0
+        val nextFeature = profile.states[1].features.first { it.name == firstFeature.name }
+        val deviatedValue = maxOf(firstFeature.reference.upper, nextFeature.reference.upper) +
+            maxOf(firstFeature.scale, nextFeature.scale) * 2.0
 
         fun estimate(timestampMs: Long, stateIndex: Int): ActionStateEstimate = ActionStateEstimate(
             timestamp = TimestampMs(timestampMs),
@@ -169,21 +197,42 @@ class ReferenceActionCoreTest {
         )
 
         val first = evaluator.evaluate(
-            spatialFrame(0L, mapOf(feature.name to deviatedValue), 0.96),
+            spatialFrame(0L, mapOf(firstFeature.name to deviatedValue), 0.96),
             estimate(0L, 0),
-        ).single { it.feature == feature.name }
+        ).single { it.feature == firstFeature.name }
         assertFalse(first.persistenceCandidate)
 
-        evaluator.evaluate(
-            spatialFrame(200L, emptyMap(), 0.96),
+        val continued = evaluator.evaluate(
+            spatialFrame(200L, mapOf(firstFeature.name to deviatedValue), 0.96),
             estimate(200L, 1),
-        )
+        ).single { it.feature == firstFeature.name }
+        assertTrue(continued.persistenceCandidate)
+    }
 
-        val returned = evaluator.evaluate(
-            spatialFrame(1_000L, mapOf(feature.name to deviatedValue), 0.96),
-            estimate(1_000L, 0),
+    @Test
+    fun `deviation confidence follows the weakest reliability signal`() {
+        val profile = compileProfile(cyclicSequence(VideoRole.REFERENCE, repetitions = 5))
+        val state = profile.states.first()
+        val feature = state.features.first {
+            it.kind == ActionFeatureKind.GEOMETRY && it.importance >= 0.08 && it.confidence >= 0.45
+        }
+        val estimate = ActionStateEstimate(
+            timestamp = TimestampMs(0L),
+            status = ActionTrackingStatus.TRACKING,
+            stateId = state.id,
+            stateIndex = state.index,
+            confidence = 0.62,
+            featureCoverage = 0.95,
+            mirrorMode = ActionMirrorMode.DIRECT,
+            completedRepetitions = 0,
+        )
+        val frameConfidence = 0.88
+        val measurement = ReferenceDeviationEvaluator(profile).evaluate(
+            spatialFrame(0L, mapOf(feature.name to feature.reference.upper + feature.scale * 2.0), frameConfidence),
+            estimate,
         ).single { it.feature == feature.name }
-        assertFalse(returned.persistenceCandidate)
+
+        assertEquals(minOf(estimate.confidence, frameConfidence, feature.confidence), measurement.confidence, 1e-9)
     }
 
     @Test
@@ -317,6 +366,20 @@ class ReferenceActionCoreTest {
         assertEquals(1, profile.referenceRepetitions)
         assertEquals(ActionTrackingStatus.COMPLETED, result.finalStatus)
         assertEquals(1, result.completedRepetitions)
+    }
+
+    @Test
+    fun `finite streaming completion reports its repetition before finish`() {
+        val profile = compileProfile(finiteSequence(VideoRole.REFERENCE))
+        val recognizer = ActionStateRecognizer(profile)
+        val source = finiteSequence(VideoRole.SOURCE, startOffsetMs = 3_000L)
+
+        val completed = source.frames
+            .map(recognizer::accept)
+            .firstOrNull { it.status == ActionTrackingStatus.COMPLETED }
+
+        assertNotNull(completed)
+        assertEquals(1, completed.completedRepetitions)
     }
 
     @Test

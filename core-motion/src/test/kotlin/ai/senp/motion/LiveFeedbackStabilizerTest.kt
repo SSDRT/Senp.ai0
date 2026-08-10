@@ -25,6 +25,17 @@ class LiveFeedbackStabilizerTest {
     }
 
     @Test
+    fun `persistent moderate confidence cue can surface above the live tracking floor`() {
+        val stabilizer = LiveFeedbackStabilizer()
+        val outputs = listOf(0L, 67L, 134L, 201L).map { timestamp ->
+            stabilizer.update(timestamp, listOf(observation(timestamp, "moderate", confidence = 0.52)))
+        }
+
+        assertTrue(outputs.take(3).all { it.primary == null })
+        assertEquals("moderate", outputs.last().primary?.stableKey)
+    }
+
+    @Test
     fun `confidence noise around threshold does not flicker a confirmed cue`() {
         val stabilizer = LiveFeedbackStabilizer()
         val confidences = listOf(0.62, 0.66, 0.57, 0.64, 0.61, 0.67, 0.56, 0.65, 0.60, 0.63)

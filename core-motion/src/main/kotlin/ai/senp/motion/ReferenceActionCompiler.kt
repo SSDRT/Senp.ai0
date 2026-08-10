@@ -186,7 +186,7 @@ class ReferenceActionCompiler(
         val scored = clustered.map { period -> period to scorePeriod(period, samples, trends) }
             .filter { (_, score) -> score.coverage >= config.minimumPeriodCoverage }
         val bestScore = scored.maxOfOrNull { it.second.score } ?: return null
-        if (bestScore < config.minimumCyclicityScore) return null
+        if (bestScore < config.minimumPeriodCandidateScore) return null
         val selected = scored
             .filter { (_, score) -> score.score >= bestScore * config.periodNearBestFraction }
             .minByOrNull { it.first }
@@ -591,6 +591,7 @@ data class ReferenceActionCompilerConfig(
     val periodTimestampToleranceFraction: Double = 0.16,
     val recurrenceDirectionPenalty: Double = 0.12,
     val recurrenceScoreScale: Double = 0.09,
+    val minimumPeriodCandidateScore: Double = 0.45,
     val minimumCyclicityScore: Double = 0.58,
     val periodNearBestFraction: Double = 0.94,
     val maximumAnchorCandidates: Int = 28,
@@ -622,7 +623,9 @@ data class ReferenceActionCompilerConfig(
         require(minimumPeriodTimestampToleranceMs > 0.0)
         require(periodTimestampToleranceFraction > 0.0)
         require(recurrenceDirectionPenalty >= 0.0 && recurrenceScoreScale > 0.0)
+        requireActionProbability(minimumPeriodCandidateScore)
         requireActionProbability(minimumCyclicityScore)
+        require(minimumCyclicityScore >= minimumPeriodCandidateScore)
         require(periodNearBestFraction in 0.0..1.0)
         require(anchorMinPeriodFraction > 0.0 && anchorMaxPeriodFraction > anchorMinPeriodFraction)
         require(anchorDirectionPenalty >= 0.0 && anchorDurationPenalty >= 0.0)
