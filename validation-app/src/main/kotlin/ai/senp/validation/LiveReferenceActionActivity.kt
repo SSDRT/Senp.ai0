@@ -63,14 +63,15 @@ class LiveReferenceActionActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preparedReference = ReferenceActionProfileStore.get()
+        val expectedReferenceSha256 = intent.getStringExtra(EXTRA_REFERENCE_SHA256)
+        preparedReference = expectedReferenceSha256?.let(ReferenceActionProfileStore::get)
         setContentView(buildUi())
 
         val prepared = preparedReference
         if (prepared == null) {
             showFatal(
                 "Reference profile unavailable",
-                "Return to Senp.ai, choose a reference clip, and wait until REFERENCE READY appears.",
+                "The prepared reference no longer matches this live session. Return to Senp.ai and reopen live comparison from the current REFERENCE READY card.",
             )
             return
         }
@@ -78,7 +79,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
             profile = prepared.profile,
             analysisFramesPerSecond = prepared.analysisFramesPerSecond,
         )
-        phaseView.text = "REFERENCE READY • ${prepared.profile.states.size} STATES"
+        phaseView.text = "REFERENCE READY • ${prepared.profile.states.size} STATES • ${(prepared.profile.confidence * 100.0).toInt()}% PROFILE"
         if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             startCamera()
         } else {
@@ -337,7 +338,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
         }
         detailView.text = String.format(
             Locale.ROOT,
-            "Action %.0f%% • pose %.0f%% • %s uncertainty • differences are relative to this reference only",
+            "Reference %.0f%% • action %.0f%% • pose %.0f%% • %s live uncertainty • hints stay relative to this movement",
+            profile.confidence * 100.0,
             estimate.confidence * 100.0,
             output.poseConfidence * 100.0,
             uncertainty,
@@ -370,6 +372,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     companion object {
+        const val EXTRA_REFERENCE_SHA256 = "reference_sha256"
+
         private const val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
         private const val WRAP = ViewGroup.LayoutParams.WRAP_CONTENT
         private const val MODEL_SHA256 = "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"

@@ -48,8 +48,8 @@ class ReferenceActionSessionTest {
     }
 
     @Test
-    fun `self validated profile is accepted at documented core thresholds`() {
-        val issue = referenceProfileUsabilityIssue(
+    fun `self validated profile at documented thresholds needs no quality notice`() {
+        val notice = referenceProfileQualityNotice(
             profile(
                 reconstructionAccuracy = 0.72,
                 transitionCoverage = 0.80,
@@ -57,31 +57,31 @@ class ReferenceActionSessionTest {
             ),
         )
 
-        assertNull(issue)
+        assertNull(notice)
     }
 
     @Test
-    fun `weak self reconstruction is rejected truthfully`() {
-        val issue = referenceProfileUsabilityIssue(profile(reconstructionAccuracy = 0.61))
+    fun `weak self reconstruction remains live capable with truthful notice`() {
+        val notice = referenceProfileQualityNotice(profile(reconstructionAccuracy = 0.61))
 
-        assertContains(requireNotNull(issue), "61%")
-        assertContains(issue, "reconstruct")
+        assertContains(requireNotNull(notice), "61%")
+        assertContains(notice, "still available")
     }
 
     @Test
-    fun `weak transition coverage is rejected truthfully`() {
-        val issue = referenceProfileUsabilityIssue(profile(transitionCoverage = 0.67))
+    fun `weak transition coverage remains live capable with truthful notice`() {
+        val notice = referenceProfileQualityNotice(profile(transitionCoverage = 0.67))
 
-        assertContains(requireNotNull(issue), "67%")
-        assertContains(issue, "state transitions")
+        assertContains(requireNotNull(notice), "67%")
+        assertContains(notice, "still available")
     }
 
     @Test
-    fun `weak recognition confidence is rejected truthfully`() {
-        val issue = referenceProfileUsabilityIssue(profile(meanRecognitionConfidence = 0.43))
+    fun `weak recognition confidence remains live capable with truthful notice`() {
+        val notice = referenceProfileQualityNotice(profile(meanRecognitionConfidence = 0.43))
 
-        assertContains(requireNotNull(issue), "43%")
-        assertContains(issue, "recognition confidence")
+        assertContains(requireNotNull(notice), "43%")
+        assertContains(notice, "still available")
     }
 
     @Test
@@ -92,6 +92,8 @@ class ReferenceActionSessionTest {
         ReferenceActionProfileStore.set(prepared)
 
         assertEquals(prepared, ReferenceActionProfileStore.get())
+        assertEquals(prepared, ReferenceActionProfileStore.get("a".repeat(64)))
+        assertNull(ReferenceActionProfileStore.get("b".repeat(64)))
         ReferenceActionProfileStore.clear()
         assertNull(ReferenceActionProfileStore.get())
     }
@@ -166,8 +168,8 @@ class ReferenceActionSessionTest {
     }
 
     @Test
-    fun `reference cue names a relative difference without biomechanical verdict`() {
-        val cue = ReferenceDeviationMeasurement(
+    fun `reference cue gives directional joint hint without biomechanical verdict`() {
+        val tooStraight = ReferenceDeviationMeasurement(
             timestamp = TimestampMs(1_000L),
             stateId = "state_00",
             feature = "angle.left_elbow",
@@ -179,10 +181,23 @@ class ReferenceActionSessionTest {
             confidence = 0.84,
             persistenceCandidate = true,
         ).toReferenceCueLabel()
+        val tooBent = ReferenceDeviationMeasurement(
+            timestamp = TimestampMs(1_100L),
+            stateId = "state_00",
+            feature = "angle.right_knee",
+            referenceRange = 100.0..120.0,
+            referenceMedian = 110.0,
+            userValue = 82.0,
+            signedDeltaOutsideRange = -18.0,
+            normalizedDeviation = 1.8,
+            confidence = 0.84,
+            persistenceCandidate = true,
+        ).toReferenceCueLabel()
 
-        assertEquals("Left elbow angle differs from reference", cue)
-        assertTrue("correct" !in cue.lowercase())
-        assertTrue("perfect" !in cue.lowercase())
+        assertEquals("Bend your left elbow a little more to match the reference", tooStraight)
+        assertEquals("Straighten your right knee a little more to match the reference", tooBent)
+        assertTrue("correct" !in tooStraight.lowercase())
+        assertTrue("perfect" !in tooStraight.lowercase())
     }
 
     private fun singleFrameExtraction(role: VideoRole): VideoPoseExtraction {

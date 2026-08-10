@@ -12,11 +12,9 @@ class ReferenceDeviationEvaluator(
     )
 
     private val persistence = mutableMapOf<String, Persistence>()
-    private var activeStateId: String? = null
 
     fun reset() {
         persistence.clear()
-        activeStateId = null
     }
 
     fun evaluate(
@@ -41,10 +39,6 @@ class ReferenceDeviationEvaluator(
             return emptyList()
         }
         val state = profile.states[stateIndex]
-        if (activeStateId != state.id) {
-            persistence.clear()
-            activeStateId = state.id
-        }
         val activePersistenceKeys = mutableSetOf<String>()
         val deviations = state.features.mapNotNull { feature ->
             if (
@@ -67,16 +61,15 @@ class ReferenceDeviationEvaluator(
             }
             val normalizedDeviation = abs(signedDelta) / feature.scale
             if (normalizedDeviation < config.minimumNormalizedDeviation) return@mapNotNull null
-            val confidence = (
-                estimate.confidence *
-                    frame.intrinsicDescriptor.confidence *
-                    feature.confidence *
-                    (0.60 + 0.40 * feature.importance)
-                ).coerceIn(0.0, 1.0)
+            val confidence = minOf(
+                estimate.confidence,
+                frame.intrinsicDescriptor.confidence,
+                feature.confidence,
+            ).coerceIn(0.0, 1.0)
             if (confidence < config.minimumDeviationConfidence) return@mapNotNull null
 
             val sign = if (signedDelta < 0.0) -1 else 1
-            val persistenceKey = "${state.id}|${feature.name}"
+            val persistenceKey = feature.name
             activePersistenceKeys += persistenceKey
             val existing = persistence[persistenceKey]
             val current = if (existing == null || existing.sign != sign) {
@@ -97,16 +90,14 @@ class ReferenceDeviationEvaluator(
                 persistenceCandidate = frame.timestamp.value - current.startTimestampMs >= config.persistenceDurationMs,
             )
         }
-        val statePrefix = "${state.id}|"
         persistence.keys
-            .filter { it.startsWith(statePrefix) && it !in activePersistenceKeys }
+            .filter { it !in activePersistenceKeys }
             .forEach(persistence::remove)
         return deviations.sortedByDescending { it.normalizedDeviation * it.confidence }
     }
 
     private fun resetPersistence() {
         persistence.clear()
-        activeStateId = null
     }
 }
 

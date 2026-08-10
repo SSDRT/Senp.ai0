@@ -310,7 +310,7 @@ class LiveFeedbackStabilizer(
 }
 
 data class LiveFeedbackConfig(
-    val minimumCandidateConfidence: Double = 0.58,
+    val minimumCandidateConfidence: Double = 0.50,
     val highConfidenceThreshold: Double = 0.78,
     val minimumTrackingConfidence: Double = 0.45,
     val degradedTrackingConfidence: Double = 0.70,

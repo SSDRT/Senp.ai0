@@ -98,10 +98,12 @@ class ValidationActivity : ComponentActivity() {
             setContent {
                 SenpApp(
                     onOpenLiveReference = {
-                        startActivity(Intent(this, LiveReferenceActionActivity::class.java))
-                    },
-                    onOpenLivePushUp = {
-                        startActivity(Intent(this, LivePushUpActivity::class.java))
+                        ReferenceActionProfileStore.get()?.let { prepared ->
+                            startActivity(
+                                Intent(this, LiveReferenceActionActivity::class.java)
+                                    .putExtra(LiveReferenceActionActivity.EXTRA_REFERENCE_SHA256, prepared.referenceSha256),
+                            )
+                        }
                     },
                 )
             }
