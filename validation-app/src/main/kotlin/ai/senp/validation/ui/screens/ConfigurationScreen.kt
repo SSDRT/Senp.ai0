@@ -446,6 +446,7 @@ private fun WorkspaceScreen(
                 uri = selectionState.referenceUri,
                 accent = SenpBlueBright,
                 onEdit = onEditReference,
+                onChange = onPickReference,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -464,6 +465,7 @@ private fun WorkspaceScreen(
                 uri = selectionState.sourceUri,
                 accent = SenpViolet,
                 onEdit = onEditUser,
+                onChange = onPickUser,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
@@ -667,6 +669,7 @@ private fun VideoPreviewCard(
     uri: Uri,
     accent: Color,
     onEdit: () -> Unit,
+    onChange: () -> Unit,
     modifier: Modifier = Modifier,
     compact: Boolean = false,
 ) {
@@ -713,15 +716,28 @@ private fun VideoPreviewCard(
                 }
                 Text(label, color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, modifier = Modifier.align(Alignment.TopStart).padding(10.dp))
             }
-            Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 9.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text(if (isPlaying) "Playing preview" else "Ready to edit", color = SenpMuted, fontSize = 11.sp)
-                Button(
-                    onClick = onEdit,
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-                    modifier = Modifier.height(30.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = accent.copy(alpha = 0.18f), contentColor = accent),
-                    shape = RoundedCornerShape(8.dp),
-                ) { Text("EDIT", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 9.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Text(if (isPlaying) "Playing preview" else "Video selected", color = SenpMuted, fontSize = 11.sp)
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Button(
+                        onClick = onChange,
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        modifier = Modifier.height(30.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = SenpSurfaceRaised, contentColor = SenpCream),
+                        shape = RoundedCornerShape(8.dp),
+                    ) { Text("CHANGE VIDEO", fontSize = 9.sp, fontWeight = FontWeight.Bold) }
+                    Button(
+                        onClick = onEdit,
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        modifier = Modifier.height(30.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = accent.copy(alpha = 0.18f), contentColor = accent),
+                        shape = RoundedCornerShape(8.dp),
+                    ) { Text("EDIT", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                }
             }
         }
     }

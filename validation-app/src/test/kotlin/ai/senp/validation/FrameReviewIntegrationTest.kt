@@ -2,14 +2,42 @@ package ai.senp.validation
 
 import ai.senp.core.contracts.TimestampMs
 import ai.senp.motion.ReferenceDeviationMeasurement
-import ai.senp.review.ReviewModels
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class FrameReviewIntegrationTest {
     @Test
-    fun `production frame review is pinned to Luna`() {
-        assertEquals(ReviewModels.LUNA_5_6, LUNA_FRAME_REVIEW_MODEL.id)
+    fun `AI review formatting keeps issue reference and cue in existing review slot`() {
+        val text = formatAiReview(
+            GeminiAnalysisResult(
+                exercise = "pull-up",
+                summary = "The user is close to the reference but loses control near the top.",
+                overallScore = 78.0,
+                confidence = 0.91,
+                repCount = 1,
+                problems = listOf(
+                    GeminiProblem(
+                        title = "Top range",
+                        userStartMs = 800,
+                        userEndMs = 1_200,
+                        referenceStartMs = 900,
+                        referenceEndMs = 1_300,
+                        phase = "concentric",
+                        bodyRegion = "upper body",
+                        severity = GeminiSeverity.MEDIUM,
+                        confidence = 0.9,
+                        observedIssue = "The user stops short at the top.",
+                        referenceBehavior = "The reference pulls the chest higher.",
+                        cue = "Pull the chest toward the bar.",
+                    ),
+                ),
+            ),
+        )
+
+        assertTrue(text.contains("Issue: The user stops short at the top."))
+        assertTrue(text.contains("Reference: The reference pulls the chest higher."))
+        assertTrue(text.contains("Cue: Pull the chest toward the bar."))
     }
 
     @Test
