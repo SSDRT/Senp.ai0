@@ -28,6 +28,7 @@ import ai.senp.validation.ui.theme.SenpSuccess
 import ai.senp.validation.ui.theme.SenpWarning
 import ai.senp.validation.ui.theme.SenpViolet
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -163,7 +164,7 @@ fun AnalysisPlayerScreen(
         else -> SenpWarning
     }
     val statusLabel = when {
-        synchronizationPending -> "CHECKING"
+        synchronizationPending -> "PENDING"
         synchronization?.status == SynchronizationStatus.SYNCHRONIZED -> "FULL"
         synchronization?.status == SynchronizationStatus.PARTIAL -> "PARTIAL"
         synchronization?.status == SynchronizationStatus.REFUSED -> "REFUSED"
@@ -297,6 +298,8 @@ fun AnalysisPlayerScreen(
         if (playbackMode == mode) pauseAll() else start(mode)
     }
 
+    BackHandler(onBack = onReset)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -309,21 +312,17 @@ fun AnalysisPlayerScreen(
         ) {
             Spacer(Modifier.height(16.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Column {
-                    Text("ANALYSIS COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
-                    Text("Movement comparison", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
-                }
-                if (synchronizationRun != null) {
-                    OutlinedButton(
-                        onClick = { showDiagnostics = true },
-                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-                        modifier = Modifier.height(34.dp),
-                        border = BorderStroke(1.dp, SenpBorder),
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpBlueBright),
-                        shape = RoundedCornerShape(10.dp),
-                    ) { Text("EXTRACTS", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
-                }
+                Text("ANALYSIS COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+                OutlinedButton(
+                    onClick = onReset,
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                    modifier = Modifier.height(34.dp),
+                    border = BorderStroke(1.dp, SenpBorder),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpCream),
+                    shape = RoundedCornerShape(10.dp),
+                ) { Text("CHANGE VIDEOS", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
             }
+            Text("Movement comparison", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
 
             Spacer(Modifier.height(22.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -401,16 +400,6 @@ fun AnalysisPlayerScreen(
             }
 
             Spacer(Modifier.height(12.dp))
-            ReferenceActionAnalysisSlot(referenceAction, referenceActionMessage)
-
-            Spacer(Modifier.height(12.dp))
-            AiFrameReviewSlot(
-                state = aiFrameReview,
-                onRequestReview = onRequestAiReview,
-                onSignInAndReview = onSignInAndRequestAiReview,
-            )
-
-            Spacer(Modifier.height(16.dp))
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(22.dp),
@@ -474,8 +463,30 @@ fun AnalysisPlayerScreen(
                 }
             }
 
+            Spacer(Modifier.height(12.dp))
+            AiFrameReviewSlot(
+                state = aiFrameReview,
+                onRequestReview = onRequestAiReview,
+                onSignInAndReview = onSignInAndRequestAiReview,
+            )
+
+            Spacer(Modifier.height(12.dp))
+            ReferenceActionAnalysisSlot(referenceAction, referenceActionMessage)
+
             Spacer(Modifier.height(26.dp))
-            Text("SYNC DECISIONS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text("SYNC DECISIONS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+                if (synchronizationRun != null) {
+                    OutlinedButton(
+                        onClick = { showDiagnostics = true },
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        modifier = Modifier.height(34.dp),
+                        border = BorderStroke(1.dp, SenpBorder),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpBlueBright),
+                        shape = RoundedCornerShape(10.dp),
+                    ) { Text("EXTRACTS", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                }
+            }
             Text("Correspondence and refusal decisions from Synchronization Kernel v2", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
             Spacer(Modifier.height(11.dp))
             when {
