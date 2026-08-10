@@ -257,6 +257,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                     synchronizationFailure = assembled.synchronizationFailure,
                     referenceAction = assembled.actionResult.first,
                     referenceActionMessage = assembled.actionResult.second,
+                    aiFrameReview = initialReviewState,
                 )
                 _uiState.value = AnalysisUiState.Analyzing(
                     activeStage = PipelineStageId.CACHE_WRITE,
@@ -266,6 +267,10 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                 // Let the final frame, progress bar, and loader visibly settle together.
                 delay(420L)
                 withContext(Dispatchers.Main) { _uiState.value = nextState }
+                val reviewableAction = assembled.actionResult.first
+                if (initialReviewState is AiFrameReviewUiState.Reviewing && reviewableAction != null) {
+                    launchFrameReview(sourceUri, reviewableAction)
+                }
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Exception) {
