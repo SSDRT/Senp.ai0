@@ -3,9 +3,8 @@ package ai.senp.validation
 import ai.senp.core.contracts.FrameValidityStatus
 import ai.senp.core.contracts.PoseFrame
 import ai.senp.core.contracts.PoseLandmarkId
-import ai.senp.motion.ActionMirrorMode
 import ai.senp.motion.ActionTrackingStatus
-import ai.senp.motion.LiveFeedbackUncertainty
+import ai.senp.motion.PhaseTimingClass
 import ai.senp.pose.mediapipe.LiveMediaPipePoseEstimator
 import android.Manifest
 import android.content.pm.PackageManager
@@ -31,7 +30,8 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
-import java.util.Locale
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
@@ -56,6 +56,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
     @Volatile private var processor: LiveReferenceActionProcessor? = null
     @Volatile private var lastTimestampMs = -1L
     private var preparedReference: PreparedReferenceAction? = null
+    private var lastTimingNote: String? = null
 
     private val cameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) startCamera() else showPermissionRequired()
@@ -79,7 +80,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
             profile = prepared.profile,
             analysisFramesPerSecond = prepared.analysisFramesPerSecond,
         )
-        phaseView.text = "REFERENCE READY • ${prepared.profile.states.size} STATES • ${(prepared.profile.confidence * 100.0).toInt()}% PROFILE"
+        phaseView.text = "READY • MOVE LIKE YOUR REFERENCE"
         if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             startCamera()
         } else {
@@ -150,10 +151,11 @@ class LiveReferenceActionActivity : ComponentActivity() {
         }
         progress.addView(repsView)
         progress.addView(repsLabel)
-        root.addView(progress, FrameLayout.LayoutParams(WRAP, WRAP).apply {
+        val progressLayoutParams = FrameLayout.LayoutParams(WRAP, WRAP).apply {
             gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
             topMargin = dp(78)
-        })
+        }
+        root.addView(progress, progressLayoutParams)
 
         val bottom = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -161,7 +163,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
             setBackgroundColor(Color.argb(228, 5, 11, 24))
         }
         val label = TextView(this).apply {
-            text = "REFERENCE DIFFERENCE"
+            text = "LIVE COACH"
             setTextColor(Color.rgb(124, 207, 255))
             textSize = 10f
             letterSpacing = 0.12f
@@ -181,7 +183,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
             setPadding(0, dp(6), 0, 0)
         }
         detailView = TextView(this).apply {
-            text = "Move naturally. Feedback appears only after the demonstrated action state is confidently recognized."
+            text = "Move naturally. Coaching appears when a difference from this reference persists."
             setTextColor(Color.rgb(158, 171, 193))
             textSize = 12f
             setPadding(0, dp(8), 0, dp(13))
@@ -194,10 +196,11 @@ class LiveReferenceActionActivity : ComponentActivity() {
             setOnClickListener {
                 processor?.reset()
                 overlayView.clearPose()
+                lastTimingNote = null
                 repsView.text = "0"
                 primaryCueView.text = "Waiting for the reference action"
                 secondaryCueView.text = ""
-                detailView.text = "Move naturally. Feedback appears only after the demonstrated action state is confidently recognized."
+                detailView.text = "Move naturally. Coaching appears when a difference from this reference persists."
             }
         }
         bottom.addView(label)
@@ -206,6 +209,15 @@ class LiveReferenceActionActivity : ComponentActivity() {
         bottom.addView(detailView)
         bottom.addView(resetButton, LinearLayout.LayoutParams(MATCH, dp(50)))
         root.addView(bottom, FrameLayout.LayoutParams(MATCH, WRAP).apply { gravity = Gravity.BOTTOM })
+        ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            top.setPadding(dp(20) + bars.left, dp(18) + bars.top, dp(20) + bars.right, dp(14))
+            progressLayoutParams.topMargin = dp(78) + bars.top
+            progress.layoutParams = progressLayoutParams
+            bottom.setPadding(dp(20) + bars.left, dp(15), dp(20) + bars.right, dp(22) + bars.bottom)
+            insets
+        }
+        ViewCompat.requestApplyInsets(root)
         return root
     }
 
@@ -268,8 +280,13 @@ class LiveReferenceActionActivity : ComponentActivity() {
                 val frameWidth = upright.width
                 val frameHeight = upright.height
                 runOnUiThread {
-                    overlayView.setPose(pose, frameWidth, frameHeight)
                     render(output)
+                    overlayView.setPose(
+                        pose = pose,
+                        frameWidth = frameWidth,
+                        frameHeight = frameHeight,
+                        cueKey = output.feedback.primary?.stableKey,
+                    )
                 }
             } finally {
                 upright.recycle()
@@ -278,7 +295,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
             runOnUiThread {
                 primaryCueView.text = "Hold steady — reacquiring pose"
                 secondaryCueView.text = ""
-                detailView.text = error.javaClass.simpleName
+                detailView.text = "Keep your full body in view while tracking recovers."
             }
         } finally {
             frameBusy.set(false)
@@ -287,66 +304,71 @@ class LiveReferenceActionActivity : ComponentActivity() {
     }
 
     private fun render(output: LiveReferenceActionOutput) {
-        val prepared = preparedReference ?: return
-        val profile = prepared.profile
+        preparedReference ?: return
         val estimate = output.estimate
         repsView.text = estimate.completedRepetitions.toString()
-        val stateLabel = estimate.stateIndex?.let { index -> "STATE ${index + 1} / ${profile.states.size}" }
-        val mirrorLabel = when (estimate.mirrorMode) {
-            ActionMirrorMode.MIRRORED -> " • MIRRORED"
-            else -> ""
+        estimate.timing?.let { timing ->
+            if (timing.confidence >= 0.45) {
+                lastTimingNote = when (timing.classification) {
+                    PhaseTimingClass.FASTER -> "Pace: a little faster than your reference"
+                    PhaseTimingClass.WITHIN_REFERENCE_RANGE -> "Pace: matched this part of your reference"
+                    PhaseTimingClass.SLOWER -> "Pace: a little slower than your reference"
+                }
+            }
         }
         phaseView.text = when (estimate.status) {
-            ActionTrackingStatus.NO_ACTION -> "WAITING FOR ACTION"
-            ActionTrackingStatus.POSSIBLE_ENTRY -> "POSSIBLE ENTRY${stateLabel?.let { " • $it" } ?: ""}"
-            ActionTrackingStatus.TRACKING -> "LIVE • ${stateLabel ?: "TRACKING"}$mirrorLabel"
-            ActionTrackingStatus.LOST -> "ACTION LOST • REACQUIRING"
-            ActionTrackingStatus.COMPLETED -> "ACTION COMPLETE${stateLabel?.let { " • $it" } ?: ""}"
+            ActionTrackingStatus.NO_ACTION -> "READY • START THE MOVEMENT"
+            ActionTrackingStatus.POSSIBLE_ENTRY -> "FOUND IT • KEEP MOVING"
+            ActionTrackingStatus.TRACKING -> "TRACKING YOUR MOVEMENT"
+            ActionTrackingStatus.LOST -> "MOVEMENT LOST • KEEP GOING"
+            ActionTrackingStatus.COMPLETED -> "MOVEMENT COMPLETE"
         }
 
         if (output.poseConfidence < 0.35) {
             primaryCueView.text = "Move into view — finding pose"
             secondaryCueView.text = ""
+            detailView.text = "Step back until your full body is visible."
         } else {
             when (estimate.status) {
                 ActionTrackingStatus.NO_ACTION -> {
                     primaryCueView.text = "Waiting for the reference action"
-                    secondaryCueView.text = "Move naturally; no comparison is forced before action entry."
+                    secondaryCueView.text = "Start naturally when you are ready."
+                    detailView.text = "Coaching is relative to the movement you selected as the reference."
                 }
                 ActionTrackingStatus.POSSIBLE_ENTRY -> {
-                    primaryCueView.text = "Action entry detected — keep moving"
-                    secondaryCueView.text = "Feedback will appear after the state sequence is confirmed."
+                    primaryCueView.text = "Keep moving"
+                    secondaryCueView.text = "I found the movement and am locking onto it."
+                    detailView.text = lastTimingNote ?: "Coaching appears after the movement is confidently tracked."
                 }
                 ActionTrackingStatus.LOST -> {
-                    primaryCueView.text = "Reference action lost — return to the movement"
+                    primaryCueView.text = "Return to the movement"
                     secondaryCueView.text = ""
+                    detailView.text = "Keep your full body visible and continue the same motion."
                 }
-                ActionTrackingStatus.COMPLETED -> {
-                    primaryCueView.text = output.feedback.primary?.label ?: "Reference action complete"
-                    secondaryCueView.text = output.feedback.secondary?.label.orEmpty()
-                }
-                ActionTrackingStatus.TRACKING -> {
-                    primaryCueView.text = output.feedback.primary?.label ?: "Following the reference action"
-                    secondaryCueView.text = output.feedback.secondary?.label.orEmpty()
-                }
+                ActionTrackingStatus.COMPLETED -> renderTrackingCoach(output, completed = true)
+                ActionTrackingStatus.TRACKING -> renderTrackingCoach(output, completed = false)
             }
         }
-        val uncertainty = when (output.feedback.uncertainty) {
-            LiveFeedbackUncertainty.LOW -> "low"
-            LiveFeedbackUncertainty.ELEVATED -> "elevated"
-            LiveFeedbackUncertainty.HIGH -> "high"
-        }
-        detailView.text = String.format(
-            Locale.ROOT,
-            "Reference %.0f%% • action %.0f%% • pose %.0f%% • %s live uncertainty • hints stay relative to this movement",
-            profile.confidence * 100.0,
-            estimate.confidence * 100.0,
-            output.poseConfidence * 100.0,
-            uncertainty,
-        )
         primaryCueView.setTextColor(
             if (output.feedback.primary != null) Color.rgb(255, 206, 127) else Color.WHITE,
         )
+    }
+
+    private fun renderTrackingCoach(output: LiveReferenceActionOutput, completed: Boolean) {
+        val cue = output.feedback.primary
+        if (cue == null) {
+            primaryCueView.text = if (completed) "Movement complete" else "Matched this part — keep moving"
+            secondaryCueView.text = ""
+            detailView.text = lastTimingNote ?: "No persistent difference is standing out right now."
+            return
+        }
+        primaryCueView.text = cue.label
+        secondaryCueView.text = when {
+            cue.severity >= 0.70 -> "Large difference from your reference"
+            cue.severity >= 0.40 -> "Noticeable difference from your reference"
+            else -> "Small difference from your reference"
+        }
+        detailView.text = lastTimingNote ?: "Focus on this one adjustment, then keep the movement flowing."
     }
 
     private fun showPermissionRequired() {
@@ -390,19 +412,31 @@ private class ReferencePoseOverlayView(context: android.content.Context) : View(
         color = Color.WHITE
         style = Paint.Style.FILL
     }
+    private val cuePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.rgb(255, 206, 127)
+        strokeWidth = 9f
+        strokeCap = Paint.Cap.ROUND
+    }
+    private val cuePointPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.rgb(255, 206, 127)
+        style = Paint.Style.FILL
+    }
     private var pose: PoseFrame? = null
     private var frameWidth = 0
     private var frameHeight = 0
+    private var cueJoint: PoseLandmarkId? = null
 
-    fun setPose(pose: PoseFrame, frameWidth: Int, frameHeight: Int) {
+    fun setPose(pose: PoseFrame, frameWidth: Int, frameHeight: Int, cueKey: String?) {
         this.pose = pose
         this.frameWidth = frameWidth
         this.frameHeight = frameHeight
+        cueJoint = cueKey?.toCueJoint()
         invalidate()
     }
 
     fun clearPose() {
         pose = null
+        cueJoint = null
         invalidate()
     }
 
@@ -423,7 +457,7 @@ private class ReferencePoseOverlayView(context: android.content.Context) : View(
                 target.top + (a.image.y * target.height()).toFloat(),
                 target.left + (b.image.x * target.width()).toFloat(),
                 target.top + (b.image.y * target.height()).toFloat(),
-                skeletonPaint,
+                if (from == cueJoint || to == cueJoint) cuePaint else skeletonPaint,
             )
         }
         current.landmarks.forEach { landmark ->
@@ -431,10 +465,24 @@ private class ReferencePoseOverlayView(context: android.content.Context) : View(
             canvas.drawCircle(
                 target.left + (landmark.image.x * target.width()).toFloat(),
                 target.top + (landmark.image.y * target.height()).toFloat(),
-                4f,
-                pointPaint,
+                if (landmark.id == cueJoint) 9f else 4f,
+                if (landmark.id == cueJoint) cuePointPaint else pointPaint,
             )
         }
+    }
+
+    private fun String.toCueJoint(): PoseLandmarkId? = when (substringBefore('|').removePrefix("angle.")) {
+        "left_shoulder" -> PoseLandmarkId.LEFT_SHOULDER
+        "right_shoulder" -> PoseLandmarkId.RIGHT_SHOULDER
+        "left_elbow" -> PoseLandmarkId.LEFT_ELBOW
+        "right_elbow" -> PoseLandmarkId.RIGHT_ELBOW
+        "left_hip" -> PoseLandmarkId.LEFT_HIP
+        "right_hip" -> PoseLandmarkId.RIGHT_HIP
+        "left_knee" -> PoseLandmarkId.LEFT_KNEE
+        "right_knee" -> PoseLandmarkId.RIGHT_KNEE
+        "left_ankle" -> PoseLandmarkId.LEFT_ANKLE
+        "right_ankle" -> PoseLandmarkId.RIGHT_ANKLE
+        else -> null
     }
 
     private fun drawable(landmark: ai.senp.core.contracts.PoseLandmark): Boolean {

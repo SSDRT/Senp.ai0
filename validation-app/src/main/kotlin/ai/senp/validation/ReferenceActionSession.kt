@@ -11,6 +11,7 @@ import ai.senp.core.contracts.VideoPoseExtraction
 import ai.senp.core.contracts.VideoRole
 import ai.senp.core.contracts.VideoSource
 import ai.senp.core.pipeline.VideoPoseExtractor
+import ai.senp.motion.ActionMirrorMode
 import ai.senp.motion.ActionProfile
 import ai.senp.motion.ActionRecognitionResult
 import ai.senp.motion.ActionStateEstimate
@@ -223,7 +224,7 @@ internal class LiveReferenceActionProcessor(
             deviations
                 .asSequence()
                 .filter { measurement -> measurement.feature.startsWith("angle.") }
-                .map { measurement -> measurement.toCoachingObservation(profile) }
+                .map { measurement -> measurement.toCoachingObservation(profile, estimate.mirrorMode) }
                 .toList()
         } else {
             emptyList()
@@ -270,8 +271,11 @@ internal object ReferenceActionProfileStore {
     }
 }
 
-internal fun ReferenceDeviationMeasurement.toReferenceCueLabel(): String {
-    val joint = feature.removePrefix("angle.").takeIf { feature.startsWith("angle.") }
+internal fun ReferenceDeviationMeasurement.toReferenceCueLabel(
+    mirrorMode: ActionMirrorMode = ActionMirrorMode.DIRECT,
+): String {
+    val displayFeature = feature.forDisplayMirrorMode(mirrorMode)
+    val joint = displayFeature.removePrefix("angle.").takeIf { displayFeature.startsWith("angle.") }
     if (joint != null) {
         val readable = joint.replace('_', ' ')
         val tooOpen = signedDeltaOutsideRange > 0.0
@@ -294,20 +298,33 @@ internal fun ReferenceDeviationMeasurement.toReferenceCueLabel(): String {
             else -> "Adjust your $readable angle toward the reference"
         }
     }
-    val subject = feature.substringAfter('.', feature).replace('_', ' ')
+    val subject = displayFeature.substringAfter('.', displayFeature).replace('_', ' ')
     return "Adjust $subject toward the reference"
 }
 
-private fun ReferenceDeviationMeasurement.toCoachingObservation(profile: ActionProfile): CoachingObservation {
+private fun ReferenceDeviationMeasurement.toCoachingObservation(
+    profile: ActionProfile,
+    mirrorMode: ActionMirrorMode,
+): CoachingObservation {
     val state = profile.states.firstOrNull { it.id == stateId }
     val importance = state?.features?.firstOrNull { it.name == feature }?.importance ?: 0.0
     val direction = if (signedDeltaOutsideRange < 0.0) "below" else "above"
+    val displayFeature = feature.forDisplayMirrorMode(mirrorMode)
     return CoachingObservation(
-        stableKey = feature + "|" + direction,
-        label = toReferenceCueLabel(),
+        stableKey = displayFeature + "|" + direction,
+        label = toReferenceCueLabel(mirrorMode),
         confidence = confidence,
         severity = (normalizedDeviation / 2.0).coerceIn(0.0, 1.0),
         timestampMs = timestamp.value,
         priority = (importance * 100.0).roundToInt().coerceAtLeast(0),
     )
+}
+
+private fun String.forDisplayMirrorMode(mirrorMode: ActionMirrorMode): String {
+    if (mirrorMode != ActionMirrorMode.MIRRORED) return this
+    return when {
+        ".left_" in this -> replace(".left_", ".__side__").replace(".right_", ".left_").replace(".__side__", ".right_")
+        ".right_" in this -> replace(".right_", ".left_")
+        else -> this
+    }
 }
