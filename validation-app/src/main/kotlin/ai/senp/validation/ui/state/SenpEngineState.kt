@@ -47,6 +47,24 @@ data class ReferenceActionAnalysisUi(
     val deviations: List<ReferenceDeviationMeasurement>,
 )
 
+sealed interface AiFrameReviewUiState {
+    data object NotRequested : AiFrameReviewUiState
+    data class Unavailable(val message: String) : AiFrameReviewUiState
+    data class RequiresSignIn(val frameCount: Int) : AiFrameReviewUiState
+    data class SigningIn(val frameCount: Int) : AiFrameReviewUiState
+    data class Reviewing(val frameCount: Int) : AiFrameReviewUiState
+    data class Success(
+        val text: String,
+        val frameCount: Int,
+        val modelId: String,
+    ) : AiFrameReviewUiState
+    data class Failure(
+        val message: String,
+        val frameCount: Int,
+        val requiresSignIn: Boolean = false,
+    ) : AiFrameReviewUiState
+}
+
 sealed interface AnalysisUiState {
     data object Idle : AnalysisUiState
 
@@ -65,6 +83,7 @@ sealed interface AnalysisUiState {
         val synchronizationFailure: AnalysisFailure? = null,
         val referenceAction: ReferenceActionAnalysisUi? = null,
         val referenceActionMessage: String? = null,
+        val aiFrameReview: AiFrameReviewUiState = AiFrameReviewUiState.NotRequested,
     ) : AnalysisUiState {
         init {
             require(synchronizationRun == null || synchronizationFailure == null) {

@@ -17,10 +17,6 @@
         </activity>
 
         <activity
-            android:name=".LivePushUpActivity"
-            android:exported="true" />
-
-        <activity
             android:name=".LiveReferenceActionActivity"
             android:exported="false" />
 
