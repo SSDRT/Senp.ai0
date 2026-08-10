@@ -182,13 +182,17 @@ fun VideoEditorScreen(
         }
     }
 
-    LaunchedEffect(trimStartMs, trimEndMs) {
+    val latestTrimStart = rememberUpdatedState(trimStartMs)
+    val latestTrimEnd = rememberUpdatedState(trimEndMs)
+    LaunchedEffect(Unit) {
         while (true) {
             currentPositionMs = player.currentPosition.coerceAtLeast(0L)
-            if (currentPositionMs < trimStartMs || currentPositionMs > trimEndMs) {
-                player.seekTo(trimStartMs)
+            val start = latestTrimStart.value
+            val end = latestTrimEnd.value
+            if (currentPositionMs < start || currentPositionMs > end) {
+                player.seekTo(start)
             }
-            delay(80L)
+            delay(100L)
         }
     }
 
@@ -348,7 +352,6 @@ fun VideoEditorScreen(
                     onRangeChange = { range ->
                         trimStartMs = range.start.toLong()
                         trimEndMs = range.endInclusive.toLong().coerceAtLeast(trimStartMs + 100L)
-                        player.seekTo(trimStartMs)
                     },
                     onStep = { delta ->
                         trimEndMs = (trimEndMs + delta).coerceIn(trimStartMs + 100L, videoDurationMs)
@@ -530,7 +533,11 @@ private fun EditorTimeline(
             startFraction = startFrac,
             endFraction = endFrac,
             positionFraction = posFrac,
-            onRangeChange = { start, end -> onRangeChange(start..end) },
+            onRangeChange = { startFraction, endFraction ->
+                onRangeChange(
+                    (startFraction * safeDuration)..(endFraction * safeDuration)
+                )
+            },
         )
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {

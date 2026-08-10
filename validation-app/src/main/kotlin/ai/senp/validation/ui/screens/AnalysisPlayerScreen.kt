@@ -249,15 +249,13 @@ fun AnalysisPlayerScreen(
                         val targetReference = referencePositionForSource(currentSourcePositionMs)
                             .coerceIn(0L, referenceDuration)
                         val referencePosition = referencePlayer.currentPosition.coerceAtLeast(0L)
-                        val drift = targetReference - referencePosition
-                        if (abs(drift) > 900L) referencePlayer.seekTo(targetReference)
-                        referencePlayer.setPlaybackSpeed(
-                            when {
-                                drift > 140L -> 1.03f
-                                drift < -140L -> 0.97f
-                                else -> 1.0f
-                            },
-                        )
+                        val drift = abs(targetReference - referencePosition)
+                        // Seek-only sync: avoid setPlaybackSpeed() stutter entirely.
+                        // Both players always run at 1.0x; correct drift via seek only
+                        // when it exceeds a noticeable threshold.
+                        if (drift > 150L) {
+                            referencePlayer.seekTo(targetReference)
+                        }
                         currentReferencePositionMs = referencePlayer.currentPosition.coerceAtLeast(0L)
                     }
                     PLAY_SOURCE -> {
@@ -267,7 +265,7 @@ fun AnalysisPlayerScreen(
                         currentReferencePositionMs = referencePlayer.currentPosition.coerceAtLeast(0L)
                     }
                 }
-                delay(64L)
+                delay(48L)
             }
         } finally {
             sourcePlayer.setPlaybackSpeed(1.0f)
