@@ -59,6 +59,8 @@ dependencies {
     implementation(project(":sync-v2-integration"))
     implementation(project(":android-video"))
     implementation(project(":android-pose-mediapipe"))
+    implementation(project(":core-review"))
+    implementation(project(":android-codex"))
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)

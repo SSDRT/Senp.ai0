@@ -42,6 +42,8 @@ val allowedProjectDependencies = mapOf(
     ":core-motion" to setOf(":core-contracts", ":core-pipeline"),
     ":core-cache" to setOf(":core-contracts", ":core-pipeline"),
     ":core-alignment" to setOf(":core-contracts", ":core-pipeline"),
+    // Review is a post-analysis concern and deliberately depends on nothing in the frozen pipeline.
+    ":core-review" to emptySet(),
     ":headless-runner" to setOf(":core-contracts", ":core-pipeline", ":core-cache"),
     ":sync-v2-integration" to setOf(":core-contracts", ":core-pipeline", ":core-motion", ":core-alignment"),
 )
@@ -94,7 +96,15 @@ val checkCoreBoundaries by tasks.registering {
             }
         }
 
-        listOf(":core-contracts", ":core-pipeline", ":core-motion", ":core-alignment", ":core-cache", ":sync-v2-integration").forEach { projectPath ->
+        listOf(
+            ":core-contracts",
+            ":core-pipeline",
+            ":core-motion",
+            ":core-alignment",
+            ":core-cache",
+            ":core-review",
+            ":sync-v2-integration",
+        ).forEach { projectPath ->
             val target = project(projectPath)
             target.configurations
                 .flatMap { configuration -> configuration.dependencies }
@@ -111,7 +121,15 @@ val checkCoreBoundaries by tasks.registering {
                 }
         }
 
-        listOf(":core-contracts", ":core-pipeline", ":core-motion", ":core-alignment", ":core-cache", ":sync-v2-integration").forEach { projectPath ->
+        listOf(
+            ":core-contracts",
+            ":core-pipeline",
+            ":core-motion",
+            ":core-alignment",
+            ":core-cache",
+            ":core-review",
+            ":sync-v2-integration",
+        ).forEach { projectPath ->
             val sourceRoot = project(projectPath).projectDir.resolve("src/main")
             if (!sourceRoot.exists()) return@forEach
 
