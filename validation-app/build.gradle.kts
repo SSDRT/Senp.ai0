@@ -19,6 +19,12 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GEMINI_API_KEY", "\"" + providers.gradleProperty("GEMINI_API_KEY").orElse(providers.environmentVariable("GEMINI_API_KEY")).orElse("").get().replace("\"", "\\\"") + "\"")
+        buildConfigField("String", "GEMINI_API_KEY_FALLBACK_1", "\"" + providers.gradleProperty("GEMINI_API_KEY_FALLBACK_1").orElse(providers.environmentVariable("GEMINI_API_KEY_FALLBACK_1")).orElse("").get().replace("\"", "\\\"") + "\"")
+        buildConfigField("String", "GEMINI_API_KEY_FALLBACK_2", "\"" + providers.gradleProperty("GEMINI_API_KEY_FALLBACK_2").orElse(providers.environmentVariable("GEMINI_API_KEY_FALLBACK_2")).orElse("").get().replace("\"", "\\\"") + "\"")
+        buildConfigField("String", "AI_PLAN_B_MODEL", "\"" + providers.gradleProperty("AI_PLAN_B_MODEL").orElse(providers.environmentVariable("AI_PLAN_B_MODEL")).orElse("gemini-3.6-flash").get() + "\"")
+        buildConfigField("int", "AI_PLAN_B_TIMEOUT_SEC", providers.gradleProperty("AI_PLAN_B_TIMEOUT_SEC").orElse(providers.environmentVariable("AI_PLAN_B_TIMEOUT_SEC")).orElse("240").get())
+        buildConfigField("int", "AI_PLAN_B_RETRIES", providers.gradleProperty("AI_PLAN_B_RETRIES").orElse(providers.environmentVariable("AI_PLAN_B_RETRIES")).orElse("2").get())
     }
 
     compileOptions {
@@ -28,6 +34,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     androidResources { noCompress += "task" }

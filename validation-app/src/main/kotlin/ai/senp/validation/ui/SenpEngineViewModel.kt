@@ -241,7 +241,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                 )
                 withContext(Dispatchers.Main) { _uiState.value = actionReadyState }
                 if (initialReviewState is AiFrameReviewUiState.Reviewing && referenceAction != null) {
-                    launchFrameReview(sourceUri, referenceAction)
+                    launchFrameReview(sourceUri, referenceUri, referenceAction)
                 }
 
                 val assembled = assembleRecordedComparisonCatching(referenceAction to referenceActionMessage) {
@@ -300,7 +300,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
             )
             return
         }
-        launchFrameReview(current.sourceUri, referenceAction)
+        launchFrameReview(current.sourceUri, current.referenceUri, referenceAction)
     }
 
     fun signInAndRequestAiFrameReview() {
@@ -317,7 +317,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
             )
             try {
                 frameReviewCoordinator.signIn()
-                performFrameReview(current.sourceUri, referenceAction)
+                performFrameReview(current.sourceUri, current.referenceUri, referenceAction)
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Exception) {
@@ -333,14 +333,14 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
         }
     }
 
-    private fun launchFrameReview(sourceUri: Uri, referenceAction: ReferenceActionAnalysisUi) {
+    private fun launchFrameReview(sourceUri: Uri, referenceUri: Uri, referenceAction: ReferenceActionAnalysisUi) {
         frameReviewJob?.cancel()
         frameReviewJob = viewModelScope.launch {
-            performFrameReview(sourceUri, referenceAction)
+            performFrameReview(sourceUri, referenceUri, referenceAction)
         }
     }
 
-    private suspend fun performFrameReview(sourceUri: Uri, referenceAction: ReferenceActionAnalysisUi) {
+    private suspend fun performFrameReview(sourceUri: Uri, referenceUri: Uri, referenceAction: ReferenceActionAnalysisUi) {
         val frameCount = selectFrameReviewDeviations(referenceAction.deviations).size
         if (frameCount == 0) {
             updateAiFrameReview(
@@ -354,7 +354,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
 
         updateAiFrameReview(sourceUri, AiFrameReviewUiState.Reviewing(frameCount))
         val result = try {
-            frameReviewCoordinator.review(sourceUri, referenceAction.deviations)
+            frameReviewCoordinator.review(sourceUri, referenceUri, referenceAction.deviations)
         } catch (cancelled: CancellationException) {
             throw cancelled
         } catch (error: Exception) {

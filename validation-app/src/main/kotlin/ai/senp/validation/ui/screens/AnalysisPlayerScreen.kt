@@ -660,7 +660,7 @@ private fun AiFrameReviewSlot(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text("AI FRAME REVIEW", color = SenpViolet, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-                Text("LUNA", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+                Text("AI", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
             }
 
             when (state) {
@@ -681,7 +681,7 @@ private fun AiFrameReviewSlot(
 
                 is AiFrameReviewUiState.RequiresSignIn -> {
                     Text(
-                        "${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"} are ready. Sign in with ChatGPT once to send them to Luna for a visual review.",
+                        "${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"} are ready for AI review.",
                         color = SenpCream,
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
@@ -692,18 +692,18 @@ private fun AiFrameReviewSlot(
                         modifier = Modifier.fillMaxWidth().padding(top = 12.dp).height(44.dp),
                         shape = RoundedCornerShape(13.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = SenpViolet, contentColor = Color.White),
-                    ) { Text("SIGN IN & REVIEW", fontSize = 11.sp, fontWeight = FontWeight.Bold) }
+                    ) { Text("REVIEW", fontSize = 11.sp, fontWeight = FontWeight.Bold) }
                 }
 
                 is AiFrameReviewUiState.SigningIn -> Text(
-                    "Opening ChatGPT sign-in for ${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"}…",
+                    "Preparing AI review for ${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"}…",
                     color = SenpBlueBright,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(top = 9.dp),
                 )
 
                 is AiFrameReviewUiState.Reviewing -> Text(
-                    "Sending ${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"} to Luna and waiting for coaching…",
+                    "Reviewing the movement evidence and waiting for coaching…",
                     color = SenpBlueBright,
                     fontSize = 12.sp,
                     modifier = Modifier.padding(top = 9.dp),
@@ -718,7 +718,7 @@ private fun AiFrameReviewSlot(
                         modifier = Modifier.padding(top = 10.dp),
                     )
                     Text(
-                        "${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"} reviewed · Luna",
+                        "AI review complete",
                         color = SenpMuted,
                         fontSize = 10.sp,
                         modifier = Modifier.padding(top = 10.dp),
@@ -746,13 +746,13 @@ private fun AiFrameReviewSlot(
                         shape = RoundedCornerShape(13.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = SenpSurfaceRaised, contentColor = SenpCream),
                     ) {
-                        Text(if (state.requiresSignIn) "SIGN IN AGAIN" else "TRY REVIEW AGAIN", fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                        Text("TRY REVIEW AGAIN", fontSize = 10.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
 
             Text(
-                "Only frames already flagged by the on-device reference-action detector are sent. Frame selection itself is unchanged.",
+                "AI review is supplemental. The on-device skeleton analysis, flagged evidence, synchronization, and playback remain unchanged.",
                 color = SenpMuted.copy(alpha = 0.78f),
                 fontSize = 9.sp,
                 lineHeight = 14.sp,
