@@ -21,6 +21,7 @@ import ai.senp.core.contracts.WorldLandmark
 import ai.senp.core.pipeline.VideoPoseExtractor
 import ai.senp.motion.ActionFeatureKind
 import ai.senp.motion.ActionFeatureProfile
+import ai.senp.motion.ActionMirrorMode
 import ai.senp.motion.ActionProfile
 import ai.senp.motion.ActionProfileValidation
 import ai.senp.motion.ActionStateProfile
@@ -198,6 +199,24 @@ class ReferenceActionSessionTest {
         assertEquals("Straighten your right knee a little more to match the reference", tooBent)
         assertTrue("correct" !in tooStraight.lowercase())
         assertTrue("perfect" !in tooStraight.lowercase())
+    }
+
+    @Test
+    fun `mirrored live cue names the users actual body side`() {
+        val cue = ReferenceDeviationMeasurement(
+            timestamp = TimestampMs(1_000L),
+            stateId = "state_00",
+            feature = "angle.left_elbow",
+            referenceRange = 75.0..95.0,
+            referenceMedian = 85.0,
+            userValue = 112.0,
+            signedDeltaOutsideRange = 17.0,
+            normalizedDeviation = 1.7,
+            confidence = 0.84,
+            persistenceCandidate = true,
+        ).toReferenceCueLabel(ActionMirrorMode.MIRRORED)
+
+        assertEquals("Bend your right elbow a little more to match the reference", cue)
     }
 
     private fun singleFrameExtraction(role: VideoRole): VideoPoseExtraction {

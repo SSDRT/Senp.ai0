@@ -28,6 +28,7 @@ import ai.senp.validation.ui.theme.SenpSuccess
 import ai.senp.validation.ui.theme.SenpWarning
 import ai.senp.validation.ui.theme.SenpViolet
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -55,6 +56,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -87,8 +89,11 @@ import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.SeekParameters
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import java.io.File
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import java.util.Locale
 import kotlin.math.abs
@@ -97,6 +102,14 @@ private const val PLAY_NONE = 0
 private const val PLAY_BOTH = 1
 private const val PLAY_SOURCE = 2
 private const val PLAY_REFERENCE = 3
+
+private sealed interface RenderedComparisonUiState {
+    data object WaitingForSynchronization : RenderedComparisonUiState
+    data class Rendering(val progressPercent: Int) : RenderedComparisonUiState
+    data class Ready(val file: File) : RenderedComparisonUiState
+    data class Unavailable(val reason: String) : RenderedComparisonUiState
+    data class Failed(val reason: String) : RenderedComparisonUiState
+}
 
 @OptIn(UnstableApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -155,6 +168,47 @@ fun AnalysisPlayerScreen(
         it is MotionUnitCorrespondence.SourceUnmatchedUnit || it is MotionUnitCorrespondence.ReferenceUnmatchedUnit
     } ?: 0
     val synchronizationPending = synchronizationRun == null && synchronizationFailure == null
+    val renderedPlan = remember(playbackMapping) { playbackMapping.renderedComparisonPlan() }
+    val renderedExporter = remember(context) { RenderedComparisonExporter(context.applicationContext) }
+    var renderedState by remember(sourceUri, referenceUri) {
+        mutableStateOf<RenderedComparisonUiState>(RenderedComparisonUiState.WaitingForSynchronization)
+    }
+
+    LaunchedEffect(synchronizationRun, synchronizationFailure, renderedPlan, sourceUri, referenceUri) {
+        when {
+            synchronizationPending -> renderedState = RenderedComparisonUiState.WaitingForSynchronization
+            synchronization == null -> renderedState = RenderedComparisonUiState.Unavailable(
+                synchronizationFailure?.message ?: "Synchronized playback could not be prepared.",
+            )
+            synchronization.status == SynchronizationStatus.REFUSED -> renderedState = RenderedComparisonUiState.Unavailable(
+                "The clips do not have enough trusted correspondence for a locked comparison.",
+            )
+            renderedPlan.segments.isEmpty() -> renderedState = RenderedComparisonUiState.Unavailable(
+                "No continuous trusted playback span was available to render.",
+            )
+            else -> {
+                renderedState = RenderedComparisonUiState.Rendering(0)
+                try {
+                    val file = renderedExporter.export(
+                        sourceUri = sourceUri,
+                        referenceUri = referenceUri,
+                        sourcePoses = sourcePoses,
+                        referencePoses = referencePoses,
+                        plan = renderedPlan,
+                        onProgress = { progress -> renderedState = RenderedComparisonUiState.Rendering(progress) },
+                    )
+                    renderedState = RenderedComparisonUiState.Ready(file)
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (error: Throwable) {
+                    renderedState = RenderedComparisonUiState.Failed(
+                        error.message?.take(160) ?: "Unable to render synchronized playback on this device.",
+                    )
+                }
+            }
+        }
+    }
+
     val statusAccent = when {
         synchronizationPending -> SenpBlueBright
         synchronization?.status == SynchronizationStatus.SYNCHRONIZED -> SenpSuccess
@@ -163,12 +217,58 @@ fun AnalysisPlayerScreen(
         else -> SenpWarning
     }
     val statusLabel = when {
-        synchronizationPending -> "CHECKING"
+        synchronizationPending -> "PENDING"
         synchronization?.status == SynchronizationStatus.SYNCHRONIZED -> "FULL"
         synchronization?.status == SynchronizationStatus.PARTIAL -> "PARTIAL"
         synchronization?.status == SynchronizationStatus.REFUSED -> "REFUSED"
         else -> "OPTIONAL"
     }
+
+    val renderedFile = (renderedState as? RenderedComparisonUiState.Ready)?.file
+    val renderedPlayer = remember(renderedFile) {
+        renderedFile?.let { file ->
+            ExoPlayer.Builder(context).build().apply {
+                setSeekParameters(SeekParameters.EXACT)
+                setMediaItem(MediaItem.fromUri(Uri.fromFile(file)))
+                prepare()
+            }
+        }
+    }
+    var renderedAspectRatio by remember(renderedFile) { mutableStateOf(16f / 9f) }
+    var renderedPositionMs by remember(renderedFile) { mutableLongStateOf(0L) }
+    var renderedDurationMs by remember(renderedFile) { mutableLongStateOf(renderedPlan.durationMs.coerceAtLeast(1L)) }
+    var renderedPlaying by remember(renderedFile) { mutableStateOf(false) }
+    DisposableEffect(renderedPlayer) {
+        val player = renderedPlayer
+        if (player == null) {
+            onDispose { }
+        } else {
+            val listener = object : Player.Listener {
+                override fun onVideoSizeChanged(videoSize: VideoSize) {
+                    renderedAspectRatio = videoSize.displayAspectRatio()
+                }
+
+                override fun onIsPlayingChanged(isPlaying: Boolean) {
+                    renderedPlaying = isPlaying
+                }
+            }
+            player.addListener(listener)
+            onDispose {
+                player.removeListener(listener)
+                player.release()
+            }
+        }
+    }
+    LaunchedEffect(renderedPlayer) {
+        val player = renderedPlayer ?: return@LaunchedEffect
+        while (true) {
+            renderedPositionMs = player.currentPosition.coerceAtLeast(0L)
+            player.duration.takeIf { it > 0L }?.let { renderedDurationMs = it }
+            renderedPlaying = player.isPlaying
+            delay(32L)
+        }
+    }
+
     val stackVideos = sourceAspectRatio >= 1.2f || referenceAspectRatio >= 1.2f
     DisposableEffect(sourcePlayer) {
         val listener = object : Player.Listener {
@@ -297,6 +397,8 @@ fun AnalysisPlayerScreen(
         if (playbackMode == mode) pauseAll() else start(mode)
     }
 
+    BackHandler(onBack = onReset)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -309,21 +411,17 @@ fun AnalysisPlayerScreen(
         ) {
             Spacer(Modifier.height(16.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Column {
-                    Text("ANALYSIS COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
-                    Text("Movement comparison", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
-                }
-                if (synchronizationRun != null) {
-                    OutlinedButton(
-                        onClick = { showDiagnostics = true },
-                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-                        modifier = Modifier.height(34.dp),
-                        border = BorderStroke(1.dp, SenpBorder),
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpBlueBright),
-                        shape = RoundedCornerShape(10.dp),
-                    ) { Text("EXTRACTS", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
-                }
+                Text("ANALYSIS COMPLETE", color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+                OutlinedButton(
+                    onClick = onReset,
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                    modifier = Modifier.height(34.dp),
+                    border = BorderStroke(1.dp, SenpBorder),
+                    colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpCream),
+                    shape = RoundedCornerShape(10.dp),
+                ) { Text("CHANGE VIDEOS", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
             }
+            Text("Movement comparison", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 5.dp))
 
             Spacer(Modifier.height(22.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -336,73 +434,313 @@ fun AnalysisPlayerScreen(
             }
 
             Spacer(Modifier.height(28.dp))
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
-                Column {
-                    Text("SIDE-BY-SIDE STUDY", color = SenpCream, fontSize = 14.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                    Text("Swipe sideways to see each full clip", color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp))
+            when (val state = renderedState) {
+                is RenderedComparisonUiState.Ready -> {
+                    val player = renderedPlayer
+                    if (player != null) {
+                        RenderedComparisonReadyPanel(
+                            player = player,
+                            videoAspectRatio = renderedAspectRatio,
+                            positionMs = renderedPositionMs,
+                            durationMs = renderedDurationMs.coerceAtLeast(1L),
+                            isPlaying = renderedPlaying,
+                            segmentCount = renderedPlan.segments.size,
+                            onSeek = { selected ->
+                                val target = selected.coerceIn(0L, renderedDurationMs.coerceAtLeast(1L))
+                                renderedPositionMs = target
+                                player.seekTo(target)
+                            },
+                            onTogglePlayback = {
+                                if (player.isPlaying) {
+                                    player.pause()
+                                } else {
+                                    if (player.playbackState == Player.STATE_ENDED || renderedPositionMs >= renderedDurationMs - 40L) {
+                                        player.seekTo(0L)
+                                        renderedPositionMs = 0L
+                                    }
+                                    player.play()
+                                }
+                            },
+                        )
+                    } else {
+                        RenderedComparisonPreparingPanel(
+                            title = "OPENING LOCKED PLAYBACK",
+                            detail = "The synchronized render is ready. Opening the single playback timeline…",
+                        )
+                    }
                 }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("SKELETON", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-                    Switch(
-                        checked = skeletonVisible,
-                        onCheckedChange = { skeletonVisible = it },
-                        modifier = Modifier.padding(start = 5.dp),
-                        colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = SenpBlue, uncheckedThumbColor = SenpMuted, uncheckedTrackColor = SenpSurfaceRaised),
-                    )
+                is RenderedComparisonUiState.Rendering -> RenderedComparisonPreparingPanel(
+                    title = "RENDERING LOCKED PLAYBACK",
+                    detail = "Baking both videos and both skeletons onto one trusted timeline. Unmatched gaps are removed from this preview.",
+                    progressPercent = state.progressPercent,
+                )
+                RenderedComparisonUiState.WaitingForSynchronization -> RenderedComparisonPreparingPanel(
+                    title = "PREPARING LOCKED PLAYBACK",
+                    detail = "Finishing timestamp correspondence before the side-by-side preview is rendered.",
+                )
+                is RenderedComparisonUiState.Unavailable -> {
+                    RenderedComparisonFallbackNotice(state.reason)
+                    Spacer(Modifier.height(12.dp))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
+                    Column {
+                        Text("SIDE-BY-SIDE STUDY", color = SenpCream, fontSize = 14.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                        Text("Swipe sideways to see each full clip", color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp))
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("SKELETON", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                        Switch(
+                            checked = skeletonVisible,
+                            onCheckedChange = { skeletonVisible = it },
+                            modifier = Modifier.padding(start = 5.dp),
+                            colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = SenpBlue, uncheckedThumbColor = SenpMuted, uncheckedTrackColor = SenpSurfaceRaised),
+                        )
+                    }
                 }
-            }
 
-            Spacer(Modifier.height(12.dp))
-            if (stackVideos) {
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    ComparisonVideoTile(
-                        title = "YOUR MOVEMENT",
-                        subtitle = "Candidate",
-                        player = sourcePlayer,
-                        poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentSourcePositionMs, sourcePoses) else null,
-                        videoAspectRatio = sourceAspectRatio,
-                        accent = SenpViolet,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    ComparisonVideoTile(
-                        title = "REFERENCE MOVEMENT",
-                        subtitle = "Reference",
-                        player = referencePlayer,
-                        poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
-                        videoAspectRatio = referenceAspectRatio,
-                        accent = SenpBlueBright,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
+                Spacer(Modifier.height(12.dp))
+                if (stackVideos) {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        ComparisonVideoTile(
+                            title = "YOUR MOVEMENT",
+                            subtitle = "Candidate",
+                            player = sourcePlayer,
+                            poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentSourcePositionMs, sourcePoses) else null,
+                            videoAspectRatio = sourceAspectRatio,
+                            accent = SenpViolet,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        ComparisonVideoTile(
+                            title = "REFERENCE MOVEMENT",
+                            subtitle = "Reference",
+                            player = referencePlayer,
+                            poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
+                            videoAspectRatio = referenceAspectRatio,
+                            accent = SenpBlueBright,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                } else {
+                    Row(
+                        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        ComparisonVideoTile(
+                            title = "YOUR MOVEMENT",
+                            subtitle = "Candidate",
+                            player = sourcePlayer,
+                            poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentSourcePositionMs, sourcePoses) else null,
+                            videoAspectRatio = sourceAspectRatio,
+                            accent = SenpViolet,
+                            modifier = Modifier.width(184.dp),
+                        )
+                        ComparisonVideoTile(
+                            title = "REFERENCE MOVEMENT",
+                            subtitle = "Reference",
+                            player = referencePlayer,
+                            poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
+                            videoAspectRatio = referenceAspectRatio,
+                            accent = SenpBlueBright,
+                            modifier = Modifier.width(184.dp),
+                        )
+                    }
                 }
-            } else {
-                Row(
-                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+
+                Spacer(Modifier.height(12.dp))
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(22.dp),
+                    colors = CardDefaults.cardColors(containerColor = SenpSurface),
+                    border = BorderStroke(1.dp, SenpBorder),
                 ) {
-                    ComparisonVideoTile(
-                        title = "YOUR MOVEMENT",
-                        subtitle = "Candidate",
-                        player = sourcePlayer,
-                        poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentSourcePositionMs, sourcePoses) else null,
-                        videoAspectRatio = sourceAspectRatio,
-                        accent = SenpViolet,
-                        modifier = Modifier.width(184.dp),
-                    )
-                    ComparisonVideoTile(
-                        title = "REFERENCE MOVEMENT",
-                        subtitle = "Reference",
-                        player = referencePlayer,
-                        poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
-                        videoAspectRatio = referenceAspectRatio,
-                        accent = SenpBlueBright,
-                        modifier = Modifier.width(184.dp),
-                    )
+                    Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Text("PLAYBACK CONTROL", color = SenpCream, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
+                            Text(
+                                "${formatTime(currentSourcePositionMs)} · ${formatTime(currentReferencePositionMs)}",
+                                color = SenpBlueBright,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Slider(
+                            value = currentTimelinePosition(playbackMode, currentSourcePositionMs, currentReferencePositionMs)
+                                .toFloat()
+                                .coerceIn(0f, activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat()),
+                            onValueChange = { position ->
+                                val selected = position.toLong()
+                                if (playbackMode == PLAY_REFERENCE) {
+                                    currentReferencePositionMs = selected
+                                    referencePlayer.seekTo(selected)
+                                    val mappedSource = playbackMapping.referenceToSource(selected)
+                                    if (mappedSource != null) {
+                                        currentSourcePositionMs = mappedSource
+                                        sourcePlayer.seekTo(mappedSource)
+                                    }
+                                } else {
+                                    currentSourcePositionMs = selected
+                                    sourcePlayer.seekTo(selected)
+                                    val mappedReference = playbackMapping.sourceToReference(selected)
+                                    if (mappedReference != null) {
+                                        currentReferencePositionMs = mappedReference
+                                        referencePlayer.seekTo(mappedReference)
+                                    } else if (playbackMode == PLAY_BOTH) {
+                                        pauseAll()
+                                    }
+                                }
+                            },
+                            valueRange = 0f..activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat(),
+                            colors = SliderDefaults.colors(thumbColor = SenpBlueBright, activeTrackColor = SenpBlue),
+                        )
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            PlaybackButton(
+                                text = when {
+                                    playbackMapping.pointCount == 0 -> "NO SYNC"
+                                    playbackMapping.supportsSource(currentSourcePositionMs) -> "▶ BOTH"
+                                    else -> "NO MATCH HERE"
+                                },
+                                active = playbackMode == PLAY_BOTH,
+                                accent = SenpBlue,
+                                modifier = Modifier.weight(1f),
+                                enabled = playbackMapping.supportsSource(currentSourcePositionMs),
+                            ) { toggle(PLAY_BOTH) }
+                            PlaybackButton("▶ YOU", playbackMode == PLAY_SOURCE, SenpViolet, Modifier.weight(1f)) { toggle(PLAY_SOURCE) }
+                            PlaybackButton("▶ REFERENCE", playbackMode == PLAY_REFERENCE, SenpBlueBright, Modifier.weight(1f)) { toggle(PLAY_REFERENCE) }
+                        }
+                    }
+                }
+                }
+                is RenderedComparisonUiState.Failed -> {
+                    RenderedComparisonFallbackNotice(state.reason)
+                    Spacer(Modifier.height(12.dp))
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.Bottom) {
+                    Column {
+                        Text("SIDE-BY-SIDE STUDY", color = SenpCream, fontSize = 14.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                        Text("Swipe sideways to see each full clip", color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp))
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("SKELETON", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                        Switch(
+                            checked = skeletonVisible,
+                            onCheckedChange = { skeletonVisible = it },
+                            modifier = Modifier.padding(start = 5.dp),
+                            colors = SwitchDefaults.colors(checkedThumbColor = Color.White, checkedTrackColor = SenpBlue, uncheckedThumbColor = SenpMuted, uncheckedTrackColor = SenpSurfaceRaised),
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(12.dp))
+                if (stackVideos) {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        ComparisonVideoTile(
+                            title = "YOUR MOVEMENT",
+                            subtitle = "Candidate",
+                            player = sourcePlayer,
+                            poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentSourcePositionMs, sourcePoses) else null,
+                            videoAspectRatio = sourceAspectRatio,
+                            accent = SenpViolet,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        ComparisonVideoTile(
+                            title = "REFERENCE MOVEMENT",
+                            subtitle = "Reference",
+                            player = referencePlayer,
+                            poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
+                            videoAspectRatio = referenceAspectRatio,
+                            accent = SenpBlueBright,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                } else {
+                    Row(
+                        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        ComparisonVideoTile(
+                            title = "YOUR MOVEMENT",
+                            subtitle = "Candidate",
+                            player = sourcePlayer,
+                            poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentSourcePositionMs, sourcePoses) else null,
+                            videoAspectRatio = sourceAspectRatio,
+                            accent = SenpViolet,
+                            modifier = Modifier.width(184.dp),
+                        )
+                        ComparisonVideoTile(
+                            title = "REFERENCE MOVEMENT",
+                            subtitle = "Reference",
+                            player = referencePlayer,
+                            poseFrame = if (skeletonVisible) findMatchingPoseFrame(currentReferencePositionMs, referencePoses) else null,
+                            videoAspectRatio = referenceAspectRatio,
+                            accent = SenpBlueBright,
+                            modifier = Modifier.width(184.dp),
+                        )
+                    }
+                }
+
+                Spacer(Modifier.height(12.dp))
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(22.dp),
+                    colors = CardDefaults.cardColors(containerColor = SenpSurface),
+                    border = BorderStroke(1.dp, SenpBorder),
+                ) {
+                    Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Text("PLAYBACK CONTROL", color = SenpCream, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
+                            Text(
+                                "${formatTime(currentSourcePositionMs)} · ${formatTime(currentReferencePositionMs)}",
+                                color = SenpBlueBright,
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                        Slider(
+                            value = currentTimelinePosition(playbackMode, currentSourcePositionMs, currentReferencePositionMs)
+                                .toFloat()
+                                .coerceIn(0f, activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat()),
+                            onValueChange = { position ->
+                                val selected = position.toLong()
+                                if (playbackMode == PLAY_REFERENCE) {
+                                    currentReferencePositionMs = selected
+                                    referencePlayer.seekTo(selected)
+                                    val mappedSource = playbackMapping.referenceToSource(selected)
+                                    if (mappedSource != null) {
+                                        currentSourcePositionMs = mappedSource
+                                        sourcePlayer.seekTo(mappedSource)
+                                    }
+                                } else {
+                                    currentSourcePositionMs = selected
+                                    sourcePlayer.seekTo(selected)
+                                    val mappedReference = playbackMapping.sourceToReference(selected)
+                                    if (mappedReference != null) {
+                                        currentReferencePositionMs = mappedReference
+                                        referencePlayer.seekTo(mappedReference)
+                                    } else if (playbackMode == PLAY_BOTH) {
+                                        pauseAll()
+                                    }
+                                }
+                            },
+                            valueRange = 0f..activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat(),
+                            colors = SliderDefaults.colors(thumbColor = SenpBlueBright, activeTrackColor = SenpBlue),
+                        )
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            PlaybackButton(
+                                text = when {
+                                    playbackMapping.pointCount == 0 -> "NO SYNC"
+                                    playbackMapping.supportsSource(currentSourcePositionMs) -> "▶ BOTH"
+                                    else -> "NO MATCH HERE"
+                                },
+                                active = playbackMode == PLAY_BOTH,
+                                accent = SenpBlue,
+                                modifier = Modifier.weight(1f),
+                                enabled = playbackMapping.supportsSource(currentSourcePositionMs),
+                            ) { toggle(PLAY_BOTH) }
+                            PlaybackButton("▶ YOU", playbackMode == PLAY_SOURCE, SenpViolet, Modifier.weight(1f)) { toggle(PLAY_SOURCE) }
+                            PlaybackButton("▶ REFERENCE", playbackMode == PLAY_REFERENCE, SenpBlueBright, Modifier.weight(1f)) { toggle(PLAY_REFERENCE) }
+                        }
+                    }
+                }
                 }
             }
-
-            Spacer(Modifier.height(12.dp))
-            ReferenceActionAnalysisSlot(referenceAction, referenceActionMessage)
-
             Spacer(Modifier.height(12.dp))
             AiFrameReviewSlot(
                 state = aiFrameReview,
@@ -410,72 +748,23 @@ fun AnalysisPlayerScreen(
                 onSignInAndReview = onSignInAndRequestAiReview,
             )
 
-            Spacer(Modifier.height(16.dp))
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(22.dp),
-                colors = CardDefaults.cardColors(containerColor = SenpSurface),
-                border = BorderStroke(1.dp, SenpBorder),
-            ) {
-                Column(Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                        Text("PLAYBACK CONTROL", color = SenpCream, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
-                        Text(
-                            "${formatTime(currentSourcePositionMs)} · ${formatTime(currentReferencePositionMs)}",
-                            color = SenpBlueBright,
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                    }
-                    Slider(
-                        value = currentTimelinePosition(playbackMode, currentSourcePositionMs, currentReferencePositionMs)
-                            .toFloat()
-                            .coerceIn(0f, activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat()),
-                        onValueChange = { position ->
-                            val selected = position.toLong()
-                            if (playbackMode == PLAY_REFERENCE) {
-                                currentReferencePositionMs = selected
-                                referencePlayer.seekTo(selected)
-                                val mappedSource = playbackMapping.referenceToSource(selected)
-                                if (mappedSource != null) {
-                                    currentSourcePositionMs = mappedSource
-                                    sourcePlayer.seekTo(mappedSource)
-                                }
-                            } else {
-                                currentSourcePositionMs = selected
-                                sourcePlayer.seekTo(selected)
-                                val mappedReference = playbackMapping.sourceToReference(selected)
-                                if (mappedReference != null) {
-                                    currentReferencePositionMs = mappedReference
-                                    referencePlayer.seekTo(mappedReference)
-                                } else if (playbackMode == PLAY_BOTH) {
-                                    pauseAll()
-                                }
-                            }
-                        },
-                        valueRange = 0f..activeTimelineDuration(playbackMode, totalDuration, referenceDuration).toFloat(),
-                        colors = SliderDefaults.colors(thumbColor = SenpBlueBright, activeTrackColor = SenpBlue),
-                    )
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        PlaybackButton(
-                            text = when {
-                                playbackMapping.pointCount == 0 -> "NO SYNC"
-                                playbackMapping.supportsSource(currentSourcePositionMs) -> "▶ BOTH"
-                                else -> "NO MATCH HERE"
-                            },
-                            active = playbackMode == PLAY_BOTH,
-                            accent = SenpBlue,
-                            modifier = Modifier.weight(1f),
-                            enabled = playbackMapping.supportsSource(currentSourcePositionMs),
-                        ) { toggle(PLAY_BOTH) }
-                        PlaybackButton("▶ YOU", playbackMode == PLAY_SOURCE, SenpViolet, Modifier.weight(1f)) { toggle(PLAY_SOURCE) }
-                        PlaybackButton("▶ REFERENCE", playbackMode == PLAY_REFERENCE, SenpBlueBright, Modifier.weight(1f)) { toggle(PLAY_REFERENCE) }
-                    }
-                }
-            }
+            Spacer(Modifier.height(12.dp))
+            ReferenceActionAnalysisSlot(referenceAction, referenceActionMessage)
 
             Spacer(Modifier.height(26.dp))
-            Text("SYNC DECISIONS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text("SYNC DECISIONS", color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+                if (synchronizationRun != null) {
+                    OutlinedButton(
+                        onClick = { showDiagnostics = true },
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
+                        modifier = Modifier.height(34.dp),
+                        border = BorderStroke(1.dp, SenpBorder),
+                        colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpBlueBright),
+                        shape = RoundedCornerShape(10.dp),
+                    ) { Text("EXTRACTS", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                }
+            }
             Text("Correspondence and refusal decisions from Synchronization Kernel v2", color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 4.dp))
             Spacer(Modifier.height(11.dp))
             when {
@@ -548,6 +837,158 @@ fun AnalysisPlayerScreen(
 
     if (showDiagnostics && synchronizationRun != null) {
         DiagnosticsBottomSheet(run = synchronizationRun, sheetState = sheetState, onDismiss = { showDiagnostics = false })
+    }
+}
+
+@OptIn(UnstableApi::class)
+@Composable
+private fun RenderedComparisonReadyPanel(
+    player: ExoPlayer,
+    videoAspectRatio: Float,
+    positionMs: Long,
+    durationMs: Long,
+    isPlaying: Boolean,
+    segmentCount: Int,
+    onSeek: (Long) -> Unit,
+    onTogglePlayback: () -> Unit,
+) {
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Bottom,
+        ) {
+            Column {
+                Text("LOCKED COMPARISON", color = SenpCream, fontSize = 14.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                Text("Video and skeleton share one rendered timeline", color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp))
+            }
+            Text("READY", color = SenpSuccess, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+        }
+        Spacer(Modifier.height(12.dp))
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(22.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.Black),
+            border = BorderStroke(1.dp, SenpBorder),
+        ) {
+            Column {
+                Box(Modifier.fillMaxWidth().aspectRatio(videoAspectRatio.coerceIn(0.7f, 2.4f))) {
+                    AndroidView(
+                        factory = { ctx ->
+                            PlayerView(ctx).apply {
+                                this.player = player
+                                useController = false
+                                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+                            }
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth().align(Alignment.TopCenter),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Box(
+                            Modifier.padding(10.dp).clip(RoundedCornerShape(8.dp))
+                                .background(Color.Black.copy(alpha = 0.68f)).padding(horizontal = 9.dp, vertical = 6.dp),
+                        ) {
+                            Text("YOUR MOVEMENT", color = SenpViolet, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+                        }
+                        Box(
+                            Modifier.padding(10.dp).clip(RoundedCornerShape(8.dp))
+                                .background(Color.Black.copy(alpha = 0.68f)).padding(horizontal = 9.dp, vertical = 6.dp),
+                        ) {
+                            Text("REFERENCE", color = SenpBlueBright, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+                        }
+                    }
+                }
+                Column(Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 12.dp)) {
+                    Slider(
+                        value = positionMs.toFloat().coerceIn(0f, durationMs.toFloat()),
+                        onValueChange = { onSeek(it.toLong()) },
+                        valueRange = 0f..durationMs.toFloat(),
+                        colors = SliderDefaults.colors(thumbColor = SenpBlueBright, activeTrackColor = SenpBlue),
+                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            "${formatTime(positionMs)} / ${formatTime(durationMs)}",
+                            color = SenpMuted,
+                            fontSize = 10.sp,
+                        )
+                        Text(
+                            "$segmentCount trusted span${if (segmentCount == 1) "" else "s"}",
+                            color = SenpMuted,
+                            fontSize = 10.sp,
+                        )
+                    }
+                    Button(
+                        onClick = onTogglePlayback,
+                        modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(42.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (isPlaying) SenpSurfaceRaised else SenpBlue,
+                            contentColor = Color.White,
+                        ),
+                    ) {
+                        Text(if (isPlaying) "Ⅱ  PAUSE" else "▶  PLAY LOCKED COMPARISON", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                    }
+                    Text(
+                        "Unmatched gaps are skipped instead of freezing or inventing correspondence.",
+                        color = SenpMuted.copy(alpha = 0.8f),
+                        fontSize = 9.sp,
+                        lineHeight = 14.sp,
+                        modifier = Modifier.padding(top = 9.dp),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RenderedComparisonPreparingPanel(
+    title: String,
+    detail: String,
+    progressPercent: Int? = null,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface),
+        border = BorderStroke(1.dp, SenpBlue.copy(alpha = 0.6f)),
+    ) {
+        Column(Modifier.fillMaxWidth().padding(18.dp)) {
+            Text(title, color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
+            Text(detail, color = SenpCream, fontSize = 13.sp, lineHeight = 18.sp, modifier = Modifier.padding(top = 8.dp))
+            if (progressPercent != null) {
+                LinearProgressIndicator(
+                    progress = { progressPercent.coerceIn(0, 100) / 100f },
+                    modifier = Modifier.fillMaxWidth().padding(top = 14.dp).height(5.dp).clip(RoundedCornerShape(4.dp)),
+                    color = SenpBlue,
+                    trackColor = SenpSurfaceRaised,
+                )
+                Text("$progressPercent%", color = SenpMuted, fontSize = 10.sp, modifier = Modifier.padding(top = 6.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun RenderedComparisonFallbackNotice(reason: String) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(18.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface.copy(alpha = 0.9f)),
+        border = BorderStroke(1.dp, SenpWarning.copy(alpha = 0.65f)),
+    ) {
+        Column(Modifier.fillMaxWidth().padding(16.dp)) {
+            Text("LOCKED PLAYBACK UNAVAILABLE", color = SenpWarning, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+            Text(reason, color = SenpMuted, fontSize = 12.sp, lineHeight = 17.sp, modifier = Modifier.padding(top = 6.dp))
+            Text("Independent clip playback is shown below.", color = SenpCream, fontSize = 11.sp, modifier = Modifier.padding(top = 7.dp))
+        }
     }
 }
 
