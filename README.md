@@ -11,6 +11,7 @@ Wave 1 is engine-first: no frontend, Compose UI, web UI, cloud coaching, or rend
 - `core-motion`: canonical `MotionProcessor` adapter plus the proven timestamp-aware repair, smoothing, quality, normalization, guardrail, and feature engine.
 - `core-cache`: bounded pure-JVM cache implementation.
 - `core-alignment`: canonical timestamp-first phase detection, validity-aware masked DTW, confidence, problem windows, and QA artifacts.
+- `core-review`: pure-JVM frame-review contracts, model/reasoning selection, and Codex request/SSE handling behind an injected transport.
 - `headless-runner`: deterministic fake adapters, end-to-end tests, and a human-inspectable JSON result.
 
 ```bash
