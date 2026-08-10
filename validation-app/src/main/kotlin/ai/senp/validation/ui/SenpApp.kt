@@ -45,6 +45,7 @@ fun SenpApp(
     onOpenLiveReference: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val aiReviewSettingsState by viewModel.aiReviewSettingsState.collectAsState()
 
     SenpTheme {
         Surface(
@@ -79,8 +80,12 @@ fun SenpApp(
                         referenceAction = state.referenceAction,
                         referenceActionMessage = state.referenceActionMessage,
                         aiFrameReview = state.aiFrameReview,
-                        onRequestAiReview = { viewModel.requestAiFrameReview() },
-                        onSignInAndRequestAiReview = { viewModel.signInAndRequestAiFrameReview() },
+                        aiReviewSettings = aiReviewSettingsState,
+                        onRequestAiReview = viewModel::requestAiFrameReview,
+                        onSaveAiApiKey = viewModel::saveAiReviewApiKey,
+                        onClearAiApiKey = viewModel::clearAiReviewApiKey,
+                        onSelectAiModel = viewModel::selectAiReviewModel,
+                        onRefreshAiModels = viewModel::refreshAiReviewModels,
                         onReset = { viewModel.resetAnalysis() },
                     )
                 }

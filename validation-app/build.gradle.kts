@@ -19,10 +19,6 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "GEMINI_API_KEY", "\"" + providers.gradleProperty("GEMINI_API_KEY").orElse(providers.environmentVariable("GEMINI_API_KEY")).orElse("").get().replace("\"", "\\\"") + "\"")
-        buildConfigField("String", "GEMINI_API_KEY_FALLBACK_1", "\"" + providers.gradleProperty("GEMINI_API_KEY_FALLBACK_1").orElse(providers.environmentVariable("GEMINI_API_KEY_FALLBACK_1")).orElse("").get().replace("\"", "\\\"") + "\"")
-        buildConfigField("String", "GEMINI_API_KEY_FALLBACK_2", "\"" + providers.gradleProperty("GEMINI_API_KEY_FALLBACK_2").orElse(providers.environmentVariable("GEMINI_API_KEY_FALLBACK_2")).orElse("").get().replace("\"", "\\\"") + "\"")
-        buildConfigField("String", "AI_PLAN_B_MODEL", "\"" + providers.gradleProperty("AI_PLAN_B_MODEL").orElse(providers.environmentVariable("AI_PLAN_B_MODEL")).orElse("gemini-3.6-flash").get() + "\"")
         buildConfigField("int", "AI_PLAN_B_TIMEOUT_SEC", providers.gradleProperty("AI_PLAN_B_TIMEOUT_SEC").orElse(providers.environmentVariable("AI_PLAN_B_TIMEOUT_SEC")).orElse("240").get())
         buildConfigField("int", "AI_PLAN_B_RETRIES", providers.gradleProperty("AI_PLAN_B_RETRIES").orElse(providers.environmentVariable("AI_PLAN_B_RETRIES")).orElse("2").get())
     }
@@ -67,7 +63,6 @@ dependencies {
     implementation(project(":android-video"))
     implementation(project(":android-pose-mediapipe"))
     implementation(project(":core-review"))
-    implementation(project(":android-codex"))
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
@@ -87,6 +82,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.security.crypto)
 
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)

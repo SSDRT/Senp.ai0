@@ -50,8 +50,7 @@ data class ReferenceActionAnalysisUi(
 sealed interface AiFrameReviewUiState {
     data object NotRequested : AiFrameReviewUiState
     data class Unavailable(val message: String) : AiFrameReviewUiState
-    data class RequiresSignIn(val frameCount: Int) : AiFrameReviewUiState
-    data class SigningIn(val frameCount: Int) : AiFrameReviewUiState
+    data class RequiresConfiguration(val frameCount: Int) : AiFrameReviewUiState
     data class Reviewing(val frameCount: Int) : AiFrameReviewUiState
     data class Success(
         val text: String,
@@ -61,7 +60,7 @@ sealed interface AiFrameReviewUiState {
     data class Failure(
         val message: String,
         val frameCount: Int,
-        val requiresSignIn: Boolean = false,
+        val requiresConfiguration: Boolean = false,
     ) : AiFrameReviewUiState
 }
 

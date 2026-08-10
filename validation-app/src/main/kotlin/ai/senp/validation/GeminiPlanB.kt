@@ -76,12 +76,8 @@ internal interface GeminiFilesTransport {
 
 internal class GeminiPlanBClient(
     private val context: Context,
-    private val apiKeys: List<String> = listOf(
-        BuildConfig.GEMINI_API_KEY,
-        BuildConfig.GEMINI_API_KEY_FALLBACK_1,
-        BuildConfig.GEMINI_API_KEY_FALLBACK_2,
-    ).map(String::trim).filter(String::isNotBlank).distinct(),
-    private val model: String = BuildConfig.AI_PLAN_B_MODEL,
+    private val apiKeys: List<String>,
+    private val model: String,
     private val timeoutMs: Long = BuildConfig.AI_PLAN_B_TIMEOUT_SEC.toLong() * 1_000L,
     private val retries: Int = BuildConfig.AI_PLAN_B_RETRIES,
     private val transportFactory: (String) -> GeminiFilesTransport = { apiKey -> GeminiHttpTransport(apiKey, timeoutMs) },
@@ -93,7 +89,7 @@ internal class GeminiPlanBClient(
         exerciseMetadata: String?,
     ): GeminiAnalysisResult = withTimeout(timeoutMs) {
         require(apiKeys.isNotEmpty()) {
-            "Gemini Plan B is not configured. Set GEMINI_API_KEY in the local build environment."
+            "Gemini API key is not configured. Add one in AI Review Settings."
         }
         val workspace = File(context.cacheDir, "gemini-plan-b-" + UUID.randomUUID())
         check(workspace.mkdirs()) { "Could not create the temporary Gemini request workspace." }
@@ -437,6 +433,7 @@ internal class GeminiTransportException(
     message: String,
     val retryable: Boolean,
     val rateLimited: Boolean = false,
+    val httpStatus: Int? = null,
     cause: Throwable? = null,
 ) : IOException(message, cause)
 
@@ -525,6 +522,7 @@ private class GeminiHttpTransport(
                 message = "Gemini API request failed with HTTP " + status,
                 retryable = status >= 500,
                 rateLimited = status == 429,
+                httpStatus = status,
             )
         }
         return HttpResponse(body, headers)

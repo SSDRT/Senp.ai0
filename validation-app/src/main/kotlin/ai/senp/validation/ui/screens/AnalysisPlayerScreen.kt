@@ -11,7 +11,10 @@ import ai.senp.motion.ActionTrackingStatus
 import ai.senp.motion.PhaseTimingClass
 import ai.senp.sync.v2.VideoSynchronizationRun
 import ai.senp.validation.toReferenceCueLabel
+import ai.senp.validation.AiReviewSettingsUiState
+import ai.senp.validation.GeminiReviewModels
 import ai.senp.validation.ui.components.DiagnosticsBottomSheet
+import ai.senp.validation.ui.components.AiReviewSettingsPanel
 import ai.senp.validation.ui.state.AiFrameReviewUiState
 import ai.senp.validation.ui.state.ReferenceActionAnalysisUi
 import ai.senp.validation.ui.components.PoseLandmarkOverlay
@@ -110,8 +113,12 @@ fun AnalysisPlayerScreen(
     referenceAction: ReferenceActionAnalysisUi?,
     referenceActionMessage: String?,
     aiFrameReview: AiFrameReviewUiState,
+    aiReviewSettings: AiReviewSettingsUiState,
     onRequestAiReview: () -> Unit,
-    onSignInAndRequestAiReview: () -> Unit,
+    onSaveAiApiKey: (String) -> Unit,
+    onClearAiApiKey: () -> Unit,
+    onSelectAiModel: (String) -> Unit,
+    onRefreshAiModels: () -> Unit,
     onReset: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -406,8 +413,12 @@ fun AnalysisPlayerScreen(
             Spacer(Modifier.height(12.dp))
             AiFrameReviewSlot(
                 state = aiFrameReview,
+                settings = aiReviewSettings,
                 onRequestReview = onRequestAiReview,
-                onSignInAndReview = onSignInAndRequestAiReview,
+                onSaveApiKey = onSaveAiApiKey,
+                onClearApiKey = onClearAiApiKey,
+                onSelectModel = onSelectAiModel,
+                onRefreshModels = onRefreshAiModels,
             )
 
             Spacer(Modifier.height(16.dp))
@@ -644,121 +655,142 @@ private fun ReferenceActionAnalysisSlot(
 @Composable
 private fun AiFrameReviewSlot(
     state: AiFrameReviewUiState,
+    settings: AiReviewSettingsUiState,
     onRequestReview: () -> Unit,
-    onSignInAndReview: () -> Unit,
+    onSaveApiKey: (String) -> Unit,
+    onClearApiKey: () -> Unit,
+    onSelectModel: (String) -> Unit,
+    onRefreshModels: () -> Unit,
 ) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = SenpSurface.copy(alpha = 0.88f)),
-        border = BorderStroke(1.dp, SenpViolet.copy(alpha = 0.7f)),
-    ) {
-        Column(Modifier.fillMaxWidth().padding(18.dp)) {
-            Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text("AI FRAME REVIEW", color = SenpViolet, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
-                Text("AI", color = SenpBlueBright, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
-            }
-
-            when (state) {
-                AiFrameReviewUiState.NotRequested -> Text(
-                    "AI review is waiting for flagged frame evidence.",
-                    color = SenpMuted,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 9.dp),
-                )
-
-                is AiFrameReviewUiState.Unavailable -> Text(
-                    state.message,
-                    color = SenpMuted,
-                    fontSize = 12.sp,
-                    lineHeight = 18.sp,
-                    modifier = Modifier.padding(top = 9.dp),
-                )
-
-                is AiFrameReviewUiState.RequiresSignIn -> {
-                    Text(
-                        "${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"} are ready for AI review.",
-                        color = SenpCream,
-                        fontSize = 12.sp,
-                        lineHeight = 18.sp,
-                        modifier = Modifier.padding(top = 9.dp),
-                    )
-                    Button(
-                        onClick = onSignInAndReview,
-                        modifier = Modifier.fillMaxWidth().padding(top = 12.dp).height(44.dp),
-                        shape = RoundedCornerShape(13.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = SenpViolet, contentColor = Color.White),
-                    ) { Text("REVIEW", fontSize = 11.sp, fontWeight = FontWeight.Bold) }
+    Column {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+            colors = CardDefaults.cardColors(containerColor = SenpSurface.copy(alpha = 0.88f)),
+            border = BorderStroke(1.dp, SenpViolet.copy(alpha = 0.7f)),
+        ) {
+            Column(Modifier.fillMaxWidth().padding(18.dp)) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text("AI MOVEMENT REVIEW", color = SenpViolet, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.4.sp)
+                    Text(GeminiReviewModels.title(settings.modelId), color = SenpBlueBright, fontSize = 9.sp, fontWeight = FontWeight.Bold)
                 }
 
-                is AiFrameReviewUiState.SigningIn -> Text(
-                    "Preparing AI review for ${state.frameCount} flagged frame${if (state.frameCount == 1) "" else "s"}…",
-                    color = SenpBlueBright,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 9.dp),
-                )
-
-                is AiFrameReviewUiState.Reviewing -> Text(
-                    "Reviewing the movement evidence and waiting for coaching…",
-                    color = SenpBlueBright,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 9.dp),
-                )
-
-                is AiFrameReviewUiState.Success -> {
-                    Text(
-                        state.text,
-                        color = SenpCream,
-                        fontSize = 13.sp,
-                        lineHeight = 19.sp,
-                        modifier = Modifier.padding(top = 10.dp),
-                    )
-                    Text(
-                        "AI review complete",
+                when (state) {
+                    AiFrameReviewUiState.NotRequested -> Text(
+                        "AI review is waiting for reference-relative movement evidence.",
                         color = SenpMuted,
-                        fontSize = 10.sp,
-                        modifier = Modifier.padding(top = 10.dp),
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 9.dp),
                     )
-                    OutlinedButton(
-                        onClick = onRequestReview,
-                        modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(40.dp),
-                        border = BorderStroke(1.dp, SenpViolet.copy(alpha = 0.7f)),
-                        colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpViolet),
-                        shape = RoundedCornerShape(12.dp),
-                    ) { Text("REVIEW AGAIN", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
-                }
 
-                is AiFrameReviewUiState.Failure -> {
-                    Text(
+                    is AiFrameReviewUiState.Unavailable -> Text(
                         state.message,
-                        color = SenpError,
+                        color = SenpMuted,
                         fontSize = 12.sp,
                         lineHeight = 18.sp,
                         modifier = Modifier.padding(top = 9.dp),
                     )
-                    Button(
-                        onClick = if (state.requiresSignIn) onSignInAndReview else onRequestReview,
-                        modifier = Modifier.fillMaxWidth().padding(top = 12.dp).height(42.dp),
-                        shape = RoundedCornerShape(13.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = SenpSurfaceRaised, contentColor = SenpCream),
-                    ) {
-                        Text("TRY REVIEW AGAIN", fontSize = 10.sp, fontWeight = FontWeight.Bold)
+
+                    is AiFrameReviewUiState.RequiresConfiguration -> {
+                        Text(
+                            state.frameCount.toString() + " flagged frame" + (if (state.frameCount == 1) "" else "s") +
+                                " are ready. Save a Gemini API key below, choose a model, then run the review.",
+                            color = SenpCream,
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp,
+                            modifier = Modifier.padding(top = 9.dp),
+                        )
+                        Button(
+                            onClick = onRequestReview,
+                            enabled = settings.apiKeyConfigured,
+                            modifier = Modifier.fillMaxWidth().padding(top = 12.dp).height(44.dp),
+                            shape = RoundedCornerShape(13.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = SenpViolet,
+                                contentColor = Color.White,
+                                disabledContainerColor = SenpSurfaceRaised,
+                                disabledContentColor = SenpMuted,
+                            ),
+                        ) { Text("RUN AI REVIEW", fontSize = 11.sp, fontWeight = FontWeight.Bold) }
+                    }
+
+                    is AiFrameReviewUiState.Reviewing -> Text(
+                        "Uploading both clips to Gemini and comparing the complete movement…",
+                        color = SenpBlueBright,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(top = 9.dp),
+                    )
+
+                    is AiFrameReviewUiState.Success -> {
+                        Text(
+                            state.text,
+                            color = SenpCream,
+                            fontSize = 13.sp,
+                            lineHeight = 19.sp,
+                            modifier = Modifier.padding(top = 10.dp),
+                        )
+                        Text(
+                            "Reviewed with " + GeminiReviewModels.title(state.modelId),
+                            color = SenpMuted,
+                            fontSize = 10.sp,
+                            modifier = Modifier.padding(top = 10.dp),
+                        )
+                        OutlinedButton(
+                            onClick = onRequestReview,
+                            modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(40.dp),
+                            border = BorderStroke(1.dp, SenpViolet.copy(alpha = 0.7f)),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = SenpViolet),
+                            shape = RoundedCornerShape(12.dp),
+                        ) { Text("REVIEW AGAIN", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                    }
+
+                    is AiFrameReviewUiState.Failure -> {
+                        Text(
+                            state.message,
+                            color = SenpError,
+                            fontSize = 12.sp,
+                            lineHeight = 18.sp,
+                            modifier = Modifier.padding(top = 9.dp),
+                        )
+                        Button(
+                            onClick = onRequestReview,
+                            enabled = !state.requiresConfiguration || settings.apiKeyConfigured,
+                            modifier = Modifier.fillMaxWidth().padding(top = 12.dp).height(42.dp),
+                            shape = RoundedCornerShape(13.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = SenpSurfaceRaised,
+                                contentColor = SenpCream,
+                                disabledContainerColor = SenpSurfaceRaised,
+                                disabledContentColor = SenpMuted,
+                            ),
+                        ) { Text("TRY REVIEW AGAIN", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
                     }
                 }
-            }
 
-            Text(
-                "AI review is supplemental. The on-device skeleton analysis, flagged evidence, synchronization, and playback remain unchanged.",
-                color = SenpMuted.copy(alpha = 0.78f),
-                fontSize = 9.sp,
-                lineHeight = 14.sp,
-                modifier = Modifier.padding(top = 12.dp),
-            )
+                Text(
+                    "Skeleton analysis and synchronization stay on-device. Only AI review sends the selected videos to Gemini.",
+                    color = SenpMuted.copy(alpha = 0.78f),
+                    fontSize = 9.sp,
+                    lineHeight = 14.sp,
+                    modifier = Modifier.padding(top = 12.dp),
+                )
+            }
         }
+
+        Spacer(Modifier.height(10.dp))
+        AiReviewSettingsPanel(
+            state = settings,
+            onSaveApiKey = onSaveApiKey,
+            onClearApiKey = onClearApiKey,
+            onSelectModel = onSelectModel,
+            onRefreshModels = onRefreshModels,
+            initiallyExpanded = state is AiFrameReviewUiState.RequiresConfiguration ||
+                (state is AiFrameReviewUiState.Failure && state.requiresConfiguration),
+        )
     }
 }
 

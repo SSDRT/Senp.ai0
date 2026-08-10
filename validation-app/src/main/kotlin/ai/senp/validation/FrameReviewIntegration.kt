@@ -25,13 +25,14 @@ internal sealed interface FrameReviewRunResult {
     data class NoFrames(val message: String) : FrameReviewRunResult
 }
 
-internal class FrameReviewCoordinator(context: Context) {
-    private val analyzer = GeminiPlanBClient(context.applicationContext)
+internal class FrameReviewCoordinator(
+    context: Context,
+    private val settingsStore: AiReviewSettingsStore = AiReviewSettingsStore(context),
+) {
+    private val appContext = context.applicationContext
 
-    val isSignedIn: Boolean
-        get() = true
-
-    suspend fun signIn() = Unit
+    val isConfigured: Boolean
+        get() = settingsStore.snapshot().apiKey.isNotBlank()
 
     suspend fun review(
         sourceUri: Uri,
@@ -42,6 +43,15 @@ internal class FrameReviewCoordinator(context: Context) {
         if (selected.isEmpty()) {
             return@withContext FrameReviewRunResult.NoFrames(
                 "No persistent reference-relative differences were flagged for AI review.",
+            )
+        }
+
+        val settings = settingsStore.snapshot()
+        if (settings.apiKey.isBlank()) {
+            return@withContext FrameReviewRunResult.Failure(
+                kind = ReviewFailureKind.UNAUTHENTICATED,
+                message = "Gemini API key is not configured. Open AI Review Settings and save your key.",
+                frameCount = selected.size,
             )
         }
 
@@ -56,7 +66,11 @@ internal class FrameReviewCoordinator(context: Context) {
         }
 
         try {
-            val result = analyzer.analyze(
+            val result = GeminiPlanBClient(
+                context = appContext,
+                apiKeys = listOf(settings.apiKey),
+                model = settings.modelId,
+            ).analyze(
                 referenceUri = referenceUri,
                 userUri = sourceUri,
                 exerciseMetadata = detectorContext,
@@ -65,7 +79,7 @@ internal class FrameReviewCoordinator(context: Context) {
                 review = FrameReview(
                     text = formatAiReview(result),
                     reasoningSummary = "",
-                    modelId = "AI",
+                    modelId = settings.modelId,
                 ),
                 frameCount = selected.size,
             )
@@ -73,7 +87,11 @@ internal class FrameReviewCoordinator(context: Context) {
             throw cancelled
         } catch (error: Exception) {
             FrameReviewRunResult.Failure(
-                kind = if (error.hasRateLimitCause()) ReviewFailureKind.RATE_LIMITED else ReviewFailureKind.TRANSPORT,
+                kind = when {
+                    error.hasRateLimitCause() -> ReviewFailureKind.RATE_LIMITED
+                    error.hasAuthenticationCause() -> ReviewFailureKind.UNAUTHENTICATED
+                    else -> ReviewFailureKind.TRANSPORT
+                },
                 message = error.message ?: "AI review could not be completed.",
                 frameCount = selected.size,
             )
@@ -110,6 +128,11 @@ private fun Throwable.hasRateLimitCause(): Boolean =
     generateSequence(this) { current -> current.cause }
         .filterIsInstance<GeminiTransportException>()
         .any(GeminiTransportException::rateLimited)
+
+private fun Throwable.hasAuthenticationCause(): Boolean =
+    generateSequence(this) { current -> current.cause }
+        .filterIsInstance<GeminiTransportException>()
+        .any { it.httpStatus == 400 || it.httpStatus == 401 || it.httpStatus == 403 }
 
 internal fun selectFrameReviewDeviations(
     deviations: List<ReferenceDeviationMeasurement>,

@@ -14,6 +14,10 @@ import ai.senp.review.ReviewFailureKind
 import ai.senp.validation.EngineComposition
 import ai.senp.validation.FrameReviewCoordinator
 import ai.senp.validation.FrameReviewRunResult
+import ai.senp.validation.AiReviewSettingsStore
+import ai.senp.validation.AiReviewSettingsUiState
+import ai.senp.validation.GeminiModelCatalog
+import ai.senp.validation.GeminiReviewModels
 import ai.senp.validation.analyzeReferenceActionCatching
 import ai.senp.validation.assembleRecordedComparisonCatching
 import ai.senp.validation.PreparedReferenceAction
@@ -45,10 +49,12 @@ import kotlinx.coroutines.withContext
 
 class SenpEngineViewModel(application: Application) : AndroidViewModel(application) {
     private val composition = EngineComposition(application)
-    private val frameReviewCoordinator = FrameReviewCoordinator(application)
+    private val aiReviewSettingsStore = AiReviewSettingsStore(application)
+    private val frameReviewCoordinator = FrameReviewCoordinator(application, aiReviewSettingsStore)
     private var referencePreparationJob: Job? = null
     private var analysisJob: Job? = null
     private var frameReviewJob: Job? = null
+    private var modelCatalogJob: Job? = null
 
     private val _videoSelectionState = MutableStateFlow(VideoSelectionState())
     val videoSelectionState: StateFlow<VideoSelectionState> = _videoSelectionState.asStateFlow()
@@ -59,8 +65,15 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
     private val _referenceProfileState = MutableStateFlow<ReferenceProfileUiState>(ReferenceProfileUiState.Empty)
     val referenceProfileState: StateFlow<ReferenceProfileUiState> = _referenceProfileState.asStateFlow()
 
+    private val _aiReviewSettingsState = MutableStateFlow(aiReviewSettingsStore.uiState())
+    val aiReviewSettingsState: StateFlow<AiReviewSettingsUiState> = _aiReviewSettingsState.asStateFlow()
+
     private val _uiState = MutableStateFlow<AnalysisUiState>(AnalysisUiState.Idle)
     val uiState: StateFlow<AnalysisUiState> = _uiState.asStateFlow()
+
+    init {
+        if (_aiReviewSettingsState.value.apiKeyConfigured) refreshAiReviewModels()
+    }
 
     fun onSelectSourceVideo(uri: Uri) {
         calculateVideoHash(uri, isSource = true)
@@ -108,6 +121,71 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
     fun updateLongEdgeCap(capPx: Int) {
         _configState.update { it.copy(longEdgeCapPx = capPx.coerceIn(240, 1080)) }
         reprepareCurrentReference()
+    }
+
+    fun saveAiReviewApiKey(apiKey: String) {
+        if (apiKey.isBlank()) return
+        aiReviewSettingsStore.saveApiKey(apiKey)
+        _aiReviewSettingsState.value = aiReviewSettingsStore.uiState()
+        refreshAiReviewModels()
+    }
+
+    fun clearAiReviewApiKey() {
+        modelCatalogJob?.cancel()
+        aiReviewSettingsStore.clearApiKey()
+        _aiReviewSettingsState.value = aiReviewSettingsStore.uiState()
+    }
+
+    fun selectAiReviewModel(modelId: String) {
+        if (modelId.isBlank()) return
+        aiReviewSettingsStore.saveModel(modelId)
+        val normalized = GeminiReviewModels.normalize(modelId)
+        _aiReviewSettingsState.update { state ->
+            val selected = GeminiReviewModels.seed(normalized).first()
+            state.copy(
+                modelId = normalized,
+                availableModels = if (state.availableModels.any { it.id == normalized }) {
+                    state.availableModels
+                } else {
+                    listOf(selected) + state.availableModels
+                },
+                modelLoadError = null,
+            )
+        }
+    }
+
+    fun refreshAiReviewModels() {
+        val settings = aiReviewSettingsStore.snapshot()
+        if (settings.apiKey.isBlank()) {
+            _aiReviewSettingsState.update { it.copy(modelLoadError = "Save an API key to load available models.") }
+            return
+        }
+        modelCatalogJob?.cancel()
+        modelCatalogJob = viewModelScope.launch(Dispatchers.IO) {
+            _aiReviewSettingsState.update { it.copy(isLoadingModels = true, modelLoadError = null) }
+            try {
+                val models = GeminiModelCatalog.load(settings.apiKey)
+                val selected = GeminiReviewModels.seed(settings.modelId).first()
+                _aiReviewSettingsState.update { state ->
+                    state.copy(
+                        apiKeyConfigured = true,
+                        modelId = settings.modelId,
+                        availableModels = if (models.any { it.id == settings.modelId }) models else listOf(selected) + models,
+                        isLoadingModels = false,
+                        modelLoadError = if (models.isEmpty()) "No generateContent Gemini models were returned for this key." else null,
+                    )
+                }
+            } catch (cancelled: CancellationException) {
+                throw cancelled
+            } catch (error: Exception) {
+                _aiReviewSettingsState.update {
+                    it.copy(
+                        isLoadingModels = false,
+                        modelLoadError = error.message ?: "Could not load Gemini models.",
+                    )
+                }
+            }
+        }
     }
 
     fun runAnalysis() {
@@ -227,8 +305,8 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                     reviewCandidates.isEmpty() -> AiFrameReviewUiState.Unavailable(
                         "No persistent reference-relative differences were flagged for AI review.",
                     )
-                    frameReviewCoordinator.isSignedIn -> AiFrameReviewUiState.Reviewing(reviewCandidates.size)
-                    else -> AiFrameReviewUiState.RequiresSignIn(reviewCandidates.size)
+                    frameReviewCoordinator.isConfigured -> AiFrameReviewUiState.Reviewing(reviewCandidates.size)
+                    else -> AiFrameReviewUiState.RequiresConfiguration(reviewCandidates.size)
                 }
                 val actionReadyState = AnalysisUiState.Success(
                     sourceUri = sourceUri,
@@ -293,44 +371,14 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
             )
             return
         }
-        if (!frameReviewCoordinator.isSignedIn) {
+        if (!frameReviewCoordinator.isConfigured) {
             updateAiFrameReviewNow(
                 sourceUri = current.sourceUri,
-                reviewState = AiFrameReviewUiState.RequiresSignIn(frameCount),
+                reviewState = AiFrameReviewUiState.RequiresConfiguration(frameCount),
             )
             return
         }
         launchFrameReview(current.sourceUri, current.referenceUri, referenceAction)
-    }
-
-    fun signInAndRequestAiFrameReview() {
-        val current = _uiState.value as? AnalysisUiState.Success ?: return
-        val referenceAction = current.referenceAction ?: return
-        val frameCount = selectFrameReviewDeviations(referenceAction.deviations).size
-        if (frameCount == 0) return
-
-        frameReviewJob?.cancel()
-        frameReviewJob = viewModelScope.launch {
-            updateAiFrameReview(
-                sourceUri = current.sourceUri,
-                reviewState = AiFrameReviewUiState.SigningIn(frameCount),
-            )
-            try {
-                frameReviewCoordinator.signIn()
-                performFrameReview(current.sourceUri, current.referenceUri, referenceAction)
-            } catch (cancelled: CancellationException) {
-                throw cancelled
-            } catch (error: Exception) {
-                updateAiFrameReview(
-                    sourceUri = current.sourceUri,
-                    reviewState = AiFrameReviewUiState.Failure(
-                        message = error.message ?: "ChatGPT sign-in did not complete.",
-                        frameCount = frameCount,
-                        requiresSignIn = true,
-                    ),
-                )
-            }
-        }
     }
 
     private fun launchFrameReview(sourceUri: Uri, referenceUri: Uri, referenceAction: ReferenceActionAnalysisUi) {
@@ -377,7 +425,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
             is FrameReviewRunResult.Failure -> AiFrameReviewUiState.Failure(
                 message = result.message,
                 frameCount = result.frameCount,
-                requiresSignIn = result.kind == ReviewFailureKind.UNAUTHENTICATED,
+                requiresConfiguration = result.kind == ReviewFailureKind.UNAUTHENTICATED,
             )
         }
         updateAiFrameReview(sourceUri, reviewState)

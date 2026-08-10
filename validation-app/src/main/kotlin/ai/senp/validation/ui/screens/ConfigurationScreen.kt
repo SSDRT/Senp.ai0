@@ -1,7 +1,9 @@
 package ai.senp.validation.ui.screens
 
 import ai.senp.validation.referenceProfileQualityNotice
+import ai.senp.validation.AiReviewSettingsUiState
 import ai.senp.validation.ui.SenpEngineViewModel
+import ai.senp.validation.ui.components.AiReviewSettingsPanel
 import ai.senp.validation.ui.state.ConfigurationState
 import ai.senp.validation.ui.state.ReferenceProfileUiState
 import ai.senp.validation.ui.state.VideoSelectionState
@@ -117,6 +119,7 @@ fun ConfigurationScreen(
     val selectionState by viewModel.videoSelectionState.collectAsState()
     val configState by viewModel.configState.collectAsState()
     val referenceProfileState by viewModel.referenceProfileState.collectAsState()
+    val aiReviewSettingsState by viewModel.aiReviewSettingsState.collectAsState()
 
     var editorRequest by remember { mutableStateOf<EditorRequest?>(null) }
     var pendingGallerySlot by remember { mutableStateOf<VideoSlot?>(null) }
@@ -191,6 +194,7 @@ fun ConfigurationScreen(
         selectionState = selectionState,
         configState = configState,
         referenceProfileState = referenceProfileState,
+        aiReviewSettingsState = aiReviewSettingsState,
         showSettings = showSettings,
         onToggleSettings = { showSettings = !showSettings },
         onPickReference = { chooseFromGallery(VideoSlot.REFERENCE) },
@@ -200,6 +204,10 @@ fun ConfigurationScreen(
         onEditUser = { selectionState.sourceUri?.let { openEditor(VideoSlot.USER, it) } },
         onUpdateFps = viewModel::updateTargetFps,
         onUpdateResolution = viewModel::updateLongEdgeCap,
+        onSaveAiApiKey = viewModel::saveAiReviewApiKey,
+        onClearAiApiKey = viewModel::clearAiReviewApiKey,
+        onSelectAiModel = viewModel::selectAiReviewModel,
+        onRefreshAiModels = viewModel::refreshAiReviewModels,
         onOpenLiveReference = onOpenLiveReference,
         onStartAnalysis = onStartAnalysis,
     )
@@ -387,6 +395,7 @@ private fun WorkspaceScreen(
     selectionState: VideoSelectionState,
     configState: ConfigurationState,
     referenceProfileState: ReferenceProfileUiState,
+    aiReviewSettingsState: AiReviewSettingsUiState,
     showSettings: Boolean,
     onToggleSettings: () -> Unit,
     onPickReference: () -> Unit,
@@ -396,6 +405,10 @@ private fun WorkspaceScreen(
     onEditUser: () -> Unit,
     onUpdateFps: (Int) -> Unit,
     onUpdateResolution: (Int) -> Unit,
+    onSaveAiApiKey: (String) -> Unit,
+    onClearAiApiKey: () -> Unit,
+    onSelectAiModel: (String) -> Unit,
+    onRefreshAiModels: () -> Unit,
     onOpenLiveReference: (() -> Unit)?,
     onStartAnalysis: () -> Unit,
 ) {
@@ -506,6 +519,15 @@ private fun WorkspaceScreen(
                 }
             }
         }
+
+        Spacer(Modifier.height(14.dp))
+        AiReviewSettingsPanel(
+            state = aiReviewSettingsState,
+            onSaveApiKey = onSaveAiApiKey,
+            onClearApiKey = onClearAiApiKey,
+            onSelectModel = onSelectAiModel,
+            onRefreshModels = onRefreshAiModels,
+        )
 
         Spacer(Modifier.height(18.dp))
         GradientButton(
