@@ -321,6 +321,14 @@ fun AnalysisPlayerScreen(
         start(mode)
     }
 
+    fun jumpToDeviation(deviation: ai.senp.motion.ReferenceDeviationMeasurement) {
+        pauseAll()
+        currentSourcePositionMs = deviation.timestamp.value
+        sourcePlayer.seekTo(deviation.timestamp.value.coerceIn(0L, totalDuration))
+        currentReferencePositionMs = referencePositionForSource(deviation.timestamp.value).coerceIn(0L, referenceDuration)
+        referencePlayer.seekTo(currentReferencePositionMs)
+    }
+
     LaunchedEffect(showRawData) {
         if (showRawData) pauseAll()
     }
@@ -459,6 +467,12 @@ fun AnalysisPlayerScreen(
             )
 
             Spacer(Modifier.height(12.dp))
+            PersistentDifferencesCard(
+                analysis = referenceAction,
+                onJumpToDeviation = ::jumpToDeviation,
+            )
+
+            Spacer(Modifier.height(12.dp))
             AiFrameReviewSlot(
                 state = aiFrameReview,
                 onRequestReview = onRequestAiReview,
@@ -579,6 +593,66 @@ private fun ExtractionBadge(label: String, value: String, accent: Color, modifie
         Column(Modifier.padding(horizontal = 10.dp, vertical = 11.dp)) {
             Text(label, color = SenpMuted, fontSize = 8.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
             Text(value, color = accent, fontSize = 16.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(top = 4.dp))
+        }
+    }
+}
+
+@Composable
+private fun PersistentDifferencesCard(
+    analysis: ReferenceActionAnalysisUi?,
+    onJumpToDeviation: (ai.senp.motion.ReferenceDeviationMeasurement) -> Unit,
+) {
+    val differences = analysis?.deviations
+        ?.filter { it.persistenceCandidate }
+        ?.distinctBy { it.timestamp.value to it.feature }
+        ?.sortedByDescending { it.normalizedDeviation * it.confidence }
+        ?.take(4)
+        .orEmpty()
+    Card(
+        modifier = Modifier.fillMaxWidth().glassBackground(RoundedCornerShape(20.dp)),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
+        border = BorderStroke(1.dp, SenpError.copy(alpha = 0.55f)),
+    ) {
+        Column(Modifier.fillMaxWidth().padding(16.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text("FLAGGED WINDOWS", color = SenpCream, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp)
+                Text("ON-DEVICE", color = SenpMuted, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+            }
+            if (differences.isEmpty()) {
+                Text(
+                    if (analysis == null) "No reference-relative windows are available."
+                    else "No persistent reference-relative difference cleared the confidence gates.",
+                    color = SenpMuted,
+                    fontSize = 11.sp,
+                    lineHeight = 16.sp,
+                    modifier = Modifier.padding(top = 9.dp),
+                )
+            } else {
+                Text(
+                    "Tap a window to pause both videos at its paired evidence.",
+                    color = SenpMuted,
+                    fontSize = 10.sp,
+                    modifier = Modifier.padding(top = 7.dp),
+                )
+                differences.forEach { deviation ->
+                    val range = "${formatDecimal(deviation.referenceRange.start)}–${formatDecimal(deviation.referenceRange.endInclusive)}"
+                    Row(
+                        Modifier.fillMaxWidth().padding(top = 10.dp).clip(RoundedCornerShape(10.dp)).background(SenpSurfaceRaised).clickable { onJumpToDeviation(deviation) }.padding(horizontal = 10.dp, vertical = 9.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(deviation.feature.replace('_', ' ').uppercase(), color = SenpCream, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                            Text("${formatTime(deviation.timestamp.value)} · ref $range", color = SenpMuted, fontSize = 9.sp, modifier = Modifier.padding(top = 3.dp))
+                        }
+                        Column(horizontalAlignment = Alignment.End) {
+                            Text("${formatDecimal(deviation.userValue)}", color = SenpError, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text("${(deviation.confidence * 100).toInt()}% evidence", color = SenpMuted, fontSize = 8.sp, modifier = Modifier.padding(top = 2.dp))
+                        }
+                    }
+                }
+            }
         }
     }
 }

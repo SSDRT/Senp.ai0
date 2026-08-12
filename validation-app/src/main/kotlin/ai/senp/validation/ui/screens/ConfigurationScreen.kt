@@ -2,6 +2,8 @@ package ai.senp.validation.ui.screens
 
 import ai.senp.validation.R
 import ai.senp.validation.ui.SenpEngineViewModel
+import ai.senp.validation.ui.state.ConfigurationState
+import ai.senp.validation.ui.state.ReferenceProfileUiState
 import ai.senp.validation.ui.state.VideoSelectionState
 import ai.senp.validation.ui.theme.SenpBackground
 import ai.senp.validation.ui.theme.SenpBackgroundRaised
@@ -45,6 +47,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -73,6 +77,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import java.io.File
 import java.util.UUID
+import kotlin.math.roundToInt
 
 private enum class VideoSlot { MASTER, USER }
 private data class EditorRequest(val slot: VideoSlot, val uri: Uri)
@@ -86,10 +91,13 @@ fun ConfigurationScreen(
 ) {
     val context = LocalContext.current
     val selectionState by viewModel.videoSelectionState.collectAsState()
+    val configState by viewModel.configState.collectAsState()
+    val referenceProfileState by viewModel.referenceProfileState.collectAsState()
     var editorRequest by remember { mutableStateOf<EditorRequest?>(null) }
     var pendingGallerySlot by remember { mutableStateOf<VideoSlot?>(null) }
     var pendingCameraUri by remember { mutableStateOf<Uri?>(null) }
     var showUserSourceDialog by remember { mutableStateOf(false) }
+    var showSettings by remember { mutableStateOf(false) }
 
     fun openEditor(slot: VideoSlot, uri: Uri) {
         editorRequest = EditorRequest(slot, uri)
@@ -148,6 +156,9 @@ fun ConfigurationScreen(
 
     LiveArenaHome(
         selectionState = selectionState,
+        configState = configState,
+        referenceProfileState = referenceProfileState,
+        showSettings = showSettings,
         onChooseMaster = ::chooseMaster,
         onChooseUser = { showUserSourceDialog = true },
         onEditMaster = { selectionState.referenceUri?.let { openEditor(VideoSlot.MASTER, it) } },
@@ -156,6 +167,10 @@ fun ConfigurationScreen(
         onRemoveUser = viewModel::clearSourceVideo,
         onStartAnalysis = onStartAnalysis,
         onOpenLiveCoach = onOpenLiveCoach,
+        onToggleSettings = { showSettings = !showSettings },
+        onUpdateFps = viewModel::updateTargetFps,
+        onUpdateLongEdgeCap = viewModel::updateLongEdgeCap,
+        onUpdateMinimumConfidence = viewModel::updateMinimumConfidence,
     )
 
     if (showUserSourceDialog) {
@@ -171,6 +186,9 @@ fun ConfigurationScreen(
 @Composable
 private fun LiveArenaHome(
     selectionState: VideoSelectionState,
+    configState: ConfigurationState,
+    referenceProfileState: ReferenceProfileUiState,
+    showSettings: Boolean,
     onChooseMaster: () -> Unit,
     onChooseUser: () -> Unit,
     onEditMaster: () -> Unit,
@@ -179,6 +197,10 @@ private fun LiveArenaHome(
     onRemoveUser: () -> Unit,
     onStartAnalysis: () -> Unit,
     onOpenLiveCoach: () -> Unit,
+    onToggleSettings: () -> Unit,
+    onUpdateFps: (Int) -> Unit,
+    onUpdateLongEdgeCap: (Int) -> Unit,
+    onUpdateMinimumConfidence: (Double) -> Unit,
 ) {
     Column(
         Modifier.fillMaxSize().background(SenpPageBackdrop).statusBarsPadding().navigationBarsPadding()
@@ -215,6 +237,19 @@ private fun LiveArenaHome(
         }
 
         Spacer(Modifier.height(20.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            SectionLabel("ANALYSIS SETTINGS")
+            SmallAction(if (showSettings) "HIDE" else "TUNE", onToggleSettings)
+        }
+        if (showSettings) {
+            AnalysisSettingsCard(
+                configState = configState,
+                onUpdateFps = onUpdateFps,
+                onUpdateLongEdgeCap = onUpdateLongEdgeCap,
+                onUpdateMinimumConfidence = onUpdateMinimumConfidence,
+            )
+        }
+        ReferenceProfileCard(referenceProfileState)
         Button(
             onClick = onStartAnalysis,
             enabled = selectionState.isReadyForAnalysis && !selectionState.isCalculatingHash,
@@ -241,6 +276,115 @@ private fun LiveArenaHome(
             border = BorderStroke(1.dp, SenpBorder),
         ) { Text("OPEN LIVE POSE COACH", fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp) }
         Spacer(Modifier.height(24.dp))
+    }
+}
+
+@Composable
+private fun AnalysisSettingsCard(
+    configState: ConfigurationState,
+    onUpdateFps: (Int) -> Unit,
+    onUpdateLongEdgeCap: (Int) -> Unit,
+    onUpdateMinimumConfidence: (Double) -> Unit,
+) {
+    Card(
+        Modifier.fillMaxWidth().padding(top = 8.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface),
+        border = BorderStroke(1.dp, SenpBorder),
+    ) {
+        Column(Modifier.padding(horizontal = 14.dp, vertical = 12.dp)) {
+            SettingSlider(
+                label = "SAMPLE RATE",
+                valueLabel = "${configState.targetFps} FPS",
+                value = configState.targetFps.toFloat(),
+                valueRange = 5f..30f,
+                steps = 4,
+                onValueChange = { onUpdateFps(it.roundToInt()) },
+            )
+            SettingSlider(
+                label = "FRAME LONG EDGE",
+                valueLabel = "${configState.longEdgeCapPx}px",
+                value = configState.longEdgeCapPx.toFloat(),
+                valueRange = 240f..1080f,
+                steps = 3,
+                onValueChange = { onUpdateLongEdgeCap(it.roundToInt()) },
+            )
+            SettingSlider(
+                label = "POSE CONFIDENCE",
+                valueLabel = "${(configState.minimumConfidence * 100).roundToInt()}%",
+                value = configState.minimumConfidence.toFloat(),
+                valueRange = 0.3f..0.9f,
+                steps = 5,
+                onValueChange = { onUpdateMinimumConfidence(it.toDouble()) },
+            )
+            Text(
+                "These native controls affect extraction and rebuild the selected reference profile.",
+                color = SenpMuted,
+                fontSize = 9.sp,
+                lineHeight = 14.sp,
+                modifier = Modifier.padding(top = 2.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun SettingSlider(
+    label: String,
+    valueLabel: String,
+    value: Float,
+    valueRange: ClosedFloatingPointRange<Float>,
+    steps: Int,
+    onValueChange: (Float) -> Unit,
+) {
+    Row(Modifier.fillMaxWidth().padding(top = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        SectionLabel(label)
+        Text(valueLabel, color = SenpCream, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+    }
+    Slider(
+        value = value,
+        onValueChange = onValueChange,
+        valueRange = valueRange,
+        steps = steps,
+        colors = SliderDefaults.colors(
+            thumbColor = SenpCream,
+            activeTrackColor = SenpCream,
+            inactiveTrackColor = SenpSurfaceRaised,
+        ),
+    )
+}
+
+@Composable
+private fun ReferenceProfileCard(state: ReferenceProfileUiState) {
+    val detail = when (state) {
+        ReferenceProfileUiState.Empty -> "Select a master video to build a body-centric movement reference."
+        is ReferenceProfileUiState.Preparing -> state.message
+        is ReferenceProfileUiState.Ready -> "${state.profile.states.size} states · ${state.profile.referenceRepetitions} reference reps · ${(state.profile.confidence * 100).roundToInt()}% confidence"
+        is ReferenceProfileUiState.Rejected -> state.message
+    }
+    Card(
+        Modifier.fillMaxWidth().padding(top = 8.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface.copy(alpha = 0.82f)),
+        border = BorderStroke(1.dp, SenpBorder),
+    ) {
+        Column(Modifier.padding(horizontal = 14.dp, vertical = 11.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                SectionLabel("REFERENCE ACTION")
+                Text(
+                    when (state) {
+                        ReferenceProfileUiState.Empty -> "WAITING"
+                        is ReferenceProfileUiState.Preparing -> "PREPARING"
+                        is ReferenceProfileUiState.Ready -> "READY"
+                        is ReferenceProfileUiState.Rejected -> "UNAVAILABLE"
+                    },
+                    color = SenpCream,
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+            }
+            Text(detail, color = SenpMuted, fontSize = 10.sp, lineHeight = 15.sp, modifier = Modifier.padding(top = 6.dp))
+        }
     }
 }
 
