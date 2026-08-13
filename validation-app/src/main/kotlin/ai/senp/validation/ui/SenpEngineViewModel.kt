@@ -73,6 +73,21 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
         calculateVideoHash(uri, isSource = false)
     }
 
+    fun clearSourceVideo() {
+        _videoSelectionState.update {
+            it.copy(sourceUri = null, sourceSha256 = null, errorMessage = null)
+        }
+    }
+
+    fun clearReferenceVideo() {
+        referencePreparationJob?.cancel()
+        ReferenceActionProfileStore.clear()
+        _referenceProfileState.value = ReferenceProfileUiState.Empty
+        _videoSelectionState.update {
+            it.copy(referenceUri = null, referenceSha256 = null, errorMessage = null)
+        }
+    }
+
     private fun calculateVideoHash(uri: Uri, isSource: Boolean) {
         viewModelScope.launch {
             _videoSelectionState.update { it.copy(isCalculatingHash = true, errorMessage = null) }
@@ -107,6 +122,11 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
 
     fun updateLongEdgeCap(capPx: Int) {
         _configState.update { it.copy(longEdgeCapPx = capPx.coerceIn(240, 1080)) }
+        reprepareCurrentReference()
+    }
+
+    fun updateMinimumConfidence(confidence: Double) {
+        _configState.update { it.copy(minimumConfidence = confidence.coerceIn(0.3, 0.9)) }
         reprepareCurrentReference()
     }
 
@@ -172,6 +192,11 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                 val prepared = composition.referenceActionSession.compileReference(
                     extraction = referenceExtraction,
                     analysisFramesPerSecond = analysisFramesPerSecond,
+                )
+                _uiState.value = AnalysisUiState.Analyzing(
+                    activeStage = PipelineStageId.MOTION_REFERENCE,
+                    progressPercent = 0.82f,
+                    statusMessage = "Building the movement reference…",
                 )
                 val referenceAction: ReferenceActionAnalysisUi?
                 val referenceActionMessage: String?
@@ -239,11 +264,11 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                     referenceActionMessage = referenceActionMessage,
                     aiFrameReview = initialReviewState,
                 )
-                withContext(Dispatchers.Main) { _uiState.value = actionReadyState }
-                if (initialReviewState is AiFrameReviewUiState.Reviewing && referenceAction != null) {
-                    launchFrameReview(sourceUri, referenceAction)
-                }
-
+                _uiState.value = AnalysisUiState.Analyzing(
+                    activeStage = PipelineStageId.ALIGNMENT,
+                    progressPercent = 0.88f,
+                    statusMessage = "Comparing both movements…",
+                )
                 val assembled = assembleRecordedComparisonCatching(referenceAction to referenceActionMessage) {
                     composition.synchronizationPipeline.synchronize(
                         VideoSynchronizationRequest(
@@ -254,18 +279,24 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                         ),
                     )
                 }
-                withContext(Dispatchers.Main) {
-                    val currentReviewState = (_uiState.value as? AnalysisUiState.Success)
-                        ?.takeIf { it.sourceUri == sourceUri }
-                        ?.aiFrameReview
-                        ?: initialReviewState
-                    _uiState.value = actionReadyState.copy(
-                        synchronizationRun = assembled.synchronizationRun,
-                        synchronizationFailure = assembled.synchronizationFailure,
-                        referenceAction = assembled.actionResult.first,
-                        referenceActionMessage = assembled.actionResult.second,
-                        aiFrameReview = currentReviewState,
-                    )
+                val nextState = actionReadyState.copy(
+                    synchronizationRun = assembled.synchronizationRun,
+                    synchronizationFailure = assembled.synchronizationFailure,
+                    referenceAction = assembled.actionResult.first,
+                    referenceActionMessage = assembled.actionResult.second,
+                    aiFrameReview = initialReviewState,
+                )
+                _uiState.value = AnalysisUiState.Analyzing(
+                    activeStage = PipelineStageId.CACHE_WRITE,
+                    progressPercent = 1f,
+                    statusMessage = "Analysis complete",
+                )
+                // Let the final frame, progress bar, and loader visibly settle together.
+                delay(420L)
+                withContext(Dispatchers.Main) { _uiState.value = nextState }
+                val reviewableAction = assembled.actionResult.first
+                if (initialReviewState is AiFrameReviewUiState.Reviewing && reviewableAction != null) {
+                    launchFrameReview(sourceUri, reviewableAction)
                 }
             } catch (cancelled: CancellationException) {
                 throw cancelled
@@ -285,19 +316,13 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
         val referenceAction = current.referenceAction ?: return
         val frameCount = selectFrameReviewDeviations(referenceAction.deviations).size
         if (frameCount == 0) {
-            updateAiFrameReviewNow(
-                sourceUri = current.sourceUri,
-                reviewState = AiFrameReviewUiState.Unavailable(
-                    "No persistent reference-relative differences were flagged for AI review.",
-                ),
-            )
+            updateAiFrameReviewNow(current.sourceUri, AiFrameReviewUiState.Unavailable(
+                "No persistent reference-relative differences were flagged for AI review.",
+            ))
             return
         }
         if (!frameReviewCoordinator.isSignedIn) {
-            updateAiFrameReviewNow(
-                sourceUri = current.sourceUri,
-                reviewState = AiFrameReviewUiState.RequiresSignIn(frameCount),
-            )
+            updateAiFrameReviewNow(current.sourceUri, AiFrameReviewUiState.RequiresSignIn(frameCount))
             return
         }
         launchFrameReview(current.sourceUri, referenceAction)
@@ -311,68 +336,49 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
 
         frameReviewJob?.cancel()
         frameReviewJob = viewModelScope.launch {
-            updateAiFrameReview(
-                sourceUri = current.sourceUri,
-                reviewState = AiFrameReviewUiState.SigningIn(frameCount),
-            )
+            updateAiFrameReview(current.sourceUri, AiFrameReviewUiState.SigningIn(frameCount))
             try {
                 frameReviewCoordinator.signIn()
                 performFrameReview(current.sourceUri, referenceAction)
             } catch (cancelled: CancellationException) {
                 throw cancelled
             } catch (error: Exception) {
-                updateAiFrameReview(
-                    sourceUri = current.sourceUri,
-                    reviewState = AiFrameReviewUiState.Failure(
-                        message = error.message ?: "ChatGPT sign-in did not complete.",
-                        frameCount = frameCount,
-                        requiresSignIn = true,
-                    ),
-                )
+                updateAiFrameReview(current.sourceUri, AiFrameReviewUiState.Failure(
+                    message = error.message ?: "ChatGPT sign-in did not complete.",
+                    frameCount = frameCount,
+                    requiresSignIn = true,
+                ))
             }
         }
     }
 
     private fun launchFrameReview(sourceUri: Uri, referenceAction: ReferenceActionAnalysisUi) {
         frameReviewJob?.cancel()
-        frameReviewJob = viewModelScope.launch {
-            performFrameReview(sourceUri, referenceAction)
-        }
+        frameReviewJob = viewModelScope.launch { performFrameReview(sourceUri, referenceAction) }
     }
 
     private suspend fun performFrameReview(sourceUri: Uri, referenceAction: ReferenceActionAnalysisUi) {
         val frameCount = selectFrameReviewDeviations(referenceAction.deviations).size
         if (frameCount == 0) {
-            updateAiFrameReview(
-                sourceUri,
-                AiFrameReviewUiState.Unavailable(
-                    "No persistent reference-relative differences were flagged for AI review.",
-                ),
-            )
+            updateAiFrameReview(sourceUri, AiFrameReviewUiState.Unavailable(
+                "No persistent reference-relative differences were flagged for AI review.",
+            ))
             return
         }
-
         updateAiFrameReview(sourceUri, AiFrameReviewUiState.Reviewing(frameCount))
         val result = try {
             frameReviewCoordinator.review(sourceUri, referenceAction.deviations)
         } catch (cancelled: CancellationException) {
             throw cancelled
         } catch (error: Exception) {
-            updateAiFrameReview(
-                sourceUri,
-                AiFrameReviewUiState.Failure(
-                    message = error.message ?: "The flagged frames could not be prepared for AI review.",
-                    frameCount = frameCount,
-                ),
-            )
+            updateAiFrameReview(sourceUri, AiFrameReviewUiState.Failure(
+                message = error.message ?: "The flagged frames could not be prepared for AI review.",
+                frameCount = frameCount,
+            ))
             return
         }
         val reviewState = when (result) {
-            is FrameReviewRunResult.Success -> AiFrameReviewUiState.Success(
-                text = result.review.text,
-                frameCount = result.frameCount,
-                modelId = result.review.modelId,
-            )
+            is FrameReviewRunResult.Success -> AiFrameReviewUiState.Success(result.review.text, result.frameCount, result.review.modelId)
             is FrameReviewRunResult.NoFrames -> AiFrameReviewUiState.Unavailable(result.message)
             is FrameReviewRunResult.Failure -> AiFrameReviewUiState.Failure(
                 message = result.message,

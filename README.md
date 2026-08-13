@@ -21,3 +21,10 @@ Wave 1 is engine-first: no frontend, Compose UI, web UI, cloud coaching, or rend
 ```
 
 See [the architecture](docs/ARCHITECTURE.md), [integration contract](docs/INTEGRATION_CONTRACT.md), and [build/toolchain notes](docs/BUILD_AND_TOOLCHAIN.md).
+
+## Validation app known issues
+
+The Android validation UI is still under active iteration:
+
+- The editor trim handles do not yet respond reliably to every drag gesture.
+- The dual-video playback button can still produce lag or dropped frames during simultaneous playback.

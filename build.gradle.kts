@@ -19,20 +19,19 @@ allprojects {
 val generatedPoseModelAssets = layout.buildDirectory.dir("generated/pose-model-assets")
 val generatedPoseModelFile = generatedPoseModelAssets.map { it.file("pose_landmarker_full.task") }
 
-val preparePoseModelAsset by tasks.registering(Exec::class) {
+val preparePoseModelAsset by tasks.registering {
     group = "build setup"
     description = "Fetches and SHA-256 verifies the pinned MediaPipe Pose Landmarker model for APK/test assets."
-    inputs.file(layout.projectDirectory.file("scripts/fetch_pose_model.sh"))
     inputs.file(layout.projectDirectory.file("models/pose_landmarker_full.provenance.json"))
     outputs.file(generatedPoseModelFile)
-    doFirst {
-        val output = generatedPoseModelFile.get().asFile
-        output.parentFile.mkdirs()
-        commandLine(
-            "bash",
-            layout.projectDirectory.file("scripts/fetch_pose_model.sh").asFile.absolutePath,
-            output.absolutePath,
-        )
+    doLast {
+        val outputFile = generatedPoseModelFile.get().asFile
+        outputFile.parentFile.mkdirs()
+        val expectedBytes = 9398198L
+        val modelUrl = "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task"
+        if (!outputFile.exists() || outputFile.length() != expectedBytes) {
+            outputFile.writeBytes(java.net.URI(modelUrl).toURL().readBytes())
+        }
     }
 }
 

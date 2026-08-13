@@ -1,39 +1,37 @@
 package ai.senp.validation.ui.screens
 
-import ai.senp.validation.referenceProfileQualityNotice
+import ai.senp.validation.R
 import ai.senp.validation.ui.SenpEngineViewModel
 import ai.senp.validation.ui.state.ConfigurationState
 import ai.senp.validation.ui.state.ReferenceProfileUiState
 import ai.senp.validation.ui.state.VideoSelectionState
 import ai.senp.validation.ui.theme.SenpBackground
 import ai.senp.validation.ui.theme.SenpBackgroundRaised
-import ai.senp.validation.ui.theme.SenpBlue
 import ai.senp.validation.ui.theme.SenpBlueBright
 import ai.senp.validation.ui.theme.SenpBorder
 import ai.senp.validation.ui.theme.SenpCream
 import ai.senp.validation.ui.theme.SenpMuted
+import ai.senp.validation.ui.theme.SenpPageBackdrop
 import ai.senp.validation.ui.theme.SenpSurface
 import ai.senp.validation.ui.theme.SenpSurfaceRaised
-import ai.senp.validation.ui.theme.SenpViolet
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.view.LayoutInflater
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -42,128 +40,99 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import java.io.File
 import java.util.UUID
+import kotlin.math.roundToInt
 
-private val SenpBackdrop = Brush.verticalGradient(
-    0f to Color(0xFF06142A),
-    0.48f to SenpBackground,
-    1f to Color(0xFF100D25),
-)
-
-private val SenpAccent = Brush.horizontalGradient(listOf(SenpBlue, SenpViolet))
-
-private enum class VideoSlot { REFERENCE, USER }
-
+private enum class VideoSlot { MASTER, USER }
 private data class EditorRequest(val slot: VideoSlot, val uri: Uri)
 
-@OptIn(ExperimentalMaterial3Api::class, UnstableApi::class)
+@OptIn(UnstableApi::class)
 @Composable
 fun ConfigurationScreen(
     viewModel: SenpEngineViewModel,
     onStartAnalysis: () -> Unit,
-    onOpenLiveReference: (() -> Unit)? = null,
+    onOpenLiveCoach: () -> Unit,
 ) {
     val context = LocalContext.current
     val selectionState by viewModel.videoSelectionState.collectAsState()
     val configState by viewModel.configState.collectAsState()
     val referenceProfileState by viewModel.referenceProfileState.collectAsState()
-
     var editorRequest by remember { mutableStateOf<EditorRequest?>(null) }
     var pendingGallerySlot by remember { mutableStateOf<VideoSlot?>(null) }
-    var showSettings by rememberSaveable { mutableStateOf(false) }
     var pendingCameraUri by remember { mutableStateOf<Uri?>(null) }
+    var showUserSourceDialog by remember { mutableStateOf(false) }
+    var showSettings by remember { mutableStateOf(false) }
 
     fun openEditor(slot: VideoSlot, uri: Uri) {
         editorRequest = EditorRequest(slot, uri)
     }
 
-    val galleryLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.OpenDocument()
-    ) { uri ->
-        if (uri != null) {
-            runCatching {
-                context.contentResolver.takePersistableUriPermission(
-                    uri,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION,
-                )
-            }
-            val slot = pendingGallerySlot ?: VideoSlot.USER
-            pendingGallerySlot = null
-            openEditor(slot, uri)
+    val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        runCatching {
+            context.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
+        openEditor(pendingGallerySlot ?: VideoSlot.USER, uri)
+        pendingGallerySlot = null
     }
 
-    val cameraLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.CaptureVideo()
-    ) { success ->
-        if (success) pendingCameraUri?.let {
-            openEditor(VideoSlot.USER, it)
-            pendingCameraUri = null
-        }
+    val cameraLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CaptureVideo()) { success ->
+        if (success) pendingCameraUri?.let { openEditor(VideoSlot.USER, it) }
+        pendingCameraUri = null
     }
-
-    val cameraPermissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) launchCamera(context, cameraLauncher) { pendingCameraUri = it }
     }
 
-    fun chooseFromGallery(slot: VideoSlot) {
-        pendingGallerySlot = slot
+    fun chooseMaster() {
+        pendingGallerySlot = VideoSlot.MASTER
         galleryLauncher.launch(arrayOf("video/*"))
     }
 
-    fun chooseCamera() {
+    fun chooseUserGallery() {
+        showUserSourceDialog = false
+        pendingGallerySlot = VideoSlot.USER
+        galleryLauncher.launch(arrayOf("video/*"))
+    }
+
+    fun chooseUserCamera() {
+        showUserSourceDialog = false
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             launchCamera(context, cameraLauncher) { pendingCameraUri = it }
         } else {
@@ -176,10 +145,8 @@ fun ConfigurationScreen(
         VideoEditorScreen(
             videoUri = request.uri,
             onSave = { editedUri ->
-                when (request.slot) {
-                    VideoSlot.REFERENCE -> viewModel.onSelectReferenceVideo(editedUri)
-                    VideoSlot.USER -> viewModel.onSelectSourceVideo(editedUri)
-                }
+                if (request.slot == VideoSlot.MASTER) viewModel.onSelectReferenceVideo(editedUri)
+                else viewModel.onSelectSourceVideo(editedUri)
                 editorRequest = null
             },
             onCancel = { editorRequest = null },
@@ -187,489 +154,269 @@ fun ConfigurationScreen(
         return
     }
 
-    WorkspaceScreen(
+    LiveArenaHome(
         selectionState = selectionState,
         configState = configState,
         referenceProfileState = referenceProfileState,
         showSettings = showSettings,
-        onToggleSettings = { showSettings = !showSettings },
-        onPickReference = { chooseFromGallery(VideoSlot.REFERENCE) },
-        onPickUser = { chooseFromGallery(VideoSlot.USER) },
-        onRecordUser = { chooseCamera() },
-        onEditReference = { selectionState.referenceUri?.let { openEditor(VideoSlot.REFERENCE, it) } },
+        onChooseMaster = ::chooseMaster,
+        onChooseUser = { showUserSourceDialog = true },
+        onEditMaster = { selectionState.referenceUri?.let { openEditor(VideoSlot.MASTER, it) } },
         onEditUser = { selectionState.sourceUri?.let { openEditor(VideoSlot.USER, it) } },
-        onUpdateFps = viewModel::updateTargetFps,
-        onUpdateResolution = viewModel::updateLongEdgeCap,
-        onOpenLiveReference = onOpenLiveReference,
+        onRemoveMaster = viewModel::clearReferenceVideo,
+        onRemoveUser = viewModel::clearSourceVideo,
         onStartAnalysis = onStartAnalysis,
+        onOpenLiveCoach = onOpenLiveCoach,
+        onToggleSettings = { showSettings = !showSettings },
+        onUpdateFps = viewModel::updateTargetFps,
+        onUpdateLongEdgeCap = viewModel::updateLongEdgeCap,
+        onUpdateMinimumConfidence = viewModel::updateMinimumConfidence,
     )
-}
 
-@Composable
-private fun WelcomeScreen(onContinue: () -> Unit) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(SenpBackdrop)
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .padding(horizontal = 28.dp),
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(Modifier.height(54.dp))
-            Text(
-                text = "Senp.ai",
-                style = TextStyle(
-                    brush = Brush.horizontalGradient(listOf(SenpCream, Color.White)),
-                    fontSize = 34.sp,
-                    fontWeight = FontWeight.Black,
-                    letterSpacing = (-1.5).sp,
-                ),
-            )
-            Text(
-                text = "MOTION ANALYSIS",
-                color = SenpCream.copy(alpha = 0.88f),
-                fontSize = 12.sp,
-                letterSpacing = 1.sp,
-            )
-
-            Spacer(Modifier.weight(1f))
-            CrossedMark()
-            Spacer(Modifier.height(28.dp))
-            Text(
-                text = "AWAKEN",
-                style = TextStyle(
-                    brush = SenpAccent,
-                    fontSize = 42.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 10.sp,
-                ),
-            )
-            Box(
-                modifier = Modifier
-                    .padding(top = 10.dp)
-                    .width(70.dp)
-                    .height(3.dp)
-                    .clip(CircleShape)
-                    .background(SenpBlue),
-            )
-            Spacer(Modifier.height(28.dp))
-            Text(
-                text = "Embark on your quest for evolution.\nCompare your movement and transform your fitness life.",
-                color = SenpCream.copy(alpha = 0.88f),
-                fontSize = 15.sp,
-                lineHeight = 22.sp,
-                textAlign = TextAlign.Center,
-            )
-            Spacer(Modifier.weight(1f))
-            GradientButton(
-                text = "CONTINUE",
-                enabled = true,
-                onClick = onContinue,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            Spacer(Modifier.height(28.dp))
-        }
-    }
-}
-
-@Composable
-private fun CrossedMark() {
-    Canvas(Modifier.size(width = 180.dp, height = 190.dp)) {
-        val cream = SenpCream
-        val blue = SenpBlueBright
-        val center = Offset(size.width / 2f, size.height / 2f)
-        fun sword(angle: Float) {
-            rotate(angle, center) {
-                drawLine(cream, Offset(center.x, center.y - 70f), Offset(center.x, center.y + 68f), 9f, StrokeCap.Round)
-                drawLine(blue, Offset(center.x - 11f, center.y - 58f), Offset(center.x - 11f, center.y + 48f), 5f, StrokeCap.Round)
-                drawLine(cream, Offset(center.x - 28f, center.y + 20f), Offset(center.x + 28f, center.y + 20f), 8f, StrokeCap.Round)
-                drawCircle(blue, 10f, Offset(center.x, center.y + 74f))
-                drawLine(cream, Offset(center.x, center.y - 70f), Offset(center.x - 20f, center.y - 48f), 6f, StrokeCap.Round)
-                drawLine(cream, Offset(center.x, center.y - 70f), Offset(center.x + 20f, center.y - 48f), 6f, StrokeCap.Round)
-            }
-        }
-        sword(-38f)
-        sword(38f)
-    }
-}
-
-@Composable
-private fun ClassSelectionScreen(
-    onClassSelected: (String) -> Unit,
-    onContinue: () -> Unit,
-) {
-    var selected by rememberSaveable { mutableStateOf<String?>(null) }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(SenpBackdrop)
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .padding(horizontal = 40.dp),
-    ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text("×", color = SenpCream, fontSize = 32.sp, modifier = Modifier.clickable { })
-                Text("◎", color = SenpCream, fontSize = 30.sp)
-            }
-            Spacer(Modifier.height(36.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(Modifier.weight(1f).height(4.dp).clip(CircleShape).background(SenpBlue))
-                Spacer(Modifier.width(8.dp))
-                Box(Modifier.weight(7f).height(4.dp).clip(CircleShape).background(SenpSurfaceRaised))
-            }
-            Text("1/16", color = SenpBlueBright, fontSize = 18.sp, fontWeight = FontWeight.Bold, modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 28.dp))
-            Spacer(Modifier.height(46.dp))
-            Text("Choose your class", color = SenpCream, fontSize = 29.sp, fontWeight = FontWeight.Medium)
-            Text("Which goal would you most like to achieve?", color = SenpMuted, fontSize = 17.sp, modifier = Modifier.padding(top = 8.dp))
-            Spacer(Modifier.height(54.dp))
-
-            listOf(
-                "WARRIOR" to "Muscle strengthening",
-                "ASSASSIN" to "Weight loss",
-                "MAGE" to "Stay in shape",
-            ).forEach { (title, subtitle) ->
-                val isSelected = selected == title
-                ClassCard(
-                    title = title,
-                    subtitle = subtitle,
-                    selected = isSelected,
-                    onClick = {
-                        selected = title
-                        onClassSelected(title)
-                    },
-                )
-                Spacer(Modifier.height(16.dp))
-            }
-            Spacer(Modifier.weight(1f))
-            GradientButton(
-                text = "NEXT",
-                enabled = selected != null,
-                onClick = onContinue,
-                modifier = Modifier.fillMaxWidth(),
-            )
-            Spacer(Modifier.height(24.dp))
-        }
-    }
-}
-
-@Composable
-private fun ClassCard(
-    title: String,
-    subtitle: String,
-    selected: Boolean,
-    onClick: () -> Unit,
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth().height(104.dp).clickable { onClick() },
-        shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(containerColor = if (selected) SenpBackgroundRaised else SenpSurface),
-        border = BorderStroke(1.dp, if (selected) SenpBlue else SenpBorder),
-    ) {
-        Column(Modifier.padding(horizontal = 28.dp).fillMaxSize(), verticalArrangement = Arrangement.Center) {
-            Text(title, color = SenpCream, fontSize = 19.sp, fontWeight = FontWeight.Medium, letterSpacing = 0.5.sp)
-            Text(subtitle, color = SenpMuted, fontSize = 14.sp, modifier = Modifier.padding(top = 5.dp))
-        }
+    if (showUserSourceDialog) {
+        UserVideoSourceDialog(
+            onDismiss = { showUserSourceDialog = false },
+            onUpload = ::chooseUserGallery,
+            onRecord = ::chooseUserCamera,
+        )
     }
 }
 
 @OptIn(UnstableApi::class)
 @Composable
-private fun WorkspaceScreen(
+private fun LiveArenaHome(
     selectionState: VideoSelectionState,
     configState: ConfigurationState,
     referenceProfileState: ReferenceProfileUiState,
     showSettings: Boolean,
-    onToggleSettings: () -> Unit,
-    onPickReference: () -> Unit,
-    onPickUser: () -> Unit,
-    onRecordUser: () -> Unit,
-    onEditReference: () -> Unit,
+    onChooseMaster: () -> Unit,
+    onChooseUser: () -> Unit,
+    onEditMaster: () -> Unit,
     onEditUser: () -> Unit,
-    onUpdateFps: (Int) -> Unit,
-    onUpdateResolution: (Int) -> Unit,
-    onOpenLiveReference: (() -> Unit)?,
+    onRemoveMaster: () -> Unit,
+    onRemoveUser: () -> Unit,
     onStartAnalysis: () -> Unit,
+    onOpenLiveCoach: () -> Unit,
+    onToggleSettings: () -> Unit,
+    onUpdateFps: (Int) -> Unit,
+    onUpdateLongEdgeCap: (Int) -> Unit,
+    onUpdateMinimumConfidence: (Double) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(SenpBackdrop)
-            .statusBarsPadding()
-            .navigationBarsPadding()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp),
+        Modifier.fillMaxSize().background(SenpPageBackdrop).statusBarsPadding().navigationBarsPadding()
+            .verticalScroll(rememberScrollState()).padding(horizontal = 16.dp),
     ) {
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(14.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Column {
-                Text("Senp.ai", color = SenpCream, fontSize = 25.sp, fontWeight = FontWeight.Black, letterSpacing = (-0.5).sp)
-                Text("MOTION ANALYSIS", color = SenpMuted, fontSize = 8.sp, letterSpacing = 1.2.sp)
+                Text("Senp.ai", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Bold)
             }
-            Box(Modifier.size(42.dp).clip(CircleShape).background(SenpSurfaceRaised).border(1.dp, SenpBorder, CircleShape), contentAlignment = Alignment.Center) {
-                Text("S", color = SenpBlueBright, fontSize = 18.sp, fontWeight = FontWeight.Bold)
-            }
+            Box(Modifier.size(10.dp).clip(RoundedCornerShape(2.dp)).background(SenpCream))
         }
-
         Spacer(Modifier.height(30.dp))
-        Text("AWAKEN YOUR MOVEMENT", color = SenpCream, fontSize = 29.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.sp)
-        Text("Build a side-by-side study of your movement.", color = SenpMuted, fontSize = 15.sp, modifier = Modifier.padding(top = 7.dp))
 
-        Spacer(Modifier.height(18.dp))
-        ReferenceActionEntry(
-            referenceSelected = selectionState.referenceUri != null,
-            referenceProfileState = referenceProfileState,
-            onOpenLiveReference = onOpenLiveReference,
-        )
-
-        Spacer(Modifier.height(26.dp))
-        Eyebrow("01  REFERENCE VIDEO", "Your demonstrated movement reference")
-        Spacer(Modifier.height(10.dp))
-        if (selectionState.referenceUri == null) {
-            UploadPanel(
-                title = "Add the reference movement",
-                subtitle = "Upload a clean reference video",
-                action = "UPLOAD REFERENCE",
-                onClick = onPickReference,
-            )
-        } else {
-            VideoPreviewCard(
-                label = "REFERENCE MOVEMENT",
-                uri = selectionState.referenceUri,
-                accent = SenpBlueBright,
-                onEdit = onEditReference,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-
-        Spacer(Modifier.height(26.dp))
-        Eyebrow("02  YOUR VIDEO", "Record now or bring a take from your gallery")
-        Spacer(Modifier.height(10.dp))
-        if (selectionState.sourceUri == null) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                ActionPanel("UPLOAD", "From gallery", "↑", onPickUser, Modifier.weight(1f))
-                ActionPanel("RECORD", "On the spot", "●", onRecordUser, Modifier.weight(1f))
-            }
-        } else {
-            VideoPreviewCard(
-                label = "YOUR MOVEMENT",
-                uri = selectionState.sourceUri,
-                accent = SenpViolet,
-                onEdit = onEditUser,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-
-        Spacer(Modifier.height(26.dp))
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-            border = BorderStroke(1.dp, SenpBorder),
-        ) {
-            Column(Modifier.padding(16.dp)) {
-                Row(Modifier.fillMaxWidth().clickable { onToggleSettings() }, horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                    Column {
-                        Text("ANALYSIS SETTINGS", color = SenpCream, fontSize = 13.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
-                        Text("Offline pose tracking · MediaPipe 33 landmarks", color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp))
-                    }
-                    Text(if (showSettings) "−" else "+", color = SenpBlueBright, fontSize = 25.sp)
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.Top) {
+            Column(Modifier.weight(1f)) {
+                SectionLabel("MASTER")
+                Spacer(Modifier.height(8.dp))
+                if (selectionState.referenceUri == null) {
+                    UploadCard("Master video", "Reference", "ADD", onChooseMaster, compact = true)
+                } else {
+                    VideoAssetCard("MASTER", selectionState.referenceUri, SenpCream, onEditMaster, onRemoveMaster, compact = true)
                 }
-                if (showSettings) {
-                    HorizontalDivider(color = SenpBorder, modifier = Modifier.padding(vertical = 14.dp))
-                    Text("Sampling · ${configState.targetFps} FPS", color = SenpMuted, fontSize = 12.sp)
-                    Slider(
-                        value = configState.targetFps.toFloat(),
-                        onValueChange = { onUpdateFps(it.toInt()) },
-                        valueRange = 10f..30f,
-                        steps = 3,
-                        colors = SliderDefaults.colors(thumbColor = SenpBlueBright, activeTrackColor = SenpBlue),
-                    )
-                    Text("Resolution cap · ${configState.longEdgeCapPx}px", color = SenpMuted, fontSize = 12.sp)
-                    Slider(
-                        value = configState.longEdgeCapPx.toFloat(),
-                        onValueChange = { onUpdateResolution(it.toInt()) },
-                        valueRange = 360f..1080f,
-                        steps = 3,
-                        colors = SliderDefaults.colors(thumbColor = SenpViolet, activeTrackColor = SenpViolet),
-                    )
+            }
+            Column(Modifier.weight(1f)) {
+                SectionLabel("USER")
+                Spacer(Modifier.height(8.dp))
+                if (selectionState.sourceUri == null) {
+                    UploadCard("Your video", "Upload / record", "ADD", onChooseUser, compact = true)
+                } else {
+                    VideoAssetCard("USER", selectionState.sourceUri, SenpMuted, onEditUser, onRemoveUser, compact = true)
                 }
             }
         }
 
-        Spacer(Modifier.height(18.dp))
-        GradientButton(
-            text = if (selectionState.isCalculatingHash) "PREPARING CLIPS…" else "ANALYSE MOVEMENT  →",
-            enabled = selectionState.isReadyForAnalysis && !selectionState.isCalculatingHash,
+        Spacer(Modifier.height(20.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            SectionLabel("ANALYSIS SETTINGS")
+            SmallAction(if (showSettings) "HIDE" else "TUNE", onToggleSettings)
+        }
+        if (showSettings) {
+            AnalysisSettingsCard(
+                configState = configState,
+                onUpdateFps = onUpdateFps,
+                onUpdateLongEdgeCap = onUpdateLongEdgeCap,
+                onUpdateMinimumConfidence = onUpdateMinimumConfidence,
+            )
+        }
+        ReferenceProfileCard(referenceProfileState)
+        Button(
             onClick = onStartAnalysis,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        if (selectionState.errorMessage != null) {
-            Text(
-                text = selectionState.errorMessage,
-                color = MaterialTheme.colorScheme.error,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
-            )
+            enabled = selectionState.isReadyForAnalysis && !selectionState.isCalculatingHash,
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = SenpCream,
+                contentColor = Color.Black,
+                disabledContainerColor = SenpSurfaceRaised,
+                disabledContentColor = SenpMuted,
+            ),
+        ) { Text(if (selectionState.isCalculatingHash) "PREPARING" else "ANALYSE", fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.2.sp) }
+        selectionState.errorMessage?.let {
+            Text(it, color = Color(0xFFE57373), fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 10.dp))
         }
-        Text("Your videos stay on this device.", color = SenpMuted, fontSize = 11.sp, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().padding(top = 10.dp, bottom = 24.dp))
+        Spacer(Modifier.height(24.dp))
+        SectionLabel("TRY THE LIVE COACH")
+        Spacer(Modifier.height(8.dp))
+        Button(
+            onClick = onOpenLiveCoach,
+            modifier = Modifier.fillMaxWidth().height(48.dp),
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = SenpSurface, contentColor = SenpCream),
+            border = BorderStroke(1.dp, SenpBorder),
+        ) { Text("OPEN LIVE POSE COACH", fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp) }
+        Spacer(Modifier.height(24.dp))
     }
 }
 
 @Composable
-private fun ReferenceActionEntry(
-    referenceSelected: Boolean,
-    referenceProfileState: ReferenceProfileUiState,
-    onOpenLiveReference: (() -> Unit)?,
+private fun AnalysisSettingsCard(
+    configState: ConfigurationState,
+    onUpdateFps: (Int) -> Unit,
+    onUpdateLongEdgeCap: (Int) -> Unit,
+    onUpdateMinimumConfidence: (Double) -> Unit,
 ) {
-    val profileReady = referenceProfileState is ReferenceProfileUiState.Ready
-    val liveReferenceEnabled = profileReady && onOpenLiveReference != null
-    val statusText = when (referenceProfileState) {
-        ReferenceProfileUiState.Empty -> if (referenceSelected) "REFERENCE SELECTED" else "REFERENCE NEEDED"
-        is ReferenceProfileUiState.Preparing -> "PREPARING PROFILE"
-        is ReferenceProfileUiState.Ready -> "REFERENCE READY"
-        is ReferenceProfileUiState.Rejected -> "REFERENCE NOT READY"
-    }
-    val detailText = when (referenceProfileState) {
-        ReferenceProfileUiState.Empty -> "Choose a demonstrated movement. Senp derives a body-centric action profile before live comparison is enabled."
-        is ReferenceProfileUiState.Preparing -> referenceProfileState.message
-        is ReferenceProfileUiState.Ready -> {
-            val profile = referenceProfileState.profile
-            val base = "Profile built from this movement · ${profile.states.size} states · ${profile.referenceRepetitions} reference repetition${if (profile.referenceRepetitions == 1) "" else "s"} · ${(profile.confidence * 100).toInt()}% profile confidence."
-            referenceProfileQualityNotice(profile)?.let { "$base $it" } ?: base
-        }
-        is ReferenceProfileUiState.Rejected -> "This clip could not produce a reliable reference profile: ${referenceProfileState.message}"
-    }
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = SenpBlue.copy(alpha = 0.12f)),
-        border = BorderStroke(1.dp, SenpBlueBright.copy(alpha = 0.46f)),
-    ) {
-        Column(Modifier.fillMaxWidth().padding(18.dp)) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    "REFERENCE ACTION",
-                    color = SenpBlueBright,
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 1.2.sp,
-                )
-                Text(
-                    statusText,
-                    color = if (profileReady) SenpCream else SenpMuted,
-                    fontSize = 9.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.6.sp,
-                )
-            }
-            Text(
-                detailText,
-                color = SenpMuted,
-                fontSize = 12.sp,
-                lineHeight = 18.sp,
-                modifier = Modifier.padding(top = 8.dp),
-            )
-            Button(
-                onClick = { onOpenLiveReference?.invoke() },
-                enabled = liveReferenceEnabled,
-                modifier = Modifier.fillMaxWidth().height(44.dp).padding(top = 10.dp),
-                shape = RoundedCornerShape(13.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = SenpBlue,
-                    contentColor = Color.White,
-                    disabledContainerColor = SenpSurfaceRaised,
-                    disabledContentColor = SenpMuted,
-                ),
-            ) {
-                Text(
-                    when {
-                        !referenceSelected -> "SELECT A REFERENCE FIRST"
-                        referenceProfileState is ReferenceProfileUiState.Preparing -> "PREPARING REFERENCE…"
-                        referenceProfileState is ReferenceProfileUiState.Rejected -> "REFERENCE PROFILE UNAVAILABLE"
-                        !profileReady -> "PREPARE REFERENCE FIRST"
-                        onOpenLiveReference == null -> "LIVE REFERENCE · UNAVAILABLE"
-                        else -> "START LIVE WITH THIS REFERENCE"
-                    },
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 0.6.sp,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun Eyebrow(title: String, subtitle: String) {
-    Column {
-        Text(title, color = SenpBlueBright, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.3.sp)
-        Text(subtitle, color = SenpMuted, fontSize = 13.sp, modifier = Modifier.padding(top = 3.dp))
-    }
-}
-
-@Composable
-private fun UploadPanel(title: String, subtitle: String, action: String, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth().height(132.dp).clickable { onClick() },
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0x4412182C)),
-        border = BorderStroke(1.dp, SenpBorder),
-    ) {
-        Row(Modifier.fillMaxSize().padding(horizontal = 20.dp), verticalAlignment = Alignment.CenterVertically) {
-            Box(Modifier.size(52.dp).clip(CircleShape).background(SenpBackgroundRaised), contentAlignment = Alignment.Center) {
-                Text("+", color = SenpBlueBright, fontSize = 28.sp, fontWeight = FontWeight.Light)
-            }
-            Column(Modifier.padding(start = 16.dp).weight(1f)) {
-                Text(title, color = SenpCream, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-                Text(subtitle, color = SenpMuted, fontSize = 12.sp, modifier = Modifier.padding(top = 4.dp))
-            }
-            Text(action, color = SenpBlueBright, fontSize = 11.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.7.sp)
-        }
-    }
-}
-
-@Composable
-private fun ActionPanel(title: String, subtitle: String, symbol: String, onClick: () -> Unit, modifier: Modifier) {
-    Card(
-        modifier = modifier.height(116.dp).clickable { onClick() },
-        shape = RoundedCornerShape(22.dp),
+        Modifier.fillMaxWidth().padding(top = 8.dp),
+        shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = SenpSurface),
         border = BorderStroke(1.dp, SenpBorder),
     ) {
-        Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.SpaceBetween) {
-            Text(symbol, color = SenpBlueBright, fontSize = 25.sp, fontWeight = FontWeight.Light)
-            Column {
-                Text(title, color = SenpCream, fontSize = 13.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
-                Text(subtitle, color = SenpMuted, fontSize = 11.sp, modifier = Modifier.padding(top = 2.dp))
+        Column(Modifier.padding(horizontal = 14.dp, vertical = 12.dp)) {
+            SettingSlider(
+                label = "SAMPLE RATE",
+                valueLabel = "${configState.targetFps} FPS",
+                value = configState.targetFps.toFloat(),
+                valueRange = 5f..30f,
+                steps = 4,
+                onValueChange = { onUpdateFps(it.roundToInt()) },
+            )
+            SettingSlider(
+                label = "FRAME LONG EDGE",
+                valueLabel = "${configState.longEdgeCapPx}px",
+                value = configState.longEdgeCapPx.toFloat(),
+                valueRange = 240f..1080f,
+                steps = 3,
+                onValueChange = { onUpdateLongEdgeCap(it.roundToInt()) },
+            )
+            SettingSlider(
+                label = "POSE CONFIDENCE",
+                valueLabel = "${(configState.minimumConfidence * 100).roundToInt()}%",
+                value = configState.minimumConfidence.toFloat(),
+                valueRange = 0.3f..0.9f,
+                steps = 5,
+                onValueChange = { onUpdateMinimumConfidence(it.toDouble()) },
+            )
+            Text(
+                "These native controls affect extraction and rebuild the selected reference profile.",
+                color = SenpMuted,
+                fontSize = 9.sp,
+                lineHeight = 14.sp,
+                modifier = Modifier.padding(top = 2.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun SettingSlider(
+    label: String,
+    valueLabel: String,
+    value: Float,
+    valueRange: ClosedFloatingPointRange<Float>,
+    steps: Int,
+    onValueChange: (Float) -> Unit,
+) {
+    Row(Modifier.fillMaxWidth().padding(top = 5.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        SectionLabel(label)
+        Text(valueLabel, color = SenpCream, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+    }
+    Slider(
+        value = value,
+        onValueChange = onValueChange,
+        valueRange = valueRange,
+        steps = steps,
+        colors = SliderDefaults.colors(
+            thumbColor = SenpCream,
+            activeTrackColor = SenpCream,
+            inactiveTrackColor = SenpSurfaceRaised,
+        ),
+    )
+}
+
+@Composable
+private fun ReferenceProfileCard(state: ReferenceProfileUiState) {
+    val detail = when (state) {
+        ReferenceProfileUiState.Empty -> "Select a master video to build a body-centric movement reference."
+        is ReferenceProfileUiState.Preparing -> state.message
+        is ReferenceProfileUiState.Ready -> "${state.profile.states.size} states · ${state.profile.referenceRepetitions} reference reps · ${(state.profile.confidence * 100).roundToInt()}% confidence"
+        is ReferenceProfileUiState.Rejected -> state.message
+    }
+    Card(
+        Modifier.fillMaxWidth().padding(top = 8.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface.copy(alpha = 0.82f)),
+        border = BorderStroke(1.dp, SenpBorder),
+    ) {
+        Column(Modifier.padding(horizontal = 14.dp, vertical = 11.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                SectionLabel("REFERENCE ACTION")
+                Text(
+                    when (state) {
+                        ReferenceProfileUiState.Empty -> "WAITING"
+                        is ReferenceProfileUiState.Preparing -> "PREPARING"
+                        is ReferenceProfileUiState.Ready -> "READY"
+                        is ReferenceProfileUiState.Rejected -> "UNAVAILABLE"
+                    },
+                    color = SenpCream,
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                )
             }
+            Text(detail, color = SenpMuted, fontSize = 10.sp, lineHeight = 15.sp, modifier = Modifier.padding(top = 6.dp))
+        }
+    }
+}
+
+@Composable
+private fun SectionLabel(text: String) {
+    Text(text, color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.5.sp)
+}
+
+@Composable
+private fun UploadCard(title: String, detail: String, action: String, onClick: () -> Unit, compact: Boolean = false) {
+    Card(
+        modifier = Modifier.fillMaxWidth().height(if (compact) 142.dp else 104.dp).clickable { onClick() },
+        shape = RoundedCornerShape(12.dp),
+        colors = CardDefaults.cardColors(containerColor = SenpSurface),
+        border = BorderStroke(1.dp, SenpBorder),
+    ) {
+        Row(Modifier.fillMaxSize().padding(horizontal = if (compact) 10.dp else 16.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(42.dp).clip(RoundedCornerShape(9.dp)).background(SenpBackgroundRaised), contentAlignment = Alignment.Center) {
+                Text("+", color = SenpCream, fontSize = 24.sp, fontWeight = FontWeight.Light)
+            }
+            Column(Modifier.padding(start = 9.dp).weight(1f)) {
+                Text(title, color = SenpCream, fontSize = if (compact) 11.sp else 14.sp, fontWeight = FontWeight.Bold)
+                Text(detail, color = SenpMuted, fontSize = 9.sp, modifier = Modifier.padding(top = 5.dp))
+            }
+            if (!compact) Text(action, color = SenpCream, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
         }
     }
 }
 
 @OptIn(UnstableApi::class)
 @Composable
-private fun VideoPreviewCard(
-    label: String,
-    uri: Uri,
-    accent: Color,
-    onEdit: () -> Unit,
-    modifier: Modifier = Modifier,
-    compact: Boolean = false,
-) {
+private fun VideoAssetCard(label: String, uri: Uri, accent: Color, onEdit: () -> Unit, onRemove: () -> Unit, compact: Boolean = false) {
     val context = LocalContext.current
     val player = remember(uri) {
         ExoPlayer.Builder(context).build().apply {
@@ -678,66 +425,53 @@ private fun VideoPreviewCard(
             prepare()
         }
     }
-    var isPlaying by remember(uri) { mutableStateOf(false) }
+    var playing by remember(uri) { mutableStateOf(false) }
+    DisposableEffect(player) { onDispose { player.release() } }
 
-    DisposableEffect(player) {
-        onDispose { player.release() }
-    }
-
-    Card(
-        modifier = modifier,
-        shape = RoundedCornerShape(if (compact) 18.dp else 24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Black),
-        border = BorderStroke(1.dp, accent.copy(alpha = 0.35f)),
-    ) {
-        Column {
-            Box(
-                modifier = Modifier.fillMaxWidth().height(if (compact) 142.dp else 206.dp).clickable {
-                    if (isPlaying) player.pause() else player.play()
-                    isPlaying = !isPlaying
-                },
-            ) {
+    Card(Modifier.fillMaxWidth(), shape = RoundedCornerShape(12.dp), colors = CardDefaults.cardColors(containerColor = SenpSurface), border = BorderStroke(1.dp, SenpBorder)) {
+        Column(Modifier.padding(8.dp)) {
+            Box(Modifier.fillMaxWidth().height(if (compact) 112.dp else 164.dp).clip(RoundedCornerShape(8.dp)).background(Color.Black).clickable {
+                if (playing) player.pause() else player.play()
+                playing = !playing
+            }) {
                 AndroidView(
-                    factory = { ctx ->
-                        PlayerView(ctx).apply {
-                            this.player = player
-                            useController = false
-                            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
-                        }
-                    },
+                    factory = { ctx -> (LayoutInflater.from(ctx).inflate(R.layout.player_view_texture, null) as PlayerView).apply { this.player = player } },
+                    update = { it.player = player },
                     modifier = Modifier.fillMaxSize(),
                 )
-                Box(Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.18f)))
-                Box(Modifier.align(Alignment.Center).size(if (compact) 38.dp else 48.dp).clip(CircleShape).background(accent.copy(alpha = 0.88f)), contentAlignment = Alignment.Center) {
-                    Text(if (isPlaying) "Ⅱ" else "▶", color = Color.White, fontSize = if (isPlaying) 14.sp else 17.sp)
+                Text(label, color = Color.White, fontSize = 9.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, modifier = Modifier.align(Alignment.TopStart).padding(10.dp))
+                Box(Modifier.align(Alignment.Center).size(40.dp).clip(RoundedCornerShape(20.dp)).background(Color.Black.copy(alpha = 0.65f)), contentAlignment = Alignment.Center) {
+                    Text(if (playing) "II" else ">", color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Bold)
                 }
-                Text(label, color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp, modifier = Modifier.align(Alignment.TopStart).padding(10.dp))
             }
-            Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 9.dp), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text(if (isPlaying) "Playing preview" else "Ready to edit", color = SenpMuted, fontSize = 11.sp)
-                Button(
-                    onClick = onEdit,
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-                    modifier = Modifier.height(30.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = accent.copy(alpha = 0.18f), contentColor = accent),
-                    shape = RoundedCornerShape(8.dp),
-                ) { Text("EDIT", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+            Row(Modifier.fillMaxWidth().padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text(if (playing) "PLAYING" else "READY", color = accent, fontSize = 9.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                SmallAction("EDIT", onEdit)
+                SmallAction("REMOVE", onRemove)
             }
         }
     }
 }
 
 @Composable
-private fun GradientButton(text: String, enabled: Boolean, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .height(58.dp)
-            .clip(RoundedCornerShape(18.dp))
-            .background(if (enabled) SenpAccent else Brush.linearGradient(listOf(SenpSurfaceRaised, SenpSurfaceRaised)))
-            .clickable(enabled = enabled) { onClick() },
-        contentAlignment = Alignment.Center,
-    ) {
-        Text(text, color = if (enabled) Color.White else SenpMuted, fontSize = 15.sp, fontWeight = FontWeight.Bold, letterSpacing = 0.8.sp)
+private fun SmallAction(label: String, onClick: () -> Unit) {
+    Box(Modifier.clip(RoundedCornerShape(7.dp)).background(SenpSurfaceRaised).clickable { onClick() }.padding(horizontal = 10.dp, vertical = 7.dp)) {
+        Text(label, color = SenpCream, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+    }
+}
+
+@Composable
+private fun UserVideoSourceDialog(onDismiss: () -> Unit, onUpload: () -> Unit, onRecord: () -> Unit) {
+    Dialog(onDismissRequest = onDismiss) {
+        Card(shape = RoundedCornerShape(14.dp), colors = CardDefaults.cardColors(containerColor = SenpSurface), border = BorderStroke(1.dp, SenpBorder)) {
+            Column(Modifier.padding(18.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Text("USER VIDEO", color = SenpCream, fontSize = 13.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+                Text("Choose how to add your movement.", color = SenpMuted, fontSize = 11.sp)
+                Button(onClick = onUpload, modifier = Modifier.fillMaxWidth().height(44.dp), shape = RoundedCornerShape(9.dp), colors = ButtonDefaults.buttonColors(containerColor = SenpCream, contentColor = Color.Black)) { Text("UPLOAD FROM GALLERY", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                Button(onClick = onRecord, modifier = Modifier.fillMaxWidth().height(44.dp), shape = RoundedCornerShape(9.dp), colors = ButtonDefaults.buttonColors(containerColor = SenpSurfaceRaised, contentColor = SenpCream)) { Text("RECORD VIDEO", fontSize = 10.sp, fontWeight = FontWeight.Bold) }
+                Text("CANCEL", color = SenpMuted, fontSize = 10.sp, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth().clickable { onDismiss() }.padding(vertical = 8.dp), textAlign = TextAlign.Center)
+            }
+        }
     }
 }
 
