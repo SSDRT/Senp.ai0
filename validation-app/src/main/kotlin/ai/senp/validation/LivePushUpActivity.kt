@@ -7,13 +7,12 @@ import ai.senp.motion.PushUpCue
 import ai.senp.motion.PushUpLiveEvaluator
 import ai.senp.motion.PushUpLiveFeedback
 import ai.senp.motion.PushUpPhase
+import ai.senp.pose.mediapipe.LiveFrameGate
 import ai.senp.pose.mediapipe.LiveMediaPipePoseEstimator
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
@@ -48,6 +47,8 @@ class LivePushUpActivity : ComponentActivity() {
     }
     private val evaluator = PushUpLiveEvaluator()
     private val frameBusy = AtomicBoolean(false)
+    @Volatile internal var analyzedFrameCount = 0L
+        private set
 
     private lateinit var previewView: PreviewView
     private lateinit var overlayView: LivePoseOverlayView
@@ -59,7 +60,10 @@ class LivePushUpActivity : ComponentActivity() {
     private lateinit var resetButton: Button
 
     @Volatile private var estimator: LiveMediaPipePoseEstimator? = null
-    @Volatile private var lastTimestampMs = -1L
+    private val frameGate = LiveFrameGate()
+    @Volatile private var destroyed = false
+    private var cameraProvider: ProcessCameraProvider? = null
+    private var imageAnalysis: ImageAnalysis? = null
 
     private val cameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) startCamera() else showPermissionRequired()
@@ -76,9 +80,14 @@ class LivePushUpActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        estimator?.close()
-        estimator = null
-        analyzerExecutor.shutdownNow()
+        destroyed = true
+        imageAnalysis?.clearAnalyzer()
+        cameraProvider?.unbindAll()
+        analyzerExecutor.execute {
+            estimator?.close()
+            estimator = null
+        }
+        analyzerExecutor.shutdown()
         super.onDestroy()
     }
 
@@ -222,7 +231,7 @@ class LivePushUpActivity : ComponentActivity() {
                 runOnUiThread { showFatal("Pose model unavailable", error.message ?: "Unable to initialize MediaPipe") }
                 return@execute
             }
-            runOnUiThread { bindCamera() }
+            runOnUiThread { if (!destroyed) bindCamera() }
         }
     }
 
@@ -231,15 +240,26 @@ class LivePushUpActivity : ComponentActivity() {
         providerFuture.addListener(
             {
                 try {
+                    if (destroyed) return@addListener
                     val provider = providerFuture.get()
-                    val preview = Preview.Builder().build().also { it.surfaceProvider = previewView.surfaceProvider }
+                    cameraProvider = provider
+                    val selector = LiveCameraFrame.camera(provider)
+                    val frontCamera = selector == CameraSelector.DEFAULT_FRONT_CAMERA
+                    overlayView.mirrored = frontCamera
+                    val resolution = LiveCameraFrame.resolutionSelector()
+                    val rotation = previewView.display?.rotation ?: android.view.Surface.ROTATION_0
+                    val preview = Preview.Builder().setResolutionSelector(resolution)
+                        .setTargetRotation(rotation).build().also { it.surfaceProvider = previewView.surfaceProvider }
                     val analysis = ImageAnalysis.Builder()
+                        .setResolutionSelector(resolution)
+                        .setTargetRotation(rotation)
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                         .build()
+                    imageAnalysis = analysis
                     analysis.setAnalyzer(analyzerExecutor, ::analyzeFrame)
                     provider.unbindAll()
-                    provider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, preview, analysis)
+                    provider.bindToLifecycle(this, selector, preview, analysis)
                     cueView.text = "Stand sideways and fit your whole body"
                 } catch (error: Throwable) {
                     showFatal("Camera unavailable", error.message ?: "Unable to bind CameraX")
@@ -256,24 +276,19 @@ class LivePushUpActivity : ComponentActivity() {
         }
         try {
             val poseEstimator = estimator ?: return
-            val raw = image.toBitmap()
-            val rotation = image.imageInfo.rotationDegrees
-            val upright = rotate(raw, rotation)
-            if (upright !== raw) raw.recycle()
-            try {
-                val candidate = image.imageInfo.timestamp / 1_000_000L
-                val timestampMs = if (candidate > lastTimestampMs) candidate else lastTimestampMs + 1L
-                lastTimestampMs = timestampMs
+            if (destroyed) return
+            val timestampMs = frameGate.accept(image.imageInfo.timestamp) ?: return
+            LiveCameraFrame.withUprightBitmap(image) { upright ->
                 val pose = poseEstimator.estimate(upright, timestampMs)
+                analyzedFrameCount++
                 val feedback = evaluator.update(pose)
                 val frameWidth = upright.width
                 val frameHeight = upright.height
                 runOnUiThread {
+                    if (destroyed) return@runOnUiThread
                     overlayView.setPose(pose, frameWidth, frameHeight, feedback)
                     render(feedback)
                 }
-            } finally {
-                upright.recycle()
             }
         } catch (error: Throwable) {
             runOnUiThread {
@@ -330,12 +345,6 @@ class LivePushUpActivity : ComponentActivity() {
         resetButton.isEnabled = false
     }
 
-    private fun rotate(source: Bitmap, degrees: Int): Bitmap {
-        if (degrees % 360 == 0) return source
-        val matrix = Matrix().apply { postRotate(degrees.toFloat()) }
-        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
-    }
-
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     companion object {
@@ -360,6 +369,7 @@ private class LivePoseOverlayView(context: android.content.Context) : View(conte
         strokeWidth = 7f
         strokeCap = Paint.Cap.ROUND
     }
+    var mirrored: Boolean = false
     private var pose: PoseFrame? = null
     private var frameWidth = 0
     private var frameHeight = 0
@@ -398,9 +408,9 @@ private class LivePoseOverlayView(context: android.content.Context) : View(conte
             if (!drawable(a) || !drawable(b)) return@forEach
             val paint = if (from in selectedIds && to in selectedIds) selectedPaint else skeletonPaint
             canvas.drawLine(
-                target.left + (a.image.x * target.width()).toFloat(),
+                target.left + ((if (mirrored) 1.0 - a.image.x else a.image.x) * target.width()).toFloat(),
                 target.top + (a.image.y * target.height()).toFloat(),
-                target.left + (b.image.x * target.width()).toFloat(),
+                target.left + ((if (mirrored) 1.0 - b.image.x else b.image.x) * target.width()).toFloat(),
                 target.top + (b.image.y * target.height()).toFloat(),
                 paint,
             )
@@ -408,7 +418,7 @@ private class LivePoseOverlayView(context: android.content.Context) : View(conte
         current.landmarks.forEach { landmark ->
             if (!drawable(landmark)) return@forEach
             canvas.drawCircle(
-                target.left + (landmark.image.x * target.width()).toFloat(),
+                target.left + ((if (mirrored) 1.0 - landmark.image.x else landmark.image.x) * target.width()).toFloat(),
                 target.top + (landmark.image.y * target.height()).toFloat(),
                 if (landmark.id in selectedIds) 6f else 4f,
                 pointPaint,

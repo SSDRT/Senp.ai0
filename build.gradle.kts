@@ -18,21 +18,74 @@ allprojects {
 
 val generatedPoseModelAssets = layout.buildDirectory.dir("generated/pose-model-assets")
 val generatedPoseModelFile = generatedPoseModelAssets.map { it.file("pose_landmarker_full.task") }
+val expectedPoseModelSha256 = "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
+fun verifiedPoseModel(file: File): Boolean {
+    if (!file.isFile || file.length() != 9398198L) return false
+    val digest = java.security.MessageDigest.getInstance("SHA-256")
+    file.inputStream().use { input ->
+        val buffer = ByteArray(64 * 1024)
+        while (true) {
+            val count = input.read(buffer)
+            if (count < 0) break
+            digest.update(buffer, 0, count)
+        }
+    }
+    return digest.digest().joinToString("") { "%02x".format(it) } == expectedPoseModelSha256
+}
 
 val preparePoseModelAsset by tasks.registering {
     group = "build setup"
     description = "Fetches and SHA-256 verifies the pinned MediaPipe Pose Landmarker model for APK/test assets."
     inputs.file(layout.projectDirectory.file("models/pose_landmarker_full.provenance.json"))
     outputs.file(generatedPoseModelFile)
+    outputs.upToDateWhen { verifiedPoseModel(generatedPoseModelFile.get().asFile) }
     doLast {
         val outputFile = generatedPoseModelFile.get().asFile
         outputFile.parentFile.mkdirs()
-        val expectedBytes = 9398198L
         val modelUrl = "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task"
-        if (!outputFile.exists() || outputFile.length() != expectedBytes) {
-            outputFile.writeBytes(java.net.URI(modelUrl).toURL().readBytes())
+        if (!verifiedPoseModel(outputFile)) {
+            val temporary = File.createTempFile("pose-model-", ".download", outputFile.parentFile)
+            try {
+                val connection = java.net.URI(modelUrl).toURL().openConnection().apply {
+                    connectTimeout = 30_000
+                    readTimeout = 60_000
+                }
+                connection.getInputStream().use { input -> temporary.outputStream().use(input::copyTo) }
+                check(verifiedPoseModel(temporary)) { "Downloaded pose model size/SHA-256 does not match pinned provenance" }
+                java.nio.file.Files.move(temporary.toPath(), outputFile.toPath(), java.nio.file.StandardCopyOption.ATOMIC_MOVE, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            } finally {
+                temporary.delete()
+            }
         }
     }
+}
+
+val prepareLivePoseFixtures by tasks.registering {
+    group = "build setup"
+    description = "Fetches hash-pinned upstream pose regression fixtures for native tests only."
+    inputs.file(layout.projectDirectory.file("models/live-pose-fixtures.provenance.json"))
+    val directory = layout.buildDirectory.dir("generated/live-pose-fixtures")
+    outputs.dir(directory)
+    doLast {
+        val fixtures = mapOf(
+            "pose.jpg" to "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b",
+            "pose_landmarks.pbtxt" to "69c79cdf3964d7819776eab1172e47e70684139d72a6d7edcbdd62dbb2ca5527",
+        )
+        directory.get().asFile.mkdirs()
+        fixtures.forEach { (name, expected) ->
+            val file = directory.get().file(name).asFile
+            fun valid() = file.isFile && java.security.MessageDigest.getInstance("SHA-256")
+                .digest(file.readBytes()).joinToString("") { "%02x".format(it) } == expected
+            if (!valid()) {
+                java.net.URI("https://storage.googleapis.com/mediapipe-assets/$name").toURL().openStream().use { input ->
+                    file.outputStream().use { input.copyTo(it) }
+                }
+            }
+            check(valid()) { "Upstream fixture $name failed SHA-256 verification" }
+        }
+    }
+    // Also verify the bytes of a previously generated fixture when rerunning native tests.
+    outputs.upToDateWhen { false }
 }
 
 val allowedProjectDependencies = mapOf(

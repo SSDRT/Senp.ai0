@@ -90,3 +90,13 @@ tasks.register("verifyMotionCore") {
     description = "Run tests, verify committed artifacts, and execute the ten-second synthetic benchmark."
     dependsOn(tasks.test, checkMotionArtifacts, microbenchmark)
 }
+
+tasks.register<JavaExec>("livePoseBenchmark") {
+    group = "verification"
+    description = "Compare production live filters against deterministic synthetic truth at 10/15/30/60 FPS."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.LivePoseTuningBenchmark")
+    args(layout.buildDirectory.file("reports/live-pose/tuning-sweep.json").get().asFile.absolutePath)
+    outputs.upToDateWhen { false }
+}

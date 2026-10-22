@@ -1,10 +1,15 @@
 package ai.senp.pose.mediapipe
 
 import ai.senp.core.contracts.PoseFrame
+import ai.senp.core.contracts.FrameValidity
+import ai.senp.core.contracts.FrameValidityReason
+import ai.senp.core.contracts.FrameValidityStatus
+import ai.senp.motion.LivePoseStabilizer
 import android.content.Context
 import android.graphics.Bitmap
 import com.google.mediapipe.framework.image.BitmapImageBuilder
 import com.google.mediapipe.tasks.core.BaseOptions
+import com.google.mediapipe.tasks.core.Delegate
 import com.google.mediapipe.tasks.vision.core.RunningMode
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarker
 import java.security.MessageDigest
@@ -18,41 +23,117 @@ import java.security.MessageDigest
  * The output is the same canonical 33-landmark [PoseFrame] used by offline video analysis.
  */
 class LiveMediaPipePoseEstimator private constructor(
-    private val landmarker: PoseLandmarker,
+    private var landmarker: PoseLandmarker,
     private val mapper: PoseResultMapper,
+    private val factory: (Delegate) -> PoseLandmarker,
+    private val config: Config,
+    initialDelegate: Delegate,
+    initialFallback: String?,
 ) : AutoCloseable {
     private var previousTimestampMs: Long? = null
     private var diagnosticFrameIndex = 0L
     private var closed = false
+    private val ownerThread = Thread.currentThread().id
+    private var dimensions: Pair<Int, Int>? = null
+    private val stabilizer = LivePoseStabilizer(config.stabilization)
+    private var activeDelegate = initialDelegate
+    private var fallbackReason = initialFallback
+    private var resetCount = 0L
+
+    data class Estimate(
+        val rawFrame: PoseFrame,
+        val frame: PoseFrame,
+        val inferenceNanos: Long,
+        val delegate: Delegate,
+        val trackerResetCount: Long,
+        val fallbackReason: String?,
+    )
 
     @Synchronized
-    fun estimate(bitmap: Bitmap, timestampMs: Long): PoseFrame {
+    fun estimate(bitmap: Bitmap, timestampMs: Long): PoseFrame = estimateDetailed(bitmap, timestampMs).frame
+
+    @Synchronized
+    fun estimateDetailed(bitmap: Bitmap, timestampMs: Long): Estimate {
+        checkOwner()
         check(!closed) { "Live pose estimator is closed" }
+        require(timestampMs >= 0 && !bitmap.isRecycled)
         val previous = previousTimestampMs
         require(previous == null || timestampMs > previous) {
             "live pose timestamps must strictly increase: $previous -> $timestampMs"
         }
+        val size = bitmap.width to bitmap.height
+        var reset = previous != null && (timestampMs - previous > config.stabilization.resetGapMs || dimensions != size)
+        if (reset) recreate(activeDelegate)
         previousTimestampMs = timestampMs
-
-        val image = BitmapImageBuilder(bitmap).build()
+        dimensions = size
         val inferenceStarted = System.nanoTime()
         val result = try {
-            image.use { landmarker.detectForVideo(it, timestampMs) }
-        } catch (error: Throwable) {
-            throw LivePoseException.Inference("MediaPipe live pose inference failed", error)
+            detect(bitmap, timestampMs)
+        } catch (error: RuntimeException) {
+            if (activeDelegate != Delegate.GPU) throw LivePoseException.Inference("MediaPipe live pose inference failed", error)
+            fallbackReason = "GPU inference failed: ${error.javaClass.simpleName}"
+            recreate(Delegate.CPU)
+            reset = true
+            try { detect(bitmap, timestampMs) } catch (retry: RuntimeException) {
+                throw LivePoseException.Inference("MediaPipe CPU fallback inference failed", retry)
+            }
         }
         val inferenceNanos = System.nanoTime() - inferenceStarted
         val index = diagnosticFrameIndex++
         return try {
-            mapper.map(timestampMs, index, result.toRawLive(), inferenceNanos).frame
-        } catch (error: Throwable) {
+            val raw = mapper.map(timestampMs, index, result.toRawLive(), inferenceNanos).frame
+            val input = if (reset) raw.copy(validity = FrameValidity(
+                FrameValidityStatus.CONTINUITY_BREAK, 0.0, setOf(FrameValidityReason.TRACKING_RESET),
+            )) else raw
+            Estimate(raw, stabilizer.update(input, bitmap.width, bitmap.height), inferenceNanos, activeDelegate, resetCount, fallbackReason)
+        } catch (error: RuntimeException) {
             throw LivePoseException.Inference("MediaPipe live pose mapping failed", error)
         }
+    }
+
+    private fun detect(bitmap: Bitmap, timestampMs: Long): com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarkerResult {
+        // MPImage.close() recycles its Bitmap container in Tasks 0.10.32. Keep the caller's
+        // camera/evidence bitmap alive, including when retrying GPU inference on CPU.
+        val owned = bitmap.copy(Bitmap.Config.ARGB_8888, false)
+            ?: throw LivePoseException.Inference("Unable to allocate pose input bitmap")
+        try {
+            return BitmapImageBuilder(owned).build().use { landmarker.detectForVideo(it, timestampMs) }
+        } finally {
+            if (!owned.isRecycled) owned.recycle()
+        }
+    }
+
+    private fun recreate(delegate: Delegate) {
+        try {
+            landmarker.close()
+            try {
+                landmarker = factory(delegate)
+                activeDelegate = delegate
+            } catch (error: RuntimeException) {
+                if (delegate != Delegate.GPU) throw error
+                fallbackReason = "GPU reset failed: ${error.javaClass.simpleName}"
+                landmarker = factory(Delegate.CPU)
+                activeDelegate = Delegate.CPU
+            }
+        } catch (error: Exception) {
+            closed = true
+            throw LivePoseException.ModelLoad("Unable to recreate live pose tracker", error)
+        } catch (error: LinkageError) {
+            closed = true
+            throw LivePoseException.ModelLoad("Native pose runtime is unavailable", error)
+        }
+        stabilizer.reset()
+        resetCount++
+    }
+
+    private fun checkOwner() = check(Thread.currentThread().id == ownerThread) {
+        "Create, infer and close the live pose estimator on the same analyzer thread"
     }
 
     @Synchronized
     override fun close() {
         if (closed) return
+        checkOwner()
         closed = true
         landmarker.close()
     }
@@ -64,6 +145,9 @@ class LiveMediaPipePoseEstimator private constructor(
         val minimumUsableLandmarks: Int = 12,
         val usableVisibility: Float = 0.30f,
         val usablePresence: Float = 0.30f,
+        val preferredDelegate: Delegate = Delegate.CPU,
+        // MediaPipe VIDEO already smooths. Promote additional filtering only after a labelled holdout.
+        val stabilization: LivePoseStabilizer.Config = LivePoseStabilizer.Config(enabled = false),
     ) {
         init {
             require(detectionConfidence in 0f..1f)
@@ -89,8 +173,9 @@ class LiveMediaPipePoseEstimator private constructor(
                         "Pose model SHA-256 mismatch: expected $expectedModelSha256, got $actualSha",
                     )
                 }
-                val options = PoseLandmarker.PoseLandmarkerOptions.builder()
-                    .setBaseOptions(BaseOptions.builder().setModelAssetPath(modelAssetPath).build())
+                val factory: (Delegate) -> PoseLandmarker = { delegate ->
+                    val options = PoseLandmarker.PoseLandmarkerOptions.builder()
+                    .setBaseOptions(BaseOptions.builder().setModelAssetPath(modelAssetPath).setDelegate(delegate).build())
                     .setRunningMode(RunningMode.VIDEO)
                     .setNumPoses(1)
                     .setMinPoseDetectionConfidence(config.detectionConfidence)
@@ -98,14 +183,27 @@ class LiveMediaPipePoseEstimator private constructor(
                     .setMinTrackingConfidence(config.trackingConfidence)
                     .setOutputSegmentationMasks(false)
                     .build()
+                    PoseLandmarker.createFromOptions(context.applicationContext, options)
+                }
+                var active = config.preferredDelegate
+                var fallback: String? = null
+                val landmarker = try { factory(active) } catch (error: RuntimeException) {
+                    if (active != Delegate.GPU) throw error
+                    active = Delegate.CPU
+                    fallback = "GPU initialization failed: ${error.javaClass.simpleName}"
+                    factory(active)
+                }
                 return LiveMediaPipePoseEstimator(
-                    PoseLandmarker.createFromOptions(context.applicationContext, options),
+                    landmarker,
                     PoseResultMapper(config.minimumUsableLandmarks, config.usableVisibility, config.usablePresence),
+                    factory, config, active, fallback,
                 )
             } catch (error: LivePoseException.ModelLoad) {
                 throw error
-            } catch (error: Throwable) {
+            } catch (error: Exception) {
                 throw LivePoseException.ModelLoad("Unable to initialize live MediaPipe Pose Landmarker", error)
+            } catch (error: LinkageError) {
+                throw LivePoseException.ModelLoad("Native pose runtime is unavailable on this device", error)
             }
         }
     }

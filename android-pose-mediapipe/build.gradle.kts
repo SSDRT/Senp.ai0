@@ -22,16 +22,19 @@ android {
 
     androidResources { noCompress += "task" }
     sourceSets["androidTest"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/pose-model-assets"))
+    sourceSets["androidTest"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/live-pose-fixtures"))
     testOptions { unitTests.isReturnDefaultValues = true }
 }
 
 tasks.matching { it.name.startsWith("merge") && it.name.endsWith("AndroidTestAssets") }.configureEach {
     dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
+    dependsOn(rootProject.tasks.named("prepareLivePoseFixtures"))
 }
 
 // Lint inspects the generated androidTest model asset outside mergeAndroidTestAssets.
 tasks.matching { it.name.contains("Lint") || it.name.startsWith("lintAnalyze") }.configureEach {
     dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
+    dependsOn(rootProject.tasks.named("prepareLivePoseFixtures"))
 }
 
 kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_21) } }
@@ -39,6 +42,7 @@ kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_21) } }
 dependencies {
     implementation(project(":core-contracts"))
     implementation(project(":core-pipeline"))
+    implementation(project(":core-motion"))
     implementation(project(":android-video"))
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.mediapipe.tasks.vision)

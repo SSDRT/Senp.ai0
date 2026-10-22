@@ -43,6 +43,13 @@ tasks.matching { it.name.contains("Lint") || it.name.startsWith("lintAnalyze") }
     dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
 }
 
+// Instrumentation suites share one emulator; simultaneous runners steal camera/activity focus.
+tasks.matching { it.name.startsWith("connected") && it.name.endsWith("AndroidTest") }.configureEach {
+    mustRunAfter(project(":android-pose-mediapipe").tasks.matching {
+        it.name.startsWith("connected") && it.name.endsWith("AndroidTest")
+    })
+}
+
 kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.JVM_21)
@@ -88,4 +95,7 @@ dependencies {
     implementation(libs.androidx.media3.effect)
 
     testImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
 }
