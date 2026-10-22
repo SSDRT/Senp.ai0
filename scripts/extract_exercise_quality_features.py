@@ -53,7 +53,7 @@ def geometry(points,confidence):
             if top is not None and bottom is not None and bottom>=0.05:result['relation.'+name]=top/bottom
     return [result.get(k) for k in FEATURES]
 
-def decoded_frames(path):
+def decoded_frames(path,sample_period_ms=500):
     """FFmpeg decode with actual selected source PTS, never synthetic FPS ticks."""
     import numpy as np
     metadata=json.loads(subprocess.check_output(['ffprobe','-v','error','-select_streams','v:0',
@@ -64,7 +64,7 @@ def decoded_frames(path):
     factor=min(1,960/max(width,height));width=max(2,round(width*factor/2)*2);height=max(2,round(height*factor/2)*2)
     duration_ms=float(stream.get('duration',metadata['format']['duration']))*1000
     command=['ffmpeg','-hide_banner','-loglevel','info','-threads','1','-i',str(path),'-t','24',
-             '-an','-sn','-dn','-vf',f"select='isnan(prev_selected_t)+gte(t-prev_selected_t,0.5)',scale={width}:{height},showinfo",
+             '-an','-sn','-dn','-vf',f"select='isnan(prev_selected_t)+gte(t-prev_selected_t,{sample_period_ms/1000})',scale={width}:{height},showinfo",
              '-fps_mode','passthrough','-filter_threads','1','-pix_fmt','rgb24','-f','rawvideo','pipe:1']
     decoder=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     timestamps=queue.Queue();errors=[]
@@ -92,21 +92,21 @@ def decoded_frames(path):
         if decoder.poll() is None:decoder.kill()
         decoder.wait();reader.join(timeout=5);decoder.stdout.close();decoder.stderr.close()
 
-def process_video(path_string):
+def process_video(path_string,sample_period_ms=500,cache_directory=None):
     import mediapipe as mp
     from mediapipe.tasks import python
     from mediapipe.tasks.python import vision
     from PIL import Image,ImageDraw
     path=Path(path_string);match=FILENAME.fullmatch(path.name)
     if not match:raise ValueError('Unexpected labelled video name')
-    cache=DATA/'world-feature-cache'/(path.stem+'.json.gz')
+    cache=(Path(cache_directory) if cache_directory else DATA/'world-feature-cache')/(path.stem+'.json.gz')
     if cache.exists():
         with gzip.open(cache,'rt') as stream:existing=json.load(stream)
-        if existing.get('schema')==SCHEMA and existing.get('model_sha256')==MODEL_SHA:return path.name,'cached'
+        if existing.get('schema')==SCHEMA and existing.get('model_sha256')==MODEL_SHA and existing.get('sample_period_ms')==sample_period_ms and existing.get('source_video_sha256')==hashlib.sha256(path.read_bytes()).hexdigest():return path.name,'cached'
     options=vision.PoseLandmarkerOptions(base_options=python.BaseOptions(model_asset_path=str(MODEL)),
               running_mode=vision.RunningMode.VIDEO,num_poses=1,min_pose_detection_confidence=0.5,min_pose_presence_confidence=0.5,min_tracking_confidence=0.5)
-    observations=[];last=-1;sample_period=500;duration_ms=None
-    decoded=decoded_frames(path)
+    observations=[];last=-1;sample_period=sample_period_ms;duration_ms=None
+    decoded=decoded_frames(path,sample_period_ms)
     try:
         with vision.PoseLandmarker.create_from_options(options) as estimator:
             for timestamp,image,duration_ms in decoded:
@@ -120,7 +120,7 @@ def process_video(path_string):
                     confidence=[min(p.visibility or 0,p.presence or 0) for p in image_points]
                     row['features']=geometry([[p.x,p.y,p.z] for p in world],confidence)
                     row['landmarks']=[[p.x,p.y,p.z,p.visibility,p.presence,w.x,w.y,w.z] for p,w in zip(image_points,world)]
-                    if match[1]=='001' and 2000<=timestamp<2500:
+                    if sample_period_ms==500 and match[1]=='001' and 2000<=timestamp<2500:
                         overlay=Image.fromarray(image);draw=ImageDraw.Draw(overlay)
                         for a,b in [(11,12),(11,13),(13,15),(12,14),(14,16),(11,23),(12,24),(23,24),(23,25),(25,27),(24,26),(26,28),(27,31),(28,32)]:
                             p,q=image_points[a],image_points[b]

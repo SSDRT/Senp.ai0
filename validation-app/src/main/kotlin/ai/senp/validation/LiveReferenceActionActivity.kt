@@ -7,6 +7,11 @@ import ai.senp.motion.ActionMirrorMode
 import ai.senp.motion.ActionTrackingStatus
 import ai.senp.motion.LiveFeedbackUncertainty
 import ai.senp.motion.ExerciseTechniqueCatalog
+import ai.senp.motion.QualifiedRepCompilation
+import ai.senp.motion.QualifiedRepConfig
+import ai.senp.motion.QualifiedRepReference
+import ai.senp.motion.RepObservedSide
+import ai.senp.motion.RepPolicyMode
 import ai.senp.pose.mediapipe.LiveFrameGate
 import ai.senp.pose.mediapipe.LiveMediaPipePoseEstimator
 import android.Manifest
@@ -78,7 +83,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
             )
             return
         }
-        val exerciseId = intent.getStringExtra(EXTRA_EXERCISE_ID) ?: prepared.exerciseId
+        val exerciseId = intent.getStringExtra(EXTRA_EXERCISE_ID) ?: prepared.exerciseId ?: prepared.qualifiedRepReference?.exerciseId
         if (exerciseId != null && ExerciseTechniqueCatalog.builtIn.find(exerciseId) == null) {
             showFatal("Unknown exercise variant", "Choose an exercise ID from the technique catalogue.")
             return
@@ -88,6 +93,42 @@ class LiveReferenceActionActivity : ComponentActivity() {
             showFatal("Exercise selection required", "Choose an explicit exercise before enabling learned quality diagnostics.")
             return
         }
+        val enableQualifiedReps = intent.getBooleanExtra(EXTRA_QUALIFIED_REPS,prepared.qualifiedRepReference != null)
+        if (enableQualifiedReps) {
+            val identity = prepared.repEvidenceFingerprint ?: prepared.qualifiedRepReference?.fingerprint
+            val config = runCatching {
+                val defaults = prepared.qualifiedRepReference?.config ?: QualifiedRepConfig()
+                defaults.copy(
+                    side = intent.getStringExtra(EXTRA_REP_SIDE)?.let(RepObservedSide::valueOf) ?: defaults.side,
+                    mode = intent.getStringExtra(EXTRA_REP_POLICY)?.let(RepPolicyMode::valueOf) ?: defaults.mode,
+                )
+            }.getOrNull()
+            if (exerciseId == null || identity == null || config == null) {
+                showFatal("Rep counting unavailable", "An explicit exercise, side and compatible reference provenance are required.")
+                return
+            }
+            phaseView.text = "PREPARING REP COMPARISON"
+            analyzerExecutor.execute {
+                val candidate = runCatching {
+                    prepared.qualifiedRepReference?.takeIf { it.config == config && it.exerciseId == exerciseId }?.let { QualifiedRepCompilation.Ready(it) }
+                        ?: prepared.repSource?.let { compileQualifiedRepFromExtraction(it,exerciseId,identity,config) }
+                }.getOrElse { QualifiedRepCompilation.Unavailable(ai.senp.motion.RepReferenceFailure.WEAK_REFERENCE,"This reference could not be prepared for rep counting.") }
+                runOnUiThread {
+                    if (destroyed) return@runOnUiThread
+                    when (candidate) {
+                        is QualifiedRepCompilation.Ready -> configureProcessor(prepared,exerciseId,enableLearnedQuality,candidate.reference)
+                        is QualifiedRepCompilation.Unavailable -> showFatal("Rep counting unavailable",candidate.detail)
+                        null -> showFatal("Reference evidence unavailable","Reopen the uploaded reference to prepare rep counting.")
+                    }
+                }
+            }
+            return
+        }
+        configureProcessor(prepared,exerciseId,enableLearnedQuality,null)
+    }
+
+    private fun configureProcessor(prepared: PreparedReferenceAction, exerciseId: String?, enableLearnedQuality: Boolean,
+        qualifiedReference: QualifiedRepReference?) {
         processor = LiveReferenceActionProcessor(
             profile = prepared.profile,
             analysisFramesPerSecond = prepared.analysisFramesPerSecond,
@@ -95,6 +136,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
             exerciseId = exerciseId,
             enableSampleClassifier = intent.getBooleanExtra(EXTRA_SAMPLE_CLASSIFIER, prepared.enableSampleClassifier),
             enableLearnedQuality = enableLearnedQuality,
+            qualifiedRepReference = qualifiedReference,
+            repEvidenceFingerprint = prepared.repEvidenceFingerprint,
         )
         phaseView.text = "REFERENCE READY • ${prepared.profile.states.size} STATES • ${(prepared.profile.confidence * 100.0).toInt()}% PROFILE"
         if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -327,7 +370,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
         val prepared = preparedReference ?: return
         val profile = prepared.profile
         val estimate = output.estimate
-        repsView.text = estimate.completedRepetitions.toString()
+        repsView.text = (output.qualifiedReps?.counts?.qualified ?: estimate.completedRepetitions).toString()
+        repsView.contentDescription = if (output.qualifiedReps != null) "Experimental reference-accepted visible-side repetitions" else "Recognized movement repetitions"
         val stateLabel = estimate.stateIndex?.let { index -> "STATE ${index + 1} / ${profile.states.size}" }
         val mirrorLabel = when (estimate.mirrorMode) {
             ActionMirrorMode.MIRRORED -> " • MIRRORED"
@@ -365,6 +409,31 @@ class LiveReferenceActionActivity : ComponentActivity() {
                 ActionTrackingStatus.TRACKING -> {
                     primaryCueView.text = output.feedback.primary?.label ?: "Following the reference action"
                     secondaryCueView.text = output.feedback.secondary?.label.orEmpty()
+                }
+            }
+        }
+        output.qualifiedReps?.let { rep ->
+            phaseView.text = "${rep.observedSide.name} SIDE • REFERENCE REPS • ${rep.stage.name.replace('_',' ')}"
+            when {
+                rep.activeDisqualified -> {
+                    primaryCueView.text = "This rep will not count"
+                    secondaryCueView.text = "Complete the movement, then restart from the reference position."
+                }
+                rep.unavailableReason != null -> {
+                    primaryCueView.text = "Rep could not be assessed"
+                    secondaryCueView.text = "Keep the required body points in view and return to the start position."
+                }
+                rep.finalizedAttempts.lastOrNull()?.verdict == ai.senp.motion.RepVerdict.REJECTED -> {
+                    primaryCueView.text = "Rep not counted"
+                    secondaryCueView.text = "Restart from the reference position."
+                }
+                rep.finalizedAttempts.lastOrNull()?.verdict == ai.senp.motion.RepVerdict.UNASSESSABLE -> {
+                    primaryCueView.text = "Rep could not be assessed"
+                    secondaryCueView.text = "A complete visible movement is required before a rep can count."
+                }
+                rep.stage == ai.senp.motion.RepStage.SYNCHRONIZING -> {
+                    primaryCueView.text = "Return to the reference start position"
+                    secondaryCueView.text = "A complete visible movement is required before a rep can count."
                 }
             }
         }
@@ -407,6 +476,9 @@ class LiveReferenceActionActivity : ComponentActivity() {
         const val EXTRA_EXERCISE_ID = "exercise_technique_id"
         const val EXTRA_SAMPLE_CLASSIFIER = "enable_sample_pose_classifier"
         const val EXTRA_LEARNED_QUALITY = "enable_learned_quality_diagnostics"
+        const val EXTRA_QUALIFIED_REPS = "enable_qualified_reps"
+        const val EXTRA_REP_SIDE = "qualified_rep_side"
+        const val EXTRA_REP_POLICY = "qualified_rep_policy"
 
         private const val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
         private const val WRAP = ViewGroup.LayoutParams.WRAP_CONTENT

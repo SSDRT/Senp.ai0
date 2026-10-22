@@ -1,0 +1,22 @@
+{
+  "kind": "native-numerical-parity-not-expert-rep-accuracy",
+  "dataset_doi": "10.17632/kgbb3yn47p.3",
+  "license": "CC BY 4.0",
+  "source_videos": {
+    "reference": {
+      "video": "subject_005_shoulder_good_front.mp4",
+      "source_video_sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853",
+      "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "sample_period_ms": 66
+    },
+    "source": {
+      "video": "subject_001_shoulder_good_front.mp4",
+      "source_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "sample_period_ms": 66
+    }
+  },
+  "fixture_sha256": "32c168ce93d7331b31c762a47f1c0f11d38432d2bf995eae0534535fcdf63d1e",
+  "attribution": "Duddela Sai Prashanth et al. (2026), Mendeley Data V3, DOI 10.17632/kgbb3yn47p.3. See core-motion NOTICE-mendeley-quality.txt and CC BY 4.0 license.",
+  "changes": "Selected two clips; extracted pinned Full MP33 image/world landmarks/confidences at original source PTS; retained no video pixels. Expected engine results are parity targets, not human annotations."
+}

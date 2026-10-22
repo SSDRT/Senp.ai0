@@ -16,6 +16,7 @@ class ExerciseTechniqueCoach(
     val exercise = catalog.requireExercise(exerciseId)
     val catalogVersion = catalog.version
     val bindings: List<TechniqueRuleBinding>
+    internal val compiledConfig: WorkoutPrecisionConfig
     private val cues = mutableMapOf<Pair<String, String>, String>()
     private val coach: WorkoutPrecisionCoach
     init {
@@ -79,10 +80,11 @@ class ExerciseTechniqueCoach(
         // Caller thresholds can tune margins; published targets cannot silently become learned mistakes.
         val mergedTolerances = tolerances.mapValues { (stateId, values) -> values + config.stateFeatureOverrides[stateId].orEmpty().filterKeys { it in stateNames.getValue(stateId) } } +
             config.stateFeatureOverrides.filterKeys { it !in tolerances }.mapValues { (stateId, values) -> values.filterKeys { it in stateNames[stateId].orEmpty() } }
-        coach = WorkoutPrecisionCoach(coachingProfile, config.copy(
+        compiledConfig = config.copy(
             featureOverrides = config.featureOverrides.filterKeys { it in allNames }, stateFeatureOverrides = mergedTolerances,
             stateTargetRanges = targets.mapValues { it.value.toMap() },
-        ))
+        )
+        coach = WorkoutPrecisionCoach(coachingProfile, compiledConfig)
     }
 
     fun reset() = coach.reset()

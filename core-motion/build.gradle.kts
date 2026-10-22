@@ -121,3 +121,25 @@ tasks.register<JavaExec>("workoutPrecisionBenchmark") {
     args(layout.buildDirectory.file("reports/workout-precision/threshold-sweep.json").get().asFile.absolutePath)
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("qualifiedRepBenchmark") {
+    group = "verification"
+    description = "Exercise the causal accepted-rep engine on generated motions, faults, gaps and jitter."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepBenchmark")
+    args(layout.buildDirectory.file("reports/qualified-reps/mechanism-sweep.json").get().asFile.absolutePath)
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("qualifiedRepVideoReplay") {
+    group = "verification"
+    description = "Replay original high-cadence source observations; does not claim expert rep accuracy."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepReplayTool")
+    args(rootProject.file("test-artifacts/exercise-knowledge/rep-world-feature-cache").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/qualified-video-replay").absolutePath)
+    maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}
