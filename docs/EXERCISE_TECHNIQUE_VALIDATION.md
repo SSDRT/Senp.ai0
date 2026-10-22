@@ -40,7 +40,7 @@ Research thresholds are selected on validation participants for at least 95% win
 | Standing side bend | 508 | 0 / 0 | No qualified threshold | 0% | 0.519 |
 | Bent-over row | 332 | 0 / 0 | No qualified threshold | 0% | 0.638 |
 | Biceps curl | 641 | 0 / 4 | 0% | 0% | 0.471 |
-| Overhead press | 607 | 0 / 0 | No test flags | 0% | 0.752 |
+| Overhead press | 607 | 0 / 0 | No test flags | 0% | 0.725 |
 | Bodyweight squat | 574 | 17 / 2 | 89.47% | 6.03% | 0.554 |
 | Overhead triceps extension | 790 | 0 / 0 | No qualified threshold | 0% | 0.565 |
 | Push-up | 8; zero validation windows | No quality model fitted | Unsupported | Unsupported | — |
