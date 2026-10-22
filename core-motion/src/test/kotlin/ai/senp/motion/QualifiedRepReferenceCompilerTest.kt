@@ -26,6 +26,42 @@ class QualifiedRepReferenceCompilerTest {
         val output = data.stream().map { (time,p) -> engine.evaluate(data.frame(time,p),data.identity.poseModelSha256) }.last()
         assertEquals(1,output.counts.qualified)
     }
+    @Test fun fittingNarrowEndpointBinsCannotShrinkTheDriverExcursion() {
+        val frames = (0 until 4).flatMap { rep -> data.stream(offset = rep*2100L).map { (time,p) ->
+            // Return confirmation happens just inside the ready threshold; the full resting
+            // extension follows later, outside the selected cycle's endpoint fitting bin.
+            val delayedReturn = if (time-rep*2100L in 1667..1867) maxOf(p,.08) else p
+            data.frame(time,delayedReturn)
+        } }
+        val source = SpatialSequenceAnalysis(VideoRole.REFERENCE,DurationMs(frames.last().timestamp.value+1),
+            ObservationSampling(analysisFramesPerSecond = 30.0),frames,1.0)
+        val result = assertIs<QualifiedRepCompilation.Ready>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity))
+        assertEquals(170.0,result.reference.readyAngle,1e-8)
+        assertEquals(70.0,result.reference.farAngle,1e-8)
+        assertEquals(1.0,requireNotNull(result.reference.calibration).selfAcceptanceFraction)
+    }
+    @Test fun repeatedWorkoutEndpointsAreNotReplacedByLongSetupMotion() {
+        val setup = (0 until 120).map { data.frame(it*33L,0.0,"overhead_press",mapOf("angle.left_shoulder" to 20.0)) }
+        val movement = (0 until 4).flatMap { rep -> data.stream(offset = 4000+rep*2100L).map { (time,p) ->
+            data.frame(time,p,"overhead_press",mapOf("angle.left_shoulder" to 80+80*p))
+        } }
+        val frames = setup+movement
+        val source = SpatialSequenceAnalysis(VideoRole.REFERENCE,DurationMs(frames.last().timestamp.value+1),
+            ObservationSampling(analysisFramesPerSecond = 30.0),frames,1.0)
+        assertTrue(quantile(frames.map { it.intrinsicDescriptor.values.getValue("angle.left_shoulder") },.1) < 40)
+        val reference = assertIs<QualifiedRepCompilation.Ready>(QualifiedRepCompiler.compile(source,"overhead_press",data.identity)).reference
+        assertEquals(80.0,reference.readyAngle,1e-8)
+        assertEquals(160.0,reference.farAngle,1e-8)
+        assertEquals(4,requireNotNull(reference.calibration).acceptedSelfCycles)
+    }
+    @Test fun isolatedSpikesAndMissingReversalsCannotDefineRepeatedEndpoints() {
+        val spikes = (0..300).map { it*33L to if (it%30==15) 150.0 else 40.0 }
+        assertEquals(null,repeatedRepEndpoints(spikes,QualifiedRepConfig()))
+        val missing = (0 until 4).flatMap { rep -> data.stream(offset = rep*2100L).map { (time,p) ->
+            time to (170-100*p).takeIf { p < .8 }
+        } }
+        assertEquals(null,repeatedRepEndpoints(missing,QualifiedRepConfig()))
+    }
     @Test fun partialMissingAndTooShortReferencesDoNotBecomeSuccessfulCalibrations() {
         assertEquals(RepReferenceFailure.INSUFFICIENT_REFERENCE_CYCLES,
             assertIs<QualifiedRepCompilation.Unavailable>(QualifiedRepCompiler.compile(sequence(1),"biceps_curl",data.identity)).reason)

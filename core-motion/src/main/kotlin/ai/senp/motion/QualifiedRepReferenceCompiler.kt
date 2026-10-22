@@ -20,7 +20,12 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
     }
     val anchors = frames.mapNotNull { value(it,driver) }
     if (anchors.size < 30) return fail(RepReferenceFailure.MISSING_FEATURE,"Fewer than 30 directly observed selected-side driver samples")
-    val lo = quantile(anchors,0.10);val hi = quantile(anchors,0.90)
+    for (name in required-driver) {
+        val observed = frames.count { value(it,name) != null }
+        if (observed < 30) return fail(RepReferenceFailure.MISSING_FEATURE,"Only $observed directly observed $name samples; 30 required")
+    }
+    val endpoints = repeatedRepEndpoints(frames.map { it.timestamp.value to value(it,driver) },config)
+    val lo = endpoints?.first ?: quantile(anchors,0.10);val hi = endpoints?.second ?: quantile(anchors,0.90)
     if (hi-lo < config.minimumReferenceExcursionDegrees) return fail(RepReferenceFailure.INSUFFICIENT_EXCURSION,"Reference driver has insufficient robust excursion")
     val readyAngle = if (spec.readyAtMaximum) hi else lo;val farAngle = if (spec.readyAtMaximum) lo else hi
     fun progress(frame: SpatialObservationFrame) = value(frame,driver)?.let { (it-readyAngle)/(farAngle-readyAngle) }
@@ -92,7 +97,10 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
             // Remove within-bin movement before estimating repeat/noise bands. Otherwise real motion widens "noise" tolerances.
             val meanP = observed.map { it.third }.average();val meanV = observed.map { it.first }.average()
             val varianceP = observed.sumOf { (it.third-meanP)*(it.third-meanP) }/observed.size
-            val slope = if (varianceP >= 0.0025) observed.sumOf { (it.third-meanP)*(it.first-meanV) }/(varianceP*observed.size) else 0.0
+            // Driver progress is defined by these endpoints: its slope is exact, not a noisy regression.
+            // Re-estimating it in a narrow endpoint bin shrinks the calibrated excursion and moves completion times.
+            val slope = if (name == driver) farAngle-readyAngle else if (varianceP >= 0.0025)
+                observed.sumOf { (it.third-meanP)*(it.first-meanV) }/(varianceP*observed.size) else 0.0
             val atCenter = observed.map { (it.first-slope*(it.third-center)).coerceIn(0.0,180.0) }
             val distribution = robustDistribution(atCenter,0.5).let { it.copy(lower = max(0.0,it.lower),upper = min(180.0,it.upper)) }
             val observability = observed.size.toDouble()/phaseFrames.size
@@ -148,4 +156,45 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
                     selected.first().timestamp.value,selected.last().timestamp.value,accepted,reconstructed)))
         }
     }
+}
+
+/** Estimate repeated extrema, so setup/rest duration cannot redefine the exercise's range.
+ * Adjacent supported observations and sustained reversals reject isolated spikes. Final cycle,
+ * confidence, visibility, curve-noise and self-replay gates still operate on the original samples.
+ */
+internal fun repeatedRepEndpoints(samples: List<Pair<Long,Double?>>, config: QualifiedRepConfig): Pair<Double,Double>? {
+    val minima = mutableListOf<Double>();val maxima = mutableListOf<Double>()
+    val reverseDegrees = config.minimumReferenceExcursionDegrees*0.5
+    var prior: Double? = null;var previousMs: Long? = null
+    var direction = 0;var low = Double.POSITIVE_INFINITY;var high = Double.NEGATIVE_INFINITY
+    var reversalSince: Long? = null;var reversalObservations = 0
+    fun reset() { prior = null;direction = 0;low = Double.POSITIVE_INFINITY;high = Double.NEGATIVE_INFINITY;reversalSince = null;reversalObservations = 0 }
+    for ((now,value) in samples) {
+        val gap = previousMs?.let { now-it > config.maximumEvidenceGapMs } ?: false
+        previousMs = now
+        if (value == null || gap) { reset();continue }
+        val before = prior;prior = value
+        if (before == null) continue
+        val supportedLow = max(before,value);val supportedHigh = min(before,value)
+        if (direction == 0) {
+            low = min(low,supportedLow);high = max(high,supportedHigh)
+            if (value-low >= config.minimumReferenceExcursionDegrees) direction = 1
+            else if (high-value >= config.minimumReferenceExcursionDegrees) direction = -1
+            continue
+        }
+        if (direction > 0) high = max(high,supportedHigh) else low = min(low,supportedLow)
+        val reversing = if (direction > 0) high-value >= reverseDegrees else value-low >= reverseDegrees
+        if (reversing) {
+            if (reversalSince == null) { reversalSince = now;reversalObservations = 0 }
+            reversalObservations++
+            if (reversalObservations >= 2 && now-requireNotNull(reversalSince) >= config.reversalConfirmationMs) {
+                if (direction > 0) maxima += high else minima += low
+                direction = -direction;low = supportedLow;high = supportedHigh
+                reversalSince = null;reversalObservations = 0
+            }
+        } else { reversalSince = null;reversalObservations = 0 }
+    }
+    if (minima.size < config.minimumReferenceCycles || maxima.size < config.minimumReferenceCycles) return null
+    val lo = quantile(minima,0.5);val hi = quantile(maxima,0.5)
+    return if (hi-lo >= config.minimumReferenceExcursionDegrees) lo to hi else null
 }

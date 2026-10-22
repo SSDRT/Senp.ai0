@@ -139,7 +139,19 @@ tasks.register<JavaExec>("qualifiedRepVideoReplay") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.QualifiedRepReplayTool")
     args(rootProject.file("test-artifacts/exercise-knowledge/rep-world-feature-cache").absolutePath,
-        rootProject.file("test-artifacts/exercise-knowledge/qualified-video-replay").absolutePath)
+        rootProject.file(providers.gradleProperty("qualifiedReplayOutput").getOrElse("test-artifacts/exercise-knowledge/qualified-video-replay")).absolutePath)
+    maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("qualifiedRepCalibrationAudit") {
+    group = "verification"
+    description = "Explain unique-reference failures; diagnostic self-gate counterfactuals are not usable references."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepCalibrationAudit")
+    args(rootProject.file("test-artifacts/exercise-knowledge/rep-world-feature-cache").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/qualified-calibration-audit").absolutePath)
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }

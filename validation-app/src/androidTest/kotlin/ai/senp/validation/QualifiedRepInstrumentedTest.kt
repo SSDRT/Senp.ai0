@@ -32,16 +32,18 @@ class QualifiedRepInstrumentedTest {
         assertEquals(3,rep.calibration?.observedCycles)
         val processor = LiveReferenceActionProcessor(rep.profile,15.0,qualifiedRepReference = rep,repEvidenceFingerprint = identity)
         val sourceRows = source.getJSONArray("frames");val sourceFrames = frames(sourceRows)
-        val verdicts = mutableListOf<String>();var output: QualifiedRepOutput? = null
+        val verdicts = mutableListOf<String>();val attempts = mutableListOf<RepAttemptResult>();var output: QualifiedRepOutput? = null
         for ((index,pose) in sourceFrames.withIndex()) {
             val row = sourceRows.getJSONObject(index)
             output = processor.update(pose,row.getInt("image_width"),row.getInt("image_height"),source.getString("model_sha256"),pose).qualifiedReps
             assertNotNull(output);assertFalse(requireNotNull(output).releaseQualified)
             verdicts += output.finalizedAttempts.map { it.verdict.name }
+            attempts += output.finalizedAttempts
         }
         // Session termination is an interrupted attempt, never a new qualified count.
         val finished = requireNotNull(processor.finishQualifiedReps(sourceFrames.last().timestamp.value+1))
         verdicts += finished.finalizedAttempts.map { it.verdict.name }
+        attempts += finished.finalizedAttempts
         output = finished
         val expected = fixture.getJSONObject("expected_counts")
         val counts = requireNotNull(output).counts
@@ -52,6 +54,24 @@ class QualifiedRepInstrumentedTest {
         assertEquals(expected.getInt("unassessable"),counts.unassessable)
         val expectedVerdicts = fixture.getJSONArray("expected_verdicts")
         assertEquals((0 until expectedVerdicts.length()).map { expectedVerdicts.getString(it) },verdicts)
+        val expectedAttempts = fixture.getJSONArray("expected_attempts")
+        assertEquals(expectedAttempts.length(),attempts.size)
+        attempts.forEachIndexed { index,actual ->
+            val expectedAttempt = expectedAttempts.getJSONObject(index)
+            assertEquals(expectedAttempt.getLong("started_ms"),actual.startedMs)
+            assertEquals(expectedAttempt.getLong("completed_ms"),actual.completedMs)
+            assertEquals(expectedAttempt.getDouble("maximum_progress"),actual.maximumProgress,1e-6)
+            val reasons = expectedAttempt.getJSONArray("reasons")
+            val expectedReasons = (0 until reasons.length()).map { reasons.getString(it) }.toSet()
+            // Whole-sequence replay retains a tracked identity through a blind sample. The singleton
+            // live adapter drops it, so that same interruption may surface as CONTEXT_CHANGED first.
+            // Both must invalidate the attempt; form/range/coverage reasons still match exactly.
+            val actualReasons = actual.reasons.map { reason ->
+                if (reason == RepReason.CONTEXT_CHANGED && "MISSING_CRITICAL_EVIDENCE" in expectedReasons)
+                    "MISSING_CRITICAL_EVIDENCE" else reason.name
+            }.toSet()
+            assertEquals(expectedReasons,actualReasons)
+        }
         val evidence = JSONObject().put("kind","real-source-landmark-native-jvm-parity-not-human-accuracy")
             .put("qualified",counts.qualified).put("correct",counts.correct).put("acceptable",counts.acceptable)
             .put("rejected",counts.rejected).put("unassessable",counts.unassessable).put("source_frames",sourceFrames.size)

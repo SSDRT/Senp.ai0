@@ -16,7 +16,8 @@
       "sample_period_ms": 66
     }
   },
-  "fixture_sha256": "32c168ce93d7331b31c762a47f1c0f11d38432d2bf995eae0534535fcdf63d1e",
+  "fixture_sha256": "596293e12df5604974d140f5070f30beed269d30305da1f9219fdc8bcc48e20d",
+  "expected_results_source_sha256": "25677d4f8637c7d28406fed9ebf2ca907508d1e3f92bc882a75d219684bc3376",
   "attribution": "Duddela Sai Prashanth et al. (2026), Mendeley Data V3, DOI 10.17632/kgbb3yn47p.3. See core-motion NOTICE-mendeley-quality.txt and CC BY 4.0 license.",
   "changes": "Selected two clips; extracted pinned Full MP33 image/world landmarks/confidences at original source PTS; retained no video pixels. Expected engine results are parity targets, not human annotations."
 }

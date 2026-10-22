@@ -33,7 +33,7 @@
   "release_qualified": false,
   "expert_rep_labels_available": false,
   "new_cnn_training_performed": false,
-  "calibration": "Observed complete cycles, phase-conditioned scalar angle bands, residual MAD, causal self-reconstruction gate",
+  "calibration": "Repeated supported reversal extrema (whole-clip percentile fallback), observed complete cycles, exact driver endpoint anchoring, phase-conditioned scalar bands, residual MAD, causal self-reconstruction gate",
   "code": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
   "parameters": "QualifiedRepConfig engineering defaults; not calibrated clinical or expert form standards",
   "extraction_script": "scripts/extract_qualified_rep_corpus.py",
@@ -45,5 +45,65 @@
     "The 98% precision/90% good-acceptance release targets have not been measured or achieved.",
     "Clip labels do not establish rep/fault truth; annotation tasks are empty and unreviewed.",
     "Fresh people/reference demonstrators, camera/variant/identity qualification and physical phones remain required."
-  ]
+  ],
+  "previous_rep_engine_commit": "a5fbd94547e2e35911808dbe95f6c95474a344ba",
+  "development_calibration_coverage": {
+    "before": {
+      "side_specific_replay_runs": 96,
+      "status_counts": {
+        "LOW_SELF_RECONSTRUCTION": 14,
+        "INSUFFICIENT_REFERENCE_CYCLES": 42,
+        "WEAK_REFERENCE": 2,
+        "MISSING_FEATURE": 24,
+        "REPLAYED": 12,
+        "INSUFFICIENT_EXCURSION": 2
+      },
+      "distinct_reference_sides": 32,
+      "unique_status_counts": {
+        "LOW_SELF_RECONSTRUCTION": 5,
+        "INSUFFICIENT_REFERENCE_CYCLES": 13,
+        "WEAK_REFERENCE": 1,
+        "MISSING_FEATURE": 8,
+        "REPLAYED": 4,
+        "INSUFFICIENT_EXCURSION": 1
+      },
+      "engine_outcomes_not_accuracy": {
+        "correct": 0,
+        "acceptable": 3,
+        "rejected": 39,
+        "unassessable": 84
+      }
+    },
+    "after": {
+      "side_specific_replay_runs": 96,
+      "status_counts": {
+        "LOW_SELF_RECONSTRUCTION": 10,
+        "INSUFFICIENT_REFERENCE_CYCLES": 26,
+        "WEAK_REFERENCE": 6,
+        "MISSING_FEATURE": 32,
+        "REPLAYED": 20,
+        "INSUFFICIENT_EXCURSION": 2
+      },
+      "distinct_reference_sides": 32,
+      "unique_status_counts": {
+        "LOW_SELF_RECONSTRUCTION": 3,
+        "INSUFFICIENT_REFERENCE_CYCLES": 8,
+        "WEAK_REFERENCE": 2,
+        "MISSING_FEATURE": 11,
+        "REPLAYED": 7,
+        "INSUFFICIENT_EXCURSION": 1
+      },
+      "engine_outcomes_not_accuracy": {
+        "correct": 1,
+        "acceptable": 11,
+        "rejected": 43,
+        "unassessable": 123
+      }
+    },
+    "kind": "development-calibration-coverage-comparison-not-precision",
+    "baseline_commit": "a5fbd94547e2e35911808dbe95f6c95474a344ba",
+    "precision": null,
+    "expert_rep_labels_available": false,
+    "acceptance_thresholds_relaxed": false
+  }
 }

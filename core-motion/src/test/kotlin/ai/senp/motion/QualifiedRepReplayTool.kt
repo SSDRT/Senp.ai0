@@ -122,7 +122,7 @@ object QualifiedRepReplayTool {
         File(destination,"summary.json").writeText(json.encodeToString(JsonObject.serializer(),report))
         println("Real video replay ${report.getValue("replayed")}/${rows.size}; source frames ${report.getValue("source_observations")}; $destination")
     }
-    private fun observation(row: JsonObject): CanonicalObservation {
+    internal fun observation(row: JsonObject): CanonicalObservation {
         val points = row.getValue("landmarks").jsonArray.map { it.jsonArray.map { n -> n.jsonPrimitive.double } }
         val channels = listOf(false,true).map { world ->
             val values = PoseLandmarkId.entries.map { id ->
