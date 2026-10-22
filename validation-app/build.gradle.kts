@@ -32,15 +32,23 @@ android {
 
     androidResources { noCompress += "task" }
     sourceSets["main"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/pose-model-assets"))
+    sourceSets["androidTest"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/live-pose-fixtures"))
+    if (providers.gradleProperty("includeHeavyPoseModel").orNull == "true") {
+        sourceSets["main"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/heavy-pose-model-assets"))
+    }
 }
 
 tasks.matching { it.name.startsWith("merge") && it.name.endsWith("Assets") }.configureEach {
     dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
+    if (name.contains("AndroidTest")) dependsOn(rootProject.tasks.named("prepareLivePoseFixtures"))
+    if (providers.gradleProperty("includeHeavyPoseModel").orNull == "true") dependsOn(rootProject.tasks.named("prepareHeavyPoseModelAsset"))
 }
 
 // Lint model/report tasks also inspect the generated main model asset directly.
 tasks.matching { it.name.contains("Lint") || it.name.startsWith("lintAnalyze") }.configureEach {
     dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
+    dependsOn(rootProject.tasks.named("prepareLivePoseFixtures"))
+    if (providers.gradleProperty("includeHeavyPoseModel").orNull == "true") dependsOn(rootProject.tasks.named("prepareHeavyPoseModelAsset"))
 }
 
 // Instrumentation suites share one emulator; simultaneous runners steal camera/activity focus.

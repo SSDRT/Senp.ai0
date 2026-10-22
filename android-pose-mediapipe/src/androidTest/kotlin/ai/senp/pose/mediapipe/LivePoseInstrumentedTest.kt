@@ -14,6 +14,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.google.mediapipe.tasks.core.Delegate
 import java.io.File
 import java.util.concurrent.Executors
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.*
@@ -82,6 +85,51 @@ class LivePoseInstrumentedTest {
         }
         assertThrows(LivePoseException.ModelLoad::class.java) {
             LiveMediaPipePoseEstimator.create(context, "missing.task", SHA)
+        }
+    }
+
+    @Test fun overlappingModelCreationDoesNotRewriteAnActiveGraphModel() {
+        val executor = Executors.newSingleThreadExecutor()
+        val running = AtomicBoolean(true)
+        val firstFrame = CountDownLatch(1)
+        val oldCaches = listOf("drishti_asset_cache", "mediapipe_asset_cache").map {
+            File(context.cacheDir, "$it/pose_landmarker_full.task")
+        }
+        fun cacheState() = oldCaches.map { if (it.exists()) it.length() to it.lastModified() else null }
+        val cacheBefore = cacheState()
+        val worker = executor.submit<Int> {
+            val bitmap = poseImage()
+            try {
+                create().use { estimator ->
+                    var count = 0
+                    while (running.get()) {
+                        assertEquals(FrameValidityStatus.VALID, estimator.estimate(bitmap, count * 67L).validity.status)
+                        count++
+                        firstFrame.countDown()
+                    }
+                    count
+                }
+            } finally { bitmap.recycle() }
+        }
+        try {
+            assertTrue("first graph must be inferring", firstFrame.await(30, TimeUnit.SECONDS))
+            val bitmap = poseImage()
+            try {
+                repeat(8) {
+                    create().use { estimator ->
+                        assertEquals(FrameValidityStatus.VALID, estimator.estimate(bitmap, 0).validity.status)
+                    }
+                    // The recorded adapter must bypass the same shared native asset cache too.
+                    MediaPipePoseEstimator.create(context, LivePoseModel.FULL.assetPath, SHA).use { }
+                }
+            } finally { bitmap.recycle() }
+            running.set(false)
+            assertTrue(worker.get(30, TimeUnit.SECONDS) > 0)
+            assertEquals(cacheBefore, cacheState())
+        } finally {
+            running.set(false)
+            executor.shutdown()
+            assertTrue(executor.awaitTermination(30, TimeUnit.SECONDS))
         }
     }
 

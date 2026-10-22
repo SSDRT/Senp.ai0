@@ -8,6 +8,8 @@ class ActionStateRecognizer(
     private val config: ActionStateRecognizerConfig = ActionStateRecognizerConfig(),
 ) {
     private val estimates = mutableListOf<ActionStateEstimate>()
+    private var emittedCount = 0L
+    private var trackedCount = 0L
     private var status = ActionTrackingStatus.NO_ACTION
     private var lastTimestampMs: Long? = null
     private var previousUsableGeometry: Map<String, Double>? = null
@@ -26,6 +28,7 @@ class ActionStateRecognizer(
 
     fun reset() {
         estimates.clear()
+        emittedCount = 0; trackedCount = 0
         status = ActionTrackingStatus.NO_ACTION
         lastTimestampMs = null
         previousUsableGeometry = null
@@ -56,10 +59,6 @@ class ActionStateRecognizer(
             "action recognizer timestamps must be strictly increasing"
         }
         lastTimestampMs = timestampMs
-        if (status == ActionTrackingStatus.COMPLETED) {
-            return emit(frame.timestamp, status, trackingState, 1.0, 1.0, mirrorMode, null)
-        }
-
         val geometry = frame.intrinsicDescriptor.values
         val frameConfidence = frame.intrinsicDescriptor.confidence
         val priorTimestamp = previousUsableTimestampMs
@@ -78,6 +77,20 @@ class ActionStateRecognizer(
             previousUsableTimestampMs = timestampMs
         }
 
+        if (profile.staticHold) {
+            if (previousTimestamp != null && timestampMs - previousTimestamp > config.maximumMotionHistoryGapMs) candidateStartMs = null
+            return handleStaticHold(frame, geometry, usable)
+        }
+        if (status == ActionTrackingStatus.COMPLETED) {
+            val match = if (usable) matchActionStates(profile, geometry, trajectory, listOf(profile.states.lastIndex), listOf(mirrorMode)).firstOrNull() else null
+            if (match != null && match.score >= config.minimumTrackingScore && match.coverage >= config.minimumFeatureCoverage) {
+                return emit(frame.timestamp, status, trackingState, minOf(match.score, frameConfidence), match.coverage, mirrorMode, null)
+            }
+            status = ActionTrackingStatus.LOST
+            trackingState = null
+            return emit(frame.timestamp, status, null, 0.0, 0.0, ActionMirrorMode.UNKNOWN, null)
+        }
+
         return when (status) {
             ActionTrackingStatus.NO_ACTION, ActionTrackingStatus.LOST -> handleEntry(frame, geometry, trajectory, usable)
             ActionTrackingStatus.POSSIBLE_ENTRY -> handlePossibleEntry(frame, geometry, trajectory, usable)
@@ -89,7 +102,10 @@ class ActionStateRecognizer(
     fun finish(): ActionRecognitionResult {
         val effectiveRepetitions: Int
         val finalStatus: ActionTrackingStatus
-        if (profile.cyclic) {
+        if (profile.staticHold) {
+            effectiveRepetitions = 0
+            finalStatus = status
+        } else if (profile.cyclic) {
             val trailingCompleteCycle = if (visitedSinceWrap.size == profile.states.size) 1 else 0
             effectiveRepetitions = completedRepetitions + trailingCompleteCycle
             finalStatus = if (effectiveRepetitions > 0) ActionTrackingStatus.COMPLETED else when (status) {
@@ -97,23 +113,33 @@ class ActionStateRecognizer(
                 else -> ActionTrackingStatus.LOST
             }
         } else {
-            val reachedFinal = trackingState == profile.states.lastIndex || status == ActionTrackingStatus.COMPLETED
+            val reachedFinal = completedRepetitions > 0 || trackingState == profile.states.lastIndex || status == ActionTrackingStatus.COMPLETED
             effectiveRepetitions = if (reachedFinal) 1 else 0
             finalStatus = if (reachedFinal) ActionTrackingStatus.COMPLETED else when (status) {
                 ActionTrackingStatus.NO_ACTION -> ActionTrackingStatus.NO_ACTION
                 else -> ActionTrackingStatus.LOST
             }
         }
-        val trackedCount = estimates.count {
-            it.status == ActionTrackingStatus.TRACKING || it.status == ActionTrackingStatus.COMPLETED
-        }
         return ActionRecognitionResult(
             estimates = estimates.toList(),
             finalStatus = finalStatus,
             completedRepetitions = effectiveRepetitions,
-            repetitionDeltaFromReference = effectiveRepetitions - profile.referenceRepetitions,
-            trackedFraction = if (estimates.isEmpty()) 0.0 else trackedCount.toDouble() / estimates.size.toDouble(),
+            repetitionDeltaFromReference = if (profile.staticHold) 0 else effectiveRepetitions - profile.referenceRepetitions,
+            trackedFraction = if (emittedCount == 0L) 0.0 else trackedCount.toDouble() / emittedCount.toDouble(),
         )
+    }
+
+    private fun handleStaticHold(frame: SpatialObservationFrame, geometry: Map<String, Double>, usable: Boolean): ActionStateEstimate {
+        val best = if (usable) matchActionStates(profile, geometry, emptyMap(), listOf(0)).firstOrNull() else null
+        if (best == null || best.score < config.minimumTrackingScore || best.coverage < config.minimumFeatureCoverage) {
+            candidateStartMs = null; status = ActionTrackingStatus.LOST; trackingState = null
+            return emit(frame.timestamp, status, null, 0.0, 0.0, ActionMirrorMode.UNKNOWN, null)
+        }
+        if (candidateStartMs == null) candidateStartMs = frame.timestamp.value
+        mirrorMode = best.mirrorMode
+        status = if (frame.timestamp.value - requireNotNull(candidateStartMs) >= config.minimumStaticHoldEntryMs) ActionTrackingStatus.TRACKING else ActionTrackingStatus.POSSIBLE_ENTRY
+        trackingState = 0
+        return emit(frame.timestamp, status, 0, minOf(best.score, frame.intrinsicDescriptor.confidence), best.coverage, mirrorMode, null)
     }
 
     private fun handleEntry(
@@ -384,7 +410,12 @@ class ActionStateRecognizer(
             completedRepetitions = completedRepetitions,
             timing = timing,
         )
-        estimates += estimate
+        emittedCount++
+        if (estimateStatus in setOf(ActionTrackingStatus.TRACKING, ActionTrackingStatus.COMPLETED)) trackedCount++
+        if (config.maximumRetainedEstimates > 0) {
+            estimates += estimate
+            if (estimates.size > config.maximumRetainedEstimates) estimates.removeAt(0)
+        }
         return estimate
     }
 }
@@ -404,6 +435,8 @@ data class ActionStateRecognizerConfig(
     val trackingLossGraceMs: Long = 450L,
     val maximumMotionHistoryGapMs: Long = 650L,
     val minimumFiniteCompletionHoldMs: Long = 80L,
+    val minimumStaticHoldEntryMs: Long = 240L,
+    val maximumRetainedEstimates: Int = Int.MAX_VALUE,
 ) {
     init {
         listOf(
@@ -422,5 +455,6 @@ data class ActionStateRecognizerConfig(
         require(trackingLossGraceMs >= 0L)
         require(maximumMotionHistoryGapMs > 0L)
         require(minimumFiniteCompletionHoldMs >= 0L)
+        require(minimumStaticHoldEntryMs >= 0 && maximumRetainedEstimates >= 0)
     }
 }

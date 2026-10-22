@@ -88,6 +88,33 @@ val prepareLivePoseFixtures by tasks.registering {
     outputs.upToDateWhen { false }
 }
 
+val prepareHeavyPoseModelAsset by tasks.registering {
+    group = "build setup"
+    description = "Fetch and verify the optional official Heavy v1 model for accuracy/performance comparison."
+    inputs.file(layout.projectDirectory.file("models/pose_landmarker_heavy.provenance.json"))
+    val destination = layout.buildDirectory.file("generated/heavy-pose-model-assets/pose_landmarker_heavy.task")
+    outputs.file(destination)
+    fun valid(file: File): Boolean = file.isFile && file.length() == 30664242L &&
+        java.security.MessageDigest.getInstance("SHA-256").digest(file.readBytes())
+            .joinToString("") { "%02x".format(it) } == "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+    outputs.upToDateWhen { valid(destination.get().asFile) }
+    doLast {
+        val file = destination.get().asFile
+        file.parentFile.mkdirs()
+        if (!valid(file)) {
+            val temporary = File.createTempFile("heavy-pose-", ".download", file.parentFile)
+            try {
+                val connection = java.net.URI("https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/1/pose_landmarker_heavy.task").toURL().openConnection().apply {
+                    connectTimeout = 30_000; readTimeout = 60_000
+                }
+                connection.getInputStream().use { input -> temporary.outputStream().use { input.copyTo(it) } }
+                check(valid(temporary)) { "Heavy model size/SHA-256 verification failed" }
+                java.nio.file.Files.move(temporary.toPath(), file.toPath(), java.nio.file.StandardCopyOption.ATOMIC_MOVE, java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+            } finally { temporary.delete() }
+        }
+    }
+}
+
 val allowedProjectDependencies = mapOf(
     ":core-contracts" to emptySet(),
     ":core-pipeline" to setOf(":core-contracts"),

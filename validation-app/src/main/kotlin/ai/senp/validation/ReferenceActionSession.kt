@@ -15,15 +15,23 @@ import ai.senp.motion.ActionProfile
 import ai.senp.motion.ActionRecognitionResult
 import ai.senp.motion.ActionStateEstimate
 import ai.senp.motion.ActionStateRecognizer
+import ai.senp.motion.ActionStateRecognizerConfig
 import ai.senp.motion.ActionTrackingStatus
 import ai.senp.motion.CoachingObservation
 import ai.senp.motion.LiveFeedbackStabilizer
+import ai.senp.motion.LiveFeedbackConfig
 import ai.senp.motion.ReferenceActionCompilation
 import ai.senp.motion.ReferenceActionCompiler
+import ai.senp.motion.ReferenceActionCompilerConfig
 import ai.senp.motion.ReferenceDeviationEvaluator
 import ai.senp.motion.ReferenceDeviationMeasurement
 import ai.senp.motion.SpatialSynchronizationEngine
+import ai.senp.motion.SpatialSynchronizationConfig
 import ai.senp.motion.StableLiveFeedback
+import ai.senp.motion.WorkoutPrecisionCoach
+import ai.senp.motion.WorkoutPrecisionConfig
+import ai.senp.motion.WorkoutPrecisionResult
+import ai.senp.motion.SpatialIntrinsicDescriptor
 import ai.senp.sync.v2.PoseObservationAdapter
 import ai.senp.sync.v2.SynchronizationPoseCache
 import ai.senp.sync.v2.SynchronizationPoseCacheKey
@@ -51,6 +59,7 @@ internal data class LiveReferenceActionOutput(
     val estimate: ActionStateEstimate,
     val feedback: StableLiveFeedback,
     val poseConfidence: Double,
+    val precision: WorkoutPrecisionResult? = null,
 )
 
 /** Android-side composition seam for reference-action compilation and recognition. */
@@ -58,8 +67,10 @@ internal class ReferenceActionSessionEngine(
     private val videoPoseExtractor: VideoPoseExtractor,
     private val poseCache: SynchronizationPoseCache,
     private val observationAdapter: PoseObservationAdapter = PoseObservationAdapter(),
-    private val spatialEngine: SpatialSynchronizationEngine = SpatialSynchronizationEngine(),
-    private val compiler: ReferenceActionCompiler = ReferenceActionCompiler(),
+    private val spatialEngine: SpatialSynchronizationEngine = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true)),
+    private val compiler: ReferenceActionCompiler = ReferenceActionCompiler(ReferenceActionCompilerConfig(
+        targetStateCount = 12, minimumSamplesPerState = 5, proportionsAreContextOnly = true,
+    )),
 ) {
     suspend fun prepareReference(
         source: VideoSource,
@@ -113,7 +124,7 @@ internal class ReferenceActionSessionEngine(
     ): ReferencePreparationOutcome {
         require(extraction.role == VideoRole.REFERENCE)
         val observations = observationAdapter.adapt(extraction, analysisFramesPerSecond)
-        return when (val result = compiler.compile(observations)) {
+        return when (val result = compiler.compile(spatialEngine.analyzeSequence(observations))) {
             is ReferenceActionCompilation.Success -> ReferencePreparationOutcome.Ready(result.profile, extraction)
             is ReferenceActionCompilation.Failure -> ReferencePreparationOutcome.Rejected(result.message, extraction)
         }
@@ -145,11 +156,13 @@ internal class ReferenceActionSessionEngine(
     fun newLiveProcessor(
         profile: ActionProfile,
         analysisFramesPerSecond: Double,
+        precisionConfig: WorkoutPrecisionConfig = WorkoutPrecisionConfig(),
     ): LiveReferenceActionProcessor = LiveReferenceActionProcessor(
         profile = profile,
         analysisFramesPerSecond = analysisFramesPerSecond,
         observationAdapter = observationAdapter,
         spatialEngine = spatialEngine,
+        precisionConfig = precisionConfig,
     )
 
     private fun poseCacheKey(
@@ -191,22 +204,26 @@ internal class LiveReferenceActionProcessor(
     private val profile: ActionProfile,
     private val analysisFramesPerSecond: Double,
     private val observationAdapter: PoseObservationAdapter = PoseObservationAdapter(),
-    private val spatialEngine: SpatialSynchronizationEngine = SpatialSynchronizationEngine(),
-    private val recognizer: ActionStateRecognizer = ActionStateRecognizer(profile),
-    private val deviationEvaluator: ReferenceDeviationEvaluator = ReferenceDeviationEvaluator(profile),
-    private val stabilizer: LiveFeedbackStabilizer = LiveFeedbackStabilizer(),
+    private val spatialEngine: SpatialSynchronizationEngine = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true)),
+    private val recognizer: ActionStateRecognizer = ActionStateRecognizer(profile, ActionStateRecognizerConfig(maximumRetainedEstimates = 0)),
+    private val precisionConfig: WorkoutPrecisionConfig = WorkoutPrecisionConfig(),
+    private val precisionCoach: WorkoutPrecisionCoach = WorkoutPrecisionCoach(profile, precisionConfig),
+    private val stabilizer: LiveFeedbackStabilizer = LiveFeedbackStabilizer(LiveFeedbackConfig(
+        minimumCandidateConfidence = 0.65, minimumTrackingConfidence = 0.55,
+        confirmationMs = 0, releaseGraceMs = 0, trackingLossHoldMs = 0, maximumEvidenceGapMs = 250,
+    )),
 ) {
     init {
         require(analysisFramesPerSecond.isFinite() && analysisFramesPerSecond > 0.0)
     }
 
-    fun reset() {
+    @Synchronized fun reset() {
         recognizer.reset()
-        deviationEvaluator.reset()
+        precisionCoach.reset()
         stabilizer.reset()
     }
 
-    fun update(pose: PoseFrame): LiveReferenceActionOutput {
+    @Synchronized fun update(pose: PoseFrame): LiveReferenceActionOutput {
         val observation = observationAdapter.adaptFrame(pose)
         val sequence = CanonicalObservationSequence(
             role = VideoRole.SOURCE,
@@ -215,16 +232,25 @@ internal class LiveReferenceActionProcessor(
             observations = listOf(observation),
         )
         val spatialFrame = spatialEngine.analyzeSequence(sequence).frames.single()
-        val estimate = recognizer.accept(spatialFrame)
-        val deviations = deviationEvaluator.evaluate(spatialFrame, estimate)
+        val descriptor = spatialFrame.intrinsicDescriptor
+        val reliableValues = descriptor.values.filterKeys { (descriptor.featureConfidences[it] ?: 0.0) >= precisionConfig.minimumFeatureConfidence }
+        val reliableFrame = spatialFrame.copy(intrinsicDescriptor = SpatialIntrinsicDescriptor(
+            reliableValues, descriptor.confidence, descriptor.featureConfidences.filterKeys { it in reliableValues },
+        ))
+        val estimate = recognizer.accept(reliableFrame)
+        val precision = precisionCoach.evaluate(spatialFrame, estimate)
         val actionTracking = estimate.status == ActionTrackingStatus.TRACKING ||
             estimate.status == ActionTrackingStatus.COMPLETED
         val coachingCandidates = if (actionTracking) {
-            deviations
-                .asSequence()
-                .filter { measurement -> measurement.feature.startsWith("angle.") }
-                .map { measurement -> measurement.toCoachingObservation(profile) }
-                .toList()
+            precision.activeSuggestions.map { suggestion ->
+                val measurement = suggestion.measurement
+                CoachingObservation(
+                    stableKey = suggestion.key, label = suggestion.label,
+                    confidence = measurement.confidence,
+                    severity = (kotlin.math.abs(measurement.signedOutsideRange ?: 0.0) / (measurement.enterThreshold ?: 1.0) / 3.0).coerceIn(0.0, 1.0),
+                    timestampMs = pose.timestamp.value,
+                )
+            }
         } else {
             emptyList()
         }
@@ -241,6 +267,7 @@ internal class LiveReferenceActionProcessor(
                 trackingConfidence = trackingConfidence,
             ),
             poseConfidence = pose.validity.confidence,
+            precision = precision,
         )
     }
 }
@@ -249,6 +276,7 @@ internal data class PreparedReferenceAction(
     val profile: ActionProfile,
     val referenceSha256: String,
     val analysisFramesPerSecond: Double,
+    val precisionConfig: WorkoutPrecisionConfig = WorkoutPrecisionConfig(),
 )
 
 internal object ReferenceActionProfileStore {
@@ -296,18 +324,4 @@ internal fun ReferenceDeviationMeasurement.toReferenceCueLabel(): String {
     }
     val subject = feature.substringAfter('.', feature).replace('_', ' ')
     return "Adjust $subject toward the reference"
-}
-
-private fun ReferenceDeviationMeasurement.toCoachingObservation(profile: ActionProfile): CoachingObservation {
-    val state = profile.states.firstOrNull { it.id == stateId }
-    val importance = state?.features?.firstOrNull { it.name == feature }?.importance ?: 0.0
-    val direction = if (signedDeltaOutsideRange < 0.0) "below" else "above"
-    return CoachingObservation(
-        stableKey = feature + "|" + direction,
-        label = toReferenceCueLabel(),
-        confidence = confidence,
-        severity = (normalizedDeviation / 2.0).coerceIn(0.0, 1.0),
-        timestampMs = timestamp.value,
-        priority = (importance * 100.0).roundToInt().coerceAtLeast(0),
-    )
 }

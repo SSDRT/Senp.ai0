@@ -23,18 +23,21 @@ android {
     androidResources { noCompress += "task" }
     sourceSets["androidTest"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/pose-model-assets"))
     sourceSets["androidTest"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/live-pose-fixtures"))
+    sourceSets["androidTest"].assets.srcDir(rootProject.layout.buildDirectory.dir("generated/heavy-pose-model-assets"))
     testOptions { unitTests.isReturnDefaultValues = true }
 }
 
 tasks.matching { it.name.startsWith("merge") && it.name.endsWith("AndroidTestAssets") }.configureEach {
     dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
     dependsOn(rootProject.tasks.named("prepareLivePoseFixtures"))
+    dependsOn(rootProject.tasks.named("prepareHeavyPoseModelAsset"))
 }
 
 // Lint inspects the generated androidTest model asset outside mergeAndroidTestAssets.
 tasks.matching { it.name.contains("Lint") || it.name.startsWith("lintAnalyze") }.configureEach {
     dependsOn(rootProject.tasks.named("preparePoseModelAsset"))
     dependsOn(rootProject.tasks.named("prepareLivePoseFixtures"))
+    dependsOn(rootProject.tasks.named("prepareHeavyPoseModelAsset"))
 }
 
 kotlin { compilerOptions { jvmTarget.set(JvmTarget.JVM_21) } }

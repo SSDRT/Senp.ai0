@@ -100,3 +100,13 @@ tasks.register<JavaExec>("livePoseBenchmark") {
     args(layout.buildDirectory.file("reports/live-pose/tuning-sweep.json").get().asFile.absolutePath)
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("workoutPrecisionBenchmark") {
+    group = "verification"
+    description = "Sweep persistence thresholds on synthetic known-phase workout measurement scenarios."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.WorkoutPrecisionBenchmark")
+    args(layout.buildDirectory.file("reports/workout-precision/threshold-sweep.json").get().asFile.absolutePath)
+    outputs.upToDateWhen { false }
+}

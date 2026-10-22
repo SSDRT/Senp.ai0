@@ -60,11 +60,14 @@ data class SpatialRootOrientation(
 data class SpatialIntrinsicDescriptor(
     val values: Map<String, Double>,
     val confidence: Double,
+    val featureConfidences: Map<String, Double> = emptyMap(),
 ) {
     init {
         requireSpatialProbability(confidence, "intrinsic-descriptor confidence")
         require(values.keys.all { it.isNotBlank() }) { "intrinsic-descriptor keys must be non-blank" }
         require(values.values.all(Double::isFinite)) { "intrinsic-descriptor values must be finite" }
+        require(featureConfidences.keys.all { it in values })
+        featureConfidences.values.forEach { requireSpatialProbability(it, "feature confidence") }
     }
 
     fun distanceTo(other: SpatialIntrinsicDescriptor, mirroredOther: Boolean = false): Double? =
@@ -189,6 +192,7 @@ data class SpatialSynchronizationConfig(
     val sideCoverageThreshold: Double = 0.45,
     val sideDominanceMargin: Double = 0.12,
     val minimumSideSelectionStability: Double = 0.70,
+    val includeWorkoutFeatures: Boolean = false,
 ) {
     init {
         listOf(minimumChannelConfidence, minimumAnchorConfidence, minimumDescriptorConfidence).forEach {

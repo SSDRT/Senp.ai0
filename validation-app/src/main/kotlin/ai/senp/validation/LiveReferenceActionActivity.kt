@@ -80,6 +80,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
         processor = LiveReferenceActionProcessor(
             profile = prepared.profile,
             analysisFramesPerSecond = prepared.analysisFramesPerSecond,
+            precisionConfig = prepared.precisionConfig,
         )
         phaseView.text = "REFERENCE READY • ${prepared.profile.states.size} STATES • ${(prepared.profile.confidence * 100.0).toInt()}% PROFILE"
         if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
