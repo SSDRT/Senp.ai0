@@ -1,0 +1,3174 @@
+{
+  "version": "exercise-techniques/1",
+  "policy": "Original fact summaries. Source targets and engineering margins are distinct. Explicit variant selection; no diagnosis or all-exercise accuracy claim.",
+  "sources": [
+    {
+      "id": "nasm_push_up",
+      "publisher": "NASM",
+      "title": "Push Up",
+      "url": "https://www.nasm.org/resource-center/exercise-library/push-up",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_modified_push_up",
+      "publisher": "NASM",
+      "title": "Modified Push Up",
+      "url": "https://www.nasm.org/resource-center/exercise-library/modified-push-up",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_incline_push_up",
+      "publisher": "NASM",
+      "title": "Incline Push Up",
+      "url": "https://www.nasm.org/resource-center/exercise-library/incline-push-up",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_decline_push_up",
+      "publisher": "NASM",
+      "title": "Decline Push Up",
+      "url": "https://www.nasm.org/resource-center/exercise-library/decline-push-up",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_pike_push_up",
+      "publisher": "NASM",
+      "title": "Pike Push Up",
+      "url": "https://www.nasm.org/resource-center/exercise-library/pike-push-up",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_plank",
+      "publisher": "NASM",
+      "title": "Plank",
+      "url": "https://www.nasm.org/resource-center/exercise-library/plank",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_straight_arm_plank",
+      "publisher": "NASM",
+      "title": "Straight Arm Plank",
+      "url": "https://www.nasm.org/resource-center/exercise-library/straight-arm-plank",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_side_plank",
+      "publisher": "NASM",
+      "title": "Side Plank",
+      "url": "https://www.nasm.org/resource-center/exercise-library/side-plank",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_prisoner_squat",
+      "publisher": "NASM",
+      "title": "Prisoner Squat",
+      "url": "https://www.nasm.org/resource-center/exercise-library/prisoner-squat",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_goblet_squat",
+      "publisher": "NASM",
+      "title": "Goblet Squat",
+      "url": "https://www.nasm.org/resource-center/exercise-library/goblet-squat",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_dumbbell_front_squat",
+      "publisher": "NASM",
+      "title": "Dumbbell Front Squat",
+      "url": "https://www.nasm.org/resource-center/exercise-library/dumbbell-front-squat",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_bulgarian_split_squat",
+      "publisher": "NASM",
+      "title": "Bulgarian Split Squat",
+      "url": "https://www.nasm.org/resource-center/exercise-library/bulgarian-split-squat",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_single_leg_squat",
+      "publisher": "NASM",
+      "title": "Single Leg Squat",
+      "url": "https://www.nasm.org/resource-center/exercise-library/single-leg-squat",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_barbell_deadlift",
+      "publisher": "NASM",
+      "title": "Barbell Deadlift",
+      "url": "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_romanian_deadlift_barbell",
+      "publisher": "NASM",
+      "title": "Romanian Deadlift Barbell",
+      "url": "https://www.nasm.org/resource-center/exercise-library/romanian-deadlift-barbell",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_dumbbell_romanian_deadlift",
+      "publisher": "NASM",
+      "title": "Dumbbell Romanian Deadlift",
+      "url": "https://www.nasm.org/resource-center/exercise-library/dumbbell-romanian-deadlift",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_good_mornings",
+      "publisher": "NASM",
+      "title": "Good Mornings",
+      "url": "https://www.nasm.org/resource-center/exercise-library/good-mornings",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_floor_bridge",
+      "publisher": "NASM",
+      "title": "Floor Bridge",
+      "url": "https://www.nasm.org/resource-center/exercise-library/floor-bridge",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_pull_up",
+      "publisher": "NASM",
+      "title": "Pull Up",
+      "url": "https://www.nasm.org/resource-center/exercise-library/pull-up",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_band_assisted_pull_up",
+      "publisher": "NASM",
+      "title": "Band Assisted Pull Up",
+      "url": "https://www.nasm.org/resource-center/exercise-library/band-assisted-pull-up",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_barbell_bicep_curl",
+      "publisher": "NASM",
+      "title": "Barbell Bicep Curl",
+      "url": "https://www.nasm.org/resource-center/exercise-library/barbell-bicep-curl",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_barbell_bench_press",
+      "publisher": "NASM",
+      "title": "Barbell Bench Press",
+      "url": "https://www.nasm.org/resource-center/exercise-library/barbell-bench-press",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_bird_dog",
+      "publisher": "NASM",
+      "title": "Bird Dog",
+      "url": "https://www.nasm.org/resource-center/exercise-library/bird-dog",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_dead_bug",
+      "publisher": "NASM",
+      "title": "Dead Bug",
+      "url": "https://www.nasm.org/resource-center/exercise-library/dead-bug",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_jumping_jacks",
+      "publisher": "NASM",
+      "title": "Jumping Jacks",
+      "url": "https://www.nasm.org/resource-center/exercise-library/jumping-jacks",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_squat_thrust_burpees",
+      "publisher": "NASM",
+      "title": "Squat Thrust Burpees",
+      "url": "https://www.nasm.org/resource-center/exercise-library/squat-thrust-burpees",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_leg_press",
+      "publisher": "NASM",
+      "title": "Leg Press",
+      "url": "https://www.nasm.org/resource-center/exercise-library/leg-press",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_seated_leg_curl",
+      "publisher": "NASM",
+      "title": "Seated Leg Curl",
+      "url": "https://www.nasm.org/resource-center/exercise-library/seated-leg-curl",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nhs_strength",
+      "publisher": "NHS",
+      "title": "Strength exercises",
+      "url": "https://www.nhs.uk/live-well/exercise/strength-exercises/",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "ace_lunge",
+      "publisher": "ACE",
+      "title": "Forward lunge",
+      "url": "https://www.acefitness.org/resources/everyone/exercise-library/94/forward-lunge/",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "ace_step_up",
+      "publisher": "ACE",
+      "title": "Step-up",
+      "url": "https://www.acefitness.org/resources/everyone/exercise-library/28/step-up/",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "ace_bridge",
+      "publisher": "ACE",
+      "title": "Glute bridge",
+      "url": "https://www.acefitness.org/resources/everyone/exercise-library/49/glute-bridge/",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "ace_lateral_raise",
+      "publisher": "ACE",
+      "title": "Lateral raise",
+      "url": "https://www.acefitness.org/resources/everyone/exercise-library/26/lateral-raise/",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nfrs_strength",
+      "publisher": "Nottinghamshire Fire and Rescue Service",
+      "title": "Workout one: technique guidance",
+      "url": "https://www.notts-fire.gov.uk/careers/firefighter-fitness-guidance/12-week-programme/workout-one/",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "nasm_wall_sit",
+      "publisher": "NASM",
+      "title": "Wall sits: setup and modifications",
+      "url": "https://www.nasm.org/resource-center/blog/training/wall-sits",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "mayo_crunch",
+      "publisher": "Mayo Clinic",
+      "title": "Abdominal crunch",
+      "url": "https://www.mayoclinic.org/healthy-lifestyle/fitness/multimedia/abdominal-crunch/vid-20084664",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "cleveland_leg_lifts",
+      "publisher": "Cleveland Clinic",
+      "title": "How to do leg lifts",
+      "url": "https://health.clevelandclinic.org/how-to-do-leg-lifts",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "asa_strength",
+      "publisher": "American Stroke Association",
+      "title": "Strength and balance exercises",
+      "url": "https://www.stroke.org/en/health-topics/cardiac-rehab/getting-physically-active/strength-and-balance-exercises",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "mayo_triceps",
+      "publisher": "Mayo Clinic",
+      "title": "Triceps extension with weight machine",
+      "url": "https://www.mayoclinic.org/healthy-lifestyle/fitness/multimedia/triceps-extension/vid-20084691",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "usms_mountain_climber",
+      "publisher": "US Marshals Service",
+      "title": "FIT readiness: running planks, page 33",
+      "url": "https://www.usmarshals.gov/sites/default/files/media/document/FIT-readiness-program.pdf",
+      "retrieved": "2026-10-22"
+    },
+    {
+      "id": "dataset_quality_v3",
+      "publisher": "Duddela Sai Prashanth et al., Mendeley Data",
+      "title": "Seven-exercise smartphone dataset, V3",
+      "url": "https://data.mendeley.com/datasets/kgbb3yn47p/3",
+      "retrieved": "2026-10-22"
+    }
+  ],
+  "exercises": [
+    {
+      "id": "bodyweight_squat",
+      "name": "Bodyweight squat",
+      "family": "squat",
+      "aliases": [
+        "squat",
+        "air squat"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_ankle",
+            "angle.right_ankle"
+          ],
+          "phase": "ALL",
+          "summary": "Use a comfortable squat depth with coordinated hip and knee bending.",
+          "cue": "Match the demonstrated {side} squat bend",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "stance",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "relation.foot_width_over_hips",
+            "relation.knee_width_over_feet"
+          ],
+          "phase": "ALL",
+          "summary": "Stance and knee spacing are monitored against the chosen demonstration.",
+          "cue": "Match the demonstrated stance and knee spacing",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Width ratio is a spacing proxy; it cannot establish knee-over-toe tracking, foot rotation or ground pressure."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Depth is reference-calibrated; no universal 90-degree knee rule or blanket knees-behind-toes rule is imposed.",
+        "Spinal neutrality, heel pressure and knee-over-toe alignment are not directly measured."
+      ]
+    },
+    {
+      "id": "prisoner_squat",
+      "name": "Prisoner squat",
+      "family": "squat",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion_0",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_ankle",
+            "angle.right_ankle"
+          ],
+          "phase": "ALL",
+          "summary": "Use a comfortable squat depth with coordinated hip and knee bending.",
+          "cue": "Match the demonstrated {side} squat bend",
+          "sources": [
+            "nasm_prisoner_squat"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "stance",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "relation.foot_width_over_hips",
+            "relation.knee_width_over_feet"
+          ],
+          "phase": "ALL",
+          "summary": "Stance and knee spacing are monitored against the chosen demonstration.",
+          "cue": "Match the demonstrated stance and knee spacing",
+          "sources": [
+            "nasm_prisoner_squat"
+          ],
+          "limitation": "Width ratio is a spacing proxy; it cannot establish knee-over-toe tracking, foot rotation or ground pressure."
+        },
+        {
+          "id": "reference_motion_2",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Hands are positioned behind the head.",
+          "cue": "Match the demonstrated {side} arm position",
+          "sources": [
+            "nasm_prisoner_squat"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_prisoner_squat"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Depth is reference-calibrated; no universal 90-degree knee rule or blanket knees-behind-toes rule is imposed.",
+        "Spinal neutrality, heel pressure and knee-over-toe alignment are not directly measured."
+      ]
+    },
+    {
+      "id": "goblet_squat",
+      "name": "Goblet squat",
+      "family": "squat",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion_0",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_ankle",
+            "angle.right_ankle"
+          ],
+          "phase": "ALL",
+          "summary": "Use a comfortable squat depth with coordinated hip and knee bending.",
+          "cue": "Match the demonstrated {side} squat bend",
+          "sources": [
+            "nasm_goblet_squat"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "stance",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "relation.foot_width_over_hips",
+            "relation.knee_width_over_feet"
+          ],
+          "phase": "ALL",
+          "summary": "Stance and knee spacing are monitored against the chosen demonstration.",
+          "cue": "Match the demonstrated stance and knee spacing",
+          "sources": [
+            "nasm_goblet_squat"
+          ],
+          "limitation": "Width ratio is a spacing proxy; it cannot establish knee-over-toe tracking, foot rotation or ground pressure."
+        },
+        {
+          "id": "reference_motion_2",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "distance.left_hand_to_shoulder",
+            "distance.right_hand_to_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "The implement is held at chest height.",
+          "cue": "Match the demonstrated hand position",
+          "sources": [
+            "nasm_goblet_squat"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_goblet_squat"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Depth is reference-calibrated; no universal 90-degree knee rule or blanket knees-behind-toes rule is imposed.",
+        "Spinal neutrality, heel pressure and knee-over-toe alignment are not directly measured."
+      ]
+    },
+    {
+      "id": "dumbbell_front_squat",
+      "name": "Dumbbell front squat",
+      "family": "squat",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion_0",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_ankle",
+            "angle.right_ankle"
+          ],
+          "phase": "ALL",
+          "summary": "Use a comfortable squat depth with coordinated hip and knee bending.",
+          "cue": "Match the demonstrated {side} squat bend",
+          "sources": [
+            "nasm_dumbbell_front_squat"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "stance",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "relation.foot_width_over_hips",
+            "relation.knee_width_over_feet"
+          ],
+          "phase": "ALL",
+          "summary": "Stance and knee spacing are monitored against the chosen demonstration.",
+          "cue": "Match the demonstrated stance and knee spacing",
+          "sources": [
+            "nasm_dumbbell_front_squat"
+          ],
+          "limitation": "Width ratio is a spacing proxy; it cannot establish knee-over-toe tracking, foot rotation or ground pressure."
+        },
+        {
+          "id": "reference_motion_2",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Keep the front rack stable through the movement.",
+          "cue": "Match the demonstrated {side} front-rack arm position",
+          "sources": [
+            "nasm_dumbbell_front_squat"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_dumbbell_front_squat"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Depth is reference-calibrated; no universal 90-degree knee rule or blanket knees-behind-toes rule is imposed.",
+        "Spinal neutrality, heel pressure and knee-over-toe alignment are not directly measured."
+      ]
+    },
+    {
+      "id": "mini_squat",
+      "name": "Supported mini-squat",
+      "family": "squat",
+      "aliases": [
+        "mini squat"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_ankle",
+            "angle.right_ankle"
+          ],
+          "phase": "ALL",
+          "summary": "Use a comfortable squat depth with coordinated hip and knee bending.",
+          "cue": "Match the demonstrated {side} squat bend",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "stance",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "relation.foot_width_over_hips",
+            "relation.knee_width_over_feet"
+          ],
+          "phase": "ALL",
+          "summary": "Stance and knee spacing are monitored against the chosen demonstration.",
+          "cue": "Match the demonstrated stance and knee spacing",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Width ratio is a spacing proxy; it cannot establish knee-over-toe tracking, foot rotation or ground pressure."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Depth is reference-calibrated; no universal 90-degree knee rule or blanket knees-behind-toes rule is imposed.",
+        "Spinal neutrality, heel pressure and knee-over-toe alignment are not directly measured."
+      ]
+    },
+    {
+      "id": "single_leg_squat",
+      "name": "Single-leg squat",
+      "family": "unilateral_lower",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "distance.foot_separation"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the working leg with a controlled, individually appropriate range.",
+          "cue": "Match the demonstrated {side} leg position",
+          "sources": [
+            "nasm_single_leg_squat"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_single_leg_squat"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Left and right legs are assessed independently; no bilateral symmetry target is imposed.",
+        "Ground/bench contact, balance forces and true knee-over-toe tracking are not assessed."
+      ]
+    },
+    {
+      "id": "forward_lunge",
+      "name": "Forward lunge",
+      "family": "unilateral_lower",
+      "aliases": [
+        "lunge"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "distance.foot_separation"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the working leg with a controlled, individually appropriate range.",
+          "cue": "Match the demonstrated {side} leg position",
+          "sources": [
+            "ace_lunge"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "ace_lunge"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Left and right legs are assessed independently; no bilateral symmetry target is imposed.",
+        "Ground/bench contact, balance forces and true knee-over-toe tracking are not assessed."
+      ]
+    },
+    {
+      "id": "split_squat",
+      "name": "Stationary split squat",
+      "family": "unilateral_lower",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "distance.foot_separation"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the working leg with a controlled, individually appropriate range.",
+          "cue": "Match the demonstrated {side} leg position",
+          "sources": [
+            "ace_lunge"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "ace_lunge"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Left and right legs are assessed independently; no bilateral symmetry target is imposed.",
+        "Ground/bench contact, balance forces and true knee-over-toe tracking are not assessed."
+      ]
+    },
+    {
+      "id": "bulgarian_split_squat",
+      "name": "Bulgarian split squat",
+      "family": "unilateral_lower",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "distance.foot_separation"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the working leg with a controlled, individually appropriate range.",
+          "cue": "Match the demonstrated {side} leg position",
+          "sources": [
+            "nasm_bulgarian_split_squat"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_bulgarian_split_squat"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Left and right legs are assessed independently; no bilateral symmetry target is imposed.",
+        "Ground/bench contact, balance forces and true knee-over-toe tracking are not assessed."
+      ]
+    },
+    {
+      "id": "step_up",
+      "name": "Step-up",
+      "family": "unilateral_lower",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip",
+            "distance.foot_separation"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the working leg with a controlled, individually appropriate range.",
+          "cue": "Match the demonstrated {side} leg position",
+          "sources": [
+            "ace_step_up"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "ace_step_up"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Left and right legs are assessed independently; no bilateral symmetry target is imposed.",
+        "Ground/bench contact, balance forces and true knee-over-toe tracking are not assessed."
+      ]
+    },
+    {
+      "id": "sit_to_stand",
+      "name": "Sit-to-stand",
+      "family": "functional_lower",
+      "aliases": [
+        "chair stand"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Rise from the chair and return with control.",
+          "cue": "Match the demonstrated {side} sit-to-stand movement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Chair stability and assistance force are not observable."
+      ]
+    },
+    {
+      "id": "calf_raise",
+      "name": "Standing calf raise",
+      "family": "ankle",
+      "aliases": [
+        "calf raises",
+        "heel raise"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_ankle",
+            "angle.right_ankle",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Raise and lower the heels with control.",
+          "cue": "Match the demonstrated {side} ankle movement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Ankle landmark angle is a proxy; heel height, floor plane and pressure are not calibrated."
+      ]
+    },
+    {
+      "id": "standing_hip_abduction",
+      "name": "Standing sideways leg lift",
+      "family": "standing_hip",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Move the leg within a comfortable range while keeping the torso controlled.",
+          "cue": "Match the demonstrated {side} hip position",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Pelvic tilt and lumbar arch are not independently measured."
+      ]
+    },
+    {
+      "id": "standing_hip_extension",
+      "name": "Standing rear leg extension",
+      "family": "standing_hip",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Move the leg within a comfortable range while keeping the torso controlled.",
+          "cue": "Match the demonstrated {side} hip position",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Pelvic tilt and lumbar arch are not independently measured."
+      ]
+    },
+    {
+      "id": "deadlift",
+      "name": "Barbell deadlift",
+      "family": "hinge",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion_0",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Hinge from the hips and control the return; knee bend differs by variant.",
+          "cue": "Match the demonstrated {side} hip hinge",
+          "sources": [
+            "nasm_barbell_deadlift"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "reference_motion_1",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "distance.left_hand_to_hip",
+            "distance.right_hand_to_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Track hand position through the demonstrated hinge.",
+          "cue": "Match the demonstrated hand-to-hip spacing",
+          "sources": [
+            "nasm_barbell_deadlift"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_barbell_deadlift"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Hip/shoulder alignment does not measure spinal curvature.",
+        "Bar path, grip, load and hamstring sensation are not measured."
+      ]
+    },
+    {
+      "id": "romanian_deadlift",
+      "name": "Barbell Romanian deadlift",
+      "family": "hinge",
+      "aliases": [
+        "rdl"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion_0",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Hinge from the hips and control the return; knee bend differs by variant.",
+          "cue": "Match the demonstrated {side} hip hinge",
+          "sources": [
+            "nasm_romanian_deadlift_barbell"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "reference_motion_1",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "distance.left_hand_to_hip",
+            "distance.right_hand_to_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Track hand position through the demonstrated hinge.",
+          "cue": "Match the demonstrated hand-to-hip spacing",
+          "sources": [
+            "nasm_romanian_deadlift_barbell"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_romanian_deadlift_barbell"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Hip/shoulder alignment does not measure spinal curvature.",
+        "Bar path, grip, load and hamstring sensation are not measured."
+      ]
+    },
+    {
+      "id": "dumbbell_romanian_deadlift",
+      "name": "Dumbbell Romanian deadlift",
+      "family": "hinge",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion_0",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Hinge from the hips and control the return; knee bend differs by variant.",
+          "cue": "Match the demonstrated {side} hip hinge",
+          "sources": [
+            "nasm_dumbbell_romanian_deadlift"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "reference_motion_1",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "distance.left_hand_to_hip",
+            "distance.right_hand_to_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Track hand position through the demonstrated hinge.",
+          "cue": "Match the demonstrated hand-to-hip spacing",
+          "sources": [
+            "nasm_dumbbell_romanian_deadlift"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_dumbbell_romanian_deadlift"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Hip/shoulder alignment does not measure spinal curvature.",
+        "Bar path, grip, load and hamstring sensation are not measured."
+      ]
+    },
+    {
+      "id": "good_morning",
+      "name": "Good morning",
+      "family": "hinge",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion_0",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Hinge from the hips and control the return; knee bend differs by variant.",
+          "cue": "Match the demonstrated {side} hip hinge",
+          "sources": [
+            "nasm_good_mornings"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "reference_motion_1",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "distance.left_hand_to_hip",
+            "distance.right_hand_to_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Track hand position through the demonstrated hinge.",
+          "cue": "Match the demonstrated hand-to-hip spacing",
+          "sources": [
+            "nasm_good_mornings"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_good_mornings"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Hip/shoulder alignment does not measure spinal curvature.",
+        "Bar path, grip, load and hamstring sensation are not measured."
+      ]
+    },
+    {
+      "id": "glute_bridge",
+      "name": "Glute bridge",
+      "family": "bridge",
+      "aliases": [
+        "floor bridge"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Lift the hips and lower with control.",
+          "cue": "Match the demonstrated {side} bridge position",
+          "sources": [
+            "nasm_floor_bridge"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "top_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "MAXIMUM",
+          "summary": "At the elevated position, shoulders, hips and knees form a line.",
+          "cue": "Align your {side} shoulder, hip and knee",
+          "sources": [
+            "nasm_floor_bridge"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "anchor": "angle.left_hip",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_floor_bridge"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Do not interpret this angle as proof of lumbar neutrality or glute activation."
+      ]
+    },
+    {
+      "id": "bridge_hold",
+      "name": "Elevated bridge hold",
+      "family": "bridge",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Lift the hips and lower with control.",
+          "cue": "Match the demonstrated {side} bridge position",
+          "sources": [
+            "nasm_floor_bridge"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "top_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "At the elevated position, shoulders, hips and knees form a line.",
+          "cue": "Align your {side} shoulder, hip and knee",
+          "sources": [
+            "nasm_floor_bridge"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_floor_bridge"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Do not interpret this angle as proof of lumbar neutrality or glute activation."
+      ]
+    },
+    {
+      "id": "push_up",
+      "name": "Standard push-up",
+      "family": "push_up",
+      "aliases": [
+        "pushup",
+        "push ups"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the arms through the demonstrated pressing range.",
+          "cue": "Match the demonstrated {side} elbow bend",
+          "sources": [
+            "nasm_push_up"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "body_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_body_line",
+            "angle.right_body_line"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain a continuous body line through the supported position.",
+          "cue": "Align your {side} shoulder, hip and ankle",
+          "sources": [
+            "nasm_push_up"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "elbow_position",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "MINIMUM",
+          "summary": "The upper arms are approximately 45 degrees from the torso during the lower position.",
+          "cue": "Adjust your {side} upper-arm angle toward the demonstrated push-up position",
+          "sources": [
+            "nasm_push_up"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "anchor": "angle.left_elbow",
+          "lower": 45,
+          "upper": 45,
+          "enter": 20,
+          "exit": 12
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_push_up"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "No floor/bench contact or force measurement.",
+        "Knee-supported variation uses shoulder-hip-knee alignment; it must not receive the standard ankle-line target."
+      ]
+    },
+    {
+      "id": "modified_push_up",
+      "name": "Knee-supported push-up",
+      "family": "push_up",
+      "aliases": [
+        "knee pushup"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the arms through the demonstrated pressing range.",
+          "cue": "Match the demonstrated {side} elbow bend",
+          "sources": [
+            "nasm_modified_push_up"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "body_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain a continuous body line through the supported position.",
+          "cue": "Align your {side} shoulder, hip and knee",
+          "sources": [
+            "nasm_modified_push_up"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "elbow_position",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "MINIMUM",
+          "summary": "The upper arms are approximately 45 degrees from the torso during the lower position.",
+          "cue": "Adjust your {side} upper-arm angle toward the demonstrated push-up position",
+          "sources": [
+            "nasm_modified_push_up"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "anchor": "angle.left_elbow",
+          "lower": 45,
+          "upper": 45,
+          "enter": 20,
+          "exit": 12
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_modified_push_up"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "No floor/bench contact or force measurement.",
+        "Knee-supported variation uses shoulder-hip-knee alignment; it must not receive the standard ankle-line target."
+      ]
+    },
+    {
+      "id": "incline_push_up",
+      "name": "Incline push-up",
+      "family": "push_up",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the arms through the demonstrated pressing range.",
+          "cue": "Match the demonstrated {side} elbow bend",
+          "sources": [
+            "nasm_incline_push_up"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "body_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_body_line",
+            "angle.right_body_line"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain a continuous body line through the supported position.",
+          "cue": "Align your {side} shoulder, hip and ankle",
+          "sources": [
+            "nasm_incline_push_up"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "elbow_position",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "MINIMUM",
+          "summary": "The upper arms are approximately 45 degrees from the torso during the lower position.",
+          "cue": "Adjust your {side} upper-arm angle toward the demonstrated push-up position",
+          "sources": [
+            "nasm_incline_push_up"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "anchor": "angle.left_elbow",
+          "lower": 45,
+          "upper": 45,
+          "enter": 20,
+          "exit": 12
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_incline_push_up"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "No floor/bench contact or force measurement.",
+        "Knee-supported variation uses shoulder-hip-knee alignment; it must not receive the standard ankle-line target."
+      ]
+    },
+    {
+      "id": "decline_push_up",
+      "name": "Decline push-up",
+      "family": "push_up",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the arms through the demonstrated pressing range.",
+          "cue": "Match the demonstrated {side} elbow bend",
+          "sources": [
+            "nasm_decline_push_up"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "body_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_body_line",
+            "angle.right_body_line"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain a continuous body line through the supported position.",
+          "cue": "Align your {side} shoulder, hip and ankle",
+          "sources": [
+            "nasm_decline_push_up"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "elbow_position",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "MINIMUM",
+          "summary": "The upper arms are approximately 45 degrees from the torso during the lower position.",
+          "cue": "Adjust your {side} upper-arm angle toward the demonstrated push-up position",
+          "sources": [
+            "nasm_decline_push_up"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "anchor": "angle.left_elbow",
+          "lower": 45,
+          "upper": 45,
+          "enter": 20,
+          "exit": 12
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_decline_push_up"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "No floor/bench contact or force measurement.",
+        "Knee-supported variation uses shoulder-hip-knee alignment; it must not receive the standard ankle-line target."
+      ]
+    },
+    {
+      "id": "wall_push_up",
+      "name": "Wall press-up",
+      "family": "push_up",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend the arms through the demonstrated pressing range.",
+          "cue": "Match the demonstrated {side} elbow bend",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "body_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_body_line",
+            "angle.right_body_line"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain a continuous body line through the supported position.",
+          "cue": "Align your {side} shoulder, hip and ankle",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "No floor/bench contact or force measurement.",
+        "Knee-supported variation uses shoulder-hip-knee alignment; it must not receive the standard ankle-line target."
+      ]
+    },
+    {
+      "id": "pike_push_up",
+      "name": "Pike push-up",
+      "family": "pike",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_body_line",
+            "angle.right_body_line",
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Keep the inverted-V setup while bending and extending the arms.",
+          "cue": "Match the demonstrated {side} pike position",
+          "sources": [
+            "nasm_pike_push_up"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_pike_push_up"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "The hip is deliberately flexed; no straight-plank body-line target is applied."
+      ]
+    },
+    {
+      "id": "forearm_plank",
+      "name": "Forearm plank",
+      "family": "plank",
+      "aliases": [
+        "plank"
+      ],
+      "rules": [
+        {
+          "id": "body_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_body_line",
+            "angle.right_body_line"
+          ],
+          "phase": "ALL",
+          "summary": "Hold a continuous line through shoulders, hips and ankles.",
+          "cue": "Align your {side} shoulder, hip and ankle",
+          "sources": [
+            "nasm_plank"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain the demonstrated supporting arm placement.",
+          "cue": "Match the demonstrated {side} supporting arm position",
+          "sources": [
+            "nasm_plank"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_plank"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "A body-line angle cannot measure lumbar extension, breathing, scapular control or floor contact."
+      ]
+    },
+    {
+      "id": "straight_arm_plank",
+      "name": "Straight-arm plank",
+      "family": "plank",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "body_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_body_line",
+            "angle.right_body_line"
+          ],
+          "phase": "ALL",
+          "summary": "Hold a continuous line through shoulders, hips and ankles.",
+          "cue": "Align your {side} shoulder, hip and ankle",
+          "sources": [
+            "nasm_straight_arm_plank"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain the demonstrated supporting arm placement.",
+          "cue": "Match the demonstrated {side} supporting arm position",
+          "sources": [
+            "nasm_straight_arm_plank"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_straight_arm_plank"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "A body-line angle cannot measure lumbar extension, breathing, scapular control or floor contact."
+      ]
+    },
+    {
+      "id": "side_plank",
+      "name": "Side plank",
+      "family": "plank",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "body_alignment",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_body_line",
+            "angle.right_body_line"
+          ],
+          "phase": "ALL",
+          "summary": "Hold a continuous line through shoulders, hips and ankles.",
+          "cue": "Align your {side} shoulder, hip and ankle",
+          "sources": [
+            "nasm_side_plank"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain the demonstrated supporting arm placement.",
+          "cue": "Match the demonstrated {side} supporting arm position",
+          "sources": [
+            "nasm_side_plank"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_side_plank"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "A body-line angle cannot measure lumbar extension, breathing, scapular control or floor contact."
+      ]
+    },
+    {
+      "id": "wall_sit",
+      "name": "Standard wall sit",
+      "family": "hold",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "knee_position",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "The standard setup uses approximately right-angle knee flexion.",
+          "cue": "Adjust your {side} knee toward the selected wall-sit depth",
+          "sources": [
+            "nasm_wall_sit"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 90,
+          "upper": 90,
+          "enter": 15,
+          "exit": 9
+        },
+        {
+          "id": "hip_position",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "The standard setup uses approximately right-angle hip flexion.",
+          "cue": "Adjust your {side} hip toward the selected wall-sit depth",
+          "sources": [
+            "nasm_wall_sit"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 90,
+          "upper": 90,
+          "enter": 15,
+          "exit": 9
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_wall_sit"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Wall contact and ankle anatomy/floor geometry are not measured.",
+        "Choose shallow_wall_sit for the documented higher-position modification."
+      ]
+    },
+    {
+      "id": "shallow_wall_sit",
+      "name": "Shallower wall-sit modification",
+      "family": "hold",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "The higher-position modification uses a shallower, individually appropriate depth.",
+          "cue": "Match the demonstrated {side} modified wall-sit depth",
+          "sources": [
+            "nasm_wall_sit"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_wall_sit"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "No standard 90-degree target is forced onto this modification."
+      ]
+    },
+    {
+      "id": "pull_up",
+      "name": "Pull-up",
+      "family": "vertical_pull",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Pull upward and lower under control.",
+          "cue": "Match the demonstrated {side} pulling position",
+          "sources": [
+            "nasm_pull_up"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_pull_up"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Bar location, chin clearance, band assistance, grip and force are not measured."
+      ]
+    },
+    {
+      "id": "band_assisted_pull_up",
+      "name": "Band-assisted pull-up",
+      "family": "vertical_pull",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Pull upward and lower under control.",
+          "cue": "Match the demonstrated {side} pulling position",
+          "sources": [
+            "nasm_band_assisted_pull_up"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_band_assisted_pull_up"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Bar location, chin clearance, band assistance, grip and force are not measured."
+      ]
+    },
+    {
+      "id": "biceps_curl",
+      "name": "Dumbbell biceps curl",
+      "family": "curl",
+      "aliases": [
+        "bicep curl",
+        "biceps curls"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Curl the hands upward while the elbows remain near the sides.",
+          "cue": "Match the demonstrated {side} elbow bend",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "upper_arm_stability",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Keep upper arms beside the torso rather than lifting them with the curl.",
+          "cue": "Keep your {side} upper arm closer to your torso",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 0,
+          "upper": 0,
+          "enter": 15,
+          "exit": 9
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nhs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Grip rotation, muscle activation and load are not measured."
+      ]
+    },
+    {
+      "id": "barbell_biceps_curl",
+      "name": "Barbell biceps curl",
+      "family": "curl",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Curl the hands upward while the elbows remain near the sides.",
+          "cue": "Match the demonstrated {side} elbow bend",
+          "sources": [
+            "nasm_barbell_bicep_curl"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "upper_arm_stability",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Keep upper arms beside the torso rather than lifting them with the curl.",
+          "cue": "Keep your {side} upper arm closer to your torso",
+          "sources": [
+            "nasm_barbell_bicep_curl"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 0,
+          "upper": 0,
+          "enter": 15,
+          "exit": 9
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_barbell_bicep_curl"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Grip rotation, muscle activation and load are not measured."
+      ]
+    },
+    {
+      "id": "overhead_press",
+      "name": "Standing overhead press",
+      "family": "vertical_press",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Extend the arms overhead through the demonstrated pressing path.",
+          "cue": "Match the demonstrated {side} overhead press position",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Wrist rigidity, bar clearance and scapular motion are not measured."
+      ]
+    },
+    {
+      "id": "bent_over_row",
+      "name": "Bent-over dumbbell row",
+      "family": "row",
+      "aliases": [
+        "row"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "distance.left_hand_to_hip",
+            "distance.right_hand_to_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Maintain the hinge while rowing toward the waist.",
+          "cue": "Match the demonstrated {side} row position",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "No spinal-curvature, scapular-retraction or load assessment."
+      ]
+    },
+    {
+      "id": "bench_press",
+      "name": "Flat barbell bench press",
+      "family": "horizontal_press",
+      "aliases": [
+        "barbell bench press"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "relation.hand_width_over_shoulders"
+          ],
+          "phase": "ALL",
+          "summary": "Press and lower with a stable setup and individually appropriate grip.",
+          "cue": "Match the demonstrated {side} bench press position",
+          "sources": [
+            "nasm_barbell_bench_press"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_barbell_bench_press"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Bench/foot contact, bar path, touch point and competition rules are not measured."
+      ]
+    },
+    {
+      "id": "lateral_raise",
+      "name": "Dumbbell lateral raise",
+      "family": "shoulder_raise",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Raise the arms out to shoulder level, with extended or slightly bent elbows.",
+          "cue": "Match the demonstrated {side} arm raise",
+          "sources": [
+            "ace_lateral_raise"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "shoulder_height",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "MAXIMUM",
+          "summary": "At the top, upper arms are approximately level with the shoulders.",
+          "cue": "Adjust your {side} upper arm toward shoulder level",
+          "sources": [
+            "ace_lateral_raise"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "anchor": "angle.left_shoulder",
+          "lower": 90,
+          "upper": 90,
+          "enter": 15,
+          "exit": 9
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "ace_lateral_raise"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Forearm rotation, wrist neutrality and true scapular motion require additional features."
+      ]
+    },
+    {
+      "id": "bench_dip",
+      "name": "Bench triceps dip",
+      "family": "dip",
+      "aliases": [
+        "tricep dip"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Bend and extend with the elbows kept near the body.",
+          "cue": "Match the demonstrated {side} dip position",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nfrs_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Seat support, hand orientation and shoulder loading are not measured."
+      ]
+    },
+    {
+      "id": "triceps_pushdown",
+      "name": "Cable triceps pushdown",
+      "family": "triceps",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Extend and bend the elbows with a controlled return.",
+          "cue": "Match the demonstrated {side} elbow extension",
+          "sources": [
+            "mayo_triceps"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "upper_arm_stability",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Keep the upper arms beside the torso during the pushdown.",
+          "cue": "Keep your {side} upper arm near your torso",
+          "sources": [
+            "mayo_triceps"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 0,
+          "upper": 0,
+          "enter": 15,
+          "exit": 9
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "mayo_triceps"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Cable load, grip and muscle activation are not measured."
+      ]
+    },
+    {
+      "id": "overhead_triceps_extension",
+      "name": "Supported overhead triceps extension",
+      "family": "triceps",
+      "aliases": [
+        "triceps extension"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Extend and bend the raised working arm while the opposite hand supports it.",
+          "cue": "Match the demonstrated {side} arm position",
+          "sources": [
+            "asa_strength"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "asa_strength"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "The support arm differs from the working arm; no bilateral symmetry or both-arms-overhead target is imposed."
+      ]
+    },
+    {
+      "id": "crunch",
+      "name": "Abdominal crunch",
+      "family": "core_flexion",
+      "aliases": [
+        "abdominal crunch"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_body_line",
+            "angle.right_body_line",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Raise the head and shoulders with smooth movement and return with control.",
+          "cue": "Match the demonstrated {side} crunch position",
+          "sources": [
+            "mayo_crunch"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "mayo_crunch"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Sparse shoulder/hip landmarks cannot verify abdominal isolation, detailed spinal flexion or neck pulling."
+      ]
+    },
+    {
+      "id": "bird_dog",
+      "name": "Bird dog",
+      "family": "contralateral_core",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Coordinate opposite arm and leg movements while maintaining a controlled torso.",
+          "cue": "Match the demonstrated {side} limb position",
+          "sources": [
+            "nasm_bird_dog"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_bird_dog"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Joint geometry is reference-matched; anti-rotation control, abdominal engagement and lumbar-floor contact are not independently assessed."
+      ]
+    },
+    {
+      "id": "dead_bug",
+      "name": "Dead bug",
+      "family": "contralateral_core",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "Coordinate opposite arm and leg movements while maintaining a controlled torso.",
+          "cue": "Match the demonstrated {side} limb position",
+          "sources": [
+            "nasm_dead_bug"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_dead_bug"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Joint geometry is reference-matched; anti-rotation control, abdominal engagement and lumbar-floor contact are not independently assessed."
+      ]
+    },
+    {
+      "id": "jumping_jack",
+      "name": "Jumping jack",
+      "family": "conditioning",
+      "aliases": [
+        "jumping jacks"
+      ],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_shoulder",
+            "angle.right_shoulder",
+            "angle.left_knee",
+            "angle.right_knee",
+            "distance.foot_separation"
+          ],
+          "phase": "ALL",
+          "summary": "Coordinate arm elevation with legs moving apart and back together.",
+          "cue": "Match the demonstrated {side} jumping-jack position",
+          "sources": [
+            "nasm_jumping_jacks"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_jumping_jacks"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Impact, soft landing, fatigue and cardiovascular intensity are not measured."
+      ]
+    },
+    {
+      "id": "burpee",
+      "name": "Burpee with push-up",
+      "family": "conditioning",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_elbow",
+            "angle.right_elbow",
+            "angle.left_shoulder",
+            "angle.right_shoulder"
+          ],
+          "phase": "ALL",
+          "summary": "Follow the demonstrated squat, plank, push-up and return sequence.",
+          "cue": "Match the demonstrated {side} burpee phase",
+          "sources": [
+            "nasm_squat_thrust_burpees"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_squat_thrust_burpees"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Push-up-free and step-back modifications need their own reference and cannot be penalized under a different sequence.",
+        "Landing impact and support contact are not assessed."
+      ]
+    },
+    {
+      "id": "mountain_climber",
+      "name": "Mountain climber",
+      "family": "conditioning",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_elbow",
+            "angle.right_elbow"
+          ],
+          "phase": "ALL",
+          "summary": "Alternate knee drives from a supported plank position.",
+          "cue": "Match the demonstrated {side} knee-drive position",
+          "sources": [
+            "usms_mountain_climber"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "usms_mountain_climber"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Knee clearance, floor contact and impact are not measured; hip flexion is intentional."
+      ]
+    },
+    {
+      "id": "leg_press",
+      "name": "Bilateral leg press",
+      "family": "machine_lower",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Press and return through the demonstrated machine setup.",
+          "cue": "Match the demonstrated {side} leg-press position",
+          "sources": [
+            "nasm_leg_press"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_leg_press"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Machine adjustments, pelvic-backrest contact, platform contact and resistance are not measured.",
+        "Machine/mobility variants use the chosen reference rather than a universal depth prescription."
+      ]
+    },
+    {
+      "id": "seated_leg_curl",
+      "name": "Seated leg curl",
+      "family": "machine_lower",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee",
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Flex the knees and return with control while keeping the seated setup stable.",
+          "cue": "Match the demonstrated {side} leg-curl position",
+          "sources": [
+            "nasm_seated_leg_curl"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "nasm_seated_leg_curl"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Pad position, resistance and seat contact are not measured."
+      ]
+    },
+    {
+      "id": "straight_leg_raise",
+      "name": "Supine straight-leg raise",
+      "family": "leg_raise",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Lift and lower the legs within the demonstrated range.",
+          "cue": "Match the demonstrated {side} leg-raise position",
+          "sources": [
+            "cleveland_leg_lifts"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "straight_knee",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "The straight-leg variation keeps the knees extended as tolerated.",
+          "cue": "Straighten your {side} knee toward the selected straight-leg variation",
+          "sources": [
+            "cleveland_leg_lifts"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "cleveland_leg_lifts"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Lumbar-floor contact and abdominal engagement are not observable.",
+        "Bent-knee modifications must use bent_knee_leg_raise."
+      ]
+    },
+    {
+      "id": "alternating_leg_raise",
+      "name": "Alternating supine leg raise",
+      "family": "leg_raise",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip"
+          ],
+          "phase": "ALL",
+          "summary": "Lift and lower the legs within the demonstrated range.",
+          "cue": "Match the demonstrated {side} leg-raise position",
+          "sources": [
+            "cleveland_leg_lifts"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "straight_knee",
+          "mode": "SOURCE_TARGET",
+          "features": [
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "The straight-leg variation keeps the knees extended as tolerated.",
+          "cue": "Straighten your {side} knee toward the selected straight-leg variation",
+          "sources": [
+            "cleveland_leg_lifts"
+          ],
+          "limitation": "Source gives an approximate position/direction; numerical trigger and release margins are engineering defaults, not validated error bounds.",
+          "lower": 180,
+          "upper": 180,
+          "enter": 12,
+          "exit": 7
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "cleveland_leg_lifts"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Lumbar-floor contact and abdominal engagement are not observable.",
+        "Bent-knee modifications must use bent_knee_leg_raise."
+      ]
+    },
+    {
+      "id": "bent_knee_leg_raise",
+      "name": "Bent-knee leg-raise modification",
+      "family": "leg_raise",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_knee",
+            "angle.right_knee"
+          ],
+          "phase": "ALL",
+          "summary": "The documented modification allows knee bending rather than requiring straight legs.",
+          "cue": "Match the demonstrated {side} modified leg raise",
+          "sources": [
+            "cleveland_leg_lifts"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "cleveland_leg_lifts"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "No straight-knee target is imposed on this modification."
+      ]
+    },
+    {
+      "id": "standing_side_bend",
+      "name": "Standing dumbbell side bend",
+      "family": "standing_core",
+      "aliases": [],
+      "rules": [
+        {
+          "id": "reference_motion",
+          "mode": "REFERENCE_RANGE",
+          "features": [
+            "angle.left_hip",
+            "angle.right_hip",
+            "angle.left_body_line",
+            "angle.right_body_line"
+          ],
+          "phase": "ALL",
+          "summary": "The dataset identifies standing side bends; monitor demonstrated torso geometry.",
+          "cue": "Match the demonstrated {side} side-bend position",
+          "sources": [
+            "dataset_quality_v3"
+          ],
+          "limitation": "Reference geometry is not independent expert form ground truth."
+        },
+        {
+          "id": "unobservable",
+          "mode": "UNOBSERVABLE",
+          "features": [],
+          "phase": "ALL",
+          "summary": "Breathing, pain, muscle activation, resistance/load and exact contact require information beyond this pose stream.",
+          "cue": "This property requires another measurement",
+          "sources": [
+            "dataset_quality_v3"
+          ],
+          "limitation": "Not inferred from sparse body landmarks."
+        }
+      ],
+      "limitations": [
+        "Requires explicitly selected exercise/variant, a reliable reference and sufficiently visible joints.",
+        "Dataset labels identify the exercise and clip quality; they are not prescriptive technique guidance.",
+        "Detailed spinal curvature, load and muscle engagement are not measured."
+      ]
+    }
+  ]
+}

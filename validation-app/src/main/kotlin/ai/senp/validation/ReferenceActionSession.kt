@@ -32,6 +32,14 @@ import ai.senp.motion.WorkoutPrecisionCoach
 import ai.senp.motion.WorkoutPrecisionConfig
 import ai.senp.motion.WorkoutPrecisionResult
 import ai.senp.motion.SpatialIntrinsicDescriptor
+import ai.senp.motion.SpatialEvidenceKind
+import ai.senp.motion.ExerciseTechniqueCoach
+import ai.senp.motion.ExerciseTechniqueResult
+import ai.senp.motion.SamplePoseClassifier
+import ai.senp.motion.SamplePoseClassification
+import ai.senp.motion.SamplePoseStatus
+import ai.senp.motion.LearnedExerciseQualityModel
+import ai.senp.motion.LearnedQualityResult
 import ai.senp.sync.v2.PoseObservationAdapter
 import ai.senp.sync.v2.SynchronizationPoseCache
 import ai.senp.sync.v2.SynchronizationPoseCacheKey
@@ -60,6 +68,9 @@ internal data class LiveReferenceActionOutput(
     val feedback: StableLiveFeedback,
     val poseConfidence: Double,
     val precision: WorkoutPrecisionResult? = null,
+    val technique: ExerciseTechniqueResult? = null,
+    val sampleClassification: SamplePoseClassification? = null,
+    val learnedQuality: LearnedQualityResult? = null,
 )
 
 /** Android-side composition seam for reference-action compilation and recognition. */
@@ -157,12 +168,18 @@ internal class ReferenceActionSessionEngine(
         profile: ActionProfile,
         analysisFramesPerSecond: Double,
         precisionConfig: WorkoutPrecisionConfig = WorkoutPrecisionConfig(),
+        exerciseId: String? = null,
+        enableSampleClassifier: Boolean = false,
+        enableLearnedQuality: Boolean = false,
     ): LiveReferenceActionProcessor = LiveReferenceActionProcessor(
         profile = profile,
         analysisFramesPerSecond = analysisFramesPerSecond,
         observationAdapter = observationAdapter,
         spatialEngine = spatialEngine,
         precisionConfig = precisionConfig,
+        exerciseId = exerciseId,
+        enableSampleClassifier = enableSampleClassifier,
+        enableLearnedQuality = enableLearnedQuality,
     )
 
     private fun poseCacheKey(
@@ -212,7 +229,14 @@ internal class LiveReferenceActionProcessor(
         minimumCandidateConfidence = 0.65, minimumTrackingConfidence = 0.55,
         confirmationMs = 0, releaseGraceMs = 0, trackingLossHoldMs = 0, maximumEvidenceGapMs = 250,
     )),
+    exerciseId: String? = null,
+    private val enableSampleClassifier: Boolean = false,
+    enableLearnedQuality: Boolean = false,
 ) {
+    private val techniqueCoach = exerciseId?.let { ExerciseTechniqueCoach(profile, it, precisionConfig) }
+    private val qualityEngine = if (enableLearnedQuality) LearnedExerciseQualityModel.builtIn.newEngine(
+        requireNotNull(techniqueCoach?.exercise?.id) { "Learned quality diagnostics require an explicit exercise selection" },
+    ) else null
     init {
         require(analysisFramesPerSecond.isFinite() && analysisFramesPerSecond > 0.0)
     }
@@ -220,10 +244,14 @@ internal class LiveReferenceActionProcessor(
     @Synchronized fun reset() {
         recognizer.reset()
         precisionCoach.reset()
+        techniqueCoach?.reset()
+        qualityEngine?.reset()
         stabilizer.reset()
     }
 
-    @Synchronized fun update(pose: PoseFrame): LiveReferenceActionOutput {
+    @Synchronized fun update(pose: PoseFrame, imageWidth: Int? = null, imageHeight: Int? = null, poseModelSha256: String? = null,
+        qualityRawPose: PoseFrame? = null): LiveReferenceActionOutput {
+        require(qualityRawPose == null || qualityRawPose.timestamp == pose.timestamp) { "Quality evidence must use the same source timestamp" }
         val observation = observationAdapter.adaptFrame(pose)
         val sequence = CanonicalObservationSequence(
             role = VideoRole.SOURCE,
@@ -238,7 +266,20 @@ internal class LiveReferenceActionProcessor(
             reliableValues, descriptor.confidence, descriptor.featureConfidences.filterKeys { it in reliableValues },
         ))
         val estimate = recognizer.accept(reliableFrame)
-        val precision = precisionCoach.evaluate(spatialFrame, estimate)
+        val genericPrecision = precisionCoach.evaluate(spatialFrame, estimate)
+        val technique = techniqueCoach?.evaluate(spatialFrame, estimate)
+        val precision = technique?.precision ?: genericPrecision
+        val classification = if (!enableSampleClassifier) null else if (imageWidth == null || imageHeight == null) {
+            SamplePoseClassification(SamplePoseStatus.INVALID_INPUT)
+        } else SamplePoseClassifier.builtIn.classify(pose, imageWidth, imageHeight)
+        // Training uses raw Full landmarks. Do not silently score smoothed/repaired coordinates.
+        val learnedQuality = qualityEngine?.let { engine ->
+            val qualityFrame = if (qualityRawPose == null) spatialFrame.copy(evidenceKind = SpatialEvidenceKind.UNAVAILABLE) else {
+                val rawObservation = observationAdapter.adaptFrame(qualityRawPose.copy(validity = pose.validity))
+                spatialEngine.analyzeSequence(sequence.copy(observations = listOf(rawObservation))).frames.single()
+            }
+            engine.evaluate(qualityFrame,poseModelSha256)
+        }
         val actionTracking = estimate.status == ActionTrackingStatus.TRACKING ||
             estimate.status == ActionTrackingStatus.COMPLETED
         val coachingCandidates = if (actionTracking) {
@@ -268,6 +309,9 @@ internal class LiveReferenceActionProcessor(
             ),
             poseConfidence = pose.validity.confidence,
             precision = precision,
+            technique = technique,
+            sampleClassification = classification,
+            learnedQuality = learnedQuality,
         )
     }
 }
@@ -277,6 +321,9 @@ internal data class PreparedReferenceAction(
     val referenceSha256: String,
     val analysisFramesPerSecond: Double,
     val precisionConfig: WorkoutPrecisionConfig = WorkoutPrecisionConfig(),
+    val exerciseId: String? = null,
+    val enableSampleClassifier: Boolean = false,
+    val enableLearnedQuality: Boolean = false,
 )
 
 internal object ReferenceActionProfileStore {

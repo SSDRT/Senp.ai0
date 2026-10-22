@@ -6,6 +6,7 @@ import ai.senp.core.contracts.PoseLandmarkId
 import ai.senp.motion.ActionMirrorMode
 import ai.senp.motion.ActionTrackingStatus
 import ai.senp.motion.LiveFeedbackUncertainty
+import ai.senp.motion.ExerciseTechniqueCatalog
 import ai.senp.pose.mediapipe.LiveFrameGate
 import ai.senp.pose.mediapipe.LiveMediaPipePoseEstimator
 import android.Manifest
@@ -77,10 +78,23 @@ class LiveReferenceActionActivity : ComponentActivity() {
             )
             return
         }
+        val exerciseId = intent.getStringExtra(EXTRA_EXERCISE_ID) ?: prepared.exerciseId
+        if (exerciseId != null && ExerciseTechniqueCatalog.builtIn.find(exerciseId) == null) {
+            showFatal("Unknown exercise variant", "Choose an exercise ID from the technique catalogue.")
+            return
+        }
+        val enableLearnedQuality = intent.getBooleanExtra(EXTRA_LEARNED_QUALITY, prepared.enableLearnedQuality)
+        if (enableLearnedQuality && exerciseId == null) {
+            showFatal("Exercise selection required", "Choose an explicit exercise before enabling learned quality diagnostics.")
+            return
+        }
         processor = LiveReferenceActionProcessor(
             profile = prepared.profile,
             analysisFramesPerSecond = prepared.analysisFramesPerSecond,
             precisionConfig = prepared.precisionConfig,
+            exerciseId = exerciseId,
+            enableSampleClassifier = intent.getBooleanExtra(EXTRA_SAMPLE_CLASSIFIER, prepared.enableSampleClassifier),
+            enableLearnedQuality = enableLearnedQuality,
         )
         phaseView.text = "REFERENCE READY • ${prepared.profile.states.size} STATES • ${(prepared.profile.confidence * 100.0).toInt()}% PROFILE"
         if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -286,8 +300,9 @@ class LiveReferenceActionActivity : ComponentActivity() {
             if (destroyed) return
             val timestampMs = frameGate.accept(image.imageInfo.timestamp) ?: return
             LiveCameraFrame.withUprightBitmap(image) { upright ->
-                val pose = poseEstimator.estimate(upright, timestampMs)
-                val output = liveProcessor.update(pose)
+                val estimate = poseEstimator.estimateDetailed(upright, timestampMs)
+                val pose = estimate.frame
+                val output = liveProcessor.update(pose, upright.width, upright.height, estimate.modelSha256,estimate.rawFrame)
                 val frameWidth = upright.width
                 val frameHeight = upright.height
                 runOnUiThread {
@@ -389,6 +404,9 @@ class LiveReferenceActionActivity : ComponentActivity() {
 
     companion object {
         const val EXTRA_REFERENCE_SHA256 = "reference_sha256"
+        const val EXTRA_EXERCISE_ID = "exercise_technique_id"
+        const val EXTRA_SAMPLE_CLASSIFIER = "enable_sample_pose_classifier"
+        const val EXTRA_LEARNED_QUALITY = "enable_learned_quality_diagnostics"
 
         private const val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
         private const val WRAP = ViewGroup.LayoutParams.WRAP_CONTENT

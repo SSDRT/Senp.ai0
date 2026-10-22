@@ -12,6 +12,7 @@ kotlin {
 dependencies {
     implementation(project(":core-contracts"))
     implementation(project(":core-pipeline"))
+    implementation(libs.kotlinx.serialization.json)
     testImplementation(kotlin("test"))
     testImplementation(libs.kotlinx.coroutines.core)
     testImplementation(libs.kotlinx.serialization.json)
@@ -98,6 +99,16 @@ tasks.register<JavaExec>("livePoseBenchmark") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.LivePoseTuningBenchmark")
     args(layout.buildDirectory.file("reports/live-pose/tuning-sweep.json").get().asFile.absolutePath)
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("exerciseTechniqueBenchmark") {
+    group = "verification"
+    description = "Check every exercise policy across oracle phases and frame rates; not human accuracy."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.ExerciseTechniqueBenchmark")
+    args(layout.buildDirectory.file("reports/exercise-techniques/catalog-mechanism.json").get().asFile.absolutePath)
     outputs.upToDateWhen { false }
 }
 

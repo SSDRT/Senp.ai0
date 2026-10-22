@@ -4,7 +4,7 @@ import kotlin.math.abs
 import kotlin.math.max
 
 enum class WorkoutReferenceMode { AUTO, MOVEMENT, STATIC_HOLD }
-enum class WorkoutMeasurementUnit { DEGREES, TORSO_UNITS }
+enum class WorkoutMeasurementUnit { DEGREES, TORSO_UNITS, RATIO }
 enum class WorkoutFeatureStatus {
     MONITORED, CONTEXT_ONLY, UNSUPPORTED, WEAK_REFERENCE, MISSING_OBSERVATION,
     WEAK_OBSERVATION, INCOMPATIBLE_PROPORTIONS, INVALID_MEASUREMENT,
@@ -16,6 +16,11 @@ enum class WorkoutAbstention {
 
 data class WorkoutTolerance(val enter: Double, val exit: Double) {
     init { require(enter.isFinite() && exit.isFinite() && enter > 0.0 && exit >= 0.0 && exit < enter) }
+}
+
+enum class WorkoutTargetOrigin { REFERENCE_LEARNED, SOURCE_GUIDANCE, ENGINEERING_OVERRIDE }
+data class WorkoutTargetRange(val lower: Double, val upper: Double, val origin: WorkoutTargetOrigin, val ruleId: String) {
+    init { require(lower.isFinite() && upper.isFinite() && lower >= 0 && lower <= upper && ruleId.isNotBlank()) }
 }
 
 /** Distances are in torso lengths; angle tolerances are degrees outside the learned range.
@@ -39,10 +44,12 @@ data class WorkoutPrecisionConfig(
     val maximumProportionDifference: Double = 0.25,
     val minimumProportionFeatures: Int = 4,
     val allowProjected2d: Boolean = false,
+    val relationTolerance: WorkoutTolerance = WorkoutTolerance(0.15, 0.08),
+    val stateTargetRanges: Map<String, Map<String, WorkoutTargetRange>> = emptyMap(),
 ) {
     init {
-        require(featureOverrides.keys.all { it.startsWith("angle.") || it.startsWith("distance.") })
-        require(stateFeatureOverrides.values.all { features -> features.keys.all { it.startsWith("angle.") || it.startsWith("distance.") } })
+        require(featureOverrides.keys.all { it.startsWith("angle.") || it.startsWith("distance.") || it.startsWith("relation.") })
+        require(stateFeatureOverrides.values.all { features -> features.keys.all { it.startsWith("angle.") || it.startsWith("distance.") || it.startsWith("relation.") } })
         require(referenceNoiseMultiplier.isFinite() && referenceNoiseMultiplier >= 0.0)
         listOf(minimumStateConfidence, minimumStateCoverage, minimumFeatureConfidence, minimumReferenceConfidence).forEach(::requireActionProbability)
         require(minimumReferenceSamples >= 2 && minimumProportionFeatures >= 1)
@@ -64,6 +71,8 @@ data class WorkoutFeatureDecision(
     val confidence: Double = 0.0,
     val persistenceMs: Long = 0,
     val observedFeature: String? = null,
+    val targetOrigin: WorkoutTargetOrigin = WorkoutTargetOrigin.REFERENCE_LEARNED,
+    val targetRuleId: String? = null,
 )
 
 data class WorkoutSuggestion(
@@ -97,6 +106,12 @@ class WorkoutPrecisionCoach(
             val state = profile.states.firstOrNull { it.id == stateId }
             state != null && overrides.keys.all { name -> state.features.any { it.name == name } }
         }) { "state overrides must name a calibrated state and feature" }
+        require(config.stateTargetRanges.all { (stateId, targets) ->
+            val state = profile.states.firstOrNull { it.id == stateId }
+            state != null && targets.all { (name, range) -> state.features.any { it.name == name } &&
+                (name.startsWith("angle.") || name.startsWith("distance.") || name.startsWith("relation.")) &&
+                (!name.startsWith("angle.") || range.upper <= 180.0) }
+        }) { "target overrides must name a calibrated measurement and valid range" }
     }
     private data class Track(val sign: Int, val beganMs: Long, var activeMs: Long? = null, var releaseMs: Long? = null)
     private data class Context(val subject: String?, val mirror: ActionMirrorMode, val space: SpatialEvidenceKind, val segment: Int?)
@@ -165,6 +180,7 @@ class WorkoutPrecisionCoach(
             val unit = when {
                 name.startsWith("angle.") -> WorkoutMeasurementUnit.DEGREES
                 name.startsWith("distance.") -> WorkoutMeasurementUnit.TORSO_UNITS
+                name.startsWith("relation.") -> WorkoutMeasurementUnit.RATIO
                 else -> null
             }
             fun skip(status: WorkoutFeatureStatus): WorkoutFeatureDecision { tracks.remove(name); return WorkoutFeatureDecision(name, status, unit) }
@@ -179,15 +195,22 @@ class WorkoutPrecisionCoach(
             if (confidence < config.minimumFeatureConfidence) return@map skip(WorkoutFeatureStatus.WEAK_OBSERVATION)
             if (unit == WorkoutMeasurementUnit.TORSO_UNITS && !comparableProportions) return@map skip(WorkoutFeatureStatus.INCOMPATIBLE_PROPORTIONS)
             if ((unit == WorkoutMeasurementUnit.DEGREES && value !in 0.0..180.0) ||
-                (unit == WorkoutMeasurementUnit.TORSO_UNITS && value < 0.0)
+                (unit != WorkoutMeasurementUnit.DEGREES && value < 0.0)
             ) return@map skip(WorkoutFeatureStatus.INVALID_MEASUREMENT)
             val tolerance = config.stateFeatureOverrides[state.id]?.get(name) ?: config.featureOverrides[name] ?:
-                if (unit == WorkoutMeasurementUnit.DEGREES) config.angularTolerance else config.distanceTolerance
+                when (unit) {
+                    WorkoutMeasurementUnit.DEGREES -> config.angularTolerance
+                    WorkoutMeasurementUnit.TORSO_UNITS -> config.distanceTolerance
+                    WorkoutMeasurementUnit.RATIO -> config.relationTolerance
+                }
             val noise = 1.4826 * feature.reference.mad * config.referenceNoiseMultiplier
             val enter = max(tolerance.enter, noise)
             val exit = minOf(max(tolerance.exit, noise * 0.6), enter * 0.9)
-            val lower = if (unit == WorkoutMeasurementUnit.DEGREES) feature.reference.lower.coerceIn(0.0, 180.0) else feature.reference.lower.coerceAtLeast(0.0)
-            val upper = if (unit == WorkoutMeasurementUnit.DEGREES) feature.reference.upper.coerceIn(0.0, 180.0) else feature.reference.upper.coerceAtLeast(lower)
+            val target = config.stateTargetRanges[state.id]?.get(name)
+            val targetLower = target?.lower ?: feature.reference.lower
+            val targetUpper = target?.upper ?: feature.reference.upper
+            val lower = if (unit == WorkoutMeasurementUnit.DEGREES) targetLower.coerceIn(0.0, 180.0) else targetLower.coerceAtLeast(0.0)
+            val upper = if (unit == WorkoutMeasurementUnit.DEGREES) targetUpper.coerceIn(0.0, 180.0) else targetUpper.coerceAtLeast(lower)
             val outside = when { value < lower -> value - lower; value > upper -> value - upper; else -> 0.0 }
             var track = tracks[name]
             val sign = when { outside < 0.0 -> -1; outside > 0.0 -> 1; else -> track?.sign ?: 1 }
@@ -204,7 +227,8 @@ class WorkoutPrecisionCoach(
             } else { tracks.remove(name); track = null }
             monitoredKeys += name
             val decision = WorkoutFeatureDecision(name, WorkoutFeatureStatus.MONITORED, unit, value, lower, upper,
-                outside, enter, exit, confidence, track?.let { now - it.beganMs } ?: 0L, key)
+                outside, enter, exit, confidence, track?.let { now - it.beganMs } ?: 0L, key,
+                target?.origin ?: WorkoutTargetOrigin.REFERENCE_LEARNED, target?.ruleId)
             val activeSince = track?.activeMs
             if (activeSince != null) {
                 val eventKey = "$name|${track.sign}"

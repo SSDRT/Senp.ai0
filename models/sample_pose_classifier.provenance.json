@@ -1,0 +1,19 @@
+{
+  "artifact": "sample-pose-classifier.json",
+  "kind": "fitted exercise/state prototypes, not landmark network weights",
+  "source_repository": "https://github.com/googlesamples/mlkit",
+  "source_path": "android/vision-quickstart/app/src/main/assets/pose/fitness_pose_samples.csv",
+  "immutable_source_blob": "136d951100d04926975f5eff4eab7091a409a002",
+  "download_api": "https://api.github.com/repos/googlesamples/mlkit/git/blobs/136d951100d04926975f5eff4eab7091a409a002",
+  "source_sha256": "eb3a54230084616caf7505683692d873968f406b52593a0d699b13d855afc729",
+  "source_bytes": 828121,
+  "source_samples": 812,
+  "classes": ["pushups_up", "pushups_down", "squats_up", "squats_down"],
+  "license": "Apache-2.0 (upstream repository license)",
+  "license_url": "https://github.com/googlesamples/mlkit/blob/master/LICENSE",
+  "retrieved": "2026-10-22",
+  "training_script": "scripts/train_live_pose_classifier.py",
+  "seed": 20261022,
+  "split": "650 training and 162 holdout samples, grouped by image name; not subject/video independent",
+  "restrictions": "No labelled wrong-form or negative class, no independent landmark truth, source inference model unspecified. Opt-in auxiliary classification only; does not prescribe technique automatically. Full CSV remains outside Git."
+}

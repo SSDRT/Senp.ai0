@@ -42,6 +42,9 @@ class SpatialSynchronizationEngineTest {
         assertTrue(requireNotNull(output.featureConfidences["distance.hand_separation"]) <= 0.32)
         assertTrue("angle.right_body_line" in output.values)
         assertTrue("distance.foot_separation" in output.values)
+        assertTrue("distance.left_elbow_to_hip" in output.values)
+        assertTrue(requireNotNull(output.featureConfidences["relation.hand_width_over_shoulders"]) <= 0.32)
+        assertTrue("relation.knee_width_over_feet" in output.values)
     }
 
     @Test

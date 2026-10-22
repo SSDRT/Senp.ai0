@@ -42,6 +42,24 @@ import kotlin.test.assertTrue
 import kotlinx.coroutines.runBlocking
 
 class ReferenceActionSessionTest {
+    @Test fun `selected technique and optional trained classifier are composed without guessing an exercise`() {
+        val pose = singleFrameExtraction(VideoRole.SOURCE).poses.frames.single()
+        val processor = LiveReferenceActionProcessor(profile(),15.0,exerciseId = "biceps_curl",enableSampleClassifier = true)
+        val result = processor.update(pose)
+        assertEquals("biceps_curl",requireNotNull(result.technique).exerciseId)
+        assertEquals(result.technique.precision,result.precision)
+        assertEquals(ai.senp.motion.SamplePoseStatus.INVALID_INPUT,requireNotNull(result.sampleClassification).status)
+        val withDimensions = processor.update(pose.copy(timestamp = TimestampMs(67)),640,480)
+        assertTrue(requireNotNull(withDimensions.sampleClassification).status != ai.senp.motion.SamplePoseStatus.INVALID_INPUT)
+        val generic = LiveReferenceActionProcessor(profile(),15.0).update(pose)
+        assertNull(generic.technique)
+        assertNull(generic.sampleClassification)
+    }
+
+    @Test fun `unrecognized explicit technique does not silently enable a different workout`() {
+        kotlin.test.assertFailsWith<IllegalArgumentException> { LiveReferenceActionProcessor(profile(),15.0,exerciseId = "not_supported") }
+    }
+
     @AfterTest
     fun clearProfileStore() {
         ReferenceActionProfileStore.clear()

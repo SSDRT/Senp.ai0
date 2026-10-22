@@ -535,6 +535,20 @@ class SpatialSynchronizationEngine(
                 distance("right_hand_to_shoulder", schema.rightWrist, schema.rightShoulder)
                 distance("left_hand_to_hip", schema.leftWrist, schema.leftHip)
                 distance("right_hand_to_hip", schema.rightWrist, schema.rightHip)
+                distance("left_elbow_to_hip", schema.leftElbow, schema.leftHip)
+                distance("right_elbow_to_hip", schema.rightElbow, schema.rightHip)
+                fun relation(name: String, numerator: String, denominator: String) {
+                    val top = values[numerator] ?: return
+                    val bottom = values[denominator] ?: return
+                    if (bottom < 0.05) return // Near-coincident anchors cannot define a reliable width ratio.
+                    values["relation.$name"] = top / bottom
+                    featureConfidences["relation.$name"] = minOf(
+                        featureConfidences.getValue(numerator), featureConfidences.getValue(denominator),
+                    )
+                }
+                relation("hand_width_over_shoulders", "distance.hand_separation", "ratio.shoulder_width_over_torso")
+                relation("foot_width_over_hips", "distance.foot_separation", "ratio.hip_width_over_torso")
+                relation("knee_width_over_feet", "distance.knee_separation", "distance.foot_separation")
             }
 
             if (evidence.isReliable3d) {

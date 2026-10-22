@@ -1,0 +1,24 @@
+The optional learned-exercise-quality.json parameters were fitted by Senpai from:
+
+Duddela Sai Prashanth, Priya Kamath, Rakshith Bhandary, S Ashlesh Pai,
+Pratham PN, Advith P and Abhishek Mashetty (2026),
+"A Multi-View Raw Video Dataset of Seven Fitness Exercises with Good/Bad Form Labels",
+Mendeley Data, V3, DOI: 10.17632/kgbb3yn47p.3.
+https://data.mendeley.com/datasets/kgbb3yn47p/3
+License: Creative Commons Attribution 4.0 International.
+https://creativecommons.org/licenses/by/4.0/
+The license text is included as LICENSE-mendeley-quality-CC-BY-4.0.txt.
+
+Changes: confidence-masked MediaPipe Full world features extracted from up to
+24 seconds per video; rolling-window statistics; subject-disjoint fitted
+logistic classifier parameters. Source videos are not distributed in this APK.
+An original dataset filename token "bicep" was normalized to "bicep_curl".
+
+This attribution does not imply endorsement by the creators. Their labels are
+whole-video good/bad labels, not expert timing or anatomical fault annotations.
+These release-unapproved, optional diagnostics do not prescribe corrections.
+
+MediaPipe and TensorFlow Lite retain their respective upstream licenses.
+The Android inference model and inference code were not retrained or modified.
+The research-only Python environment omitted four optional drawing exports;
+FFmpeg decoded frames and Pillow drew audit overlays. No inference code changed.
