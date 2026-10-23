@@ -169,6 +169,16 @@ tasks.register<JavaExec>("qualifiedRepPathBenchmark") {
     outputs.upToDateWhen { false }
 }
 
+tasks.register<JavaExec>("qualifiedRepDepartureBenchmark") {
+    group = "verification"
+    description = "Verify adjacent peak support at attempt departure across all qualified-rep policies."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepDepartureBenchmark")
+    args(rootProject.file(providers.gradleProperty("qualifiedDepartureOutput").getOrElse("test-artifacts/exercise-knowledge/departure-peak-controls.json")).absolutePath)
+    outputs.upToDateWhen { false }
+}
+
 tasks.register<JavaExec>("qualifiedRepAutotune") {
     group = "verification"
     description = "Search experimental parameters on generated oracle motions; does not qualify human form accuracy."

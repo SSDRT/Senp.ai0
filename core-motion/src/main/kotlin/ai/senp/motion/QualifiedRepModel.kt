@@ -135,7 +135,7 @@ class QualifiedRepReference internal constructor(
 ) {
     internal data class Node(val state: ActionStateProfile, val progress: Double, val outbound: Boolean, val returning: Boolean)
     val exerciseId: String get() = spec.id
-    val schema: String get() = "qualified-reference-reps/2"
+    val schema: String get() = "qualified-reference-reps/3"
     val referenceKey: String = run {
         val canonical = buildString {
             append(schema).append('|').append(fingerprint).append('|').append(config).append('|').append(profile.version)

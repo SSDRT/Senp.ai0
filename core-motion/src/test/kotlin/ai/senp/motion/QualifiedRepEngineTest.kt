@@ -56,6 +56,39 @@ class QualifiedRepEngineTest {
         assertTrue(marginal.flatMap { it.finalizedAttempts }.single().reasons.contains(RepReason.INSUFFICIENT_RANGE))
         assertEquals(1,replay(amplitude = 0.90).last().counts.acceptable)
     }
+    @Test fun isolatedDepartureSpikesCannotInventAReversalOrHideAShallowRep() {
+        for (amplitude in listOf(1.0,.45)) {
+            val engine = data.reference().newEngine()
+            val outputs = QualifiedRepDepartureBenchmark.samples(30,amplitude,true).map { (time,p) ->
+                engine.evaluate(data.frame(time,p),data.identity.poseModelSha256)
+            }
+            assertTrue(outputs.filter { it.timestampMs < 1100 }.none { it.stage == RepStage.RETURNING })
+            val event = outputs.flatMap { it.finalizedAttempts }.single()
+            if (amplitude == 1.0) assertEquals(1,outputs.last().counts.qualified) else {
+                assertEquals(RepVerdict.REJECTED,event.verdict)
+                assertEquals(.45,event.maximumProgress,1e-8)
+                assertTrue(RepReason.EARLY_REVERSAL in event.reasons)
+            }
+        }
+    }
+    @Test fun twoAdjacentDepartureObservationsStillEstablishARealPeak() {
+        val engine = data.reference().newEngine()
+        val samples = listOf(0.0,0.0,0.0,.15,1.0,1.0,.5,0.0,0.0,0.0,0.0,0.0)
+        val outputs = samples.mapIndexed { i,p -> engine.evaluate(data.frame(i*67L,p),data.identity.poseModelSha256) }
+        assertEquals(1,outputs.last().counts.qualified)
+        assertEquals(1.0,outputs.flatMap { it.finalizedAttempts }.single().maximumProgress)
+    }
+    @Test fun unsupportedDepartureFollowedByReadyJitterCannotProveAnEarlyReversalFault() {
+        val engine = data.reference().newEngine()
+        val samples = listOf(.08,.08,.08,.98)+List(8) { -.09 }
+        val outputs = samples.mapIndexed { i,p -> engine.evaluate(data.frame(i*67L,p),data.identity.poseModelSha256) }
+        assertEquals(0,outputs.last().counts.qualified)
+        assertEquals(0,outputs.last().counts.rejected)
+        assertTrue(outputs.all { it.newFaults.isEmpty() })
+        val event = outputs.flatMap { it.finalizedAttempts }.single()
+        assertEquals(RepVerdict.UNASSESSABLE,event.verdict)
+        assertTrue(RepReason.INSUFFICIENT_RANGE in event.reasons)
+    }
     @Test fun missingDriverStopsAnAttemptAndRecoveryMidRepCannotEarnACount() {
         val outputs = replay { time,_,f -> if (time in 700..800) without(f,"angle.left_elbow") else f }
         assertEquals(1,outputs.last().counts.unassessable)
@@ -165,7 +198,7 @@ class QualifiedRepEngineTest {
         }) })))
         assertEquals(RepReferenceFailure.INSUFFICIENT_EXCURSION,reason("biceps_curl",WorkoutPrecisionTestData.profile()))
         assertEquals(data.reference().referenceKey,data.reference().referenceKey)
-        assertEquals("qualified-reference-reps/2",data.reference().schema)
+        assertEquals("qualified-reference-reps/3",data.reference().schema)
         assertNotEquals(data.reference().referenceKey,data.reference(config = QualifiedRepConfig(requireObservedPath = false)).referenceKey)
         assertNotEquals(data.reference().referenceKey,data.reference(config = QualifiedRepConfig(side = RepObservedSide.RIGHT)).referenceKey)
         val guided = data.reference(config = QualifiedRepConfig(mode = RepPolicyMode.REFERENCE_WITH_TECHNIQUE_GUARDS))

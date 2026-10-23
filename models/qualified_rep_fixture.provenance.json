@@ -16,8 +16,18 @@
       "sample_period_ms": 66
     }
   },
-  "fixture_sha256": "596293e12df5604974d140f5070f30beed269d30305da1f9219fdc8bcc48e20d",
-  "expected_results_source_sha256": "25677d4f8637c7d28406fed9ebf2ca907508d1e3f92bc882a75d219684bc3376",
+  "fixture_sha256": "26a28034a15f3616cb4908d26e918b745e4e6f9b556bf3c85cba1500b2162e64",
+  "expected_results_source_sha256": "cc035e85d266311fe4e25d534c82515756b85adbf9c5c806b626611d53f44096",
   "attribution": "Duddela Sai Prashanth et al. (2026), Mendeley Data V3, DOI 10.17632/kgbb3yn47p.3. See core-motion NOTICE-mendeley-quality.txt and CC BY 4.0 license.",
-  "changes": "Selected two clips; extracted pinned Full MP33 image/world landmarks/confidences at original source PTS; retained no video pixels. Expected engine results are parity targets, not human annotations."
+  "changes": "Selected two clips; extracted pinned Full MP33 image/world landmarks/confidences at original source PTS; retained no video pixels. Expected engine results are parity targets, not human annotations.",
+  "schema_3_parity_update": {
+    "baseline_commit": "8a01f1c",
+    "raw_observations_changed": false,
+    "counts_verdicts_times_changed": false,
+    "attempt_started_ms": 5333,
+    "field": "maximum_progress",
+    "before": 1.0045220092616203,
+    "after": 0.9951675399050122,
+    "reason": "Departure no longer self-supports its isolated first peak. Later adjacent original observations define the supported maximum."
+  }
 }

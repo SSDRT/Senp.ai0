@@ -44,6 +44,8 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
         }
         val visible = required.all { value(frame,it) != null }
         val now = frame.timestamp.value
+        val beforeProgress = priorProgress
+        priorProgress = p
         if (start == null) {
             if (p <= config.readyProgress && p >= -0.35 && visible) {
                 if (readySince == null) { readySince = now;readyObservations = 0 }
@@ -52,13 +54,12 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
                 if (readyObservations >= 2 && now-requireNotNull(readySince) >= config.readyConfirmationMs) armed = true
             } else if (!armed) { readySince = null;readyObservations = 0 }
             if (armed && visible && p >= config.departureProgress) {
-                start = readyIndex;peak = index;maximum = p;farSince = null;farObservations = 0;farSeen = false
+                start = readyIndex;peak = index;maximum = min(requireNotNull(beforeProgress),p);farSince = null;farObservations = 0;farSeen = false
                 returnSince = null;returnObservations = 0;armed = false
             } else return@forEachIndexed
         }
-        val supportedPeak = min(priorProgress ?: p,p)
+        val supportedPeak = min(beforeProgress ?: p,p)
         if (supportedPeak > maximum) { maximum = supportedPeak;peak = index }
-        priorProgress = p
         if (p >= config.requiredProgress && visible) {
             if (farSince == null) { farSince = now;farObservations = 0 }
             farObservations++

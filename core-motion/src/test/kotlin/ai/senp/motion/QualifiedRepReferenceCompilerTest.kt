@@ -43,6 +43,20 @@ class QualifiedRepReferenceCompilerTest {
         assertEquals(70.0,result.reference.farAngle,1e-8)
         assertEquals(1.0,requireNotNull(result.reference.calibration).selfAcceptanceFraction)
     }
+    @Test fun anIsolatedDepartureSpikeCannotMoveTheReferenceTurnaroundBeforeItsObservedPath() {
+        val frames = (0 until 4).flatMap { rep ->
+            QualifiedRepDepartureBenchmark.samples(30,1.0,true).map { (time,p) -> data.frame(time+rep*2100L,p) }
+        }
+        val source = SpatialSequenceAnalysis(VideoRole.REFERENCE,DurationMs(frames.last().timestamp.value+1),
+            ObservationSampling(analysisFramesPerSecond = 30.0),frames,1.0)
+        val result = assertIs<QualifiedRepCompilation.Ready>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity))
+        val calibration = requireNotNull(result.reference.calibration)
+        assertEquals(4,calibration.observedCycles)
+        assertEquals(4,calibration.acceptedSelfCycles)
+        val engine = result.reference.newEngine()
+        val outputs = data.stream().map { (time,p) -> engine.evaluate(data.frame(time,p),data.identity.poseModelSha256) }
+        assertEquals(1,outputs.last().counts.qualified)
+    }
     @Test fun repeatedWorkoutEndpointsAreNotReplacedByLongSetupMotion() {
         val setup = (0 until 120).map { data.frame(it*33L,0.0,"overhead_press",mapOf("angle.left_shoulder" to 20.0)) }
         val movement = (0 until 4).flatMap { rep -> data.stream(offset = 4000+rep*2100L).map { (time,p) ->
@@ -135,8 +149,10 @@ class QualifiedRepReferenceCompilerTest {
         }) }
         for (nodes in listOf(6,10)) {
             val config = QualifiedRepConfig(referenceCurveNodes = nodes)
-            val baseline = assertIs<QualifiedRepCompilation.Unavailable>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity,config.copy(requireObservedPath = false)))
-            assertEquals(RepReferenceFailure.LOW_SELF_RECONSTRUCTION,baseline.reason)
+            // Correct branch splitting makes the endpoint-only ablation reconstruct the
+            // jump too. The production path gate must independently withhold it.
+            val baseline = assertIs<QualifiedRepCompilation.Ready>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity,config.copy(requireObservedPath = false)))
+            assertEquals(4,requireNotNull(baseline.reference.calibration).acceptedSelfCycles)
             val result = assertIs<QualifiedRepCompilation.Unavailable>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity,config))
             assertEquals(RepReferenceFailure.LOW_SELF_RECONSTRUCTION,result.reason)
         }
