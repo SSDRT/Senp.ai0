@@ -11,7 +11,7 @@ object QualifiedRepReplayTool {
     private data class Video(val name: String, val payload: JsonObject, val spatial: SpatialSequenceAnalysis)
     @JvmStatic fun main(args: Array<String>) {
         val directory = File(args[0]); val destination = File(args[1]);destination.mkdirs()
-        val experimentalParameters = args.getOrNull(2)?.let { path ->
+        val experimentalParameters = args.getOrNull(2)?.takeIf { it != "-" }?.let { path ->
             val root = Json.parseToJsonElement(File(path).readText()).jsonObject
             require(root.getValue("kind").jsonPrimitive.content == "autonomous-generated-oracle-parameter-search-not-human-accuracy")
             root.getValue("selected_parameters").jsonObject
@@ -21,6 +21,8 @@ object QualifiedRepReplayTool {
             faultConfirmationMs = values.getValue("fault_confirmation_ms").jsonPrimitive.long,
             requiredProgress = values.getValue("required_progress").jsonPrimitive.double,
         ) } ?: QualifiedRepConfig()
+        val curveConfig = replayConfig.copy(referenceCurveNodes = args.getOrNull(3)?.toInt() ?: 6,
+            requireObservedPath = args.getOrNull(4)?.toBooleanStrict() ?: true)
         val spatial = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true))
         val videos = directory.listFiles { f -> f.name.endsWith(".json.gz") }!!.sortedBy { it.name }.map { file ->
             val payload = GZIPInputStream(file.inputStream()).bufferedReader().use { Json.parseToJsonElement(it.readText()).jsonObject }
@@ -59,7 +61,7 @@ object QualifiedRepReplayTool {
             }
             val modelSha = video.payload.getValue("model_sha256").jsonPrimitive.content
             val fingerprint = RepEvidenceFingerprint(ref.payload.getValue("source_video_sha256").jsonPrimitive.content,modelSha,declaredView = view)
-            val rep = QualifiedRepCompiler.compile(ref.spatial,ids.getValue(exercise),fingerprint,replayConfig.copy(side = side))
+            val rep = QualifiedRepCompiler.compile(ref.spatial,ids.getValue(exercise),fingerprint,curveConfig.copy(side = side))
             if (rep is QualifiedRepCompilation.Unavailable) {
                 rows += JsonObject(base+mapOf("status" to JsonPrimitive(rep.reason.name),"detail" to JsonPrimitive(rep.detail)));continue
             }
@@ -133,6 +135,8 @@ object QualifiedRepReplayTool {
             put("rep_accuracy_measured",false);put("rows",JsonArray(rows))
             put("configuration_source",if (experimentalParameters == null) "current-defaults" else "experimental-generated-oracle-candidate")
             put("experimental_parameters",experimentalParameters ?: JsonNull)
+            put("reference_curve_nodes",curveConfig.referenceCurveNodes)
+            put("require_observed_path",curveConfig.requireObservedPath)
         }
         File(destination,"summary.json").writeText(json.encodeToString(JsonObject.serializer(),report))
         println("Real video replay ${report.getValue("replayed")}/${rows.size}; source frames ${report.getValue("source_observations")}; $destination")
@@ -155,6 +159,7 @@ object QualifiedRepReplayTool {
         put("attempt_id",a.attemptId);put("started_ms",a.startedMs);put("completed_ms",a.completedMs);put("verdict",a.verdict.name)
         put("reasons",JsonArray(a.reasons.map { JsonPrimitive(it.name) }));put("maximum_progress",a.maximumProgress)
         put("visible_fraction",a.visibleFraction);put("ambiguous_fraction",a.ambiguousFraction)
+        put("outbound_path_observed",a.outboundPathObserved);put("return_path_observed",a.returnPathObserved)
     }
     private fun fault(f: RepFault) = buildJsonObject {
         put("reason",f.reason.name);put("feature",f.feature?.let(::JsonPrimitive) ?: JsonNull)

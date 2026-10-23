@@ -25,6 +25,8 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         var farObserved = false
         var returned: Confirmation? = null
         var minorDeviation = false
+        var outboundPathObserved = false
+        var returnPathObserved = false
         val faults = linkedMapOf<String,RepFault>()
         val pending = mutableMapOf<String,PendingFault>()
     }
@@ -32,12 +34,13 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
     private var previousMs: Long? = null
     private var ready: Confirmation? = null
     private var armed = false
+    private var primedOutboundPathObserved = false
     private var nextId = 1L
     private var active: Attempt? = null
     private var counts = QualifiedRepCounts()
 
     @Synchronized fun reset() {
-        context = null; previousMs = null; ready = null; armed = false; nextId = 1; active = null; counts = QualifiedRepCounts()
+        context = null; previousMs = null; ready = null; armed = false; primedOutboundPathObserved = false; nextId = 1; active = null; counts = QualifiedRepCounts()
     }
 
     @Synchronized fun evaluate(frame: SpatialObservationFrame, poseModelSha256: String?,
@@ -50,7 +53,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         val newFaults = mutableListOf<RepFault>()
         fun close(reason: RepReason) {
             active?.let { finalized += finalize(it,now,reason) }
-            active = null; ready = null; armed = false
+            active = null; ready = null; armed = false; primedOutboundPathObserved = false
         }
         val nextContext = Context(frame.selectedSubjectId,frame.spatialSegmentId,captureContext)
         if (context != null && context != nextContext) close(RepReason.CONTEXT_CHANGED)
@@ -82,9 +85,14 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
                 ready = confirm(ready,now)
                 if (confirmed(ready,now,config.readyConfirmationMs)) armed = true
             } else if (!armed) ready = null
-            if (!visible) { armed = false; ready = null }
+            if (progress <= config.readyProgress) primedOutboundPathObserved = false
+            if (!visible) { armed = false; ready = null; primedOutboundPathObserved = false }
+            // Early visible motion after arming still belongs to this path even before the
+            // departure threshold starts the attempt. Returning to ready discards that evidence.
+            if (armed && visible && progress > config.readyProgress && progress < config.requiredProgress) primedOutboundPathObserved = true
             if (armed && visible && progress >= config.departureProgress) {
-                attempt = Attempt(nextId++,now,progress,true); active = attempt; armed = false; ready = null
+                attempt = Attempt(nextId++,now,progress,true).also { it.outboundPathObserved = primedOutboundPathObserved }
+                active = attempt; armed = false; ready = null; primedOutboundPathObserved = false
             } else {
                 return output(now,if (armed) RepStage.READY else RepStage.SYNCHRONIZING,progress,finalized = finalized)
             }
@@ -94,6 +102,16 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         current.maximumProgress = max(current.maximumProgress,min(current.previousProgress,progress))
         current.previousProgress = progress
         val reversal = current.maximumProgress-progress >= config.reversalExcursion
+        // Endpoint dwell alone cannot establish that the movement between endpoints was observed.
+        // One directly observed intermediate pose in each direction avoids requiring a dense
+        // sampling grid. It must precede the far endpoint outbound, and follow an apparent
+        // reversal returning. No interpolation or speed/biomechanical label is inferred here.
+        val intermediate = progress > config.readyProgress && progress < config.requiredProgress
+        if (!current.farObserved && progress <= config.readyProgress) current.outboundPathObserved = false
+        if (!current.farObserved || progress >= config.requiredProgress) current.returnPathObserved = false
+        if (visible && intermediate && !current.farObserved && !current.returning && !reversal) current.outboundPathObserved = true
+        if (visible && intermediate && current.farObserved && reversal) current.returnPathObserved = true
+        if (!current.returning && !reversal) current.returnPathObserved = false
         if (!current.returning) {
             current.reversal = if (reversal) confirm(current.reversal,now) else null
             if (confirmed(current.reversal,now,config.reversalConfirmationMs)) {
@@ -146,10 +164,12 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
             val reason = when {
                 !endpointAcceptable -> RepReason.AMBIGUOUS_FORM
                 !current.farObserved -> if (current.maximumProgress < config.clearlyIncompleteProgress) RepReason.EARLY_REVERSAL else RepReason.INSUFFICIENT_RANGE
+                config.requireObservedPath && (!current.outboundPathObserved || !current.returnPathObserved) -> RepReason.INSUFFICIENT_PATH_EVIDENCE
                 else -> null
             }
             finalized += finalize(current,now,reason)
             active = null
+            primedOutboundPathObserved = false
             armed = endpointAcceptable; ready = if (armed) current.returned else null
             return output(now,if (armed) RepStage.READY else RepStage.SYNCHRONIZING,progress,newFaults,finalized)
         }
@@ -160,7 +180,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
     @Synchronized fun finish(timestampMs: Long): QualifiedRepOutput {
         require(timestampMs >= (previousMs ?: 0))
         val events = active?.let { listOf(finalize(it,timestampMs,RepReason.INTERRUPTED)) }.orEmpty()
-        active = null; ready = null; armed = false; previousMs = timestampMs
+        active = null; ready = null; armed = false; primedOutboundPathObserved = false; previousMs = timestampMs
         return output(timestampMs,RepStage.SYNCHRONIZING,finalized = events)
     }
 
@@ -190,7 +210,8 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
             RepVerdict.REJECTED -> counts.copy(rejected = counts.rejected+1)
             RepVerdict.UNASSESSABLE -> counts.copy(unassessable = counts.unassessable+1)
         }
-        return RepAttemptResult(attempt.id,attempt.start,now,verdict,reasons.toSet(),attempt.faults.values.toList(),attempt.maximumProgress,visible,ambiguous)
+        return RepAttemptResult(attempt.id,attempt.start,now,verdict,reasons.toSet(),attempt.faults.values.toList(),attempt.maximumProgress,visible,ambiguous,
+            attempt.outboundPathObserved,attempt.returnPathObserved)
     }
     private fun output(now: Long, stage: RepStage, progress: Double? = null, faults: List<RepFault> = emptyList(),
         finalized: List<RepAttemptResult> = emptyList(), unavailable: RepReason? = null): QualifiedRepOutput =

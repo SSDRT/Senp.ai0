@@ -7,6 +7,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
+import kotlin.test.assertFailsWith
+import kotlin.math.abs
+import kotlin.math.pow
 
 class QualifiedRepReferenceCompilerTest {
     private val data = QualifiedRepTestData
@@ -89,5 +92,53 @@ class QualifiedRepReferenceCompilerTest {
                 featureConfidences = f.intrinsicDescriptor.featureConfidences+("angle.left_shoulder" to 0.1)))
         }
         assertIs<QualifiedRepCompilation.Unavailable>(QualifiedRepCompiler.compile(source.copy(frames = frames),"biceps_curl",data.identity))
+    }
+
+    @Test fun finerReferenceCurvesReduceNonlinearInterpolationErrorOnSeparateProgressSamples() {
+        val source = sequence().let { sequence -> sequence.copy(frames = sequence.frames.map { frame ->
+            val p = (170-frame.intrinsicDescriptor.values.getValue("angle.left_elbow"))/100
+            frame.copy(intrinsicDescriptor = frame.intrinsicDescriptor.copy(values = frame.intrinsicDescriptor.values+
+                ("angle.left_shoulder" to 15+130*p.pow(5))))
+        }) }
+        // Only this diagnostic comparison disables self-qualification to measure fit error.
+        // Production configurations keep the same 80% self-reconstruction requirement.
+        fun curve(nodes: Int) = assertIs<QualifiedRepCompilation.Ready>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity,
+            QualifiedRepConfig(referenceCurveNodes = nodes,minimumReferenceReconstruction = 0.0))).reference
+        val coarse = curve(6);val fine = curve(10)
+        fun error(ref: QualifiedRepReference) = (1..16).map { index ->
+            val p = index/20.0
+            val band = ref.band("angle.left_shoulder",p,false)
+            abs((band.lower+band.upper)/2-(15+130*p.pow(5)))
+        }.average()
+        assertTrue(error(fine) < error(coarse)*0.7,"Coarse ${error(coarse)}, finer ${error(fine)}")
+        assertEquals(10,fine.profile.states.size)
+        assertEquals(6,coarse.profile.states.size)
+        assertFailsWith<IllegalArgumentException> { QualifiedRepConfig(referenceCurveNodes = 8) }
+    }
+
+    @Test fun finerCurvesStillRequireObservedCyclesAndMilestones() {
+        val config = QualifiedRepConfig(referenceCurveNodes = 10)
+        val reference = assertIs<QualifiedRepCompilation.Ready>(QualifiedRepCompiler.compile(sequence(),"biceps_curl",data.identity,config)).reference
+        assertEquals(1.0,requireNotNull(reference.calibration).selfAcceptanceFraction)
+        assertIs<QualifiedRepCompilation.Unavailable>(QualifiedRepCompiler.compile(sequence(2),"biceps_curl",data.identity,config))
+        val source = sequence().let { it.copy(frames = it.frames.map { f ->
+            val p = (170-f.intrinsicDescriptor.values.getValue("angle.left_elbow"))/100
+            if (p < .82) f else f.copy(intrinsicDescriptor = f.intrinsicDescriptor.copy(
+                featureConfidences = f.intrinsicDescriptor.featureConfidences+("angle.left_shoulder" to 0.1)))
+        }) }
+        assertIs<QualifiedRepCompilation.Unavailable>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity,config))
+    }
+    @Test fun selfCalibrationCannotTreatAnUnobservedPathAsADemonstratedCompleteRep() {
+        val source = sequence().let { it.copy(frames = it.frames.map { frame ->
+            val local = frame.timestamp.value-6300
+            if (local < 0) frame else data.frame(frame.timestamp.value,if (local in 300..1100) 1.0 else 0.0)
+        }) }
+        for (nodes in listOf(6,10)) {
+            val config = QualifiedRepConfig(referenceCurveNodes = nodes)
+            val baseline = assertIs<QualifiedRepCompilation.Unavailable>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity,config.copy(requireObservedPath = false)))
+            assertEquals(RepReferenceFailure.LOW_SELF_RECONSTRUCTION,baseline.reason)
+            val result = assertIs<QualifiedRepCompilation.Unavailable>(QualifiedRepCompiler.compile(source,"biceps_curl",data.identity,config))
+            assertEquals(RepReferenceFailure.LOW_SELF_RECONSTRUCTION,result.reason)
+        }
     }
 }

@@ -1,5 +1,7 @@
 # Reference-selected pose backend: autonomous integration
 
+Follow-up: [observed-path tuning](OBSERVED_PATH_TUNING.md) adds a direct intermediate-motion requirement while retaining this cycle's development calibration and counts. The results below remain the original backend integration record.
+
 23 October 2026. Branch `codex/live-pose-accuracy`, baseline `980e80f`.
 
 This cycle implements the reference-only Full/Heavy experiment from `AUTONOMOUS_TUNING_RESULTS.md` in the experimental qualified-rep session. New recordings, human annotations and reviewer recruitment: zero. No landmark CNN weights or acceptance tolerances were changed in this cycle.

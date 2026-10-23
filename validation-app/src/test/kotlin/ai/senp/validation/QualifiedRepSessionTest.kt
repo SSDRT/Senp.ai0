@@ -103,6 +103,19 @@ class QualifiedRepSessionTest {
         assertEquals(1,output?.qualifiedReps?.counts?.unassessable)
     }
 
+    @Test fun rawEndpointJumpsCannotBypassTheObservedPathRequirement() {
+        val samples = listOf(0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0)
+        for (requirePath in listOf(false,true)) {
+            val config = QualifiedRepConfig(requireObservedPath = requirePath)
+            val ref = assertIs<QualifiedRepCompilation.Ready>(compileQualifiedRepFromExtraction(extraction(),"biceps_curl",fingerprint,config)).reference
+            val processor = session().newLiveProcessor(ref.profile,15.0,qualifiedRepReference = ref,repEvidenceFingerprint = fingerprint)
+            val outputs = samples.mapIndexed { i,p -> pose(i*67L,p).let { processor.update(it,640,480,fingerprint.poseModelSha256,it) } }
+            val last = requireNotNull(outputs.last().qualifiedReps)
+            assertEquals(if (requirePath) 0 else 1,last.counts.qualified)
+            if (requirePath) assertTrue(RepReason.INSUFFICIENT_PATH_EVIDENCE in outputs.flatMap { it.qualifiedReps?.finalizedAttempts.orEmpty() }.single().reasons)
+        }
+    }
+
     private val primaryModel = PoseModelConfiguration(Sha256(fingerprint.poseModelSha256))
     private val fallbackModel = PoseModelConfiguration(Sha256("c".repeat(64)),"pose-landmarker-heavy")
     private val request = ReferenceExtractionRequest(VideoSource("content://verified-reference",Sha256(fingerprint.referenceVideoSha256)),

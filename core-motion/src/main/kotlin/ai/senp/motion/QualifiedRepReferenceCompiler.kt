@@ -80,15 +80,18 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
     if (cycles.size < config.minimumReferenceCycles) return fail(RepReferenceFailure.INSUFFICIENT_REFERENCE_CYCLES,
         "Observed ${cycles.size} usable complete cycles; ${config.minimumReferenceCycles} required; $rejected candidates excluded")
     val selected = cycles.flatMap { frames.subList(it.start,it.end+1) }.distinctBy { it.timestamp }
-    val centers = listOf(0.0,0.4,0.8,1.0,0.8,0.4)
+    val centers = if (config.referenceCurveNodes == 10) listOf(0.0,0.2,0.4,0.6,0.8,1.0,0.8,0.6,0.4,0.2)
+        else listOf(0.0,0.4,0.8,1.0,0.8,0.4)
+    val farState = centers.indexOf(1.0)
+    val stateCount = centers.size
     val states = mutableListOf<ActionStateProfile>()
     val duration = robustDistribution(cycles.map { (frames[it.end].timestamp.value-frames[it.start].timestamp.value).toDouble() },20.0)
     for ((stateIndex,center) in centers.withIndex()) {
         val phaseFrames = cycles.flatMap { cycle ->
-            val indices = if (stateIndex in 1..2) cycle.start..cycle.peak else if (stateIndex >= 4) cycle.peak..cycle.end else cycle.start..cycle.end
+            val indices = if (stateIndex in 1 until farState) cycle.start..cycle.peak else if (stateIndex > farState) cycle.peak..cycle.end else cycle.start..cycle.end
             indices.map { frames[it] }.filter { frame ->
                 val p = progress(frame) ?: return@filter false
-                when (stateIndex) { 0 -> p <= 0.15;3 -> p >= 0.85;else -> abs(p-center) <= 0.15 }
+                when (stateIndex) { 0 -> p <= 0.15;farState -> p >= 0.85;else -> abs(p-center) <= 0.15 }
             }
         }.distinctBy { it.timestamp }
         val features = ExerciseTechniqueCatalog.coachableFeatures.filter { it.startsWith("angle.") }.mapNotNull { name ->
@@ -109,8 +112,8 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
                 1.0/(1.0+distribution.mad/10.0),1.0,observability,1.0,1.0,confidence)
         }
         if (!features.map { it.name }.containsAll(required)) return fail(RepReferenceFailure.MISSING_FEATURE,"Insufficient critical samples at reference milestone $stateIndex")
-        states += ActionStateProfile("rep_phase_$stateIndex",stateIndex,stateIndex/6.0,(stateIndex+1)/6.0,
-            duration.copy(median = duration.median/6,lower = duration.lower/6,upper = duration.upper/6,mad = duration.mad/6),features,
+        states += ActionStateProfile("rep_phase_$stateIndex",stateIndex,stateIndex.toDouble()/stateCount,(stateIndex+1.0)/stateCount,
+            duration.copy(median = duration.median/stateCount,lower = duration.lower/stateCount,upper = duration.upper/stateCount,mad = duration.mad/stateCount),features,
             features.filter { it.name in required }.minOf { it.confidence })
     }
     val confidence = states.minOf { it.confidence }
@@ -127,7 +130,7 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
         }
     }.toDouble()/selected.size
     val profile = ActionProfile(ReferenceActionVersions.PROFILE,true,confidence,cycles.size,states,
-        states.indices.map { ActionTransitionProfile(it,(it+1)%6,it==5,confidence) },duration,
+        states.indices.map { ActionTransitionProfile(it,(it+1)%stateCount,it==states.lastIndex,confidence) },duration,
         states.flatMap { it.features }.groupBy { it.name }.mapValues { (_,features) -> features.maxOf { it.scale } },confidence,
         ActionProfileValidation(withinOwnBands,1.0,confidence,observedCoverage,states.flatMap { it.features }.map { it.reference.outlierFraction }.average()),
         referenceEvidenceKinds = setOf(SpatialEvidenceKind.THREE_D))

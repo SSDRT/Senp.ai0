@@ -140,7 +140,9 @@ tasks.register<JavaExec>("qualifiedRepVideoReplay") {
     mainClass.set("ai.senp.motion.QualifiedRepReplayTool")
     args(rootProject.file(providers.gradleProperty("qualifiedReplayInput").getOrElse("test-artifacts/exercise-knowledge/rep-world-feature-cache")).absolutePath,
         rootProject.file(providers.gradleProperty("qualifiedReplayOutput").getOrElse("test-artifacts/exercise-knowledge/qualified-video-replay")).absolutePath)
-    providers.gradleProperty("qualifiedReplayConfig").orNull?.let { args(rootProject.file(it).absolutePath) }
+    args(providers.gradleProperty("qualifiedReplayConfig").orNull?.let { rootProject.file(it).absolutePath } ?: "-")
+    args(providers.gradleProperty("qualifiedReferenceCurveNodes").getOrElse("6"))
+    args(providers.gradleProperty("qualifiedRequireObservedPath").getOrElse("true"))
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
@@ -154,6 +156,16 @@ tasks.register<JavaExec>("qualifiedRepCalibrationAudit") {
     args(rootProject.file("test-artifacts/exercise-knowledge/rep-world-feature-cache").absolutePath,
         rootProject.file("test-artifacts/exercise-knowledge/qualified-calibration-audit").absolutePath)
     maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("qualifiedRepPathBenchmark") {
+    group = "verification"
+    description = "Compare endpoint jumps and observed intermediate motion across all rep policies, sides, mirrors and cadences."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepPathBenchmark")
+    args(rootProject.file("test-artifacts/exercise-knowledge/observed-path-mechanism.json").absolutePath)
     outputs.upToDateWhen { false }
 }
 

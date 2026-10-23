@@ -165,6 +165,8 @@ class QualifiedRepEngineTest {
         }) })))
         assertEquals(RepReferenceFailure.INSUFFICIENT_EXCURSION,reason("biceps_curl",WorkoutPrecisionTestData.profile()))
         assertEquals(data.reference().referenceKey,data.reference().referenceKey)
+        assertEquals("qualified-reference-reps/2",data.reference().schema)
+        assertNotEquals(data.reference().referenceKey,data.reference(config = QualifiedRepConfig(requireObservedPath = false)).referenceKey)
         assertNotEquals(data.reference().referenceKey,data.reference(config = QualifiedRepConfig(side = RepObservedSide.RIGHT)).referenceKey)
         val guided = data.reference(config = QualifiedRepConfig(mode = RepPolicyMode.REFERENCE_WITH_TECHNIQUE_GUARDS))
         val changedTargets = guided.sourceTargets.mapValues { (_,targets) -> targets.mapValues { (_,target) -> target.copy(lower = 10.0,upper = 10.0) } }
@@ -172,6 +174,81 @@ class QualifiedRepEngineTest {
             guided.readyAngle,guided.farAngle,guided.nodes,changedTargets,guided.sourceTolerances)
         assertNotEquals(guided.referenceKey,changed.referenceKey,"Guidance changes must invalidate policy identity")
         assertFailsWith<IllegalArgumentException> { RepEvidenceFingerprint("bad","bad") }
+    }
+    @Test fun confidentEndpointJumpsWithoutObservedMotionCannotEarnACount() {
+        val samples = listOf(0L to 0.0,67L to 0.0,134L to 0.0,201L to 1.0,268L to 1.0,
+            335L to 0.0,402L to 0.0,469L to 0.0,536L to 0.0,603L to 0.0)
+        fun run(requirePath: Boolean): QualifiedRepOutput {
+            val engine = data.reference(config = QualifiedRepConfig(requireObservedPath = requirePath)).newEngine()
+            return samples.map { (time,p) -> engine.evaluate(data.frame(time,p),data.identity.poseModelSha256) }.last()
+        }
+        assertEquals(1,run(false).counts.qualified,"Counterfactual demonstrates the endpoint-only shortcut")
+        val fixed = run(true)
+        assertEquals(0,fixed.counts.qualified)
+        assertEquals(1,fixed.counts.unassessable)
+        assertEquals(RepReason.INSUFFICIENT_PATH_EVIDENCE,fixed.finalizedAttempts.single().reasons.single())
+    }
+    @Test fun oneIntermediateObservationPerDirectionCanSupportAFastVisibleRep() {
+        for (outboundOnly in listOf(true,false)) {
+            val samples = buildList {
+                addAll(listOf(0.0,0.0,0.0))
+                addAll(if (outboundOnly) listOf(.3,.7,1.0,1.0) else listOf(.5,1.0,1.0))
+                addAll(if (outboundOnly) listOf(.5,0.0,0.0,0.0,0.0,0.0) else listOf(.7,.3,0.0,0.0,0.0,0.0,0.0))
+            }
+            val engine = data.reference().newEngine()
+            val result = samples.mapIndexed { index,p -> engine.evaluate(data.frame(index*67L,p),data.identity.poseModelSha256) }.last()
+            assertEquals(1,result.counts.qualified,"outboundOnly=$outboundOnly")
+            assertEquals(0,result.counts.unassessable)
+        }
+    }
+    @Test fun anAbandonedPartialReturnCannotSupplyEvidenceForALaterEndpointJump() {
+        val samples = listOf(0.0,0.0,0.0,0.0,0.0,.3,.6,.8,.8,.6,.4,.8,1.0,1.0,1.0,1.0,
+            0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
+        val engine = data.reference().newEngine()
+        val outputs = samples.mapIndexed { i,p -> engine.evaluate(data.frame(i*33L,p),data.identity.poseModelSha256) }
+        assertEquals(0,outputs.last().counts.qualified)
+        val event = outputs.flatMap { it.finalizedAttempts }.single()
+        assertEquals(RepVerdict.UNASSESSABLE,event.verdict)
+        assertTrue(RepReason.INSUFFICIENT_PATH_EVIDENCE in event.reasons)
+    }
+    @Test fun observedEarlyMovementBeforeDepartureRemainsValidPathEvidence() {
+        val samples = listOf(0.0,0.0,0.0,.15,1.0,1.0,.5,0.0,0.0,0.0,0.0,0.0)
+        val engine = data.reference().newEngine()
+        val outputs = samples.mapIndexed { i,p -> engine.evaluate(data.frame(i*67L,p),data.identity.poseModelSha256) }
+        assertEquals(1,outputs.last().counts.qualified)
+        assertTrue(outputs.flatMap { it.finalizedAttempts }.single().outboundPathObserved)
+    }
+    @Test fun returningToReadyDiscardsAbandonedEarlyMovementEvidence() {
+        val samples = listOf(0.0,0.0,0.0,.15,0.0,0.0,1.0,1.0,.5,0.0,0.0,0.0,0.0,0.0)
+        val engine = data.reference().newEngine()
+        val outputs = samples.mapIndexed { i,p -> engine.evaluate(data.frame(i*67L,p),data.identity.poseModelSha256) }
+        assertEquals(0,outputs.last().counts.qualified)
+        val event = outputs.flatMap { it.finalizedAttempts }.single()
+        assertFalse(event.outboundPathObserved)
+        assertTrue(RepReason.INSUFFICIENT_PATH_EVIDENCE in event.reasons)
+    }
+    @Test fun returnEvidenceMustFollowTheConfirmedFarEndpointAndCannotSurviveAnotherFarVisit() {
+        for (middle in listOf(
+            listOf(.3,.7,.7,.4,.4,.4,.4,1.0,1.0),
+            listOf(.3,.7,1.0,1.0,.6,.4,.4,.4,1.0,1.0),
+        )) {
+            val samples = listOf(0.0,0.0,0.0)+middle+List(6) { 0.0 }
+            val engine = data.reference().newEngine()
+            val outputs = samples.mapIndexed { i,p -> engine.evaluate(data.frame(i*67L,p),data.identity.poseModelSha256) }
+            assertEquals(0,outputs.last().counts.qualified)
+            val event = outputs.flatMap { it.finalizedAttempts }.single()
+            assertEquals(RepVerdict.UNASSESSABLE,event.verdict)
+            assertFalse(event.returnPathObserved)
+            assertTrue(RepReason.INSUFFICIENT_PATH_EVIDENCE in event.reasons)
+        }
+    }
+    @Test fun aReadyRevisitInsideAnAttemptInvalidatesItsEarlierOutboundWitness() {
+        val samples = listOf(0.0,0.0,0.0,.3,.3,0.0,.9,1.0,1.0,.5,0.0,0.0,0.0,0.0,0.0)
+        val engine = data.reference().newEngine()
+        val outputs = samples.mapIndexed { i,p -> engine.evaluate(data.frame(i*67L,p),data.identity.poseModelSha256) }
+        assertEquals(0,outputs.last().counts.qualified)
+        val event = outputs.flatMap { it.finalizedAttempts }.single()
+        assertFalse(event.outboundPathObserved)
     }
     private fun withValue(frame: SpatialObservationFrame,name: String,value: Double) = frame.copy(intrinsicDescriptor = frame.intrinsicDescriptor.copy(values = frame.intrinsicDescriptor.values+(name to value)))
     private fun without(frame: SpatialObservationFrame,name: String) = frame.copy(intrinsicDescriptor = frame.intrinsicDescriptor.copy(

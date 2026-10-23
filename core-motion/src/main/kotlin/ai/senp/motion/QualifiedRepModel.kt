@@ -11,7 +11,7 @@ enum class RepStage { SYNCHRONIZING, READY, OUTBOUND, RETURNING, UNAVAILABLE }
 enum class RepReason {
     CLEAR_FORM_DEVIATION, EARLY_REVERSAL, INSUFFICIENT_RANGE, MISSING_CRITICAL_EVIDENCE,
     INSUFFICIENT_COVERAGE, AMBIGUOUS_FORM, EVIDENCE_GAP, CONTEXT_CHANGED,
-    MODEL_MISMATCH, PREPROCESSING_MISMATCH, ATTEMPT_TIMEOUT, INTERRUPTED,
+    MODEL_MISMATCH, PREPROCESSING_MISMATCH, ATTEMPT_TIMEOUT, INTERRUPTED, INSUFFICIENT_PATH_EVIDENCE,
 }
 
 /** Identity of the source reference and the raw coordinate pipeline. Declared view is not camera verification. */
@@ -59,6 +59,8 @@ data class QualifiedRepConfig(
     val maximumReferenceMadDegrees: Double = 12.0,
     val maximumReferenceBandWidthDegrees: Double = 60.0,
     val minimumReferenceReconstruction: Double = 0.80,
+    val referenceCurveNodes: Int = 6,
+    val requireObservedPath: Boolean = true,
 ) {
     init {
         require(mirrorMode != ActionMirrorMode.UNKNOWN)
@@ -75,6 +77,7 @@ data class QualifiedRepConfig(
         require(minimumReferenceCycles >= 1)
         require(maximumReferenceMadDegrees.isFinite() && maximumReferenceMadDegrees > 0)
         require(maximumReferenceBandWidthDegrees.isFinite() && maximumReferenceBandWidthDegrees > 0 && maximumReferenceBandWidthDegrees <= 180)
+        require(referenceCurveNodes in setOf(6,10))
     }
 }
 
@@ -86,6 +89,7 @@ data class RepAttemptResult(
     val attemptId: Long, val startedMs: Long, val completedMs: Long, val verdict: RepVerdict,
     val reasons: Set<RepReason>, val faults: List<RepFault>, val maximumProgress: Double,
     val visibleFraction: Double, val ambiguousFraction: Double,
+    val outboundPathObserved: Boolean = false, val returnPathObserved: Boolean = false,
 )
 data class QualifiedRepCounts(val correct: Int = 0, val acceptable: Int = 0, val rejected: Int = 0, val unassessable: Int = 0) {
     val qualified: Int get() = correct + acceptable
@@ -131,7 +135,7 @@ class QualifiedRepReference internal constructor(
 ) {
     internal data class Node(val state: ActionStateProfile, val progress: Double, val outbound: Boolean, val returning: Boolean)
     val exerciseId: String get() = spec.id
-    val schema: String get() = "qualified-reference-reps/1"
+    val schema: String get() = "qualified-reference-reps/2"
     val referenceKey: String = run {
         val canonical = buildString {
             append(schema).append('|').append(fingerprint).append('|').append(config).append('|').append(profile.version)

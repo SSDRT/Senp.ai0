@@ -128,6 +128,10 @@ class QualifiedRepInstrumentedTest {
         output = finished
         val expected = fixture.getJSONObject("expected_counts")
         val counts = requireNotNull(output).counts
+        attempts.filter { it.verdict == RepVerdict.CORRECT || it.verdict == RepVerdict.ACCEPTABLE }.forEach {
+            assertTrue("Accepted outputs require original outbound evidence",it.outboundPathObserved)
+            assertTrue("Accepted outputs require original return evidence",it.returnPathObserved)
+        }
         assertEquals(expected.getInt("qualified"),counts.qualified)
         assertEquals(expected.getInt("correct"),counts.correct)
         assertEquals(expected.getInt("acceptable"),counts.acceptable)
@@ -154,6 +158,8 @@ class QualifiedRepInstrumentedTest {
             assertEquals(expectedReasons,actualReasons)
         }
         val evidence = JSONObject().put("kind","real-source-landmark-native-jvm-parity-not-human-accuracy")
+            .put("reference_schema",rep.schema).put("observed_path_required",rep.config.requireObservedPath)
+            .put("accepted_outputs_with_observed_paths",attempts.count { (it.verdict == RepVerdict.CORRECT || it.verdict == RepVerdict.ACCEPTABLE) && it.outboundPathObserved && it.returnPathObserved })
             .put("model_sha256",identity.poseModelSha256).put("observed_side",config.side.name)
             .put("production_fallback_exercised",videos.has("primary_reference"))
             .put("qualified",counts.qualified).put("correct",counts.correct).put("acceptable",counts.acceptable)

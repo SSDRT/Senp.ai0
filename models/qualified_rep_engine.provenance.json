@@ -1,6 +1,8 @@
 {
   "kind": "causal-rule-based-reference-rep-engine; not retrained landmark-network weights",
-  "schema": "qualified-reference-reps/1",
+  "schema": "qualified-reference-reps/2",
+  "observed_path_policy_provenance": "observed_path_policy.provenance.json",
+  "historical_calibration_record_note": "The before/after calibration section below records V4 to V5. Current path-policy tuning and Full/Heavy selection are documented in their separate provenance files.",
   "baseline_engine_commit": "e69cc57fa0094b70f626af595a58691b1708e35b",
   "dataset_doi": "10.17632/kgbb3yn47p.3",
   "license": "CC BY 4.0",
