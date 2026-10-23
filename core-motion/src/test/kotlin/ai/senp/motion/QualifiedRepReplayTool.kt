@@ -22,19 +22,32 @@ object QualifiedRepReplayTool {
             requiredProgress = values.getValue("required_progress").jsonPrimitive.double,
         ) } ?: QualifiedRepConfig()
         val curveConfig = replayConfig.copy(referenceCurveNodes = args.getOrNull(3)?.toInt() ?: 6,
-            requireObservedPath = args.getOrNull(4)?.toBooleanStrict() ?: true)
+            requireObservedPath = args.getOrNull(4)?.toBooleanStrict() ?: true,
+            referenceCurveFit = args.getOrNull(5)?.let(RepReferenceCurveFit::valueOf) ?: RepReferenceCurveFit.ORDINARY_LEAST_SQUARES,
+            useObservedDriverEnvelope = args.getOrNull(6)?.toBooleanStrict() ?: true)
         val spatial = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true))
-        val videos = directory.listFiles { f -> f.name.endsWith(".json.gz") }!!.sortedBy { it.name }.map { file ->
+        fun readVideo(file: File, role: VideoRole): Video {
             val payload = GZIPInputStream(file.inputStream()).bufferedReader().use { Json.parseToJsonElement(it.readText()).jsonObject }
             require(payload.getValue("sample_period_ms").jsonPrimitive.int == 66)
             val frames = payload.getValue("frames").jsonArray.map { row -> observation(row.jsonObject) }
-            val sequence = CanonicalObservationSequence(VideoRole.SOURCE,DurationMs(frames.last().timestamp.value+1),ObservationSampling(analysisFramesPerSecond = 15.0),frames)
-            Video(payload.getValue("video").jsonPrimitive.content,payload,spatial.analyzeSequence(sequence))
+            val sequence = CanonicalObservationSequence(role,DurationMs(frames.last().timestamp.value+1),ObservationSampling(analysisFramesPerSecond = 15.0),frames)
+            return Video(payload.getValue("video").jsonPrimitive.content,payload,spatial.analyzeSequence(sequence))
         }
+        val videos = directory.listFiles { f -> f.name.endsWith(".json.gz") }!!.sortedBy { it.name }.map { readVideo(it,VideoRole.SOURCE) }
         require(videos.size == 48)
         require(videos.map { it.payload.getValue("model_sha256").jsonPrimitive.content }.toSet().size == 1) {
             "Reference/live replay must use one coherent pose model; mixed caches are incompatible"
         }
+        val referenceDirectory = args.getOrNull(7)?.takeIf { it != "-" }?.let(::File)
+        val references = referenceDirectory?.listFiles { f -> f.name.endsWith(".json.gz") }?.sortedBy { it.name }?.map { file ->
+            readVideo(file,VideoRole.REFERENCE).also { reference ->
+                require(reference.payload.getValue("maximum_sampled_duration_ms") == JsonNull) { "Complete reference input must declare uncapped extraction" }
+                val source = videos.single { it.name == reference.name }
+                for (key in listOf("source_video_sha256","model_sha256","sample_period_ms")) require(reference.payload[key] == source.payload[key])
+                require(reference.spatial.frames.size >= source.spatial.frames.size)
+                require(reference.spatial.frames.take(source.spatial.frames.size).map { it.timestamp } == source.spatial.frames.map { it.timestamp })
+            }
+        }?.also { require(it.size == 16) } ?: videos
         val ids = mapOf("squat" to "bodyweight_squat","push_up" to "push_up","bicep_curl" to "biceps_curl","shoulder" to "overhead_press")
         val profiles = mutableMapOf<String,ReferenceActionCompilation>()
         val selfChecks = mutableMapOf<String,JsonObject>()
@@ -49,7 +62,7 @@ object QualifiedRepReplayTool {
             val view = video.payload.getValue("view").jsonPrimitive.content
             val subject = video.payload.getValue("subject").jsonPrimitive.content
             val referenceSubject = if (subject == "001") "005" else "001"
-            val ref = videos.single { it.payload.getValue("subject").jsonPrimitive.content == referenceSubject &&
+            val ref = references.single { it.payload.getValue("subject").jsonPrimitive.content == referenceSubject &&
                 it.payload.getValue("exercise").jsonPrimitive.content == exercise && it.payload.getValue("view").jsonPrimitive.content == view &&
                 it.payload.getValue("quality").jsonPrimitive.content == "good" }
             val compiled = profiles.getOrPut(ref.name) { compiler.compile(ref.spatial) }
@@ -58,6 +71,7 @@ object QualifiedRepReplayTool {
                 put("weak_whole_clip_label",video.payload.getValue("quality"));put("frame_count",video.spatial.frames.size)
                 put("video_sha256",video.payload.getValue("source_video_sha256"));put("reference_video_sha256",ref.payload.getValue("source_video_sha256"))
                 put("evaluated_start_ms",video.spatial.frames.first().timestamp.value);put("evaluated_end_ms",video.spatial.duration.value)
+                put("reference_frame_count",ref.spatial.frames.size);put("reference_evaluated_end_ms",ref.spatial.duration.value)
             }
             val modelSha = video.payload.getValue("model_sha256").jsonPrimitive.content
             val fingerprint = RepEvidenceFingerprint(ref.payload.getValue("source_video_sha256").jsonPrimitive.content,modelSha,declaredView = view)
@@ -100,10 +114,10 @@ object QualifiedRepReplayTool {
                     })
                     put("bands",buildJsonObject {
                         for (feature in ready.requiredFeatures) {
-                            val b = ready.band(feature,result.progress ?: 0.0,result.stage == RepStage.RETURNING)
+                            val b = ready.evidenceBand(feature,result.progress ?: 0.0,result.stage == RepStage.RETURNING)
                             put(feature,buildJsonObject {
-                                put("lower",if (feature == ready.driverFeature && b.ruleId == null) minOf(ready.readyAngle,ready.farAngle) else b.lower)
-                                put("upper",if (feature == ready.driverFeature && b.ruleId == null) maxOf(ready.readyAngle,ready.farAngle) else b.upper)
+                                put("lower",b.lower)
+                                put("upper",b.upper)
                                 put("acceptable_allowance",b.acceptable);put("reject_allowance",b.reject)
                             })
                         }
@@ -116,6 +130,11 @@ object QualifiedRepReplayTool {
                 base.forEach { (key,value) -> put(key,value) }
                 put("status","REPLAYED");put("reference_key",ready.referenceKey);put("release_qualified",false)
                 put("observed_reference_cycles",ready.calibration?.observedCycles ?: 0)
+                ready.driverEnvelope?.let { e -> put("driver_envelope",buildJsonObject {
+                    put("lower",e.lower);put("upper",e.upper);put("observed_cycles",e.observedCycles)
+                    put("lower_endpoint_mad",e.lowerEndpointMad);put("upper_endpoint_mad",e.upperEndpointMad)
+                    put("baseline_accepted_self_cycles",ready.calibration?.baselineAcceptedSelfCycles ?: 0)
+                }) }
                 put("reference_self_replay",selfCheck)
                 put("counts",buildJsonObject {
                     put("qualified",finished.counts.qualified);put("correct",finished.counts.correct);put("acceptable",finished.counts.acceptable)

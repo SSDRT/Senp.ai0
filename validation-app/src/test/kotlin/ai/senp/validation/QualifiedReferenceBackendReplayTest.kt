@@ -35,7 +35,7 @@ class QualifiedReferenceBackendReplayTest {
                 other.getValue("frames").jsonArray.map { it.jsonObject.getValue("timestamp_ms") })
             data.getValue("source_video_sha256").jsonPrimitive.content to file
         }
-        val registry = Json.parseToJsonElement(File(root,"autonomous-experiment-summary/reference-backend-selection.json").readText()).jsonArray
+        val registry = Json.parseToJsonElement(File(root,"calibration-recovery-summary/reference-backend-selection.json").readText()).jsonArray
         assertEquals(32,registry.size)
         var extractions = 0
         val engine = ReferenceActionSessionEngine(object : VideoPoseExtractor {
@@ -76,14 +76,14 @@ class QualifiedReferenceBackendReplayTest {
             }
         }
         val choices = results.groupingBy { it.getValue("selected_model").jsonPrimitive.content }.eachCount()
-        assertEquals(mapOf("full" to 7,"heavy" to 2,"unavailable" to 23),choices)
+        assertEquals(mapOf("full" to 7,"heavy" to 3,"unavailable" to 22),choices)
         val report = buildJsonObject {
             put("kind","production-reference-backend-selection-real-observation-replay-not-human-accuracy")
-            put("reference_sides",32);put("primary_ready",7);put("fallback_ready",2);put("unavailable",23)
+            put("reference_sides",32);put("primary_ready",7);put("fallback_ready",3);put("unavailable",22)
             put("fallback_extractions",extractions);put("release_qualified",false);put("rep_accuracy_measured",false)
             put("rows",JsonArray(results))
         }
-        File(root,"integrated-reference-backend-replay.json").writeText(Json { prettyPrint = true }.encodeToString(JsonObject.serializer(),report))
+        File(root,"integrated-reference-envelope-backend-replay.json").writeText(Json { prettyPrint = true }.encodeToString(JsonObject.serializer(),report))
     }
 
     private fun extraction(data: JsonObject): VideoPoseExtraction {

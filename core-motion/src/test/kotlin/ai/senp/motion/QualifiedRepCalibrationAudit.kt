@@ -44,6 +44,15 @@ object QualifiedRepCalibrationAudit {
                         put("progress",decision?.progress?.let(::JsonPrimitive) ?: JsonNull)
                         put("values",buildJsonObject { for (name in required) put(name,f.intrinsicDescriptor.values[name]?.let(::JsonPrimitive) ?: JsonNull) })
                         put("confidence",buildJsonObject { for (name in required) put(name,f.intrinsicDescriptor.featureConfidences[name] ?: 0.0) })
+                        if (ref != null && decision?.progress != null) put("deviations",buildJsonObject { for (name in required) {
+                            val band = ref.evidenceBand(name,requireNotNull(decision.progress),decision.stage == RepStage.RETURNING)
+                            val lower = band.lower;val upper = band.upper
+                            val v = f.intrinsicDescriptor.values[name]
+                            put(name,buildJsonObject {
+                                put("distance",v?.let { maxOf(lower-it,it-upper,0.0) }?.let(::JsonPrimitive) ?: JsonNull)
+                                put("acceptable",band.acceptable);put("lower",lower);put("upper",upper)
+                            })
+                        } })
                     }
                 }
                 val row = buildJsonObject {
@@ -67,6 +76,13 @@ object QualifiedRepCalibrationAudit {
                         put("self_accepted_cycles",ref.calibration?.acceptedSelfCycles ?: 0)
                         put("self_acceptance_fraction",ref.calibration?.selfAcceptanceFraction ?: 0.0)
                         put("selected_first_ms",ref.calibration?.firstSelectedMs ?: 0);put("selected_last_ms",ref.calibration?.lastSelectedMs ?: 0)
+                        put("reference_states",buildJsonArray { ref.profile.states.forEach { state -> add(buildJsonObject {
+                            put("state",state.id)
+                            put("features",buildJsonObject { state.features.filter { it.name in required }.forEach { feature ->
+                                put(feature.name,buildJsonObject { put("median",feature.reference.median);put("mad",feature.reference.mad)
+                                    put("lower",feature.reference.lower);put("upper",feature.reference.upper) })
+                            } })
+                        }) } })
                     }
                     put("attempts",JsonArray(attempts))
                 }

@@ -56,8 +56,14 @@ def geometry(points,confidence):
             if top is not None and bottom is not None and bottom>=0.05:result['relation.'+name]=top/bottom
     return [result.get(k) for k in FEATURES]
 
-def decoded_frames(path,sample_period_ms=500):
+def validate_duration_limit(maximum_duration_ms):
+    if maximum_duration_ms is not None and (type(maximum_duration_ms) is not int or maximum_duration_ms<=0):
+        raise ValueError('Maximum duration must be positive integer milliseconds or None for the complete source')
+
+
+def decoded_frames(path,sample_period_ms=500,maximum_duration_ms=24000):
     """FFmpeg decode with actual selected source PTS, never synthetic FPS ticks."""
+    validate_duration_limit(maximum_duration_ms)
     import numpy as np
     metadata=json.loads(subprocess.check_output(['ffprobe','-v','error','-select_streams','v:0',
                       '-show_streams','-show_format','-of','json',str(path)],text=True))
@@ -66,7 +72,9 @@ def decoded_frames(path,sample_period_ms=500):
     if round(rotation)%180:width,height=height,width
     factor=min(1,960/max(width,height));width=max(2,round(width*factor/2)*2);height=max(2,round(height*factor/2)*2)
     duration_ms=float(stream.get('duration',metadata['format']['duration']))*1000
-    command=['ffmpeg','-hide_banner','-loglevel','info','-threads','1','-i',str(path),'-t','24',
+    command=['ffmpeg','-hide_banner','-loglevel','info','-threads','1','-i',str(path)]
+    if maximum_duration_ms is not None:command+=['-t',str(maximum_duration_ms/1000)]
+    command += [
              '-an','-sn','-dn','-vf',f"select='isnan(prev_selected_t)+gte(t-prev_selected_t,{sample_period_ms/1000})',scale={width}:{height},showinfo",
              '-fps_mode','passthrough','-filter_threads','1','-pix_fmt','rgb24','-f','rawvideo','pipe:1']
     decoder=subprocess.Popen(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -95,7 +103,8 @@ def decoded_frames(path,sample_period_ms=500):
         if decoder.poll() is None:decoder.kill()
         decoder.wait();reader.join(timeout=5);decoder.stdout.close();decoder.stderr.close()
 
-def process_video(path_string,sample_period_ms=500,cache_directory=None,model_variant='full'):
+def process_video(path_string,sample_period_ms=500,cache_directory=None,model_variant='full',maximum_duration_ms=24000):
+    validate_duration_limit(maximum_duration_ms)
     import mediapipe as mp
     from mediapipe.tasks import python
     from mediapipe.tasks.python import vision
@@ -109,11 +118,13 @@ def process_video(path_string,sample_period_ms=500,cache_directory=None,model_va
     cache=(Path(cache_directory) if cache_directory else DATA/default_directory)/(path.stem+'.json.gz')
     if cache.exists():
         with gzip.open(cache,'rt') as stream:existing=json.load(stream)
-        if existing.get('schema')==SCHEMA and existing.get('model_sha256')==model_sha and existing.get('sample_period_ms')==sample_period_ms and existing.get('source_video_sha256')==hashlib.sha256(path.read_bytes()).hexdigest():return path.name,'cached'
+        if (existing.get('schema')==SCHEMA and existing.get('model_sha256')==model_sha and existing.get('sample_period_ms')==sample_period_ms and
+            existing.get('maximum_sampled_duration_ms')==maximum_duration_ms and 'maximum_sampled_duration_ms' in existing and
+            existing.get('source_video_sha256')==hashlib.sha256(path.read_bytes()).hexdigest()):return path.name,'cached'
     options=vision.PoseLandmarkerOptions(base_options=python.BaseOptions(model_asset_path=str(model_path)),
               running_mode=vision.RunningMode.VIDEO,num_poses=1,min_pose_detection_confidence=0.5,min_pose_presence_confidence=0.5,min_tracking_confidence=0.5)
     observations=[];last=-1;sample_period=sample_period_ms;duration_ms=None
-    decoded=decoded_frames(path,sample_period_ms)
+    decoded=decoded_frames(path,sample_period_ms,maximum_duration_ms)
     try:
         with vision.PoseLandmarker.create_from_options(options) as estimator:
             for timestamp,image,duration_ms in decoded:
@@ -144,7 +155,7 @@ def process_video(path_string,sample_period_ms=500,cache_directory=None,model_va
     if not observations:raise ValueError('No decodable frames: '+path.name)
     payload={'schema':SCHEMA,'video':path.name,'subject':match[1],'exercise':'bicep_curl' if match[2]=='bicep' else match[2],'quality':match[3],'view':match[4],
              'source_video_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'model_sha256':model_sha,
-             'runtime':f'mediapipe 0.10.32 {model_variant} CPU Python; FFmpeg source-PTS RGB decoder; optional drawing exports disabled','sample_period_ms':sample_period,'maximum_sampled_duration_ms':24000,
+             'runtime':f'mediapipe 0.10.32 {model_variant} CPU Python; FFmpeg source-PTS RGB decoder; optional drawing exports disabled','sample_period_ms':sample_period,'maximum_sampled_duration_ms':maximum_duration_ms,
              'source_duration_ms':duration_ms,'feature_names':FEATURES,'frames':observations}
     cache.parent.mkdir(parents=True,exist_ok=True);temporary=cache.with_suffix('.partial')
     with gzip.open(temporary,'wt',encoding='utf-8') as output:json.dump(payload,output,separators=(',',':'),allow_nan=False)

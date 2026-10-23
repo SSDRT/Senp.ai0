@@ -143,6 +143,9 @@ tasks.register<JavaExec>("qualifiedRepVideoReplay") {
     args(providers.gradleProperty("qualifiedReplayConfig").orNull?.let { rootProject.file(it).absolutePath } ?: "-")
     args(providers.gradleProperty("qualifiedReferenceCurveNodes").getOrElse("6"))
     args(providers.gradleProperty("qualifiedRequireObservedPath").getOrElse("true"))
+    args(providers.gradleProperty("qualifiedReferenceCurveFit").getOrElse("ORDINARY_LEAST_SQUARES"))
+    args(providers.gradleProperty("qualifiedObservedDriverEnvelope").getOrElse("true"))
+    args(providers.gradleProperty("qualifiedReplayReferences").orNull?.let { rootProject.file(it).absolutePath } ?: "-")
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
@@ -153,8 +156,8 @@ tasks.register<JavaExec>("qualifiedRepCalibrationAudit") {
     dependsOn(tasks.testClasses)
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.QualifiedRepCalibrationAudit")
-    args(rootProject.file("test-artifacts/exercise-knowledge/rep-world-feature-cache").absolutePath,
-        rootProject.file("test-artifacts/exercise-knowledge/qualified-calibration-audit").absolutePath)
+    args(rootProject.file(providers.gradleProperty("qualifiedAuditInput").getOrElse("test-artifacts/exercise-knowledge/rep-world-feature-cache")).absolutePath,
+        rootProject.file(providers.gradleProperty("qualifiedAuditOutput").getOrElse("test-artifacts/exercise-knowledge/qualified-calibration-audit")).absolutePath)
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }

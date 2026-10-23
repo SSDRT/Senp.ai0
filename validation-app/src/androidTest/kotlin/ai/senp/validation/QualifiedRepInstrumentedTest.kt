@@ -31,6 +31,9 @@ class QualifiedRepInstrumentedTest {
     @Test fun realHeavyOnlyReferenceSelectsFallbackAndReproducesThreeAcceptedOutputs() {
         replay("qualified-rep-heavy-native.json.gz","heavy-native-parity.json")
     }
+    @Test fun repeatedObservedRangeRecoversTheLeftPressReferenceWithTheOriginalSelfReplayGate() {
+        replay("qualified-rep-heavy-native.json.gz","range-recovery-native-parity.json","qualified-rep-envelope-expectations.json")
+    }
     @Test fun liveReferenceCameraUsesTheSelectedHeavyModelAcrossPauseAndResume() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val context = instrumentation.targetContext
@@ -75,11 +78,17 @@ class QualifiedRepInstrumentedTest {
             }
         } finally { ReferenceActionProfileStore.clear() }
     }
-    private fun replay(resource: String, reportName: String) {
+    private fun replay(resource: String, reportName: String, expectations: String? = null) {
         val stream = requireNotNull(javaClass.classLoader?.getResourceAsStream(resource))
         val fixture = GZIPInputStream(stream).bufferedReader().use { JSONObject(it.readText()) }
         val videos = fixture.getJSONObject("videos")
         val reference = videos.getJSONObject("reference");val source = videos.getJSONObject("source")
+        if (expectations != null) {
+            val overrides = requireNotNull(javaClass.classLoader?.getResourceAsStream(expectations)).bufferedReader().use { JSONObject(it.readText()) }
+            assertEquals(reference.getString("source_video_sha256"),overrides.getString("reference_video_sha256"))
+            assertEquals(source.getString("source_video_sha256"),overrides.getString("source_video_sha256"))
+            for (key in overrides.keys()) if (key.startsWith("expected_") || key == "side") fixture.put(key,overrides.get(key))
+        }
         val identity = RepEvidenceFingerprint(reference.getString("source_video_sha256"),reference.getString("model_sha256"))
         val referenceFrames = frames(reference.getJSONArray("frames"))
         val valid = referenceFrames.count { it.validity.status == FrameValidityStatus.VALID }
@@ -89,6 +98,18 @@ class QualifiedRepInstrumentedTest {
         val compiled = compileQualifiedRepFromExtraction(extraction,fixture.getString("exercise_id"),identity,config)
         assertTrue(compiled.toString(),compiled is QualifiedRepCompilation.Ready)
         val rep = (compiled as QualifiedRepCompilation.Ready).reference
+        if (fixture.has("expected_driver_envelope")) {
+            val envelope = requireNotNull(rep.driverEnvelope)
+            val expectedEnvelope = fixture.getJSONObject("expected_driver_envelope")
+            assertEquals(expectedEnvelope.getDouble("lower"),envelope.lower,1e-6)
+            assertEquals(expectedEnvelope.getDouble("upper"),envelope.upper,1e-6)
+            assertEquals(3,rep.calibration?.baselineAcceptedSelfCycles)
+            assertEquals(4,rep.calibration?.acceptedSelfCycles)
+            assertEquals(.8,rep.config.minimumReferenceReconstruction,0.0)
+            val baseline = compileQualifiedRepFromExtraction(extraction,fixture.getString("exercise_id"),identity,
+                config.copy(useObservedDriverEnvelope = false))
+            assertTrue(baseline.toString(),baseline is QualifiedRepCompilation.Unavailable && baseline.reason == RepReferenceFailure.LOW_SELF_RECONSTRUCTION)
+        }
         assertEquals(fixture.optInt("expected_reference_cycles",3),rep.calibration?.observedCycles)
         if (videos.has("primary_reference")) {
             val primary = videos.getJSONObject("primary_reference")
@@ -162,6 +183,9 @@ class QualifiedRepInstrumentedTest {
             .put("accepted_outputs_with_observed_paths",attempts.count { (it.verdict == RepVerdict.CORRECT || it.verdict == RepVerdict.ACCEPTABLE) && it.outboundPathObserved && it.returnPathObserved })
             .put("model_sha256",identity.poseModelSha256).put("observed_side",config.side.name)
             .put("production_fallback_exercised",videos.has("primary_reference"))
+            .put("driver_envelope_used",rep.driverEnvelope != null)
+            .put("baseline_accepted_self_cycles",rep.calibration?.baselineAcceptedSelfCycles)
+            .put("accepted_self_cycles",rep.calibration?.acceptedSelfCycles)
             .put("qualified",counts.qualified).put("correct",counts.correct).put("acceptable",counts.acceptable)
             .put("rejected",counts.rejected).put("unassessable",counts.unassessable).put("source_frames",sourceFrames.size)
             .put("observed_reference_cycles",rep.calibration?.observedCycles).put("release_qualified",false)

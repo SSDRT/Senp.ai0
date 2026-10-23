@@ -5,6 +5,7 @@ import kotlin.math.abs
 import kotlin.math.max
 
 enum class RepPolicyMode { REFERENCE_MATCH, REFERENCE_WITH_TECHNIQUE_GUARDS }
+enum class RepReferenceCurveFit { ORDINARY_LEAST_SQUARES, MEDIAN_PAIRWISE }
 enum class RepObservedSide { LEFT, RIGHT }
 enum class RepVerdict { CORRECT, ACCEPTABLE, REJECTED, UNASSESSABLE }
 enum class RepStage { SYNCHRONIZING, READY, OUTBOUND, RETURNING, UNAVAILABLE }
@@ -61,6 +62,8 @@ data class QualifiedRepConfig(
     val minimumReferenceReconstruction: Double = 0.80,
     val referenceCurveNodes: Int = 6,
     val requireObservedPath: Boolean = true,
+    val referenceCurveFit: RepReferenceCurveFit = RepReferenceCurveFit.ORDINARY_LEAST_SQUARES,
+    val useObservedDriverEnvelope: Boolean = true,
 ) {
     init {
         require(mirrorMode != ActionMirrorMode.UNKNOWN)
@@ -123,7 +126,17 @@ internal val repExerciseSpecs = listOf(
 
 data class RepReferenceCalibration(val observedCycles: Int, val rejectedCandidates: Int, val sourceFrames: Int,
     val selectedFrames: Int, val firstSelectedMs: Long, val lastSelectedMs: Long,
-    val acceptedSelfCycles: Int, val selfAcceptanceFraction: Double)
+    val acceptedSelfCycles: Int, val selfAcceptanceFraction: Double,
+    val baselineAcceptedSelfCycles: Int = acceptedSelfCycles)
+
+/** Admissible driver range supported by at least two distinct complete reference cycles per edge. */
+data class RepDriverEnvelope(val lower: Double, val upper: Double, val observedCycles: Int,
+    val lowerEndpointMad: Double, val upperEndpointMad: Double) {
+    init {
+        require(lower in 0.0..180.0 && upper in 0.0..180.0 && lower < upper && observedCycles >= 3)
+        require(lowerEndpointMad.isFinite() && lowerEndpointMad >= 0 && upperEndpointMad.isFinite() && upperEndpointMad >= 0)
+    }
+}
 
 class QualifiedRepReference internal constructor(
     val profile: ActionProfile, val fingerprint: RepEvidenceFingerprint, val config: QualifiedRepConfig,
@@ -132,13 +145,15 @@ class QualifiedRepReference internal constructor(
     internal val nodes: List<Node>, internal val sourceTargets: Map<String,Map<String,WorkoutTargetRange>>,
     internal val sourceTolerances: Map<String,Map<String,WorkoutTolerance>>,
     val calibration: RepReferenceCalibration? = null,
+    val driverEnvelope: RepDriverEnvelope? = null,
 ) {
     internal data class Node(val state: ActionStateProfile, val progress: Double, val outbound: Boolean, val returning: Boolean)
     val exerciseId: String get() = spec.id
-    val schema: String get() = "qualified-reference-reps/3"
+    val schema: String get() = "qualified-reference-reps/4"
     val referenceKey: String = run {
         val canonical = buildString {
             append(schema).append('|').append(fingerprint).append('|').append(config).append('|').append(profile.version)
+            append('|').append(driverEnvelope)
             append('|').append(profile.cyclic).append('|').append(profile.referenceRepetitions).append('|').append(profile.confidence).append('|').append(profile.validation)
             append('|').append(profile.referenceEvidenceKinds.sortedBy { it.name }).append('|').append(spec)
             profile.states.forEach { state ->
@@ -215,6 +230,15 @@ internal fun RepObservedSide.observedFeature(feature: String, mirror: ActionMirr
     if (mirror == ActionMirrorMode.MIRRORED) mirroredSpatialKey(feature) else feature
 
 internal data class RepAngleBand(val lower: Double, val upper: Double, val nominal: Double, val acceptable: Double, val reject: Double, val ruleId: String?)
+internal fun QualifiedRepReference.evidenceBand(feature: String, progress: Double, returning: Boolean): RepAngleBand {
+    val phaseBand = band(feature,progress,returning)
+    // Driver progress supplies range/completion. Its phase-conditional curve would compare
+    // the angle against a phase inferred from that very angle, so use the supported range.
+    return if (feature == driverFeature && phaseBand.ruleId == null) phaseBand.copy(
+        lower = driverEnvelope?.lower ?: minOf(readyAngle,farAngle),
+        upper = driverEnvelope?.upper ?: maxOf(readyAngle,farAngle),
+    ) else phaseBand
+}
 internal fun QualifiedRepReference.band(feature: String, progress: Double, returning: Boolean): RepAngleBand {
     val branch = nodes.filter { if (returning) it.returning else it.outbound }.sortedBy { it.progress }
     val p = progress.coerceIn(0.0,1.0)

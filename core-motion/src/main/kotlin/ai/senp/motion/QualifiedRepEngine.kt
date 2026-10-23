@@ -133,11 +133,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         for (feature in reference.requiredFeatures) {
             val observed = value(feature)
             if (observed == null) { current.pending.remove(feature); continue }
-            val phaseBand = reference.band(feature,progress,current.returning)
-            // Driver progress evaluates completion/range; comparing it to its own inferred phase is circular.
-            val band = if (feature == reference.driverFeature && phaseBand.ruleId == null) phaseBand.copy(
-                lower = min(reference.readyAngle,reference.farAngle),upper = max(reference.readyAngle,reference.farAngle),
-            ) else phaseBand
+            val band = reference.evidenceBand(feature,progress,current.returning)
             val distance = when { observed < band.lower -> band.lower-observed; observed > band.upper -> observed-band.upper; else -> 0.0 }
             if (distance > band.nominal) current.minorDeviation = true
             if (distance > band.acceptable) { ambiguous = true; endpointAcceptable = false }

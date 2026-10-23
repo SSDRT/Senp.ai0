@@ -103,7 +103,8 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
             val varianceP = observed.sumOf { (it.third-meanP)*(it.third-meanP) }/observed.size
             // Driver progress is defined by these endpoints: its slope is exact, not a noisy regression.
             // Re-estimating it in a narrow endpoint bin shrinks the calibrated excursion and moves completion times.
-            val slope = if (name == driver) farAngle-readyAngle else if (varianceP >= 0.0025)
+            val slope = if (name == driver) farAngle-readyAngle else if (config.referenceCurveFit == RepReferenceCurveFit.MEDIAN_PAIRWISE)
+                medianPairwiseRepSlope(observed.map { it.third to it.first }) else if (varianceP >= 0.0025)
                 observed.sumOf { (it.third-meanP)*(it.first-meanV) }/(varianceP*observed.size) else 0.0
             val atCenter = observed.map { (it.first-slope*(it.third-center)).coerceIn(0.0,180.0) }
             val distribution = robustDistribution(atCenter,0.5).let { it.copy(lower = max(0.0,it.lower),upper = min(180.0,it.upper)) }
@@ -138,28 +139,79 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
     return when (val result = QualifiedRepCompiler.compile(profile,exercise.id,fingerprint,config)) {
         is QualifiedRepCompilation.Unavailable -> result
         is QualifiedRepCompilation.Ready -> {
-            val r = result.reference
-            val engine = r.newEngine()
-            val events = mutableListOf<RepAttemptResult>()
-            for (frame in frames.filter { it.timestamp.value >= selected.first().timestamp.value-400 && it.timestamp.value <= selected.last().timestamp.value+200 }) {
-                events += engine.evaluate(frame,fingerprint.poseModelSha256,captureContext = fingerprint.declaredView).finalizedAttempts
+            val base = result.reference
+            fun reference(envelope: RepDriverEnvelope?, calibration: RepReferenceCalibration? = null) = QualifiedRepReference(
+                base.profile,base.fingerprint,base.config,base.spec,base.driverFeature,base.requiredFeatures,base.readyAngle,base.farAngle,
+                base.nodes,base.sourceTargets,base.sourceTolerances,calibration,envelope)
+            fun reconstruct(r: QualifiedRepReference): Int {
+                val engine = r.newEngine()
+                val events = mutableListOf<RepAttemptResult>()
+                for (frame in frames.filter { it.timestamp.value >= selected.first().timestamp.value-400 && it.timestamp.value <= selected.last().timestamp.value+200 }) {
+                    events += engine.evaluate(frame,fingerprint.poseModelSha256,captureContext = fingerprint.declaredView).finalizedAttempts
+                }
+                val matched = mutableSetOf<Long>()
+                return cycles.count { cycle ->
+                    val end = frames[cycle.end].timestamp.value
+                    val event = events.filter { it.attemptId !in matched && abs(it.completedMs-end) <= 300 && it.startedMs < frames[cycle.peak].timestamp.value }
+                        .minByOrNull { abs(it.completedMs-end) }
+                    event?.let { matched += it.attemptId }
+                    event?.verdict in setOf(RepVerdict.CORRECT,RepVerdict.ACCEPTABLE)
+                }
             }
-            val matched = mutableSetOf<Long>()
-            val accepted = cycles.count { cycle ->
-                val end = frames[cycle.end].timestamp.value
-                val event = events.filter { it.attemptId !in matched && abs(it.completedMs-end) <= 300 && it.startedMs < frames[cycle.peak].timestamp.value }
-                    .minByOrNull { abs(it.completedMs-end) }
-                event?.let { matched += it.attemptId }
-                event?.verdict in setOf(RepVerdict.CORRECT,RepVerdict.ACCEPTABLE)
+            val baselineAccepted = reconstruct(base)
+            var accepted = baselineAccepted
+            var envelope: RepDriverEnvelope? = null
+            if (config.useObservedDriverEnvelope && accepted.toDouble()/cycles.size < config.minimumReferenceReconstruction) {
+                val endpointsByCycle = cycles.map { cycle ->
+                    val pairs = frames.subList(cycle.start,cycle.end+1).zipWithNext().mapNotNull { (a,b) ->
+                        if (!required.all { value(a,it) != null && value(b,it) != null }) null
+                        else requireNotNull(value(a,driver)) to requireNotNull(value(b,driver))
+                    }
+                    pairs.minOf { max(it.first,it.second) } to pairs.maxOf { min(it.first,it.second) }
+                }
+                val candidate = observedRepDriverEnvelope(endpointsByCycle,base.readyAngle,base.farAngle,config)
+                if (candidate != null) {
+                    val reconstructed = reconstruct(reference(candidate))
+                    if (reconstructed.toDouble()/cycles.size >= config.minimumReferenceReconstruction) {
+                        envelope = candidate;accepted = reconstructed
+                    }
+                }
             }
             val reconstructed = accepted.toDouble()/cycles.size
             if (reconstructed < config.minimumReferenceReconstruction) return fail(RepReferenceFailure.LOW_SELF_RECONSTRUCTION,
                 "Only $accepted/${cycles.size} selected cycles pass causal self-replay; reference withheld")
-            QualifiedRepCompilation.Ready(QualifiedRepReference(r.profile,r.fingerprint,r.config,r.spec,r.driverFeature,r.requiredFeatures,r.readyAngle,r.farAngle,
-                r.nodes,r.sourceTargets,r.sourceTolerances,RepReferenceCalibration(cycles.size,rejected,frames.size,selected.size,
-                    selected.first().timestamp.value,selected.last().timestamp.value,accepted,reconstructed)))
+            QualifiedRepCompilation.Ready(reference(envelope,RepReferenceCalibration(cycles.size,rejected,frames.size,selected.size,
+                    selected.first().timestamp.value,selected.last().timestamp.value,accepted,reconstructed,baselineAccepted)))
         }
     }
+}
+
+internal fun observedRepDriverEnvelope(endpoints: List<Pair<Double,Double>>, ready: Double, far: Double,
+    config: QualifiedRepConfig): RepDriverEnvelope? {
+    if (endpoints.size < max(3,config.minimumReferenceCycles)) return null
+    if (endpoints.any { (lo,hi) -> lo !in 0.0..180.0 || hi !in 0.0..180.0 || lo > hi }) return null
+    val lower = endpoints.map { it.first }.sorted();val upper = endpoints.map { it.second }.sorted()
+    for (samples in listOf(lower,upper)) {
+        val distribution = robustDistribution(samples,.5)
+        if (distribution.inlierCount < config.minimumReferenceCycles || distribution.outlierFraction > .25 ||
+            distribution.mad > config.maximumReferenceMadDegrees ||
+            distribution.upper-distribution.lower > config.maximumReferenceBandWidthDegrees) return null
+    }
+    // Second extrema require the edge on two different cycles. An isolated endpoint error
+    // cannot widen the range; no quantile extrapolation or interpolated landmark is used.
+    val lo = min(min(ready,far),lower[1]);val hi = max(max(ready,far),upper[upper.lastIndex-1])
+    if (lo == min(ready,far) && hi == max(ready,far)) return null
+    return RepDriverEnvelope(lo,hi,endpoints.size,robustDistribution(lower,.5).mad,robustDistribution(upper,.5).mad)
+}
+
+/** Reference-only fit: separated progress pairs avoid amplifying nearly identical noisy positions. */
+internal fun medianPairwiseRepSlope(samples: List<Pair<Double,Double>>): Double {
+    val slopes = mutableListOf<Double>()
+    for (i in samples.indices) for (j in i+1 until samples.size) {
+        val delta = samples[j].first-samples[i].first
+        if (abs(delta) >= .05) slopes += (samples[j].second-samples[i].second)/delta
+    }
+    return if (slopes.size >= 3) median(slopes) else 0.0
 }
 
 /** Estimate repeated extrema, so setup/rest duration cannot redefine the exercise's range.

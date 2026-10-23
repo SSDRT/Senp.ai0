@@ -1,0 +1,23 @@
+{
+  "kind": "native-engine-parity-expectations-not-expert-labels",
+  "raw_observations": "Reuse unchanged qualified-rep-heavy-native.json.gz, with LEFT side. No landmark duplication or new human labels.",
+  "source_video": "subject_018_shoulder_good_front.mp4",
+  "source_sha256": "137824b720ed9eb0ea56c6f77a9d524126586bcfeeb81626298e34a8a37a2840",
+  "reference_video": "subject_001_shoulder_good_front.mp4",
+  "reference_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+  "model_sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+  "expectations_sha256": "f7b76d1511d15a40418b3165fef3f2457ab76ddb5cf924afd978a0c47d379bd2",
+  "source_replay_sha256": "dfdc6e106a72b36e345521a1597c28fcb9a3ebbc746cfdf2b0f29e7fda3d6fe9",
+  "dataset_doi": "10.17632/kgbb3yn47p.3",
+  "license": "CC BY 4.0",
+  "baseline_self_replay": "3/5; withheld",
+  "recovered_self_replay": "4/5; unchanged >=80% gate",
+  "driver_bounds": {
+    "lower": 79.89328699615119,
+    "upper": 171.19408281563096,
+    "observed_cycles": 5,
+    "lower_endpoint_mad": 3.641809275608992,
+    "upper_endpoint_mad": 0.7562884907911211,
+    "baseline_accepted_self_cycles": 3
+  }
+}

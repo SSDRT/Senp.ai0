@@ -198,7 +198,7 @@ class QualifiedRepEngineTest {
         }) })))
         assertEquals(RepReferenceFailure.INSUFFICIENT_EXCURSION,reason("biceps_curl",WorkoutPrecisionTestData.profile()))
         assertEquals(data.reference().referenceKey,data.reference().referenceKey)
-        assertEquals("qualified-reference-reps/3",data.reference().schema)
+        assertEquals("qualified-reference-reps/4",data.reference().schema)
         assertNotEquals(data.reference().referenceKey,data.reference(config = QualifiedRepConfig(requireObservedPath = false)).referenceKey)
         assertNotEquals(data.reference().referenceKey,data.reference(config = QualifiedRepConfig(side = RepObservedSide.RIGHT)).referenceKey)
         val guided = data.reference(config = QualifiedRepConfig(mode = RepPolicyMode.REFERENCE_WITH_TECHNIQUE_GUARDS))
