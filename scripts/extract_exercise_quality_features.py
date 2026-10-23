@@ -1,4 +1,4 @@
-"""Extract confidence-masked world geometry with pinned MediaPipe Full 0.10.32.
+"""Extract confidence-masked world geometry with pinned MediaPipe Full/Heavy 0.10.32.
 
 Keeps all 33 image/world landmarks, visibility/presence and actual video timestamps
 in ignored per-video caches. Dataset labels describe clips, not individual faults.
@@ -21,6 +21,9 @@ ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/'test-artifacts/exercise-knowledge'
 MODEL=ROOT/'build/generated/pose-model-assets/pose_landmarker_full.task'
 MODEL_SHA='5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1'
+POSE_MODELS={'full':(MODEL,MODEL_SHA),
+             'heavy':(ROOT/'build/generated/heavy-pose-model-assets/pose_landmarker_heavy.task',
+                      '64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b')}
 SCHEMA='mp33-world-technique-features/1'
 TRIPLETS={'left_shoulder':(13,11,23),'right_shoulder':(14,12,24),'left_elbow':(11,13,15),'right_elbow':(12,14,16),
           'left_hip':(11,23,25),'right_hip':(12,24,26),'left_knee':(23,25,27),'right_knee':(24,26,28),
@@ -92,18 +95,22 @@ def decoded_frames(path,sample_period_ms=500):
         if decoder.poll() is None:decoder.kill()
         decoder.wait();reader.join(timeout=5);decoder.stdout.close();decoder.stderr.close()
 
-def process_video(path_string,sample_period_ms=500,cache_directory=None):
+def process_video(path_string,sample_period_ms=500,cache_directory=None,model_variant='full'):
     import mediapipe as mp
     from mediapipe.tasks import python
     from mediapipe.tasks.python import vision
     from PIL import Image,ImageDraw
     path=Path(path_string);match=FILENAME.fullmatch(path.name)
     if not match:raise ValueError('Unexpected labelled video name')
-    cache=(Path(cache_directory) if cache_directory else DATA/'world-feature-cache')/(path.stem+'.json.gz')
+    if model_variant not in POSE_MODELS:raise ValueError('Unknown pinned pose model')
+    model_path,model_sha=POSE_MODELS[model_variant]
+    if hashlib.sha256(model_path.read_bytes()).hexdigest()!=model_sha:raise ValueError('Pinned pose model hash mismatch')
+    default_directory='world-feature-cache' if model_variant=='full' else 'world-feature-cache-heavy'
+    cache=(Path(cache_directory) if cache_directory else DATA/default_directory)/(path.stem+'.json.gz')
     if cache.exists():
         with gzip.open(cache,'rt') as stream:existing=json.load(stream)
-        if existing.get('schema')==SCHEMA and existing.get('model_sha256')==MODEL_SHA and existing.get('sample_period_ms')==sample_period_ms and existing.get('source_video_sha256')==hashlib.sha256(path.read_bytes()).hexdigest():return path.name,'cached'
-    options=vision.PoseLandmarkerOptions(base_options=python.BaseOptions(model_asset_path=str(MODEL)),
+        if existing.get('schema')==SCHEMA and existing.get('model_sha256')==model_sha and existing.get('sample_period_ms')==sample_period_ms and existing.get('source_video_sha256')==hashlib.sha256(path.read_bytes()).hexdigest():return path.name,'cached'
+    options=vision.PoseLandmarkerOptions(base_options=python.BaseOptions(model_asset_path=str(model_path)),
               running_mode=vision.RunningMode.VIDEO,num_poses=1,min_pose_detection_confidence=0.5,min_pose_presence_confidence=0.5,min_tracking_confidence=0.5)
     observations=[];last=-1;sample_period=sample_period_ms;duration_ms=None
     decoded=decoded_frames(path,sample_period_ms)
@@ -113,14 +120,17 @@ def process_video(path_string,sample_period_ms=500,cache_directory=None):
                 if timestamp<=last:continue
                 last=timestamp
                 height,width=image.shape[:2]
+                inference_start=time.perf_counter()
                 result=estimator.detect_for_video(mp.Image(image_format=mp.ImageFormat.SRGB,data=image),timestamp)
-                row={'timestamp_ms':timestamp,'image_width':width,'image_height':height,'features':[None]*25,'landmarks':[]}
+                inference_ms=(time.perf_counter()-inference_start)*1000
+                row={'timestamp_ms':timestamp,'image_width':width,'image_height':height,'features':[None]*25,'landmarks':[],
+                     'research_inference_ms':inference_ms}
                 if result.pose_landmarks and result.pose_world_landmarks and len(result.pose_landmarks[0])==33 and len(result.pose_world_landmarks[0])==33:
                     image_points=result.pose_landmarks[0];world=result.pose_world_landmarks[0]
                     confidence=[min(p.visibility or 0,p.presence or 0) for p in image_points]
                     row['features']=geometry([[p.x,p.y,p.z] for p in world],confidence)
                     row['landmarks']=[[p.x,p.y,p.z,p.visibility,p.presence,w.x,w.y,w.z] for p,w in zip(image_points,world)]
-                    if sample_period_ms==500 and match[1]=='001' and 2000<=timestamp<2500:
+                    if model_variant=='full' and sample_period_ms==500 and match[1]=='001' and 2000<=timestamp<2500:
                         overlay=Image.fromarray(image);draw=ImageDraw.Draw(overlay)
                         for a,b in [(11,12),(11,13),(13,15),(12,14),(14,16),(11,23),(12,24),(23,24),(23,25),(25,27),(24,26),(26,28),(27,31),(28,32)]:
                             p,q=image_points[a],image_points[b]
@@ -133,8 +143,8 @@ def process_video(path_string,sample_period_ms=500,cache_directory=None):
     finally:decoded.close()
     if not observations:raise ValueError('No decodable frames: '+path.name)
     payload={'schema':SCHEMA,'video':path.name,'subject':match[1],'exercise':'bicep_curl' if match[2]=='bicep' else match[2],'quality':match[3],'view':match[4],
-             'source_video_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'model_sha256':MODEL_SHA,
-             'runtime':'mediapipe 0.10.32 Full CPU Python; FFmpeg source-PTS RGB decoder; optional drawing exports disabled','sample_period_ms':sample_period,'maximum_sampled_duration_ms':24000,
+             'source_video_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'model_sha256':model_sha,
+             'runtime':f'mediapipe 0.10.32 {model_variant} CPU Python; FFmpeg source-PTS RGB decoder; optional drawing exports disabled','sample_period_ms':sample_period,'maximum_sampled_duration_ms':24000,
              'source_duration_ms':duration_ms,'feature_names':FEATURES,'frames':observations}
     cache.parent.mkdir(parents=True,exist_ok=True);temporary=cache.with_suffix('.partial')
     with gzip.open(temporary,'wt',encoding='utf-8') as output:json.dump(payload,output,separators=(',',':'),allow_nan=False)

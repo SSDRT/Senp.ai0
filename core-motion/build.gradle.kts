@@ -138,8 +138,9 @@ tasks.register<JavaExec>("qualifiedRepVideoReplay") {
     dependsOn(tasks.testClasses)
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.QualifiedRepReplayTool")
-    args(rootProject.file("test-artifacts/exercise-knowledge/rep-world-feature-cache").absolutePath,
+    args(rootProject.file(providers.gradleProperty("qualifiedReplayInput").getOrElse("test-artifacts/exercise-knowledge/rep-world-feature-cache")).absolutePath,
         rootProject.file(providers.gradleProperty("qualifiedReplayOutput").getOrElse("test-artifacts/exercise-knowledge/qualified-video-replay")).absolutePath)
+    providers.gradleProperty("qualifiedReplayConfig").orNull?.let { args(rootProject.file(it).absolutePath) }
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
@@ -153,5 +154,16 @@ tasks.register<JavaExec>("qualifiedRepCalibrationAudit") {
     args(rootProject.file("test-artifacts/exercise-knowledge/rep-world-feature-cache").absolutePath,
         rootProject.file("test-artifacts/exercise-knowledge/qualified-calibration-audit").absolutePath)
     maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("qualifiedRepAutotune") {
+    group = "verification"
+    description = "Search experimental parameters on generated oracle motions; does not qualify human form accuracy."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepAutotuner")
+    args(rootProject.file("test-artifacts/exercise-knowledge/autonomous-parameter-search.json").absolutePath)
+    maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }

@@ -1,0 +1,39 @@
+{
+  "kind": "autonomous-research-training-and-tuning-no-new-human-annotation",
+  "baseline_commit": "0f768e8090e07e7d50e5de4014aa5010f61e5ea5",
+  "new_manual_labels": 0,
+  "dataset_doi": "10.17632/kgbb3yn47p.3",
+  "license": "CC BY 4.0",
+  "source_videos_existing": 1042,
+  "heavy_ablation_videos": 48,
+  "heavy_observations": 16633,
+  "selected_models_saved": 7,
+  "generated_parameter_candidates": 27,
+  "generated_selection_cases": 10692,
+  "generated_checking_executions": 792,
+  "release_qualified": false,
+  "current_app_defaults_changed": false,
+  "landmark_cnn_weights_retrained": false,
+  "runtime": {
+    "numpy": "2.4.6",
+    "scipy": "1.18.0",
+    "scikit-learn": "1.9.0",
+    "joblib": "1.5.3",
+    "mediapipe": "0.10.32",
+    "Pillow": "12.3.0"
+  },
+  "reports_sha256": {
+    "autonomous-quality-training/training-report.json": "b886ceaa5fcaf2e56b09ccbf7881e8a84c467e33a8a25896001dd72dfe6fbc8e",
+    "autonomous-heavy-extraction-report.json": "8c0ce84749b02f5465a89510d03dd7f99d70ea9990ede9a7a0284070772fd078",
+    "autonomous-parameter-search.json": "19d43e9e47cfe440940245bc336ec3447045a4525cb5d8d6fa089358df5d3e06",
+    "autonomous-experiment-summary/summary.json": "d1d168733071fef82ddc3f5f061c3df67e9b029a45bbc0c771bdd75d4a882d38"
+  },
+  "limits": [
+    "Whole-clip annotations retained at original granularity.",
+    "Historical audit participants already seen; no fresh generalization claim.",
+    "No trained whole-clip model or synthetic optimum installed into the live acceptance path.",
+    "Agreement evidence is not independent ground truth; no fabricated reviewer/expert flags."
+  ],
+  "candidate_exercise_combinations_evaluated": 28,
+  "grouped_training_fits": 112
+}

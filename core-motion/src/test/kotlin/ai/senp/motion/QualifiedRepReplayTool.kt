@@ -11,6 +11,16 @@ object QualifiedRepReplayTool {
     private data class Video(val name: String, val payload: JsonObject, val spatial: SpatialSequenceAnalysis)
     @JvmStatic fun main(args: Array<String>) {
         val directory = File(args[0]); val destination = File(args[1]);destination.mkdirs()
+        val experimentalParameters = args.getOrNull(2)?.let { path ->
+            val root = Json.parseToJsonElement(File(path).readText()).jsonObject
+            require(root.getValue("kind").jsonPrimitive.content == "autonomous-generated-oracle-parameter-search-not-human-accuracy")
+            root.getValue("selected_parameters").jsonObject
+        }
+        val replayConfig = experimentalParameters?.let { values -> QualifiedRepConfig(
+            acceptableAllowanceDegrees = values.getValue("acceptable_allowance_degrees").jsonPrimitive.double,
+            faultConfirmationMs = values.getValue("fault_confirmation_ms").jsonPrimitive.long,
+            requiredProgress = values.getValue("required_progress").jsonPrimitive.double,
+        ) } ?: QualifiedRepConfig()
         val spatial = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true))
         val videos = directory.listFiles { f -> f.name.endsWith(".json.gz") }!!.sortedBy { it.name }.map { file ->
             val payload = GZIPInputStream(file.inputStream()).bufferedReader().use { Json.parseToJsonElement(it.readText()).jsonObject }
@@ -20,6 +30,9 @@ object QualifiedRepReplayTool {
             Video(payload.getValue("video").jsonPrimitive.content,payload,spatial.analyzeSequence(sequence))
         }
         require(videos.size == 48)
+        require(videos.map { it.payload.getValue("model_sha256").jsonPrimitive.content }.toSet().size == 1) {
+            "Reference/live replay must use one coherent pose model; mixed caches are incompatible"
+        }
         val ids = mapOf("squat" to "bodyweight_squat","push_up" to "push_up","bicep_curl" to "biceps_curl","shoulder" to "overhead_press")
         val profiles = mutableMapOf<String,ReferenceActionCompilation>()
         val selfChecks = mutableMapOf<String,JsonObject>()
@@ -46,7 +59,7 @@ object QualifiedRepReplayTool {
             }
             val modelSha = video.payload.getValue("model_sha256").jsonPrimitive.content
             val fingerprint = RepEvidenceFingerprint(ref.payload.getValue("source_video_sha256").jsonPrimitive.content,modelSha,declaredView = view)
-            val rep = QualifiedRepCompiler.compile(ref.spatial,ids.getValue(exercise),fingerprint,QualifiedRepConfig(side = side))
+            val rep = QualifiedRepCompiler.compile(ref.spatial,ids.getValue(exercise),fingerprint,replayConfig.copy(side = side))
             if (rep is QualifiedRepCompilation.Unavailable) {
                 rows += JsonObject(base+mapOf("status" to JsonPrimitive(rep.reason.name),"detail" to JsonPrimitive(rep.detail)));continue
             }
@@ -118,6 +131,8 @@ object QualifiedRepReplayTool {
             put("video_count",videos.size);put("source_observations",videos.sumOf { it.spatial.frames.size });put("exercise_side_runs",rows.size)
             put("replayed",rows.count { it.getValue("status").jsonPrimitive.content == "REPLAYED" })
             put("rep_accuracy_measured",false);put("rows",JsonArray(rows))
+            put("configuration_source",if (experimentalParameters == null) "current-defaults" else "experimental-generated-oracle-candidate")
+            put("experimental_parameters",experimentalParameters ?: JsonNull)
         }
         File(destination,"summary.json").writeText(json.encodeToString(JsonObject.serializer(),report))
         println("Real video replay ${report.getValue("replayed")}/${rows.size}; source frames ${report.getValue("source_observations")}; $destination")
