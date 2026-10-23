@@ -364,10 +364,13 @@ internal data class PreparedReferenceAction(
     val repEvidenceFingerprint: RepEvidenceFingerprint? = null,
     val qualifiedRepReference: QualifiedRepReference? = null,
     val repSource: VideoPoseExtraction? = null,
+    val repPreparationRequest: ReferenceExtractionRequest? = null,
 ) {
     init {
         require(repEvidenceFingerprint == null || repEvidenceFingerprint.referenceVideoSha256 == referenceSha256)
         require(qualifiedRepReference == null || qualifiedRepReference.fingerprint == repEvidenceFingerprint)
+        require(repPreparationRequest == null || (repPreparationRequest.source.sha256.value == referenceSha256 &&
+            repPreparationRequest.model.modelSha256.value == repEvidenceFingerprint?.poseModelSha256))
     }
 }
 

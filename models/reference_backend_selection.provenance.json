@@ -1,0 +1,45 @@
+{
+  "kind": "reference-only-backend-selection-experimental-qualified-rep-integration",
+  "baseline_commit": "980e80fa0e3b0703523b5598e5da181276c7b2ad",
+  "date": "2026-10-23",
+  "selection": "Prefer usable primary Full reference; try Heavy only after reference calibration failure. Freeze model for reference and live session.",
+  "selector_input": "Verified reference upload, raw reference landmarks, model identity, extraction settings, declared exercise/side/view/policy; no source outcomes or labels.",
+  "models": {
+    "full": {
+      "artifact": "pose_landmarker_full.task",
+      "sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "download_url": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/1/pose_landmarker_full.task",
+      "license": "Apache License 2.0"
+    },
+    "heavy": {
+      "artifact": "pose_landmarker_heavy.task",
+      "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+      "download_url": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/1/pose_landmarker_heavy.task",
+      "license": "Apache-2.0"
+    }
+  },
+  "cache_and_fingerprint_policy": "Model-specific extraction cache keys; selected video/model/raw-world pipeline identity required by live qualified-rep engine.",
+  "development_evidence": {
+    "source_videos": 48,
+    "same_original_timestamps_per_backend": 16633,
+    "reference_sides": 32,
+    "full_selected": 7,
+    "heavy_selected": 2,
+    "unavailable": 23,
+    "corresponding_replayed_configurations_before": 20,
+    "corresponding_replayed_configurations_after": 26,
+    "total_configurations": 96
+  },
+  "fixture_provenance": "qualified_rep_heavy_fixture.provenance.json",
+  "acceptance_defaults_changed": false,
+  "landmark_cnn_weights_retrained": false,
+  "new_human_annotations": 0,
+  "live_rep_precision": null,
+  "release_qualified": false,
+  "limits": [
+    "Explicit qualified-rep mode only; no new exercise auto-classifier or exercise selector UI.",
+    "Development reference availability and native parity do not measure human form precision.",
+    "Default builds can omit Heavy; experimental delivery packages it with includeHeavyPoseModel=true.",
+    "No claimed handset latency, universal mobile compatibility or actual 16 KB runtime validation."
+  ]
+}

@@ -68,6 +68,8 @@ The objective remains higher real-world accuracy, including the 98% counted-rep 
 
 ## First cycle commands
 
+Implementation update: [reference backend integration](REFERENCE_BACKEND_INTEGRATION.md) executes the Full-first/Heavy-fallback strategy for explicitly configured qualified-rep sessions. The model remains fixed per session; this availability improvement does not qualify live precision.
+
 ```powershell
 # Isolated pinned research runtime; no new labels or reviewers required.
 & test-artifacts/exercise-knowledge/training-venv313/Scripts/python.exe scripts/extract_autonomous_pose_candidates.py

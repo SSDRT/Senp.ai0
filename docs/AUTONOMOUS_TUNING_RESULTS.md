@@ -1,5 +1,7 @@
 # First autonomous training and tuning cycle
 
+Follow-up: the reference-only backend experiment is now integrated in the experimental qualified-rep session. See [reference backend integration](REFERENCE_BACKEND_INTEGRATION.md) for production-seam replay, native verification and the APK scope. The results below remain the historical first-cycle record.
+
 23 October 2026. Branch: `codex/live-pose-accuracy`. Baseline: `0f768e8`.
 
 New manual labels, reviewer recruitment and new human recordings used: **zero**. The revised executable sequence is in `AUTONOMOUS_POSE_TUNING.md`. Existing licensed dataset labels were reused at their original whole-clip granularity. This run performs actual offline training, model extraction, automatic parameter search and real-video replay; it does not retrain the landmark CNN or establish 98% live-rep precision.

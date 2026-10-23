@@ -46,7 +46,7 @@ import kotlinx.coroutines.withContext
 
 class AndroidVideoPoseExtractor(
     context: Context,
-    private val modelAssetPath: String = DEFAULT_MODEL_ASSET,
+    private val modelAssetPath: String? = null,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : VideoPoseExtractor {
     private val appContext = context.applicationContext
@@ -116,7 +116,9 @@ class AndroidVideoPoseExtractor(
             val estimator = try {
                 MediaPipePoseEstimator.create(
                     context = appContext,
-                    modelAssetPath = modelAssetPath,
+                    modelAssetPath = modelAssetPath ?: LivePoseModel.entries.singleOrNull {
+                        it.sha256 == model.modelSha256.value
+                    }?.assetPath ?: throw MediaPipeAdapterException.ModelLoad("Unknown pinned pose model SHA-256"),
                     expectedModelSha256 = model.modelSha256.value,
                     config = MediaPipePoseEstimator.Config(
                         detectionConfidence = model.thresholds.minimumDetectionConfidence.toFloat(),

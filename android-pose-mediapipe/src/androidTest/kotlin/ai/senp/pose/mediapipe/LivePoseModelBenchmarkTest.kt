@@ -22,7 +22,7 @@ class LivePoseModelBenchmarkTest {
         val rows = JSONArray()
         try {
             for (model in LivePoseModel.entries) {
-                LiveMediaPipePoseEstimator.create(context, model).use { estimator ->
+                LiveMediaPipePoseEstimator.create(context, model, ai.senp.core.contracts.PoseThresholds()).use { estimator ->
                     val times = mutableListOf<Long>()
                     var valid = 0
                     repeat(16) { i ->

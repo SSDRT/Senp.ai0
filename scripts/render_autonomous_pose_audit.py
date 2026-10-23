@@ -1,6 +1,8 @@
 """Render same-PTS Full/Heavy evidence. Agreement and engine counts are not form labels."""
 import gzip
+import argparse
 import json
+from pathlib import Path
 from PIL import Image,ImageDraw
 import matplotlib
 matplotlib.use('Agg')
@@ -12,10 +14,18 @@ DRIVERS=['elbow','knee','knee','elbow']
 EDGES=[(11,12),(11,13),(13,15),(12,14),(14,16),(11,23),(12,24),(23,24),(23,25),(25,27),(24,26),(26,28),(27,31),(28,32)]
 
 def main():
-    output=DATA/'autonomous-pose-audit';output.mkdir(exist_ok=True)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--output',type=Path,default=DATA/'autonomous-pose-audit')
+    parser.add_argument('--cases',nargs=4,default=CASES)
+    parser.add_argument('--drivers',nargs=4,default=DRIVERS)
+    parser.add_argument('--side',choices=['left','right'],default='left')
+    parser.add_argument('--sides',nargs=4,choices=['left','right'])
+    args=parser.parse_args()
+    output=args.output;output.mkdir(parents=True,exist_ok=True)
     sheet=Image.new('RGB',(1280,1800),'#151515');draw=ImageDraw.Draw(sheet);records=[]
     fig,axes=plt.subplots(4,1,figsize=(14,11),constrained_layout=True)
-    for row,(name,driver) in enumerate(zip(CASES,DRIVERS)):
+    for row,(name,driver) in enumerate(zip(args.cases,args.drivers)):
+        side=args.sides[row] if args.sides else args.side
         videos={}
         for model,directory in [('Full','rep-world-feature-cache'),('Heavy','autonomous-heavy-cache')]:
             with gzip.open(DATA/directory/(name+'.json.gz'),'rt') as stream:videos[model]=json.load(stream)
@@ -35,21 +45,21 @@ def main():
                     image.thumbnail((310,365));x=col*320;y=row*450
                     sheet.paste(image,(x+(320-image.width)//2,y+70));draw.text((x+3,y+3),name.replace('subject_',''),fill='white')
                     draw.text((x+3,y+20),f'{model} | original PTS {timestamp}ms',fill='yellow')
-                    value=f['features'][FEATURES.index('angle.left_'+driver)]
+                    value=f['features'][FEATURES.index('angle.'+side+'_'+driver)]
                     draw.text((x+3,y+37),f'observed driver {value:.1f} deg' if value is not None else 'driver evidence unavailable',fill='white')
                     records.append({'video':video['video'],'source_sha256':video['source_video_sha256'],'model':model,
-                                    'model_sha256':video['model_sha256'],'timestamp_ms':timestamp})
+                                    'model_sha256':video['model_sha256'],'timestamp_ms':timestamp,'observed_side':side})
                 if timestamp>=max(timestamps):break
         finally:decoder.close()
         for model,video in videos.items():
-            index=FEATURES.index('angle.left_'+driver)
+            index=FEATURES.index('angle.'+side+'_'+driver)
             axes[row].plot([f['timestamp_ms']/1000 for f in video['frames']],
                 [f['features'][index] if f['features'][index] is not None else float('nan') for f in video['frames']],label=model,alpha=.8)
-        axes[row].set_title(name);axes[row].set_ylabel('observed angle degrees');axes[row].set_xlabel('original source PTS seconds');axes[row].legend()
+        axes[row].set_title(name+' | '+side);axes[row].set_ylabel('observed angle degrees');axes[row].set_xlabel('original source PTS seconds');axes[row].legend()
     fig.suptitle('Same-source model comparison: model outputs are not independent geometry/form truth')
     fig.savefig(output/'full-heavy-angle-traces.png',dpi=120);plt.close(fig)
     sheet.save(output/'full-heavy-same-pts-contact-sheet.jpg')
-    (output/'provenance.json').write_text(json.dumps({'kind':'same-PTS-model-output-diagnostics-not-form-truth','frames':records},indent=2)+'\n')
+    (output/'provenance.json').write_text(json.dumps({'kind':'same-PTS-model-output-diagnostics-not-form-truth','observed_sides':args.sides or [args.side]*4,'frames':records},indent=2)+'\n')
     print('Rendered',len(records),'model/source observations at matched original PTS')
 
 if __name__=='__main__':main()

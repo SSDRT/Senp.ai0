@@ -65,6 +65,13 @@ kotlin {
     }
 }
 
+tasks.withType<Test>().configureEach {
+    providers.gradleProperty("qualifiedReferenceReplayRoot").orNull?.let {
+        systemProperty("qualifiedReferenceReplayRoot",rootProject.file(it).absolutePath)
+        maxHeapSize = "1500m"
+    }
+}
+
 dependencies {
     implementation(project(":core-contracts"))
     implementation(project(":core-pipeline"))

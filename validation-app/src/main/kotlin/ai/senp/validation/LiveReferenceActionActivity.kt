@@ -7,13 +7,15 @@ import ai.senp.motion.ActionMirrorMode
 import ai.senp.motion.ActionTrackingStatus
 import ai.senp.motion.LiveFeedbackUncertainty
 import ai.senp.motion.ExerciseTechniqueCatalog
-import ai.senp.motion.QualifiedRepCompilation
 import ai.senp.motion.QualifiedRepConfig
 import ai.senp.motion.QualifiedRepReference
 import ai.senp.motion.RepObservedSide
 import ai.senp.motion.RepPolicyMode
 import ai.senp.pose.mediapipe.LiveFrameGate
 import ai.senp.pose.mediapipe.LiveMediaPipePoseEstimator
+import ai.senp.pose.mediapipe.LivePoseModel
+import ai.senp.core.contracts.PoseModelConfiguration
+import ai.senp.core.contracts.Sha256
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Canvas
@@ -36,6 +38,11 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -59,6 +66,10 @@ class LiveReferenceActionActivity : ComponentActivity() {
 
     @Volatile private var estimator: LiveMediaPipePoseEstimator? = null
     @Volatile private var processor: LiveReferenceActionProcessor? = null
+    @Volatile internal var analyzedFrameCount: Long = 0
+        private set
+    @Volatile internal var activePoseModelSha256: String? = null
+        private set
     private val frameGate = LiveFrameGate()
     @Volatile private var destroyed = false
     private var cameraProvider: ProcessCameraProvider? = null
@@ -108,18 +119,36 @@ class LiveReferenceActionActivity : ComponentActivity() {
                 return
             }
             phaseView.text = "PREPARING REP COMPARISON"
-            analyzerExecutor.execute {
-                val candidate = runCatching {
-                    prepared.qualifiedRepReference?.takeIf { it.config == config && it.exerciseId == exerciseId }?.let { QualifiedRepCompilation.Ready(it) }
-                        ?: prepared.repSource?.let { compileQualifiedRepFromExtraction(it,exerciseId,identity,config) }
-                }.getOrElse { QualifiedRepCompilation.Unavailable(ai.senp.motion.RepReferenceFailure.WEAK_REFERENCE,"This reference could not be prepared for rep counting.") }
-                runOnUiThread {
-                    if (destroyed) return@runOnUiThread
+            lifecycleScope.launch {
+                try {
+                    val candidate = withContext(Dispatchers.Default) {
+                        val retained = prepared.qualifiedRepReference?.takeIf { it.config == config && it.exerciseId == exerciseId }
+                        if (retained != null && prepared.repSource != null) {
+                            QualifiedReferencePreparation.Ready(retained,prepared.repSource,prepared.repPreparationRequest,emptyList())
+                        } else prepared.repSource?.let {
+                            val model = prepared.repPreparationRequest?.model
+                            EngineComposition(applicationContext).referenceActionSession.prepareQualifiedReference(
+                                it,identity,prepared.repPreparationRequest,exerciseId,config,
+                                if (identity.poseModelSha256 == LivePoseModel.FULL.sha256) PoseModelConfiguration(
+                                    Sha256(LivePoseModel.HEAVY.sha256),"pose-landmarker-heavy",model?.thresholds ?: ai.senp.core.contracts.PoseThresholds()) else null,
+                            )
+                        }
+                    }
+                    if (destroyed) return@launch
                     when (candidate) {
-                        is QualifiedRepCompilation.Ready -> configureProcessor(prepared,exerciseId,enableLearnedQuality,candidate.reference)
-                        is QualifiedRepCompilation.Unavailable -> showFatal("Rep counting unavailable",candidate.detail)
+                        is QualifiedReferencePreparation.Ready -> {
+                            val selected = prepared.copy(profile = candidate.reference.profile,
+                                repEvidenceFingerprint = candidate.reference.fingerprint,qualifiedRepReference = candidate.reference,
+                                repSource = candidate.extraction,repPreparationRequest = candidate.request)
+                            configureProcessor(selected,exerciseId,enableLearnedQuality,candidate.reference)
+                        }
+                        is QualifiedReferencePreparation.Unavailable -> showFatal("Rep counting unavailable",candidate.detail)
                         null -> showFatal("Reference evidence unavailable","Reopen the uploaded reference to prepare rep counting.")
                     }
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (error: Exception) {
+                    if (!destroyed) showFatal("Rep counting unavailable",error.message ?: "This reference could not be prepared for rep counting.")
                 }
             }
             return
@@ -129,6 +158,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
 
     private fun configureProcessor(prepared: PreparedReferenceAction, exerciseId: String?, enableLearnedQuality: Boolean,
         qualifiedReference: QualifiedRepReference?) {
+        preparedReference = prepared
         processor = LiveReferenceActionProcessor(
             profile = prepared.profile,
             analysisFramesPerSecond = prepared.analysisFramesPerSecond,
@@ -288,7 +318,10 @@ class LiveReferenceActionActivity : ComponentActivity() {
             try {
                 estimator = LiveMediaPipePoseEstimator.create(
                     context = this,
-                    expectedModelSha256 = MODEL_SHA256,
+                    model = requireNotNull(LivePoseModel.entries.singleOrNull {
+                        it.sha256 == (preparedReference?.repEvidenceFingerprint?.poseModelSha256 ?: LivePoseModel.FULL.sha256)
+                    }) { "The reference uses an unavailable pose model" },
+                    thresholds = preparedReference?.repPreparationRequest?.model?.thresholds ?: ai.senp.core.contracts.PoseThresholds(),
                 )
             } catch (error: Throwable) {
                 runOnUiThread { showFatal("Pose model unavailable", error.message ?: "Unable to initialize MediaPipe") }
@@ -346,6 +379,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
                 val estimate = poseEstimator.estimateDetailed(upright, timestampMs)
                 val pose = estimate.frame
                 val output = liveProcessor.update(pose, upright.width, upright.height, estimate.modelSha256,estimate.rawFrame)
+                activePoseModelSha256 = estimate.modelSha256
+                analyzedFrameCount++
                 val frameWidth = upright.width
                 val frameHeight = upright.height
                 runOnUiThread {
@@ -482,7 +517,6 @@ class LiveReferenceActionActivity : ComponentActivity() {
 
         private const val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
         private const val WRAP = ViewGroup.LayoutParams.WRAP_CONTENT
-        private const val MODEL_SHA256 = "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
     }
 }
 

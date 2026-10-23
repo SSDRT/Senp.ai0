@@ -4,6 +4,8 @@ import ai.senp.core.contracts.*
 import ai.senp.core.pipeline.VideoPoseExtractor
 import ai.senp.motion.*
 import ai.senp.sync.v2.InMemorySynchronizationPoseCache
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.runBlocking
 import kotlin.math.*
 import kotlin.test.*
 
@@ -99,5 +101,81 @@ class QualifiedRepSessionTest {
         }
         assertEquals(0,output?.qualifiedReps?.counts?.qualified)
         assertEquals(1,output?.qualifiedReps?.counts?.unassessable)
+    }
+
+    private val primaryModel = PoseModelConfiguration(Sha256(fingerprint.poseModelSha256))
+    private val fallbackModel = PoseModelConfiguration(Sha256("c".repeat(64)),"pose-landmarker-heavy")
+    private val request = ReferenceExtractionRequest(VideoSource("content://verified-reference",Sha256(fingerprint.referenceVideoSha256)),
+        SamplingConfiguration(30,640),primaryModel)
+    private fun weakExtraction() = extraction().let { it.copy(poses = it.poses.copy(frames = it.poses.frames.map { frame -> pose(frame.timestamp.value,0.0) })) }
+
+    @Test fun usablePrimaryNeverExtractsOrSelectsFallback() = runBlocking {
+        val result = session().prepareQualifiedReference(extraction(),fingerprint,request,"biceps_curl",QualifiedRepConfig(),fallbackModel)
+        val ready = assertIs<QualifiedReferencePreparation.Ready>(result)
+        assertEquals(fingerprint,ready.reference.fingerprint)
+        assertEquals(listOf(null),ready.attempts.map { it.failure })
+    }
+
+    @Test fun fallbackReextractsOnlyTheSameReferenceAndRemainsBoundToItsOwnModel() = runBlocking {
+        var calls = 0
+        val engine = ReferenceActionSessionEngine(object : VideoPoseExtractor {
+            override suspend fun extract(role: VideoRole,source: VideoSource,sampling: SamplingConfiguration,model: PoseModelConfiguration): StageResult<VideoPoseExtraction> {
+                calls++
+                assertEquals(VideoRole.REFERENCE,role);assertEquals(request.source,source)
+                assertEquals(request.sampling,sampling);assertEquals(fallbackModel,model)
+                return StageResult.Success(extraction())
+            }
+        },InMemorySynchronizationPoseCache())
+        repeat(2) {
+            val ready = assertIs<QualifiedReferencePreparation.Ready>(engine.prepareQualifiedReference(
+                weakExtraction(),fingerprint,request,"biceps_curl",QualifiedRepConfig(),fallbackModel))
+            assertEquals(2,ready.attempts.size);assertNotNull(ready.attempts.first().failure)
+            assertNull(ready.attempts.last().failure)
+            assertEquals(fingerprint.copy(poseModelSha256 = fallbackModel.modelSha256.value),ready.reference.fingerprint)
+            assertEquals(fallbackModel,ready.request?.model)
+            val processor = engine.newLiveProcessor(ready.reference.profile,30.0,qualifiedRepReference = ready.reference,
+                repEvidenceFingerprint = ready.reference.fingerprint)
+            var output: LiveReferenceActionOutput? = null
+            for (time in 0L..2000L step 33) {
+                val p = pose(time,progress(time))
+                output = processor.update(p,640,480,fallbackModel.modelSha256.value,p)
+            }
+            assertEquals(1,output?.qualifiedReps?.counts?.qualified)
+            val p = pose(2100,0.0)
+            assertEquals(RepReason.MODEL_MISMATCH,processor.update(p,640,480,primaryModel.modelSha256.value,p).qualifiedReps?.unavailableReason)
+        }
+        assertEquals(1,calls,"Identical fallback reference settings must share only their own model cache")
+    }
+
+    @Test fun unsupportedExerciseOrMismatchedUploadCannotStartFallbackExtraction(): Unit = runBlocking {
+        assertIs<QualifiedReferencePreparation.Unavailable>(session().prepareQualifiedReference(
+            extraction(),fingerprint,request,"unknown-exercise",QualifiedRepConfig(),fallbackModel))
+        val result = assertIs<QualifiedReferencePreparation.Unavailable>(session().prepareQualifiedReference(
+            weakExtraction(),fingerprint,request.copy(source = VideoSource("content://other",Sha256("d".repeat(64)))),
+            "biceps_curl",QualifiedRepConfig(),fallbackModel))
+        assertEquals(RepReferenceFailure.MISSING_PROVENANCE,result.attempts.single().failure)
+        assertIs<QualifiedReferencePreparation.Unavailable>(session().prepareQualifiedReference(
+            weakExtraction(),fingerprint,null,"biceps_curl",QualifiedRepConfig(),fallbackModel))
+    }
+
+    @Test fun missingPackagedFallbackRetainsBothFailuresWithoutRelaxingReferenceRequirements() = runBlocking {
+        val engine = ReferenceActionSessionEngine(object : VideoPoseExtractor {
+            override suspend fun extract(role: VideoRole,source: VideoSource,sampling: SamplingConfiguration,model: PoseModelConfiguration): StageResult<VideoPoseExtraction> =
+                StageResult.Failure(AnalysisFailure.VideoPose(role,VideoPoseFailureKind.MODEL_LOAD,"Heavy asset absent"))
+        },InMemorySynchronizationPoseCache())
+        val result = assertIs<QualifiedReferencePreparation.Unavailable>(engine.prepareQualifiedReference(
+            weakExtraction(),fingerprint,request,"biceps_curl",QualifiedRepConfig(),fallbackModel))
+        assertEquals(2,result.attempts.size)
+        assertTrue(result.detail.contains("Heavy asset absent"))
+        assertTrue(result.attempts.all { it.failure != null })
+    }
+
+    @Test fun lifecycleCancellationCannotProduceAnUnavailableOrUsableFallback(): Unit = runBlocking {
+        val engine = ReferenceActionSessionEngine(object : VideoPoseExtractor {
+            override suspend fun extract(role: VideoRole,source: VideoSource,sampling: SamplingConfiguration,model: PoseModelConfiguration): StageResult<VideoPoseExtraction> =
+                throw CancellationException("Session destroyed")
+        },InMemorySynchronizationPoseCache())
+        assertFailsWith<CancellationException> { engine.prepareQualifiedReference(
+            weakExtraction(),fingerprint,request,"biceps_curl",QualifiedRepConfig(),fallbackModel) }
     }
 }

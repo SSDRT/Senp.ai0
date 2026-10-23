@@ -163,6 +163,13 @@ class LiveMediaPipePoseEstimator private constructor(
     }
 
     companion object {
+        fun create(context: Context, model: LivePoseModel, thresholds: ai.senp.core.contracts.PoseThresholds): LiveMediaPipePoseEstimator =
+            create(context, model, Config(
+                detectionConfidence = thresholds.minimumDetectionConfidence.toFloat(),
+                presenceConfidence = thresholds.minimumPresenceConfidence.toFloat(),
+                trackingConfidence = thresholds.minimumTrackingConfidence.toFloat(),
+            ))
+
         fun create(context: Context, model: LivePoseModel, config: Config = Config()): LiveMediaPipePoseEstimator =
             create(context, model.assetPath, model.sha256, config)
 
