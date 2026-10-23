@@ -15,6 +15,12 @@ import kotlin.test.*
 /** Opt-in replay of original cached observations through the actual Android session selection seam. */
 class QualifiedReferenceBackendReplayTest {
     @Test fun productionSelectionMatchesFrozenReferenceOnlyRegistry() = runBlocking {
+        verifyRegistry(complete = false)
+    }
+    @Test fun completeReferencesRecoverOnlyAfterBothEstablishedModelFitsFail() = runBlocking {
+        verifyRegistry(complete = true)
+    }
+    private suspend fun verifyRegistry(complete: Boolean) {
         val configured = System.getProperty("qualifiedReferenceReplayRoot")
         assumeNotNull(configured)
         val root = File(requireNotNull(configured))
@@ -24,9 +30,9 @@ class QualifiedReferenceBackendReplayTest {
                 assertEquals(66,it.getValue("sample_period_ms").jsonPrimitive.int)
             }
         fun files(directory: String) = File(root,directory).listFiles { f -> f.name.endsWith(".json.gz") }!!
-            .associateBy { it.name.removeSuffix(".json.gz")+".mp4" }.also { assertEquals(48,it.size) }
-        val full = files("rep-world-feature-cache")
-        val heavy = files("autonomous-heavy-cache")
+            .associateBy { it.name.removeSuffix(".json.gz")+".mp4" }.also { assertEquals(if (complete) 16 else 48,it.size) }
+        val full = files(if (complete) "complete-reference-full-cache" else "rep-world-feature-cache")
+        val heavy = files(if (complete) "complete-reference-heavy-cache" else "autonomous-heavy-cache")
         assertEquals(full.keys,heavy.keys)
         val filesBySha = full.entries.associate { (name,file) ->
             val data = read(file,LivePoseModel.FULL);val other = read(heavy.getValue(name),LivePoseModel.HEAVY)
@@ -35,7 +41,8 @@ class QualifiedReferenceBackendReplayTest {
                 other.getValue("frames").jsonArray.map { it.jsonObject.getValue("timestamp_ms") })
             data.getValue("source_video_sha256").jsonPrimitive.content to file
         }
-        val registry = Json.parseToJsonElement(File(root,"calibration-recovery-summary/reference-backend-selection.json").readText()).jsonArray
+        val cohort = if (complete) "complete" else "capped"
+        val registry = Json.parseToJsonElement(File(root,"reference-fit-recovery-summary/$cohort-reference-backend-selection.json").readText()).jsonArray
         assertEquals(32,registry.size)
         var extractions = 0
         val engine = ReferenceActionSessionEngine(object : VideoPoseExtractor {
@@ -66,24 +73,42 @@ class QualifiedReferenceBackendReplayTest {
                 }
                 is QualifiedReferencePreparation.Unavailable -> "unavailable"
             }
+            assertEquals(QUALIFIED_REFERENCE_SELECTION_POLICY,result.selectionPolicy)
+            val fit = (result as? QualifiedReferencePreparation.Ready)?.reference?.config?.referenceCurveFit?.name
+            val expectedFit = row.getValue("selected_fit").takeUnless { it == JsonNull }?.jsonPrimitive?.content
+            assertEquals(expectedFit,fit,"$sha ${row["side"]}")
+            assertEquals(row.getValue("reference_key").takeUnless { it == JsonNull }?.jsonPrimitive?.content,
+                (result as? QualifiedReferencePreparation.Ready)?.reference?.referenceKey,"Reference fingerprint $sha ${row["side"]}")
+            if (fit == RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE.name) {
+                val ready = result as QualifiedReferencePreparation.Ready
+                assertEquals(4,result.attempts.size)
+                assertEquals(listOf(RepReferenceCurveFit.ORDINARY_LEAST_SQUARES,RepReferenceCurveFit.ORDINARY_LEAST_SQUARES,
+                    RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE,RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE),result.attempts.map { it.curveFit })
+                assertTrue(result.attempts.dropLast(1).all { it.failure != null })
+                assertEquals(9,ready.reference.calibration?.observedCycles)
+                assertEquals(9,ready.reference.calibration?.acceptedSelfCycles)
+            }
             assertEquals(row.getValue("selected_model").jsonPrimitive.content,selected,"$sha ${row["side"]}")
             buildJsonObject {
                 put("reference_video_sha256",sha);put("exercise",row.getValue("exercise"));put("side",row.getValue("side"));put("view",row.getValue("view"))
                 put("selected_model",selected)
+                put("selected_fit",fit?.let(::JsonPrimitive) ?: JsonNull)
                 put("attempts",buildJsonArray { result.attempts.forEach { attempt -> add(buildJsonObject {
                     put("model_sha256",attempt.modelSha256);put("failure",attempt.failure?.name?.let(::JsonPrimitive) ?: JsonNull);put("detail",attempt.detail)
+                    put("curve_fit",attempt.curveFit?.name?.let(::JsonPrimitive) ?: JsonNull)
                 }) } })
             }
         }
         val choices = results.groupingBy { it.getValue("selected_model").jsonPrimitive.content }.eachCount()
-        assertEquals(mapOf("full" to 7,"heavy" to 3,"unavailable" to 22),choices)
+        assertEquals(if (complete) mapOf("full" to 8,"heavy" to 4,"unavailable" to 20) else mapOf("full" to 7,"heavy" to 3,"unavailable" to 22),choices)
         val report = buildJsonObject {
             put("kind","production-reference-backend-selection-real-observation-replay-not-human-accuracy")
-            put("reference_sides",32);put("primary_ready",7);put("fallback_ready",3);put("unavailable",22)
+            put("reference_sides",32);put("primary_ready",choices.getValue("full"));put("fallback_ready",choices.getValue("heavy"));put("unavailable",choices.getValue("unavailable"))
+            put("selection_policy",QUALIFIED_REFERENCE_SELECTION_POLICY);put("cohort",cohort)
             put("fallback_extractions",extractions);put("release_qualified",false);put("rep_accuracy_measured",false)
             put("rows",JsonArray(results))
         }
-        File(root,"integrated-reference-envelope-backend-replay.json").writeText(Json { prettyPrint = true }.encodeToString(JsonObject.serializer(),report))
+        File(root,"integrated-reference-fit-$cohort-replay.json").writeText(Json { prettyPrint = true }.encodeToString(JsonObject.serializer(),report))
     }
 
     private fun extraction(data: JsonObject): VideoPoseExtraction {

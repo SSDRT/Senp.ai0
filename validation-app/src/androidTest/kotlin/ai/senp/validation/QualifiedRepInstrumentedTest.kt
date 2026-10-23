@@ -34,6 +34,9 @@ class QualifiedRepInstrumentedTest {
     @Test fun repeatedObservedRangeRecoversTheLeftPressReferenceWithTheOriginalSelfReplayGate() {
         replay("qualified-rep-heavy-native.json.gz","range-recovery-native-parity.json","qualified-rep-envelope-expectations.json")
     }
+    @Test fun robustFitRecoversTheCompleteReferenceAfterBothEstablishedModelFitsFail() {
+        replay("qualified-rep-robust-native.json.gz","robust-fit-native-parity.json")
+    }
     @Test fun liveReferenceCameraUsesTheSelectedHeavyModelAcrossPauseAndResume() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val context = instrumentation.targetContext
@@ -94,7 +97,8 @@ class QualifiedRepInstrumentedTest {
         val valid = referenceFrames.count { it.validity.status == FrameValidityStatus.VALID }
         val extraction = VideoPoseExtraction(VideoRole.REFERENCE,DurationMs(referenceFrames.last().timestamp.value+1),PoseSequence(VideoRole.REFERENCE,referenceFrames),
             VideoPoseDiagnostics(referenceFrames.size,referenceFrames.size,valid,referenceFrames.size-valid,0,0,0,1,1))
-        val config = QualifiedRepConfig(side = RepObservedSide.valueOf(fixture.optString("side","LEFT")))
+        val config = QualifiedRepConfig(side = RepObservedSide.valueOf(fixture.optString("side","LEFT")),
+            referenceCurveFit = RepReferenceCurveFit.valueOf(fixture.optString("expected_reference_curve_fit","ORDINARY_LEAST_SQUARES")))
         val compiled = compileQualifiedRepFromExtraction(extraction,fixture.getString("exercise_id"),identity,config)
         assertTrue(compiled.toString(),compiled is QualifiedRepCompilation.Ready)
         val rep = (compiled as QualifiedRepCompilation.Ready).reference
@@ -111,26 +115,51 @@ class QualifiedRepInstrumentedTest {
             assertTrue(baseline.toString(),baseline is QualifiedRepCompilation.Unavailable && baseline.reason == RepReferenceFailure.LOW_SELF_RECONSTRUCTION)
         }
         assertEquals(fixture.optInt("expected_reference_cycles",3),rep.calibration?.observedCycles)
+        var selectionPolicy: String? = null
         if (videos.has("primary_reference")) {
             val primary = videos.getJSONObject("primary_reference")
             val primaryFrames = frames(primary.getJSONArray("frames"))
             val primaryExtraction = extraction.copy(poses = PoseSequence(VideoRole.REFERENCE,primaryFrames))
             val primaryIdentity = identity.copy(poseModelSha256 = primary.getString("model_sha256"))
-            val primaryResult = compileQualifiedRepFromExtraction(primaryExtraction,fixture.getString("exercise_id"),primaryIdentity,config)
+            val selectionConfig = config.copy(referenceCurveFit = RepReferenceCurveFit.ORDINARY_LEAST_SQUARES)
+            val primaryResult = compileQualifiedRepFromExtraction(primaryExtraction,fixture.getString("exercise_id"),primaryIdentity,selectionConfig)
             assertTrue("Fixture must actually need fallback",primaryResult is QualifiedRepCompilation.Unavailable)
+            if (config.referenceCurveFit == RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE) {
+                val standard = compileQualifiedRepFromExtraction(extraction,fixture.getString("exercise_id"),identity,selectionConfig)
+                assertTrue(standard.toString(),standard is QualifiedRepCompilation.Unavailable)
+                assertEquals(9,rep.calibration?.acceptedSelfCycles)
+                assertEquals(.8,rep.config.minimumReferenceReconstruction,0.0)
+            }
             val request = ReferenceExtractionRequest(VideoSource("fixture://verified-reference",Sha256(identity.referenceVideoSha256)),
                 SamplingConfiguration(),PoseModelConfiguration(Sha256(primaryIdentity.poseModelSha256)))
+            var extractions = 0
             val session = ReferenceActionSessionEngine(object : VideoPoseExtractor {
                 override suspend fun extract(role: VideoRole, source: VideoSource, sampling: SamplingConfiguration, model: PoseModelConfiguration): StageResult<VideoPoseExtraction> {
+                    extractions++
                     assertEquals(VideoRole.REFERENCE,role);assertEquals(request.source,source)
                     assertEquals(identity.poseModelSha256,model.modelSha256.value)
                     return StageResult.Success(extraction)
                 }
             },InMemorySynchronizationPoseCache())
+            if (config.referenceCurveFit == RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE) {
+                val previous = runBlocking { session.prepareQualifiedReference(primaryExtraction,primaryIdentity,request,
+                    fixture.getString("exercise_id"),selectionConfig,PoseModelConfiguration(Sha256(identity.poseModelSha256),"pose-landmarker-heavy"),
+                    allowCurveFitRecovery = false) }
+                assertTrue(previous.toString(),previous is QualifiedReferencePreparation.Unavailable)
+                assertEquals(2,previous.attempts.size)
+            }
             val selected = runBlocking { session.prepareQualifiedReference(primaryExtraction,primaryIdentity,request,
-                fixture.getString("exercise_id"),config,PoseModelConfiguration(Sha256(identity.poseModelSha256),"pose-landmarker-heavy")) }
+                fixture.getString("exercise_id"),selectionConfig,PoseModelConfiguration(Sha256(identity.poseModelSha256),"pose-landmarker-heavy")) }
             assertTrue(selected.toString(),selected is QualifiedReferencePreparation.Ready)
             assertEquals(rep.referenceKey,(selected as QualifiedReferencePreparation.Ready).reference.referenceKey)
+            assertEquals("Curve recovery must reuse the original model-specific reference extraction",1,extractions)
+            selectionPolicy = selected.selectionPolicy
+            if (config.referenceCurveFit == RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE) {
+                assertEquals(4,selected.attempts.size)
+                assertEquals(listOf(RepReferenceCurveFit.ORDINARY_LEAST_SQUARES,RepReferenceCurveFit.ORDINARY_LEAST_SQUARES,
+                    RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE,RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE),selected.attempts.map { it.curveFit })
+                assertEquals(QUALIFIED_REFERENCE_SELECTION_POLICY,selectionPolicy)
+            }
         }
         val processor = LiveReferenceActionProcessor(rep.profile,15.0,qualifiedRepReference = rep,repEvidenceFingerprint = identity)
         val sourceRows = source.getJSONArray("frames");val sourceFrames = frames(sourceRows)
@@ -180,6 +209,7 @@ class QualifiedRepInstrumentedTest {
         }
         val evidence = JSONObject().put("kind","real-source-landmark-native-jvm-parity-not-human-accuracy")
             .put("reference_schema",rep.schema).put("observed_path_required",rep.config.requireObservedPath)
+            .put("reference_curve_fit",rep.config.referenceCurveFit.name).put("production_selection_policy",selectionPolicy)
             .put("accepted_outputs_with_observed_paths",attempts.count { (it.verdict == RepVerdict.CORRECT || it.verdict == RepVerdict.ACCEPTABLE) && it.outboundPathObserved && it.returnPathObserved })
             .put("model_sha256",identity.poseModelSha256).put("observed_side",config.side.name)
             .put("production_fallback_exercised",videos.has("primary_reference"))

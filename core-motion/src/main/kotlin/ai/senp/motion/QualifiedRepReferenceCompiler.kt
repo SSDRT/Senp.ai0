@@ -104,7 +104,8 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
             // Driver progress is defined by these endpoints: its slope is exact, not a noisy regression.
             // Re-estimating it in a narrow endpoint bin shrinks the calibrated excursion and moves completion times.
             val slope = if (name == driver) farAngle-readyAngle else if (config.referenceCurveFit == RepReferenceCurveFit.MEDIAN_PAIRWISE)
-                medianPairwiseRepSlope(observed.map { it.third to it.first }) else if (varianceP >= 0.0025)
+                medianPairwiseRepSlope(observed.map { it.third to it.first }) else if (config.referenceCurveFit == RepReferenceCurveFit.BOUNDED_MEDIAN_PAIRWISE)
+                boundedPairwiseRepSlope(observed.map { it.third to it.first }) else if (varianceP >= 0.0025)
                 observed.sumOf { (it.third-meanP)*(it.first-meanV) }/(varianceP*observed.size) else 0.0
             val atCenter = observed.map { (it.first-slope*(it.third-center)).coerceIn(0.0,180.0) }
             val distribution = robustDistribution(atCenter,0.5).let { it.copy(lower = max(0.0,it.lower),upper = min(180.0,it.upper)) }
@@ -212,6 +213,15 @@ internal fun medianPairwiseRepSlope(samples: List<Pair<Double,Double>>): Double 
         if (abs(delta) >= .05) slopes += (samples[j].second-samples[i].second)/delta
     }
     return if (slopes.size >= 3) median(slopes) else 0.0
+}
+
+/** At most 8,128 slopes per bin, even for long uploads. Only slope estimation is sampled;
+ * confidence, noise distributions, critical endpoints and causal replay still use every observation. */
+internal fun boundedPairwiseRepSlope(samples: List<Pair<Double,Double>>): Double {
+    val selected = if (samples.size <= 128) samples else (0 until 128).map { index ->
+        samples[(index.toLong()*(samples.size-1)/127).toInt()]
+    }
+    return medianPairwiseRepSlope(selected)
 }
 
 /** Estimate repeated extrema, so setup/rest duration cannot redefine the exercise's range.

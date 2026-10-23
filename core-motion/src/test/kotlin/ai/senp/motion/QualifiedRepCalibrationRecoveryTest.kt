@@ -80,4 +80,13 @@ class QualifiedRepCalibrationRecoveryTest {
         assertEquals(40.0,medianPairwiseRepSlope(samples),1e-8)
         assertEquals(0.0,medianPairwiseRepSlope(List(10) { .5 to it.toDouble() }))
     }
+    @Test fun boundedRuntimeFitHandlesALongContaminatedReferenceWithoutQuadraticPairGrowth() {
+        val samples = (0 until 100_000).map { index ->
+            val p = index/100_000.0
+            p to (20+40*p+if (index%17==0) 80.0 else 0.0)
+        }
+        assertEquals(40.0,boundedPairwiseRepSlope(samples),1e-8)
+        assertEquals(0.0,boundedPairwiseRepSlope(emptyList()))
+        assertEquals(0.0,boundedPairwiseRepSlope(List(100_000) { .5 to 20.0 }))
+    }
 }

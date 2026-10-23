@@ -1,6 +1,7 @@
 {
   "kind": "causal-rule-based-reference-rep-engine; not retrained landmark-network weights",
   "schema": "qualified-reference-reps/4",
+  "reference_fit_recovery_provenance": "reference_fit_recovery.provenance.json",
   "reference_calibration_recovery_provenance": "reference_calibration_recovery.provenance.json",
   "departure_peak_policy_provenance": "departure_peak_policy.provenance.json",
   "observed_path_policy_provenance": "observed_path_policy.provenance.json",

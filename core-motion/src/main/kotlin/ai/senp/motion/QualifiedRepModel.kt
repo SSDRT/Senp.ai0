@@ -5,7 +5,7 @@ import kotlin.math.abs
 import kotlin.math.max
 
 enum class RepPolicyMode { REFERENCE_MATCH, REFERENCE_WITH_TECHNIQUE_GUARDS }
-enum class RepReferenceCurveFit { ORDINARY_LEAST_SQUARES, MEDIAN_PAIRWISE }
+enum class RepReferenceCurveFit { ORDINARY_LEAST_SQUARES, MEDIAN_PAIRWISE, BOUNDED_MEDIAN_PAIRWISE }
 enum class RepObservedSide { LEFT, RIGHT }
 enum class RepVerdict { CORRECT, ACCEPTABLE, REJECTED, UNASSESSABLE }
 enum class RepStage { SYNCHRONIZING, READY, OUTBOUND, RETURNING, UNAVAILABLE }
