@@ -40,6 +40,8 @@ class LiveMediaPipePoseEstimator private constructor(
     private var activeDelegate = initialDelegate
     private var fallbackReason = initialFallback
     private var resetCount = 0L
+    private var nativeRecreationCount = 0L
+    private var graphHasProducedPose = false
 
     data class Estimate(
         val rawFrame: PoseFrame,
@@ -50,6 +52,7 @@ class LiveMediaPipePoseEstimator private constructor(
         val fallbackReason: String?,
         val modelAssetPath: String,
         val modelSha256: String,
+        val nativeTrackerRecreationCount: Long = 0,
     )
 
     @Synchronized
@@ -65,8 +68,14 @@ class LiveMediaPipePoseEstimator private constructor(
             "live pose timestamps must strictly increase: $previous -> $timestampMs"
         }
         val size = bitmap.width to bitmap.height
-        var reset = previous != null && (timestampMs - previous > config.stabilization.resetGapMs || dimensions != size)
-        if (reset) recreate(activeDelegate)
+        val resetAction = liveTrackerReset(previous != null,
+            previous != null && timestampMs-previous>config.stabilization.resetGapMs,dimensions != size,graphHasProducedPose)
+        var reset = resetAction != LiveTrackerReset.NONE
+        when (resetAction) {
+            LiveTrackerReset.RECREATE -> recreate(activeDelegate)
+            LiveTrackerReset.CONTINUITY_ONLY -> { stabilizer.reset();resetCount++ }
+            LiveTrackerReset.NONE -> Unit
+        }
         previousTimestampMs = timestampMs
         dimensions = size
         val inferenceStarted = System.nanoTime()
@@ -82,13 +91,16 @@ class LiveMediaPipePoseEstimator private constructor(
             }
         }
         val inferenceNanos = System.nanoTime() - inferenceStarted
+        // Native output, not mapped usability/confidence, controls this lifetime flag.
+        // Even a low-confidence pose primes graph history and requires full future resets.
+        if (result.landmarks().any { it.isNotEmpty() }) graphHasProducedPose = true
         val index = diagnosticFrameIndex++
         return try {
             val raw = mapper.map(timestampMs, index, result.toRawLive(), inferenceNanos).frame
             val input = if (reset) raw.copy(validity = FrameValidity(
                 FrameValidityStatus.CONTINUITY_BREAK, 0.0, setOf(FrameValidityReason.TRACKING_RESET),
             )) else raw
-            Estimate(raw, stabilizer.update(input, bitmap.width, bitmap.height), inferenceNanos, activeDelegate, resetCount, fallbackReason, modelAssetPath, modelSha256)
+            Estimate(raw, stabilizer.update(input, bitmap.width, bitmap.height), inferenceNanos, activeDelegate, resetCount, fallbackReason, modelAssetPath, modelSha256,nativeRecreationCount)
         } catch (error: RuntimeException) {
             throw LivePoseException.Inference("MediaPipe live pose mapping failed", error)
         }
@@ -127,6 +139,8 @@ class LiveMediaPipePoseEstimator private constructor(
         }
         stabilizer.reset()
         resetCount++
+        nativeRecreationCount++
+        graphHasProducedPose = false
     }
 
     private fun checkOwner() = check(Thread.currentThread().id == ownerThread) {

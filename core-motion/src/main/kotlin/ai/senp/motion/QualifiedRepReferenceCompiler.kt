@@ -166,7 +166,14 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
                 base.profile,base.fingerprint,base.config,base.spec,base.driverFeature,base.requiredFeatures,base.readyAngle,base.farAngle,
                 base.nodes,base.sourceTargets,base.sourceTolerances,calibration,envelope)
             fun reconstruct(r: QualifiedRepReference): Int {
-                val engine = r.newEngine()
+                // Mirroring maps a live source onto the demonstrated reference side.
+                // The original reference must reconstruct itself in its own orientation;
+                // requiring its opposite arm here incorrectly rejects unilateral uploads.
+                // Keep the returned reference/config/key in the requested source mode.
+                val selfReference = QualifiedRepReference(r.profile,r.fingerprint,
+                    r.config.copy(mirrorMode = ActionMirrorMode.DIRECT),r.spec,r.driverFeature,r.requiredFeatures,
+                    r.readyAngle,r.farAngle,r.nodes,r.sourceTargets,r.sourceTolerances,r.calibration,r.driverEnvelope)
+                val engine = selfReference.newEngine()
                 val events = mutableListOf<RepAttemptResult>()
                 for (frame in frames.filter { it.timestamp.value >= selected.first().timestamp.value-400 && it.timestamp.value <= selected.last().timestamp.value+200 }) {
                     events += engine.evaluate(frame,fingerprint.poseModelSha256,

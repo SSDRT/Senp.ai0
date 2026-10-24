@@ -146,6 +146,7 @@ tasks.register<JavaExec>("qualifiedRepVideoReplay") {
     args(providers.gradleProperty("qualifiedReferenceCurveFit").getOrElse("ORDINARY_LEAST_SQUARES"))
     args(providers.gradleProperty("qualifiedObservedDriverEnvelope").getOrElse("true"))
     args(providers.gradleProperty("qualifiedReplayReferences").orNull?.let { rootProject.file(it).absolutePath } ?: "-")
+    args(providers.gradleProperty("qualifiedReplayMirror").getOrElse("DIRECT"))
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
@@ -211,9 +212,9 @@ tasks.register<JavaExec>("qualifiedRepCounterfactualBenchmark") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.QualifiedRepCounterfactualBenchmark")
     args(rootProject.file("test-artifacts/exercise-knowledge").absolutePath,
-        rootProject.file(providers.gradleProperty("qualifiedCounterfactualOutput").getOrElse("test-artifacts/exercise-knowledge/reference-continuity-counterfactuals.json")).absolutePath)
-    args(providers.gradleProperty("qualifiedCounterfactualRegistry").getOrElse("reference-continuity-summary"),
-        providers.gradleProperty("qualifiedCounterfactualReplayPrefix").getOrElse("reference-continuity"))
+        rootProject.file(providers.gradleProperty("qualifiedCounterfactualOutput").getOrElse("test-artifacts/exercise-knowledge/mirror-calibration-counterfactuals.json")).absolutePath)
+    args(providers.gradleProperty("qualifiedCounterfactualRegistry").getOrElse("mirror-calibration-summary"),
+        providers.gradleProperty("qualifiedCounterfactualReplayPrefix").getOrElse("mirror-calibration"))
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
@@ -237,7 +238,7 @@ tasks.register<JavaExec>("uiprmdDevelopmentReplay") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.UiprmdDevelopmentReplay")
     args(rootProject.file("test-artifacts/exercise-knowledge/uiprmd/development-vicon").absolutePath,
-        rootProject.file("test-artifacts/exercise-knowledge/uiprmd/development-replay.json").absolutePath)
+        rootProject.file(providers.gradleProperty("uiprmdDevelopmentOutput").getOrElse("test-artifacts/exercise-knowledge/uiprmd/development-replay.json")).absolutePath)
     maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }

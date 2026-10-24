@@ -150,6 +150,43 @@ class LivePoseInstrumentedTest {
         } finally { bitmap.recycle(); resized.recycle() }
     }
 
+    @Test fun neverTrackedEmptyGraphRetainsNoPoseHistoryButEveryGapStillBreaksContinuity() {
+        val pose = poseImage()
+        val blank = Bitmap.createBitmap(pose.width,pose.height,Bitmap.Config.ARGB_8888)
+        try {
+            create().use { estimator ->
+                assertEquals(FrameValidityStatus.BLIND,estimator.estimateDetailed(blank,0).rawFrame.validity.status)
+                for ((index,time) in listOf(1000L,2000L).withIndex()) {
+                    val empty = estimator.estimateDetailed(blank,time)
+                    assertEquals(FrameValidityStatus.BLIND,empty.rawFrame.validity.status)
+                    assertEquals(FrameValidityStatus.CONTINUITY_BREAK,empty.frame.validity.status)
+                    assertEquals(index+1L,empty.trackerResetCount)
+                    assertEquals(0L,empty.nativeTrackerRecreationCount)
+                }
+                val acquired = estimator.estimateDetailed(pose,2033)
+                assertEquals(FrameValidityStatus.VALID,acquired.rawFrame.validity.status)
+                assertEquals(0L,acquired.nativeTrackerRecreationCount)
+                // A prior native pose must keep the full reset even after later no-person output.
+                estimator.estimateDetailed(blank,2066)
+                val afterTracked = estimator.estimateDetailed(pose,3100)
+                assertEquals(1L,afterTracked.nativeTrackerRecreationCount)
+                assertEquals(FrameValidityStatus.CONTINUITY_BREAK,afterTracked.frame.validity.status)
+                create().use { fresh ->
+                    val baseline = fresh.estimateDetailed(pose,2033)
+                    acquired.rawFrame.landmarks.zip(baseline.rawFrame.landmarks).forEach { (a,b) ->
+                        assertEquals(a.image.x,b.image.x,1e-6);assertEquals(a.image.y,b.image.y,1e-6)
+                        assertEquals(a.image.z,b.image.z,1e-6)
+                        assertEquals(requireNotNull(a.world).xMeters,requireNotNull(b.world).xMeters,1e-6)
+                        assertEquals(a.world!!.yMeters,b.world!!.yMeters,1e-6)
+                        assertEquals(a.world!!.zMeters,b.world!!.zMeters,1e-6)
+                        assertEquals(requireNotNull(a.visibility),requireNotNull(b.visibility),1e-6)
+                        assertEquals(requireNotNull(a.presence),requireNotNull(b.presence),1e-6)
+                    }
+                }
+            }
+        } finally { pose.recycle();blank.recycle() }
+    }
+
     @Test fun optionalGpuInitializesOrFallsBackToCpuWithDiagnostics() {
         val blank = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888)
         try {

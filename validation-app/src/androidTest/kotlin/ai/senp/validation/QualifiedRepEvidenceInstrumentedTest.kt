@@ -148,4 +148,30 @@ class QualifiedRepEvidenceInstrumentedTest {
             .put("compiler_policy",QualifiedRepCompiler.VERSION).put("constructed_cases",cases.size)
             .put("selected_cycles_per_case",4).put("causal_self_accepted_per_case",4).put("noncausal_cycle_excluded_per_case",1).toString(2))
     }
+
+    @Test fun unilateralReferenceSelfCheckUsesDirectEvidenceAndLiveSourceStillUsesMirroredFeatures() {
+        val result = QualifiedRepCompiler.compile(calibrationSequence(false),"biceps_curl",identity,
+            QualifiedRepConfig(mirrorMode = ActionMirrorMode.MIRRORED))
+        assertTrue(result.toString(),result is QualifiedRepCompilation.Ready)
+        val reference = (result as QualifiedRepCompilation.Ready).reference
+        assertEquals(4,reference.calibration?.acceptedSelfCycles)
+        var accepted = 0
+        for (bad in listOf(false,true)) {
+            val engine = reference.newEngine()
+            val faults = mutableListOf<RepFault>()
+            for (source in calibrationSequence(false,1).frames) {
+                val original = source.intrinsicDescriptor
+                val values = original.values.mapKeys { (name,_) -> name.replace("angle.left_","angle.right_") }.toMutableMap()
+                if (bad && values.getValue("angle.right_elbow") < 145) values["angle.right_shoulder"] = 85.0
+                val mirrored = source.copy(intrinsicDescriptor = original.copy(values = values,featureConfidences = values.mapValues { .95 }))
+                faults += engine.evaluate(mirrored,identity.poseModelSha256).newFaults
+            }
+            val output = engine.finish(2100)
+            assertEquals(if (bad) 0 else 1,output.counts.qualified)
+            assertEquals(RepObservedSide.RIGHT,output.observedSide)
+            if (bad) assertTrue(faults.any { it.reason == RepReason.CLEAR_FORM_DEVIATION && it.feature == "angle.right_shoulder" })
+            accepted += output.counts.qualified
+        }
+        save("mirror-reference-self-check.json",accepted,2)
+    }
 }

@@ -23,6 +23,10 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
+import android.os.SystemClock
+import android.hardware.camera2.CameraCharacteristics
+import androidx.camera.camera2.interop.Camera2CameraInfo
+import androidx.camera.camera2.interop.ExperimentalCamera2Interop
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +74,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
         private set
     @Volatile internal var activePoseModelSha256: String? = null
         private set
+    @Volatile internal var cameraDiagnostics: LiveCameraDiagnostics? = null
+    @Volatile private var cameraTimestampSource: Int? = null
     private val frameGate = LiveFrameGate()
     @Volatile private var destroyed = false
     private var cameraProvider: ProcessCameraProvider? = null
@@ -331,6 +337,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
         }
     }
 
+    @androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
     private fun bindCamera() {
         val providerFuture = ProcessCameraProvider.getInstance(this)
         providerFuture.addListener(
@@ -355,7 +362,9 @@ class LiveReferenceActionActivity : ComponentActivity() {
                     imageAnalysis = analysis
                     analysis.setAnalyzer(analyzerExecutor, ::analyzeFrame)
                     provider.unbindAll()
-                    provider.bindToLifecycle(this, selector, preview, analysis)
+                    val camera = provider.bindToLifecycle(this, selector, preview, analysis)
+                    cameraTimestampSource = runCatching { Camera2CameraInfo.from(camera.cameraInfo)
+                        .getCameraCharacteristic(CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE) }.getOrNull()
                     primaryCueView.text = "Waiting for the reference action"
                 } catch (error: Throwable) {
                     showFatal("Camera unavailable", error.message ?: "Unable to bind CameraX")
@@ -366,6 +375,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
     }
 
     private fun analyzeFrame(image: ImageProxy) {
+        val diagnostics = cameraDiagnostics
+        val diagnosticArrival = if (diagnostics != null) SystemClock.elapsedRealtimeNanos() else 0L
         if (!frameBusy.compareAndSet(false, true)) {
             image.close()
             return
@@ -381,6 +392,9 @@ class LiveReferenceActionActivity : ComponentActivity() {
                 val output = liveProcessor.update(pose, upright.width, upright.height, estimate.modelSha256,estimate.rawFrame)
                 activePoseModelSha256 = estimate.modelSha256
                 analyzedFrameCount++
+                diagnostics?.onFrame(LiveCameraSample(image.imageInfo.timestamp,diagnosticArrival,
+                    SystemClock.elapsedRealtimeNanos(),estimate.inferenceNanos,cameraTimestampSource,
+                    estimate.modelSha256,estimate.trackerResetCount,frameGate.droppedFrames,estimate.nativeTrackerRecreationCount),upright,estimate.rawFrame)
                 val frameWidth = upright.width
                 val frameHeight = upright.height
                 runOnUiThread {
@@ -390,6 +404,7 @@ class LiveReferenceActionActivity : ComponentActivity() {
                 }
             }
         } catch (error: Throwable) {
+            diagnostics?.onError(error)
             runOnUiThread {
                 primaryCueView.text = "Hold steady — reacquiring pose"
                 secondaryCueView.text = ""

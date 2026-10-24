@@ -22,6 +22,7 @@ object QualifiedRepReplayTool {
             requiredProgress = values.getValue("required_progress").jsonPrimitive.double,
         ) } ?: QualifiedRepConfig()
         val curveConfig = replayConfig.copy(referenceCurveNodes = args.getOrNull(3)?.toInt() ?: 6,
+            mirrorMode = args.getOrNull(8)?.let(ActionMirrorMode::valueOf) ?: ActionMirrorMode.DIRECT,
             requireObservedPath = args.getOrNull(4)?.toBooleanStrict() ?: true,
             referenceCurveFit = args.getOrNull(5)?.let(RepReferenceCurveFit::valueOf) ?: RepReferenceCurveFit.ORDINARY_LEAST_SQUARES,
             useObservedDriverEnvelope = args.getOrNull(6)?.toBooleanStrict() ?: true)
@@ -155,6 +156,9 @@ object QualifiedRepReplayTool {
             put("configuration_source",if (experimentalParameters == null) "current-defaults" else "experimental-generated-oracle-candidate")
             put("experimental_parameters",experimentalParameters ?: JsonNull)
             put("reference_curve_nodes",curveConfig.referenceCurveNodes)
+            put("compiler",QualifiedRepCompiler.VERSION)
+            put("mirror_mode",curveConfig.mirrorMode.name)
+            put("reference_curve_fit",curveConfig.referenceCurveFit.name)
             put("require_observed_path",curveConfig.requireObservedPath)
         }
         File(destination,"summary.json").writeText(json.encodeToString(JsonObject.serializer(),report))
