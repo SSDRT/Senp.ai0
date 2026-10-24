@@ -26,16 +26,16 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class QualifiedRepInstrumentedTest {
     @Test fun originalSourceVideoLandmarksReproduceTheJvmAcceptedRepResultsOnAndroid() {
-        replay("qualified-rep-native.json.gz","native-parity.json")
+        replay("qualified-rep-native.json.gz","native-parity.json","full")
     }
     @Test fun realHeavyOnlyReferenceSelectsFallbackAndReproducesThreeAcceptedOutputs() {
-        replay("qualified-rep-heavy-native.json.gz","heavy-native-parity.json")
+        replay("qualified-rep-heavy-native.json.gz","heavy-native-parity.json","heavy")
     }
-    @Test fun repeatedObservedRangeRecoversTheLeftPressReferenceWithTheOriginalSelfReplayGate() {
-        replay("qualified-rep-heavy-native.json.gz","range-recovery-native-parity.json","qualified-rep-envelope-expectations.json")
+    @Test fun correctReturnBranchKeepsTheRecoveredLeftReferenceWithoutWideningItsRange() {
+        replay("qualified-rep-heavy-native.json.gz","range-recovery-native-parity.json","range_recovery")
     }
     @Test fun robustFitRecoversTheCompleteReferenceAfterBothEstablishedModelFitsFail() {
-        replay("qualified-rep-robust-native.json.gz","robust-fit-native-parity.json")
+        replay("qualified-rep-robust-native.json.gz","robust-fit-native-parity.json","robust")
     }
     @Test fun liveReferenceCameraUsesTheSelectedHeavyModelAcrossPauseAndResume() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
@@ -87,7 +87,8 @@ class QualifiedRepInstrumentedTest {
         val videos = fixture.getJSONObject("videos")
         val reference = videos.getJSONObject("reference");val source = videos.getJSONObject("source")
         if (expectations != null) {
-            val overrides = requireNotNull(javaClass.classLoader?.getResourceAsStream(expectations)).bufferedReader().use { JSONObject(it.readText()) }
+            val overrides = requireNotNull(javaClass.classLoader?.getResourceAsStream("qualified-rep-v5-parity.json")).bufferedReader()
+                .use { JSONObject(it.readText()).getJSONObject(expectations) }
             assertEquals(reference.getString("source_video_sha256"),overrides.getString("reference_video_sha256"))
             assertEquals(source.getString("source_video_sha256"),overrides.getString("source_video_sha256"))
             for (key in overrides.keys()) if (key.startsWith("expected_") || key == "side") fixture.put(key,overrides.get(key))
@@ -102,17 +103,15 @@ class QualifiedRepInstrumentedTest {
         val compiled = compileQualifiedRepFromExtraction(extraction,fixture.getString("exercise_id"),identity,config)
         assertTrue(compiled.toString(),compiled is QualifiedRepCompilation.Ready)
         val rep = (compiled as QualifiedRepCompilation.Ready).reference
-        if (fixture.has("expected_driver_envelope")) {
-            val envelope = requireNotNull(rep.driverEnvelope)
-            val expectedEnvelope = fixture.getJSONObject("expected_driver_envelope")
-            assertEquals(expectedEnvelope.getDouble("lower"),envelope.lower,1e-6)
-            assertEquals(expectedEnvelope.getDouble("upper"),envelope.upper,1e-6)
-            assertEquals(3,rep.calibration?.baselineAcceptedSelfCycles)
+        if (expectations == "range_recovery") {
+            assertNull(rep.driverEnvelope)
+            assertEquals(4,rep.calibration?.baselineAcceptedSelfCycles)
             assertEquals(4,rep.calibration?.acceptedSelfCycles)
             assertEquals(.8,rep.config.minimumReferenceReconstruction,0.0)
             val baseline = compileQualifiedRepFromExtraction(extraction,fixture.getString("exercise_id"),identity,
                 config.copy(useObservedDriverEnvelope = false))
-            assertTrue(baseline.toString(),baseline is QualifiedRepCompilation.Unavailable && baseline.reason == RepReferenceFailure.LOW_SELF_RECONSTRUCTION)
+            assertTrue(baseline.toString(),baseline is QualifiedRepCompilation.Ready)
+            assertEquals(4,(baseline as QualifiedRepCompilation.Ready).reference.calibration?.acceptedSelfCycles)
         }
         assertEquals(fixture.optInt("expected_reference_cycles",3),rep.calibration?.observedCycles)
         var selectionPolicy: String? = null

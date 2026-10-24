@@ -42,7 +42,7 @@ class QualifiedReferenceBackendReplayTest {
             data.getValue("source_video_sha256").jsonPrimitive.content to file
         }
         val cohort = if (complete) "complete" else "capped"
-        val registry = Json.parseToJsonElement(File(root,"reference-fit-recovery-summary/$cohort-reference-backend-selection.json").readText()).jsonArray
+        val registry = Json.parseToJsonElement(File(root,"multipass-summary/$cohort-reference-backend-selection.json").readText()).jsonArray
         assertEquals(32,registry.size)
         var extractions = 0
         val engine = ReferenceActionSessionEngine(object : VideoPoseExtractor {
@@ -108,7 +108,7 @@ class QualifiedReferenceBackendReplayTest {
             put("fallback_extractions",extractions);put("release_qualified",false);put("rep_accuracy_measured",false)
             put("rows",JsonArray(results))
         }
-        File(root,"integrated-reference-fit-$cohort-replay.json").writeText(Json { prettyPrint = true }.encodeToString(JsonObject.serializer(),report))
+        File(root,"integrated-multipass-$cohort-replay.json").writeText(Json { prettyPrint = true }.encodeToString(JsonObject.serializer(),report))
     }
 
     private fun extraction(data: JsonObject): VideoPoseExtraction {

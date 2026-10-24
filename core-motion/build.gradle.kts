@@ -192,3 +192,26 @@ tasks.register<JavaExec>("qualifiedRepAutotune") {
     maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("qualifiedRepEvidenceBenchmark") {
+    group = "verification"
+    description = "Measure compatible path evidence and asymmetric return-branch handling on constructed controls."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepEvidenceBenchmark")
+    args(rootProject.file(providers.gradleProperty("qualifiedEvidenceOutput").getOrElse("test-artifacts/exercise-knowledge/evidence-controls.json")).absolutePath)
+    if (providers.gradleProperty("qualifiedEvidenceReportOnly").getOrElse("false").toBoolean()) args("report-only")
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("qualifiedRepCounterfactualBenchmark") {
+    group = "verification"
+    description = "Corrupt accepted real-timestamp attempts with explicit feature faults, missing evidence and identity failures."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepCounterfactualBenchmark")
+    args(rootProject.file("test-artifacts/exercise-knowledge").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/multipass-counterfactuals.json").absolutePath)
+    maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}

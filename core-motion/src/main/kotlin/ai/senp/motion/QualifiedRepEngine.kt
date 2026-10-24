@@ -76,6 +76,11 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         val driver = value(reference.driverFeature) ?: return unavailable(RepReason.MISSING_CRITICAL_EVIDENCE)
         val progress = (driver-reference.readyAngle)/(reference.farAngle-reference.readyAngle)
         val visible = reference.requiredFeatures.all { value(it) != null }
+        fun compatible(returning: Boolean): Boolean = reference.requiredFeatures.all { feature ->
+            val observed = value(feature) ?: return@all false
+            val band = reference.evidenceBand(feature,progress,returning)
+            observed >= band.lower-band.acceptable && observed <= band.upper+band.acceptable
+        }
         var attempt = active
         if (attempt != null && now-attempt.start > config.maximumAttemptMs) {
             close(RepReason.ATTEMPT_TIMEOUT); attempt = null
@@ -92,7 +97,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
             if (!visible) { armed = false; ready = null; primedOutboundPathObserved = false }
             // Early visible motion after arming still belongs to this path even before the
             // departure threshold starts the attempt. Returning to ready discards that evidence.
-            if (armed && visible && progress > config.readyProgress && progress < config.requiredProgress) primedOutboundPathObserved = true
+            if (armed && visible && progress > config.readyProgress && progress < config.requiredProgress && compatible(false)) primedOutboundPathObserved = true
             if (armed && visible && progress >= config.departureProgress) {
                 // Arming guarantees an earlier compatible observation. The departure frame
                 // needs the same adjacent peak support as every subsequent frame.
@@ -108,14 +113,12 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         current.previousProgress = progress
         val reversal = current.maximumProgress-progress >= config.reversalExcursion
         // Endpoint dwell alone cannot establish that the movement between endpoints was observed.
-        // One directly observed intermediate pose in each direction avoids requiring a dense
+        // One directly observed, compatible intermediate pose in each direction avoids requiring a dense
         // sampling grid. It must precede the far endpoint outbound, and follow an apparent
         // reversal returning. No interpolation or speed/biomechanical label is inferred here.
         val intermediate = progress > config.readyProgress && progress < config.requiredProgress
         if (!current.farObserved && progress <= config.readyProgress) current.outboundPathObserved = false
         if (!current.farObserved || progress >= config.requiredProgress) current.returnPathObserved = false
-        if (visible && intermediate && !current.farObserved && !current.returning && !reversal) current.outboundPathObserved = true
-        if (visible && intermediate && current.farObserved && reversal) current.returnPathObserved = true
         if (!current.returning && !reversal) current.returnPathObserved = false
         if (!current.returning) {
             current.reversal = if (reversal) confirm(current.reversal,now) else null
@@ -129,11 +132,16 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         }
         var ambiguous = false
         var endpointAcceptable = visible
+        // Before reversal dwell is confirmed, either branch is causally possible. A
+        // directly observed, fully compatible return pose after the far endpoint may
+        // use the return curve immediately. This does not confirm reversal, endpoints
+        // or a count, and never combines different branches feature by feature.
+        val evidenceReturning = current.returning || (current.farObserved && progress < current.maximumProgress && compatible(true))
         val pendingKeys = mutableSetOf<String>()
         for (feature in reference.requiredFeatures) {
             val observed = value(feature)
             if (observed == null) { current.pending.remove(feature); continue }
-            val band = reference.evidenceBand(feature,progress,current.returning)
+            val band = reference.evidenceBand(feature,progress,evidenceReturning)
             val distance = when { observed < band.lower -> band.lower-observed; observed > band.upper -> observed-band.upper; else -> 0.0 }
             if (distance > band.nominal) current.minorDeviation = true
             if (distance > band.acceptable) { ambiguous = true; endpointAcceptable = false }
@@ -150,6 +158,11 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
             } else current.pending.remove(feature)
         }
         current.pending.keys.filter { it !in pendingKeys }.forEach(current.pending::remove)
+        // A visible but incompatible pose cannot be the sole evidence of the observed
+        // path. Brief faults still keep their original dwell; lack of a compatible
+        // intermediate observation makes completion uncertain instead of inventing a rep.
+        if (endpointAcceptable && intermediate && !current.farObserved && !current.returning && !reversal) current.outboundPathObserved = true
+        if (endpointAcceptable && intermediate && current.farObserved && reversal) current.returnPathObserved = true
         val elapsed = now-current.lastMs
         current.elapsedMs += elapsed
         if (visible && current.previousVisible) current.visibleMs += elapsed
