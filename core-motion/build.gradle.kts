@@ -256,3 +256,21 @@ tasks.register<JavaExec>("uiprmdValidationReplay") {
     maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("uiprmdSideBindingReplay") {
+    group = "verification"
+    description = "Research-only causal interchangeable-side variant on development/already-opened validation; never final test."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.UiprmdSideBindingReplay")
+    val scope = providers.gradleProperty("uiprmdSideBindingScope").getOrElse("development")
+    val mode = providers.gradleProperty("uiprmdSideBindingMode").getOrElse("causal")
+    require(scope in setOf("development","validation"))
+    require(mode in setOf("fixed","causal"))
+    args(rootProject.file("test-artifacts/exercise-knowledge/uiprmd/$scope-vicon").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/uiprmd/side-binding-$scope-$mode-replay.json").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/uiprmd/development-vicon").absolutePath,
+        rootProject.file("models/uiprmd-side-binding-protocol.json").absolutePath,scope,mode)
+    maxHeapSize = "1200m"
+    outputs.upToDateWhen { false }
+}

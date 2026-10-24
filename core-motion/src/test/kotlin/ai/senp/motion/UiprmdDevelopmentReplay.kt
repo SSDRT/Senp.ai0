@@ -17,6 +17,15 @@ object UiprmdValidationReplay {
     )
 }
 
+/** Already-opened development/validation exports only; never a final-test entry point. */
+object UiprmdSideBindingReplay {
+    @JvmStatic fun main(args: Array<String>) = UiprmdSkeletalReplay.run(
+        File(args[0]),File(args[1]),File(args[2]),sideBindingProtocol = File(args[3]),
+        researchValidation = args[4].also { require(it in setOf("development","validation")) } == "validation",
+        sideBindingEnabled = args[5].also { require(it in setOf("fixed","causal")) } == "causal",
+    )
+}
+
 internal object UiprmdSkeletalReplay {
     private val json = Json { prettyPrint = true }
     private fun sha(file: File): String = MessageDigest.getInstance("SHA-256").digest(file.readBytes()).joinToString("") { "%02x".format(it) }
@@ -34,10 +43,28 @@ internal object UiprmdSkeletalReplay {
         require(keys.size == expectedKeys.size && keys.toSet() == expectedKeys)
     }
 
-    fun run(directory: File, output: File, referenceDirectory: File = directory, validationProtocol: File? = null) {
-        val validation = validationProtocol != null
+    fun run(directory: File, output: File, referenceDirectory: File = directory, validationProtocol: File? = null,
+        sideBindingProtocol: File? = null, researchValidation: Boolean = false, sideBindingEnabled: Boolean = true) {
+        require(!researchValidation || sideBindingProtocol != null)
+        require(validationProtocol == null || sideBindingProtocol == null)
+        val validation = validationProtocol != null || researchValidation
         val manifest = Json.parseToJsonElement(File(directory,"manifest.json").readText()).jsonObject
         verifySubjects(manifest,validation)
+        if (sideBindingProtocol != null) {
+            val protocol = Json.parseToJsonElement(sideBindingProtocol.readText()).jsonObject
+            require(protocol.getValue("schema").jsonPrimitive.content == "uiprmd-side-binding-protocol/1")
+            require(protocol.getValue("compiler").jsonPrimitive.content == QualifiedRepCompiler.VERSION)
+            require(protocol.getValue("policy").jsonPrimitive.content == ExperimentalRepSideBinding.VERSION)
+            require(!protocol.getValue("allow_final_test_access").jsonPrimitive.boolean)
+            val root = sideBindingProtocol.canonicalFile.parentFile.parentFile
+            protocol.getValue("source_sha256").jsonObject.forEach { (path,digest) ->
+                val file = File(root,path).canonicalFile
+                require(file.toPath().startsWith(root.toPath()) && sha(file) == digest.jsonPrimitive.content) { "Frozen research source changed: $path" }
+            }
+            val scope = if (validation) "validation" else "development"
+            require(sha(File(directory,"manifest.json")) == protocol.getValue("${scope}_manifest_sha256").jsonPrimitive.content)
+            require(sha(File(referenceDirectory,"manifest.json")) == protocol.getValue("development_manifest_sha256").jsonPrimitive.content)
+        }
         if (validationProtocol != null) {
             val protocol = Json.parseToJsonElement(validationProtocol.readText()).jsonObject
             require(protocol.getValue("compiler").jsonPrimitive.content == QualifiedRepCompiler.VERSION)
@@ -97,11 +124,33 @@ internal object UiprmdSkeletalReplay {
                 } else {
                     val ready = (compiled as QualifiedRepCompilation.Ready).reference
                     val engine = ready.newEngine();val attempts = mutableListOf<RepAttemptResult>()
+                    // This changes the declared research variant, not the frozen RIGHT-side benchmark.
+                    val sideBinding = if (sideBindingProtocol != null && sideBindingEnabled && movement == "m07") ExperimentalRepSideBinding(ready) else null
+                    val bindingEvents = mutableListOf<JsonObject>()
                     sequence(record,VideoRole.SOURCE).let { source ->
-                        for (frame in source.frames) attempts += engine.evaluate(frame,backend,pipeline,fingerprint.declaredView).finalizedAttempts
-                        attempts += engine.finish(source.duration.value).finalizedAttempts
+                        var previousBinding: Triple<ExperimentalRepSideBinding.State,RepObservedSide?,String?>? = null
+                        for (frame in source.frames) {
+                            if (sideBinding == null) attempts += engine.evaluate(frame,backend,pipeline,fingerprint.declaredView).finalizedAttempts
+                            else {
+                                val result = sideBinding.evaluate(frame,backend,pipeline,fingerprint.declaredView)
+                                val binding = Triple(result.state,result.side,result.reason)
+                                if (binding != previousBinding) bindingEvents += buildJsonObject {
+                                    put("timestamp_ms",frame.timestamp.value);put("state",result.state.name)
+                                    put("side",result.side?.name);put("locked_ms",result.lockedMs);put("reason",result.reason)
+                                    put("mapped_reference_key",result.output?.referenceKey)
+                                }
+                                previousBinding = binding
+                                attempts += result.output?.finalizedAttempts.orEmpty()
+                            }
+                        }
+                        attempts += if (sideBinding == null) engine.finish(source.duration.value).finalizedAttempts
+                            else sideBinding.finish(source.duration.value)?.finalizedAttempts.orEmpty()
                     }
                     put("status","REPLAYED");put("reference_key",ready.referenceKey)
+                    if (sideBinding != null) {
+                        put("research_variant","standing-unilateral-shoulder-abduction-interchangeable-side")
+                        put("binding_events",JsonArray(bindingEvents))
+                    }
                     put("reference_self_cycles",ready.calibration?.acceptedSelfCycles ?: 0)
                     put("attempts",JsonArray(attempts.map { a -> buildJsonObject {
                         put("attempt_id",a.attemptId);put("started_ms",a.startedMs);put("completed_ms",a.completedMs)
@@ -125,6 +174,16 @@ internal object UiprmdSkeletalReplay {
             }
             put("manifest_sha256",sha(File(directory,"manifest.json")));put("compiler",QualifiedRepCompiler.VERSION)
             put("raw_landmark_network_trained",false);put("config","production-defaults-reference-match")
+            if (sideBindingProtocol != null) {
+                put("schema","uiprmd-side-binding-replay/1")
+                put("kind","research-variant-selection-not-frozen-right-side-score-or-live-camera-accuracy")
+                put("side_binding_policy",ExperimentalRepSideBinding.VERSION)
+                put("candidate_protocol_sha256",sha(sideBindingProtocol))
+                put("final_test_trajectories_opened",false)
+                put("config",if (sideBindingEnabled) "production-defaults-with-opt-in-research-side-binding" else "production-defaults-fixed-side-control")
+                put("mapping_mode",if (sideBindingEnabled) "causal" else "fixed")
+                put("scope",if (validation) "validation" else "development")
+            }
             put("rows",JsonArray(rows))
         }
         output.parentFile.mkdirs();output.writeText(json.encodeToString(JsonObject.serializer(),report))
