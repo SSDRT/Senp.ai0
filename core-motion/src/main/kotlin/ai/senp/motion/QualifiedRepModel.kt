@@ -173,7 +173,7 @@ class QualifiedRepReference internal constructor(
 }
 
 object QualifiedRepCompiler {
-    const val VERSION = "qualified-rep-compiler/2"
+    const val VERSION = "qualified-rep-compiler/3"
     val supportedExerciseIds: Set<String> = repExerciseSpecs.keys
     fun compile(sequence: SpatialSequenceAnalysis, exerciseId: String, fingerprint: RepEvidenceFingerprint,
         config: QualifiedRepConfig = QualifiedRepConfig()): QualifiedRepCompilation =

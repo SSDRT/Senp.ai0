@@ -1,6 +1,7 @@
 """Reference identity guard comparison against the fixed preceding engine outputs."""
 import hashlib
 import json
+import argparse
 from extract_exercise_quality_features import DATA
 from summarize_autonomous_pose_experiments import reference_key, source_key, summarize
 from summarize_reference_fit_recovery import choose
@@ -22,11 +23,19 @@ def selected(prefix,cohort,inputs):
 
 
 def main():
-    output=DATA/'readiness-identity-summary';output.mkdir(exist_ok=True)
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--prefix',default='readiness-identity')
+    parser.add_argument('--baseline-prefix',default='multipass')
+    parser.add_argument('--compiler',default='qualified-rep-compiler/2')
+    parser.add_argument('--baseline-commit',default='4d899899628e08c0db77fddcdad022cb7f081edf')
+    args=parser.parse_args()
+    if not all(p and all(c.isalnum() or c=='-' for c in p) for p in [args.prefix,args.baseline_prefix]):
+        raise ValueError('Invalid managed report prefix')
+    output=DATA/(args.prefix+'-summary');output.mkdir(exist_ok=True)
     results={};inputs={}
     for cohort in ['capped','complete']:
-        before,old_choices=selected('multipass',cohort,inputs)
-        after,choices=selected('readiness-identity',cohort,inputs)
+        before,old_choices=selected(args.baseline_prefix,cohort,inputs)
+        after,choices=selected(args.prefix,cohort,inputs)
         old={source_key(r):r for r in before};new={source_key(r):r for r in after}
         assert len(old)==len(new)==96 and old.keys()==new.keys()
         differences=[];changed_keys=0
@@ -41,13 +50,13 @@ def main():
         refs={reference_key(r):r for r in after}
         registry=[dict(zip(['reference_video_sha256','exercise','side','view'],key),selected_model=model,selected_fit=fit,
             reference_key=refs[key].get('reference_key'),selection_policy='qualified-reference-selection/2',
-            reference_schema='qualified-reference-reps/5',compiler_policy='qualified-rep-compiler/2',release_qualified=False)
+            reference_schema='qualified-reference-reps/5',compiler_policy=args.compiler,release_qualified=False)
             for key,(model,fit) in sorted(choices.items())]
         (output/f'{cohort}-reference-backend-selection.json').write_text(json.dumps(registry,indent=2)+'\n')
         results[cohort]={'before':summarize(before),'after':summarize(after),'outcome_differences':differences,
             'reference_choices_unchanged':True,'ready_run_keys_invalidated':changed_keys}
-    report={'kind':'reference-identity-provenance-guard-not-human-accuracy','baseline_commit':'4d899899628e08c0db77fddcdad022cb7f081edf',
-        'compiler_policy':'qualified-rep-compiler/2','reference_schema':'qualified-reference-reps/5','live_rep_precision':None,
+    report={'kind':'reference-compiler-regression-comparison-not-human-accuracy','baseline_commit':args.baseline_commit,
+        'compiler_policy':args.compiler,'reference_schema':'qualified-reference-reps/5','live_rep_precision':None,
         'release_qualified':False,'cohorts':results,'inputs':inputs}
     (output/'summary.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(results,indent=2))

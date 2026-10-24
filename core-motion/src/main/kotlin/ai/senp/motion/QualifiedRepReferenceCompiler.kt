@@ -156,7 +156,8 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
                 val engine = r.newEngine()
                 val events = mutableListOf<RepAttemptResult>()
                 for (frame in frames.filter { it.timestamp.value >= selected.first().timestamp.value-400 && it.timestamp.value <= selected.last().timestamp.value+200 }) {
-                    events += engine.evaluate(frame,fingerprint.poseModelSha256,captureContext = fingerprint.declaredView).finalizedAttempts
+                    events += engine.evaluate(frame,fingerprint.poseModelSha256,
+                        preprocessingId = fingerprint.preprocessingId,captureContext = fingerprint.declaredView).finalizedAttempts
                 }
                 val matched = mutableSetOf<Long>()
                 return cycles.count { cycle ->

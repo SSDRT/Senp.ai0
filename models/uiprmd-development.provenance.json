@@ -1,0 +1,303 @@
+{
+  "schema": "uiprmd-development-checkpoint/1",
+  "date": "2026-10-24",
+  "kind": "development-only-independent-skeletal-label-diagnostic",
+  "baseline_engine_commit": "5d876a74e4ef68e74b7747b64eeaa18353617caf",
+  "compiler_policy": "qualified-rep-compiler/3",
+  "runtime_rep_schema": "qualified-reference-reps/5",
+  "measurement_pipeline": "uiprmd-vicon39-marker-angle/1",
+  "measurement_backend_sha256": "d590c7982479be4ae165cff7de48043dd3f47c44c88213b01f306cce77582cc9",
+  "measurement_domain": "skeletal",
+  "geometry_check": "declared marker proxies only; not anatomical joint centres or MP33 calibration",
+  "classifier_trained": false,
+  "raw_landmark_weights_retrained": false,
+  "reference_upload_remains_target": true,
+  "reference_curves_calibrated_from_correct_development_recordings": true,
+  "confidence_or_rep_thresholds_changed": false,
+  "live_camera_rep_accuracy_measured": false,
+  "readiness_points_earned": 0,
+  "development_subjects": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
+  "validation_trajectories_opened": false,
+  "final_test_trajectories_opened": false,
+  "existing_correct_reps": 80,
+  "existing_incorrect_reps": 80,
+  "recordings": 16,
+  "aligned_repetitions": 160,
+  "maximum_alignment_export_difference_mm": 5.000000000005e-07,
+  "new_manual_labels": 0,
+  "metrics": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "false_negative": 49,
+      "verdict_UNASSESSABLE": 70,
+      "true_positive": 31,
+      "assessable_reps": 81,
+      "verdict_ACCEPTABLE": 55,
+      "verdict_NO_EVENT": 9,
+      "incorrect_reps": 80,
+      "verdict_REJECTED": 23,
+      "false_positive": 27,
+      "verdict_CORRECT": 3
+    },
+    "precision": 0.5344827586206896,
+    "good_rep_recall": 0.3875,
+    "assessable_coverage": 0.50625,
+    "per_movement": {
+      "m01": {
+        "counts": {
+          "correct_reps": 40,
+          "total_reps": 80,
+          "false_negative": 14,
+          "verdict_UNASSESSABLE": 26,
+          "true_positive": 26,
+          "assessable_reps": 52,
+          "verdict_ACCEPTABLE": 33,
+          "verdict_NO_EVENT": 2,
+          "incorrect_reps": 40,
+          "verdict_REJECTED": 17,
+          "false_positive": 9,
+          "verdict_CORRECT": 2
+        },
+        "precision": 0.7428571428571429,
+        "good_rep_recall": 0.65,
+        "assessable_coverage": 0.65
+      },
+      "m07": {
+        "counts": {
+          "correct_reps": 40,
+          "total_reps": 80,
+          "false_negative": 35,
+          "verdict_NO_EVENT": 7,
+          "verdict_UNASSESSABLE": 44,
+          "true_positive": 5,
+          "assessable_reps": 29,
+          "verdict_ACCEPTABLE": 22,
+          "incorrect_reps": 40,
+          "verdict_REJECTED": 6,
+          "false_positive": 18,
+          "verdict_CORRECT": 1
+        },
+        "precision": 0.21739130434782608,
+        "good_rep_recall": 0.125,
+        "assessable_coverage": 0.3625
+      }
+    }
+  },
+  "tests": {
+    "scoped_jvm": 241,
+    "native_suite": 22,
+    "native_export_distinct_cases_with_final_pass": 9,
+    "initial_export_camera_timing_failures": 1,
+    "isolated_camera_retry_passes": 1,
+    "generated_controls": 2688,
+    "controlled_corruptions": 124,
+    "python_research": 32,
+    "python_posix_qa_in_wsl_ubuntu_24_04": 36
+  },
+  "runtime": {
+    "host": "Windows",
+    "android_api": 36,
+    "abi": "x86_64",
+    "page_size_bytes": 4096,
+    "emulator": true,
+    "physical_handset": false,
+    "sustained_performance_measured": false,
+    "camera_export_timing_instability_unresolved": true
+  },
+  "source_receipts": [
+    {
+      "path": "scripts/uiprmd_vicon.py",
+      "sha256": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1"
+    },
+    {
+      "path": "scripts/prepare_uiprmd_development.py",
+      "sha256": "df391e65eca67b95f5ace4632a02dfca926f942c355c692f13e68594846c400f"
+    },
+    {
+      "path": "scripts/evaluate_uiprmd_development.py",
+      "sha256": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/UiprmdDevelopmentReplay.kt",
+      "sha256": "97547bf4d20720af5571a6f1868567a3b15d5699f2443e24250f6b22254a715f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "5ea0f15c99c21dff4f7023a7d6358a6e5be4ad56e82c9257fb4fcc49ec57f7d7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "8bb64c8c35255c989d5ccb9ccfda15e0bff3b16f4f7ecf111130f98a931eec40"
+    },
+    {
+      "path": "models/uiprmd-evaluation-protocol.json",
+      "sha256": "cec24dad3d99e353817e6039c4ba2798aee8238837d9d29e72d567db1e0bbd81"
+    },
+    {
+      "path": "models/uiprmd-acquisition.provenance.json",
+      "sha256": "e0be120964e9d9ba0591cf2fdd8d9ac53a8924baaadd653eb65913596459a370"
+    }
+  ],
+  "evidence_receipts": [
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-replay.json",
+      "sha256": "ae80b6e523d536c3c683f47f4c0e0df65932b26d53e531c2ffc0f04e21f9bea1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-metrics.json",
+      "sha256": "8052daf134420741d3fb19ad2599c64d10195247b8e5923c76adac9ba14b529e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-pipeline-summary/summary.json",
+      "sha256": "03129fbe6c501fc4b398e94ef21c2beb8f098dbc0e8d8dae74bc4b03e1c44c85"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-pipeline-counterfactuals.json",
+      "sha256": "a12de5a977a30d73c25a067d9dfe89da08c5169af1dd4192a58f779433c11188"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-pipeline-evidence-controls.json",
+      "sha256": "20d186267e3d524bcae733519d3bf717debb0170e5af4b6a9e89bdb85760e1ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-pipeline-native/measurement-pipeline-guard.json",
+      "sha256": "5a0384554fb70ec580d70ee0c281785eec4693dede9717bc1eb84454edbd127c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-pipeline-native/heavy-camera-binding.json",
+      "sha256": "e31d687567033f212014bc64cbe76cb1c40c99c038019eb87935f5864f39a568"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/geometry-qa-s01-correct.png",
+      "sha256": "11b72ece14303d533d035db86b6c409d9c7785f2b7babeeddf92073bfb8a11a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/geometry-qa-s02-incorrect.png",
+      "sha256": "3a51bc7006ac1ce8e3524201c516ced87be0434f75e8906e894e510ab6252c15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/geometry-qa-s04-correct.png",
+      "sha256": "78c8653ceae9dc529760353023f5179996c0080b2e55b13016adf748b24157e0"
+    }
+  ],
+  "log_receipts": [
+    {
+      "file": "uiprmd-development-metrics.log",
+      "sha256": "6821deddbf0d04c079a0534e1f4f5b527a01276b7add326f16c7dfc34e257092"
+    },
+    {
+      "file": "uiprmd-development-replay.log",
+      "sha256": "dcf2b071e7cf79737e01e5214296118330a984b29d02fb6e7f175a68bc582c3d"
+    },
+    {
+      "file": "uiprmd-pipeline-after.log",
+      "sha256": "f8baced3296039aea0e54973c0c8edc787229af4b05b6d89ccdca48deefea40f"
+    },
+    {
+      "file": "uiprmd-pipeline-apksigner.log",
+      "sha256": "b9c6879e48d25a9786d2beb8a15738c06edce7d06f2722dd860894618592bd09"
+    },
+    {
+      "file": "uiprmd-pipeline-before.log",
+      "sha256": "4e86cf61e92cc2b13c562ec44aa8799c59fe8ffd0962ae76349b5004d5202d1b"
+    },
+    {
+      "file": "uiprmd-pipeline-camera-retry.log",
+      "sha256": "da15074167e6afcf3350f7c35fa144336dec438a0e88b885239857a6a5212df0"
+    },
+    {
+      "file": "uiprmd-pipeline-capped-full-robust.log",
+      "sha256": "653002b759b1f56f980f4c7fd5a195a5c2070ab42b282d1b579670c52dbb188c"
+    },
+    {
+      "file": "uiprmd-pipeline-capped-full-standard.log",
+      "sha256": "b129b7808a5217f919015b74a37cc3b9156408cfc53ffc1de384eab51e02b0de"
+    },
+    {
+      "file": "uiprmd-pipeline-capped-heavy-robust.log",
+      "sha256": "064957ce0b70818176a02ae740eb69f976641c6d6e9144f24f9a789ef70adb7f"
+    },
+    {
+      "file": "uiprmd-pipeline-capped-heavy-standard.log",
+      "sha256": "f76e245cac1f95d60255dda3c605c9bbd94bb7bffcc56fb067535e036c9f473f"
+    },
+    {
+      "file": "uiprmd-pipeline-comparison.log",
+      "sha256": "9c5c038942603689339ec3585080721f6f6c355c9f4896fb39f8a54bbf511ee6"
+    },
+    {
+      "file": "uiprmd-pipeline-complete-full-robust.log",
+      "sha256": "b3465c06628f158fc7490de22d8e76f0815f5587a51d0124cbc37cd9796ecfd6"
+    },
+    {
+      "file": "uiprmd-pipeline-complete-full-standard.log",
+      "sha256": "5c7e276593c31cea27f73fb816f7ad26b621e22f6acd8c0743c766e93f20beae"
+    },
+    {
+      "file": "uiprmd-pipeline-complete-heavy-robust.log",
+      "sha256": "2679960670e03ee08a68b1c7ef4a1aaa4e1f7ad8a79a20f9a3efe4e0b36cc961"
+    },
+    {
+      "file": "uiprmd-pipeline-complete-heavy-standard.log",
+      "sha256": "49435f25b74dbbcf1be1812a4eebf22a610ae910ad5f7c849572514098b90eef"
+    },
+    {
+      "file": "uiprmd-pipeline-default-registry.log",
+      "sha256": "753c9f83a4775553cf3711ed291393fe00da0046b4222e2813abd67d3fa6e73c"
+    },
+    {
+      "file": "uiprmd-pipeline-emulator-error.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "uiprmd-pipeline-emulator.log",
+      "sha256": "57d284f59894fda7a14de0320c149974f2c014880a9fde58a5a69ad7af7c2f6d"
+    },
+    {
+      "file": "uiprmd-pipeline-final-core.log",
+      "sha256": "9b7f6ef2275431512f48440b5b6fa6750b0f1aa9f148d6549768ba6864ffd744"
+    },
+    {
+      "file": "uiprmd-pipeline-native-export-initial.log",
+      "sha256": "29c6ba109a76e12b174114a7db072150907c09c8d6379716a5a7fb1351e570d1"
+    },
+    {
+      "file": "uiprmd-pipeline-native-export.log",
+      "sha256": "29c6ba109a76e12b174114a7db072150907c09c8d6379716a5a7fb1351e570d1"
+    },
+    {
+      "file": "uiprmd-pipeline-python-tests.log",
+      "sha256": "41f92bf08e76e9c87c9bca4fbb6d2fa47c0f61f39c43adcf5b4dc1e6f8ca93c9"
+    },
+    {
+      "file": "uiprmd-pipeline-qa.log",
+      "sha256": "4181986a02ba676b96d781ad2596c0cff28298380899c87c7ee42fad648b56df"
+    },
+    {
+      "file": "uiprmd-pipeline-verification.log",
+      "sha256": "1f35a4a89d754dc6e0036e585b577b6fc9a4447ad8c066d7ebe1d33f011808a4"
+    },
+    {
+      "file": "uiprmd-pipeline-zipalign.log",
+      "sha256": "8396b4c2ad15673e8dc77c0dc41d02ac672703b92b817566a8cb71e39f05ba9b"
+    }
+  ],
+  "limitations": [
+    "Development results cannot qualify the frozen independent-label gate.",
+    "Binary marker availability is not MediaPipe confidence or camera evidence.",
+    "Clinical shoulder abduction and bodybuilding lateral raise are not identical targets.",
+    "The current two-angle policies miss faults and withhold substantial correct cross-person variation.",
+    "No tolerance was widened to raise acceptance; all labelled negatives remain.",
+    "The failed export trace is retained; no sustained performance result is claimed."
+  ]
+}

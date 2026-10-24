@@ -79,28 +79,47 @@ class QualifiedRepEvidenceInstrumentedTest {
         save("return-branch-controls.json",accepted,8)
     }
 
-    @Test fun calibrationCannotPoolCyclesFromDifferentTrackedPeople() {
-        fun compile(mixed: Boolean): QualifiedRepCompilation {
+    private fun calibrationSequence(mixed: Boolean): SpatialSequenceAnalysis {
             val observations = (0 until 4).flatMap { rep -> (0..60).map { index ->
                 val t = index*33L
                 val p = when { t < 300 -> 0.0;t < 900 -> (t-300)/600.0;t < 1100 -> 1.0;
                     t < 1700 -> (1700-t)/600.0;else -> 0.0 }
                 frame(rep*2100L+t,p,15.0).copy(selectedSubjectId = if (mixed) "person-$rep" else "same-person",spatialSegmentId = rep)
             } }
-            val sequence = SpatialSequenceAnalysis(ai.senp.core.contracts.VideoRole.REFERENCE,
+            return SpatialSequenceAnalysis(ai.senp.core.contracts.VideoRole.REFERENCE,
                 ai.senp.core.contracts.DurationMs(observations.last().timestamp.value+1),
                 ai.senp.core.contracts.ObservationSampling(analysisFramesPerSecond = 30.0),observations,1.0)
-            return QualifiedRepCompiler.compile(sequence,"biceps_curl",identity)
-        }
-        val rejected = compile(true)
+    }
+    @Test fun calibrationCannotPoolCyclesFromDifferentTrackedPeople() {
+        val rejected = QualifiedRepCompiler.compile(calibrationSequence(true),"biceps_curl",identity)
         assertTrue(rejected is QualifiedRepCompilation.Unavailable)
         assertEquals(RepReferenceFailure.AMBIGUOUS_REFERENCE_SUBJECT,(rejected as QualifiedRepCompilation.Unavailable).reason)
-        val valid = compile(false)
+        val valid = QualifiedRepCompiler.compile(calibrationSequence(false),"biceps_curl",identity)
         assertTrue(valid is QualifiedRepCompilation.Ready)
         assertEquals(4,(valid as QualifiedRepCompilation.Ready).reference.calibration?.acceptedSelfCycles)
         val directory = File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null),"qualified-rep-evidence").apply { mkdirs() }
         File(directory,"reference-subject-guard.json").writeText(JSONObject().put("kind","constructed-reference-identity-control")
             .put("compiler_policy",QualifiedRepCompiler.VERSION).put("mixed_subject_reference_blocked",true)
             .put("single_subject_self_accepted",4).toString(2))
+    }
+
+    @Test fun customMeasurementPipelineSelfCheckPreservesRuntimeMismatchRejection() {
+        val fingerprint = identity.copy(preprocessingId = "observed-native-test-geometry/1")
+        val sequence = calibrationSequence(false)
+        val result = QualifiedRepCompiler.compile(sequence,"biceps_curl",fingerprint)
+        assertTrue(result is QualifiedRepCompilation.Ready)
+        val reference = (result as QualifiedRepCompilation.Ready).reference
+        assertEquals(4,reference.calibration?.acceptedSelfCycles)
+        val engine = reference.newEngine()
+        sequence.frames.forEach { engine.evaluate(it,fingerprint.poseModelSha256,fingerprint.preprocessingId) }
+        assertEquals(4,engine.finish(sequence.duration.value).counts.qualified)
+        for (wrong in listOf(RepEvidenceFingerprint.RAW_WORLD_PIPELINE,"other/1")) {
+            assertEquals(RepReason.PREPROCESSING_MISMATCH,reference.newEngine().evaluate(sequence.frames.first(),
+                fingerprint.poseModelSha256,wrong).unavailableReason)
+        }
+        val directory = File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null),"qualified-rep-evidence").apply { mkdirs() }
+        File(directory,"measurement-pipeline-guard.json").writeText(JSONObject().put("schema","qualified-measurement-pipeline-native/1")
+            .put("compiler_policy",QualifiedRepCompiler.VERSION).put("custom_pipeline_self_accepted",4)
+            .put("raw_and_other_pipeline_rejected",true).toString(2))
     }
 }

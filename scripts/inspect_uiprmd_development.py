@@ -62,7 +62,7 @@ def main():
         'development_trajectories_opened':len(rows)+len(failures),'valid_shape_measurement_files':len(rows),'rows':rows,'failures':failures,
         'subjects_opened':sorted({r['subject'] for r in rows}),'validation_trajectories_opened':False,
         'final_test_subject_trajectories_opened':False,'geometry_adapter_validated':False,'readiness_points_earned':0,
-        'warning':'Positions are parent-relative (except roots). Shapes and finite values do not validate global skeleton reconstruction.'}
+        'warning':'Kinect positions are parent-relative except the root. Vicon Positions are labelled marker trajectories, a different schema from Vicon Angles. Shapes and finite values alone validate neither geometry adapter.'}
     (DATA/'development-inspection.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps({k:report[k] for k in ['development_trajectories_opened','subjects_opened','failures','final_test_subject_trajectories_opened','geometry_adapter_validated']},indent=2))
 

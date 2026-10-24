@@ -211,7 +211,9 @@ tasks.register<JavaExec>("qualifiedRepCounterfactualBenchmark") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.QualifiedRepCounterfactualBenchmark")
     args(rootProject.file("test-artifacts/exercise-knowledge").absolutePath,
-        rootProject.file(providers.gradleProperty("qualifiedCounterfactualOutput").getOrElse("test-artifacts/exercise-knowledge/multipass-counterfactuals.json")).absolutePath)
+        rootProject.file(providers.gradleProperty("qualifiedCounterfactualOutput").getOrElse("test-artifacts/exercise-knowledge/uiprmd-pipeline-counterfactuals.json")).absolutePath)
+    args(providers.gradleProperty("qualifiedCounterfactualRegistry").getOrElse("uiprmd-pipeline-summary"),
+        providers.gradleProperty("qualifiedCounterfactualReplayPrefix").getOrElse("uiprmd-pipeline"))
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
@@ -225,5 +227,17 @@ tasks.register<JavaExec>("qualifiedRepReferenceContextAudit") {
     args(rootProject.file("test-artifacts/exercise-knowledge").absolutePath,
         rootProject.file("test-artifacts/exercise-knowledge/readiness-reference-context-audit.json").absolutePath)
     maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("uiprmdDevelopmentReplay") {
+    group = "verification"
+    description = "Replay development-only independent Vicon marker descriptors through the production rep engine."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.UiprmdDevelopmentReplay")
+    args(rootProject.file("test-artifacts/exercise-knowledge/uiprmd/development-vicon").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/uiprmd/development-replay.json").absolutePath)
+    maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }
