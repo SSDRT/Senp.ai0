@@ -108,7 +108,7 @@ data class QualifiedRepOutput(
     val policyMode: RepPolicyMode = RepPolicyMode.REFERENCE_MATCH,
 )
 
-enum class RepReferenceFailure { MISSING_PROVENANCE, UNKNOWN_EXERCISE, UNSUPPORTED_EXERCISE, STATIC_OR_NONCYCLIC, WEAK_REFERENCE, MISSING_FEATURE, INSUFFICIENT_EXCURSION, INSUFFICIENT_REFERENCE_CYCLES, LOW_SELF_RECONSTRUCTION, UNRESOLVED_GUIDANCE }
+enum class RepReferenceFailure { MISSING_PROVENANCE, UNKNOWN_EXERCISE, UNSUPPORTED_EXERCISE, STATIC_OR_NONCYCLIC, WEAK_REFERENCE, MISSING_FEATURE, INSUFFICIENT_EXCURSION, INSUFFICIENT_REFERENCE_CYCLES, LOW_SELF_RECONSTRUCTION, UNRESOLVED_GUIDANCE, AMBIGUOUS_REFERENCE_SUBJECT }
 sealed interface QualifiedRepCompilation {
     data class Ready(val reference: QualifiedRepReference) : QualifiedRepCompilation
     data class Unavailable(val reason: RepReferenceFailure, val detail: String) : QualifiedRepCompilation
@@ -152,7 +152,7 @@ class QualifiedRepReference internal constructor(
     val schema: String get() = "qualified-reference-reps/5"
     val referenceKey: String = run {
         val canonical = buildString {
-            append(schema).append('|').append(fingerprint).append('|').append(config).append('|').append(profile.version)
+            append(QualifiedRepCompiler.VERSION).append('|').append(schema).append('|').append(fingerprint).append('|').append(config).append('|').append(profile.version)
             append('|').append(driverEnvelope)
             append('|').append(profile.cyclic).append('|').append(profile.referenceRepetitions).append('|').append(profile.confidence).append('|').append(profile.validation)
             append('|').append(profile.referenceEvidenceKinds.sortedBy { it.name }).append('|').append(spec)
@@ -173,6 +173,7 @@ class QualifiedRepReference internal constructor(
 }
 
 object QualifiedRepCompiler {
+    const val VERSION = "qualified-rep-compiler/2"
     val supportedExerciseIds: Set<String> = repExerciseSpecs.keys
     fun compile(sequence: SpatialSequenceAnalysis, exerciseId: String, fingerprint: RepEvidenceFingerprint,
         config: QualifiedRepConfig = QualifiedRepConfig()): QualifiedRepCompilation =

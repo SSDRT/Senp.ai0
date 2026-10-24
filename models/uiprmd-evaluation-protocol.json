@@ -1,0 +1,33 @@
+{
+  "schema":"uiprmd-evaluation-protocol/1",
+  "frozen_date":"2026-10-24",
+  "dataset_doi":"10.5281/zenodo.23104965",
+  "paper_doi":"10.3390/data3010002",
+  "licence":"Open Data Commons PDDL 1.0",
+  "domain":"independent-existing-skeletal-labels-not-MediaPipe-camera-truth",
+  "subjects":{
+    "development":["01","02","03","04"],
+    "validation":["05","06","07"],
+    "test":["08","09","10"]
+  },
+  "variants":{
+    "m01":{"policy":"bodyweight_squat","variant":"deep squat","selected_side":"LEFT"},
+    "m07":{"policy":"lateral_raise","variant":"standing right shoulder abduction","selected_side":"RIGHT"}
+  },
+  "rules":[
+    "Do not inspect or fit final-test subject trajectories before committing a frozen candidate and evaluation protocol; log any final-test access.",
+    "Do not drop incorrect repetitions because the engine does not measure the fault responsible for their label. Report that scope limitation and the resulting errors.",
+    "Retain original publisher labels; data acquisition and sensor agreement are not generated correctness annotations.",
+    "Kinect has 22 joints, with root positions absolute and other positions relative to parent frames. Do not interpret raw local positions as global landmarks.",
+    "The publisher visualization warns of lower-body reconstruction errors. Validate geometry independently before using reconstructed lower-body angles.",
+    "Verify recorded sampling rate from primary documentation. Playback speed in the visualization is not an acquisition timestamp.",
+    "Do not populate nonexistent MP33 joints, MediaPipe visibility or presence from the skeletal data. Use an explicitly separate provenance/measurement adapter.",
+    "Use full source recordings with verified aligned segmentation for continuous count evaluation. Do not join cut repetitions and invent missing start/end dwell or continuity.",
+    "A per-repetition correct/incorrect dataset label does not locate an individual joint fault or its onset time.",
+    "Only independent evaluation meeting the frozen readiness rubric can earn points. Dataset download alone earns zero points."
+  ],
+  "geometry_adapter_validated":false,
+  "final_test_subject_trajectories_opened":false,
+  "trained_model":false,
+  "readiness_points_earned":0
+}

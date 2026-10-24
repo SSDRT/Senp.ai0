@@ -1,0 +1,83 @@
+{
+  "schema": "uiprmd-publisher-acquisition/1",
+  "dataset_doi": "10.5281/zenodo.23104965",
+  "paper_doi": "10.3390/data3010002",
+  "licence": "Open Data Commons PDDL 1.0",
+  "kind": "existing-independent-skeletal-labels-not-mediapipe-camera-truth",
+  "files": [
+    {
+      "file": "Incorrect Movements.zip",
+      "bytes": 277872825,
+      "publisher_md5": "d3cdc4f9e56e817a3e5651959441786c",
+      "sha256": "039ffd9bf3d037e7b0971e28cf7c0410f6fed2f90e7d31f7122b2c7a9b036d95",
+      "url": "https://zenodo.org/api/records/23104965/files/Incorrect%20Movements.zip/content"
+    },
+    {
+      "file": "Incorrect Segmented Movements.zip",
+      "bytes": 213516724,
+      "publisher_md5": "edce6554a6a295729a23f8209f50dea4",
+      "sha256": "d886f76e5096e934f7200a9307a2ad29327ab396a3728439f8e9bcd4717ac154",
+      "url": "https://zenodo.org/api/records/23104965/files/Incorrect%20Segmented%20Movements.zip/content"
+    },
+    {
+      "file": "Movements.zip",
+      "bytes": 271174975,
+      "publisher_md5": "1b5e3b8ce1506200c630f42f6ca7f4a2",
+      "sha256": "b0d42b786f5e9bb7f7ab21a7e7fdf3aa06d192e25eaaaa4cdcf40932b90c19ed",
+      "url": "https://zenodo.org/api/records/23104965/files/Movements.zip/content"
+    },
+    {
+      "file": "README.md",
+      "bytes": 8014,
+      "publisher_md5": "e0e598d5f0a9e1276705ca63e944c349",
+      "sha256": "d411dddc51dec53071934d2b164e5fcebff8b54eacd6c0eb55ef31441ee27868",
+      "url": "https://zenodo.org/api/records/23104965/files/README.md/content"
+    },
+    {
+      "file": "Segmented Movements.zip",
+      "bytes": 206962745,
+      "publisher_md5": "7626dfdd0ceb3a7cebf9e1e0d0cb173f",
+      "sha256": "37478419e5bd6cdb814a94d1ec0fa0b2dfa6497cae03d25e1c2fbc51c676d721",
+      "url": "https://zenodo.org/api/records/23104965/files/Segmented%20Movements.zip/content"
+    }
+  ],
+  "subject_split": {
+    "development": [
+      "01",
+      "02",
+      "03",
+      "04"
+    ],
+    "validation": [
+      "05",
+      "06",
+      "07"
+    ],
+    "test": [
+      "08",
+      "09",
+      "10"
+    ]
+  },
+  "test_subjects_opened": false,
+  "trained_model": false,
+  "readiness_points_earned": 0,
+  "development_inspection": {
+    "measurement_files_opened": 704,
+    "subjects": [
+      "01",
+      "02",
+      "03",
+      "04"
+    ],
+    "shape_failures": 0,
+    "validation_trajectories_opened": false,
+    "final_test_subject_trajectories_opened": false,
+    "geometry_adapter_validated": false
+  },
+  "source_documentation": {
+    "publisher": "https://www.idahofallshighered.org/vakanski/ui-prmd.html",
+    "archived_readme": "https://zenodo.org/records/23104965/files/README.md",
+    "geometry_warning": "Publisher visualization uses local joint coordinates and warns about some lower-body reconstructions."
+  }
+}

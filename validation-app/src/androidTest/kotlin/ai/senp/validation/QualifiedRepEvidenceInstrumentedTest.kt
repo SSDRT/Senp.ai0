@@ -78,4 +78,29 @@ class QualifiedRepEvidenceInstrumentedTest {
         }
         save("return-branch-controls.json",accepted,8)
     }
+
+    @Test fun calibrationCannotPoolCyclesFromDifferentTrackedPeople() {
+        fun compile(mixed: Boolean): QualifiedRepCompilation {
+            val observations = (0 until 4).flatMap { rep -> (0..60).map { index ->
+                val t = index*33L
+                val p = when { t < 300 -> 0.0;t < 900 -> (t-300)/600.0;t < 1100 -> 1.0;
+                    t < 1700 -> (1700-t)/600.0;else -> 0.0 }
+                frame(rep*2100L+t,p,15.0).copy(selectedSubjectId = if (mixed) "person-$rep" else "same-person",spatialSegmentId = rep)
+            } }
+            val sequence = SpatialSequenceAnalysis(ai.senp.core.contracts.VideoRole.REFERENCE,
+                ai.senp.core.contracts.DurationMs(observations.last().timestamp.value+1),
+                ai.senp.core.contracts.ObservationSampling(analysisFramesPerSecond = 30.0),observations,1.0)
+            return QualifiedRepCompiler.compile(sequence,"biceps_curl",identity)
+        }
+        val rejected = compile(true)
+        assertTrue(rejected is QualifiedRepCompilation.Unavailable)
+        assertEquals(RepReferenceFailure.AMBIGUOUS_REFERENCE_SUBJECT,(rejected as QualifiedRepCompilation.Unavailable).reason)
+        val valid = compile(false)
+        assertTrue(valid is QualifiedRepCompilation.Ready)
+        assertEquals(4,(valid as QualifiedRepCompilation.Ready).reference.calibration?.acceptedSelfCycles)
+        val directory = File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null),"qualified-rep-evidence").apply { mkdirs() }
+        File(directory,"reference-subject-guard.json").writeText(JSONObject().put("kind","constructed-reference-identity-control")
+            .put("compiler_policy",QualifiedRepCompiler.VERSION).put("mixed_subject_reference_blocked",true)
+            .put("single_subject_self_accepted",4).toString(2))
+    }
 }

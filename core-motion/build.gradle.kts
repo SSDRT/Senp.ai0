@@ -211,7 +211,19 @@ tasks.register<JavaExec>("qualifiedRepCounterfactualBenchmark") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.QualifiedRepCounterfactualBenchmark")
     args(rootProject.file("test-artifacts/exercise-knowledge").absolutePath,
-        rootProject.file("test-artifacts/exercise-knowledge/multipass-counterfactuals.json").absolutePath)
+        rootProject.file(providers.gradleProperty("qualifiedCounterfactualOutput").getOrElse("test-artifacts/exercise-knowledge/multipass-counterfactuals.json")).absolutePath)
+    maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("qualifiedRepReferenceContextAudit") {
+    group = "verification"
+    description = "Inspect subject/segment contexts in frozen references and a controlled cross-person pooling case."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.QualifiedRepReferenceContextAudit")
+    args(rootProject.file("test-artifacts/exercise-knowledge").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/readiness-reference-context-audit.json").absolutePath)
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }

@@ -19,7 +19,9 @@ object QualifiedRepCounterfactualBenchmark {
             Video(payload,spatial.analyzeSequence(CanonicalObservationSequence(role,DurationMs(observations.last().timestamp.value+1),
                 ObservationSampling(analysisFramesPerSecond = 15.0),observations)))
         }
-        val registry = Json.parseToJsonElement(File(root,"multipass-summary/complete-reference-backend-selection.json").readText()).jsonArray
+        val registryDirectory = args.getOrNull(2) ?: "readiness-identity-summary"
+        val replayPrefix = args.getOrNull(3) ?: "readiness-identity"
+        val registry = Json.parseToJsonElement(File(root,"$registryDirectory/complete-reference-backend-selection.json").readText()).jsonArray
         val rows = mutableListOf<JsonObject>()
         var originalAccepted = 0
         for (entry in registry) {
@@ -37,7 +39,7 @@ object QualifiedRepCounterfactualBenchmark {
             val config = QualifiedRepConfig(side = RepObservedSide.valueOf(choice.getValue("side").jsonPrimitive.content),
                 referenceCurveFit = RepReferenceCurveFit.valueOf(choice.getValue("selected_fit").jsonPrimitive.content))
             val reference = (QualifiedRepCompiler.compile(refVideo.sequence,choice.getValue("exercise").jsonPrimitive.content,identity,config) as QualifiedRepCompilation.Ready).reference
-            val reportDirectory = "multipass-complete-$model-${if (config.referenceCurveFit == RepReferenceCurveFit.ORDINARY_LEAST_SQUARES) "standard" else "robust"}"
+            val reportDirectory = "$replayPrefix-complete-$model-${if (config.referenceCurveFit == RepReferenceCurveFit.ORDINARY_LEAST_SQUARES) "standard" else "robust"}"
             val reports = Json.parseToJsonElement(File(root,"$reportDirectory/summary.json").readText()).jsonObject.getValue("rows").jsonArray
                 .map { it.jsonObject }.filter { it["reference_key"]?.jsonPrimitive?.content == reference.referenceKey }
             for (report in reports) {

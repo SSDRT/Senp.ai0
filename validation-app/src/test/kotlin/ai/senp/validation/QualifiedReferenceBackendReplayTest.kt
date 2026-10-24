@@ -42,7 +42,8 @@ class QualifiedReferenceBackendReplayTest {
             data.getValue("source_video_sha256").jsonPrimitive.content to file
         }
         val cohort = if (complete) "complete" else "capped"
-        val registry = Json.parseToJsonElement(File(root,"multipass-summary/$cohort-reference-backend-selection.json").readText()).jsonArray
+        val registryDirectory = System.getProperty("qualifiedReferenceReplayRegistry") ?: "readiness-identity-summary"
+        val registry = Json.parseToJsonElement(File(root,"$registryDirectory/$cohort-reference-backend-selection.json").readText()).jsonArray
         assertEquals(32,registry.size)
         var extractions = 0
         val engine = ReferenceActionSessionEngine(object : VideoPoseExtractor {

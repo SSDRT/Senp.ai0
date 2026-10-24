@@ -70,6 +70,9 @@ tasks.withType<Test>().configureEach {
         systemProperty("qualifiedReferenceReplayRoot",rootProject.file(it).absolutePath)
         maxHeapSize = "1500m"
     }
+      providers.gradleProperty("qualifiedReferenceReplayRegistry").orNull?.let {
+          systemProperty("qualifiedReferenceReplayRegistry",it)
+      }
 }
 
 dependencies {

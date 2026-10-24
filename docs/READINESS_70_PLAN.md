@@ -1,0 +1,29 @@
+# Fixed 70/100 readiness milestone
+
+The user requested continued autonomous tuning and a notification when readiness reaches 70. The earlier approximately 40/100 rating was subjective, not measured rep accuracy. The fixed rubric in `models/readiness-rubric.json` gives baseline `4d89989` **42.5/100**. The change from the approximate rating is bookkeeping, not a model improvement. Weights and gates are frozen before new experiments; report evidence gaps honestly.
+
+The 100 points comprise causal regressions (20), usable reference/side coverage on the existing 32-case cohort (20), six-policy real-camera breadth (15), independent skeletal/RGB label validation separately (10+10), Android runtimes (15), and sustained performance (10). Mechanical testing currently earns 20, 12/32 usable references earn 7.5, four of six camera-tested exercise policies earn 10, and one native emulator suite earns 5. Independent labels and sustained performance currently earn zero. Passing more tests from the same generator does not itself raise the score.
+
+Do not notify that 70 is reached without a committed implementation, score >=70 and at least one independent-label domain satisfying its precision/recall/coverage gates. A score of 70 remains an engineering milestone, not 70% rep accuracy, a 98% precision result or medical validation. Current raw landmark-network weights are unchanged.
+
+## Work sequence
+
+1. **Independent labels without new human work.** Ingest the original UI-PRMD correct/incorrect full and segmented skeletal recordings, check publisher archive hashes and preserve their labels. Use deep squat (`m01`) and standing shoulder abduction (`m07`) as explicitly declared skeletal variants. Confirm the joint order, coordinate conventions and recorded frame rate against primary documentation. Never invent MediaPipe confidence, duplicate joints to impersonate MP33, or call mocap correctness a camera-model result. Freeze subject IDs 01–04 for development, 05–07 for validation, 08–10 for final testing before inspecting outcomes. Final test access requires a frozen candidate/protocol and is logged; no fitting or threshold selection on those subjects.
+2. **Reference bout consistency.** Audit subject/segment changes and long evidence interruptions during reference compilation. Investigate calibration that pools incompatible recording bouts. Only accept improvements supported by directly observed, single-context cycles under the original confidence, coverage and >=80% reconstruction gates. Preserve the reference upload as the movement target; no source labels or outcomes may select a model or reference bout.
+3. **Camera and reference evidence.** Compare eligible reference-only extraction/calibration alternatives on the frozen original videos, preserving raw coordinates, timestamps and provenance. Separate input changes from algorithm improvements. Do not manufacture unseen joints or turn repaired coordinates into qualified evidence.
+4. **Sustained operation.** Measure real inference and camera ownership for a 10-minute run with timestamped latency, delivered FPS, PSS and leak trends. Test selected model identity and pause/resume. An emulator result applies to that host; a physical-phone result requires an actual phone. A second API emulator can add runtime evidence without implying universal mobile support.
+5. **Controlled promotion.** Retain the frozen synthetic controls, 124 feature corruptions, independent evaluation and native real-landmark parity. Record gains and losses, inspect original timestamped frames for video changes, commit tested cohesive changes and provide a fresh APK for a promoted engine change. Reject parameter choices justified only by generator scores or more bad-clip acceptances.
+
+The required outcome is evidence-backed improvement. If a candidate fails validation, retain the measured failure and keep it out of production. No automatic weakening of scoring gates or fabricated expert labels is authorized.
+
+## Sources and licence checks
+
+- [Original UI-PRMD publisher archive and README](https://zenodo.org/records/23104965): ten subjects, correct/incorrect movements, segmented repetitions, Vicon and Kinect joint data; dataset released under Open Data Commons PDDL 1.0.
+- [Original data descriptor](https://doi.org/10.3390/data3010002): joint ordering, coordinate conventions and acquisition details must be verified here before building the geometry adapter.
+- [REHAB24-6 original publisher record](https://zenodo.org/records/13305826): inspected as an alternative. Its explicit terms restrict use to academic/non-profit noncommercial research, despite third-party descriptions calling it CC0. It is not ingested for this application under the free/open-only workflow.
+
+The UI-PRMD archive download is not a trained model and earns no readiness points. Keep downloaded data under ignored `test-artifacts/`; commit only fetch/validation code, licence attribution, split protocol, reports and small appropriately licensed test fixtures.
+
+## Continuation and notification
+
+The persistent goal remains active until its actual milestone gates are met. A thread heartbeat checks for useful continuation every two hours while the app can run it. Stay quiet on routine unchanged state; notify on a verified >=70 milestone or a material failure/blocker requiring attention. Do not imply work can execute while the host is unavailable. Do not change this rubric to satisfy the notification trigger. Stop the heartbeat once the milestone is verified.

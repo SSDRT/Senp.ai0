@@ -18,6 +18,14 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
         frame.evidenceKind == SpatialEvidenceKind.THREE_D && it in 0.0..180.0 &&
             (frame.intrinsicDescriptor.featureConfidences[name] ?: 0.0) >= config.minimumConfidence
     }
+    // Reference cycles must belong to one explicitly tracked identity, just as live
+    // attempts cannot cross subject changes. This is tracker provenance, not biometric
+    // identification; matching tracker IDs still cannot prove the same real person.
+    val identified = frames.filter { frame -> required.any { value(frame,it) != null } }
+    if (identified.any { it.selectedSubjectId.isNullOrBlank() })
+        return fail(RepReferenceFailure.MISSING_PROVENANCE,"Selected-side reference evidence has no tracked subject identity")
+    if (identified.map { it.selectedSubjectId }.distinct().size > 1)
+        return fail(RepReferenceFailure.AMBIGUOUS_REFERENCE_SUBJECT,"Reference spans multiple tracked subjects; cycles cannot be pooled across people")
     val anchors = frames.mapNotNull { value(it,driver) }
     if (anchors.size < 30) return fail(RepReferenceFailure.MISSING_FEATURE,"Fewer than 30 directly observed selected-side driver samples")
     for (name in required-driver) {

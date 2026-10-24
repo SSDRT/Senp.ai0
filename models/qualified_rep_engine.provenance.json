@@ -1,6 +1,8 @@
 {
   "kind": "causal-rule-based-reference-rep-engine; not retrained landmark-network weights",
   "schema": "qualified-reference-reps/5",
+  "compiler_policy": "qualified-rep-compiler/2",
+  "reference_subject_guard_provenance": "reference_subject_guard.provenance.json",
   "causal_evidence_tuning_provenance": "causal_evidence_tuning.provenance.json",
   "reference_fit_recovery_provenance": "reference_fit_recovery.provenance.json",
   "reference_calibration_recovery_provenance": "reference_calibration_recovery.provenance.json",

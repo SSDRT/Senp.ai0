@@ -1,0 +1,42 @@
+{
+  "schema": "senpai-readiness/1",
+  "frozen_date": "2026-10-24",
+  "baseline_commit": "4d899899628e08c0db77fddcdad022cb7f081edf",
+  "kind": "engineering-readiness-not-human-repetition-accuracy",
+  "target": 70,
+  "weights": {
+    "causal_mechanism_regressions": 20,
+    "frozen_real_reference_coverage": 20,
+    "real_camera_exercise_breadth": 15,
+    "independent_label_validation": 20,
+    "android_runtime_validation": 15,
+    "sustained_live_performance": 10
+  },
+  "scoring": {
+    "causal_mechanism_regressions": "20 only if the frozen 2688 controls and 124 controlled-corruption cases pass with no failures, plus all scoped JVM/native parity tests. New extra test counts earn no extra points.",
+    "frozen_real_reference_coverage": "20 multiplied by the usable distinct reference/side configurations in the frozen complete-reference MP33 cohort, denominator fixed at 32. Do not use the overlapping 96 source runs as independent references.",
+    "real_camera_exercise_breadth": "15 multiplied by supported policy IDs with at least one real-camera MP33 reference passing the production calibration gates, divided by the six frozen policy IDs. Skeletal-only data earns no points in this category.",
+    "independent_label_validation": "10 for independent skeletal labels, 10 for independent RGB-to-pose per-rep labels. Each requires frozen subject-disjoint test data covering at least two supported exercise variants, at least 30 correct and 30 incorrect test repetitions, at least three test subjects, counted-rep precision >=0.90, good-rep recall >=0.70 and assessable coverage >=0.80. Score the two domains separately; do not infer camera performance from skeletal results. No new manual labelling is required; licensed existing labels may be used.",
+    "android_runtime_validation": "5 for all scoped native tests on the available emulator. Another 5 for the same suite on a second Android API runtime. Another 5 for a physical Android handset. Static ABI/16KB checks alone earn no additional runtime points. Universal-device compatibility is not required.",
+    "sustained_live_performance": "5 for at least 10 continuous minutes of real model camera inference with p95 capture-to-result latency <=200ms and >=5 delivered FPS after warmup, bounded admission/queue and no model mismatch, crash or ANR. Another 5 for measured total PSS <=768MiB and <10% growth between the first and last post-warmup 2-minute windows in the same run. Record the host/device/model explicitly; this is device-specific performance."
+  },
+  "policy_ids": ["bodyweight_squat", "biceps_curl", "push_up", "overhead_press", "glute_bridge", "lateral_raise"],
+  "milestone_gates": [
+    "Computed raw score must be >=70 and all scored evidence must be reproducible and bound to a committed implementation.",
+    "At least one independent-label domain must meet its 10-point requirements; otherwise cap the reported score at 69.",
+    "No existing calibration reference may be lost without an explicitly documented correctness reason; any loss must appear in the comparison report.",
+    "Do not relax confidence, provenance, range or fault checks merely to raise coverage or the readiness score.",
+    "Do not change weights, the 32-reference denominator, the six policy IDs, independent test subjects or gates during this milestone run.",
+    "Readiness >=70 is not a production release, medical validation or a measured 70%/98% human-form precision claim."
+  ],
+  "baseline_points": {
+    "causal_mechanism_regressions": 20,
+    "frozen_real_reference_coverage": 7.5,
+    "real_camera_exercise_breadth": 10,
+    "independent_label_validation": 0,
+    "android_runtime_validation": 5,
+    "sustained_live_performance": 0
+  },
+  "baseline_score": 42.5,
+  "baseline_note": "The earlier user-facing 40/100 was a subjective estimate. Formalizing it as 42.5 is not an engine improvement. This score is not calibrated against user outcomes."
+}

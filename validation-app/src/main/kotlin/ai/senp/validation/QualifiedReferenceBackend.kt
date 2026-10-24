@@ -58,7 +58,7 @@ internal suspend fun ReferenceActionSessionEngine.prepareQualifiedReference(
         return unavailable(RepReferenceFailure.MISSING_PROVENANCE, "Reference backend selection requires the raw world-landmark pipeline")
     }
     val fatal = setOf(RepReferenceFailure.UNKNOWN_EXERCISE,RepReferenceFailure.UNSUPPORTED_EXERCISE,
-        RepReferenceFailure.UNRESOLVED_GUIDANCE,RepReferenceFailure.MISSING_PROVENANCE)
+        RepReferenceFailure.UNRESOLVED_GUIDANCE,RepReferenceFailure.MISSING_PROVENANCE,RepReferenceFailure.AMBIGUOUS_REFERENCE_SUBJECT)
     data class Input(val extraction: VideoPoseExtraction,val identity: RepEvidenceFingerprint,
         val request: ReferenceExtractionRequest?,val failure: RepReferenceFailure)
     val failedInputs = mutableListOf<Input>()
