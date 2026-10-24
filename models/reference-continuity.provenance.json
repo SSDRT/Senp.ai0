@@ -1,0 +1,224 @@
+{
+  "schema": "qualified-reference-continuity-checkpoint/1",
+  "date": "2026-10-24",
+  "baseline_commit": "822543201d8ef2b4c3b8d01feb0edb51ed549312",
+  "compiler_policy": "qualified-rep-compiler/4",
+  "runtime_rep_schema": "qualified-reference-reps/5",
+  "selection_policy": "qualified-reference-selection/2",
+  "changes": [
+    "Reset individual reference cycles and ready dwell at spatial/tracked context changes.",
+    "Disarm reference cycle selection when a critical feature is missing before departure.",
+    "Reset repeated-extremum state at context boundaries without removing actual observations."
+  ],
+  "controlled_cycle_before": {
+    "selected": 5,
+    "reference_ready": true,
+    "self_reconstruction_gate": 0.8
+  },
+  "controlled_cycle_after": {
+    "selected": 4,
+    "causal_self_accepted": 4
+  },
+  "controlled_result_is_human_accuracy": false,
+  "three_cycle_selection_regressions_failed_before_fix": true,
+  "minimum_reference_cycles": 3,
+  "minimum_reference_reconstruction": 0.8,
+  "thresholds_changed": false,
+  "live_rep_state_machine_changed": false,
+  "raw_landmark_network_weights_retrained": false,
+  "source_timestamps_or_landmarks_changed": false,
+  "reference_keys_intentionally_invalidated": true,
+  "raw_native_fixtures_changed": false,
+  "real_video_output_changes": 0,
+  "reference_choices_changed": 0,
+  "complete_usable_reference_sides": 12,
+  "reference_side_denominator": 32,
+  "complete_replayed_source_runs": 38,
+  "source_run_denominator": 96,
+  "readiness_points_earned": 0,
+  "live_human_rep_precision": null,
+  "independent_skeletal_development": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "false_negative": 49,
+      "verdict_UNASSESSABLE": 70,
+      "true_positive": 31,
+      "assessable_reps": 81,
+      "verdict_ACCEPTABLE": 55,
+      "verdict_NO_EVENT": 9,
+      "incorrect_reps": 80,
+      "verdict_REJECTED": 23,
+      "false_positive": 27,
+      "verdict_CORRECT": 3
+    },
+    "precision": 0.5344827586206896,
+    "good_rep_recall": 0.3875,
+    "assessable_coverage": 0.50625
+  },
+  "validation_or_final_test_subject_trajectories_opened": false,
+  "new_manual_labels": 0,
+  "tests": {
+    "scoped_jvm_cases": 246,
+    "native_suite_cases": 23,
+    "native_guard_export_cases": 5,
+    "generated_controls": 2688,
+    "controlled_corruptions": 124,
+    "python_research_cases": 32,
+    "wsl_ubuntu_24_04_qa_cases": 36,
+    "final_failures": 0,
+    "camera_timing_retries_this_checkpoint": 0
+  },
+  "runtime": {
+    "host": "Windows",
+    "api": 36,
+    "abi": "x86_64",
+    "page_size_bytes": 4096,
+    "emulator": true,
+    "physical_handset": false,
+    "sustained_performance_measured": false,
+    "prior_camera_timing_instability_proven_resolved": false
+  },
+  "source_receipts": [
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "62d259c14667ae69848023b8dd7673fd0bf4b60c8288c009f327e7e95d81f893"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "9e9a50ed48189016198dead20626c27d931489aed67fef2b0a0ba567a2a12376"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReferenceContinuityTest.kt",
+      "sha256": "a17163cc529e3ec5d65642dc74f121b019ee9c6c660812446eef7387bffcc214"
+    },
+    {
+      "path": "validation-app/src/androidTest/kotlin/ai/senp/validation/QualifiedRepEvidenceInstrumentedTest.kt",
+      "sha256": "4822089dd9e21d2028b6a8f16c2f84b2d3b08832af33e250f8f06f3eb7d636c7"
+    }
+  ],
+  "evidence_receipts": [
+    {
+      "path": "test-artifacts/exercise-knowledge/reference-continuity-summary/summary.json",
+      "sha256": "18184ce6a2efd05a8e15e30cf9eb61212637bfbddf7fd5d881fd0aca92538aea"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/reference-continuity-counterfactuals.json",
+      "sha256": "527e701492ad75bd4c68b0422c24358ab3b5d24074a81c3b0b19437e38e671a1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/reference-continuity-evidence-controls.json",
+      "sha256": "20d186267e3d524bcae733519d3bf717debb0170e5af4b6a9e89bdb85760e1ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/reference-continuity-native/reference-continuity-guard.json",
+      "sha256": "f1ba4ac03a954fc01c8566cc3c163f175185b52a0231386279d4cc5f8c43832b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-replay.json",
+      "sha256": "f4c8e010153cd0bae3f016b1e6065c20243985f5372f8212658f81b681496acd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-metrics.json",
+      "sha256": "f267c59dca9848757cbcae9f34494957371e2f0fa4249035dd98aef56e3adc2f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/calibration-recovery-audit/original-reference-frames.jpg",
+      "sha256": "99acae3a6975de1b53b0410498543e6e3a7399379503477a59bd49f5a6a8fc03"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/calibration-recovery-audit/provenance.json",
+      "sha256": "9ad18be2ac80ecb63ea946c447d7eca86e3eb157de9e9fbbe5dc1961e0984ff4"
+    }
+  ],
+  "log_receipts": [
+    {
+      "file": "reference-continuity-after.log",
+      "sha256": "e8a174afac6ccd0efd6cf720f7c7cff906391a6387a3de49cc956210defbf6c7"
+    },
+    {
+      "file": "reference-continuity-apksigner.log",
+      "sha256": "b9c6879e48d25a9786d2beb8a15738c06edce7d06f2722dd860894618592bd09"
+    },
+    {
+      "file": "reference-continuity-before.log",
+      "sha256": "839801ce041dd696cad3423692540d46b920b6a78e5f7d2b45d5e8a1c4e03a6f"
+    },
+    {
+      "file": "reference-continuity-capped-full-robust.log",
+      "sha256": "8fb671db509dfd48361dffaa4aab07884289fbed816bc99b361142bd7de4b350"
+    },
+    {
+      "file": "reference-continuity-capped-full-standard.log",
+      "sha256": "8980f2ad950b72d2395441722357126178101d416ef38e635c403a1fb285dc7c"
+    },
+    {
+      "file": "reference-continuity-capped-heavy-robust.log",
+      "sha256": "47c77177f5ef5f777882d149621886976f6482a658b78c113d3cbc2bd93b5577"
+    },
+    {
+      "file": "reference-continuity-capped-heavy-standard.log",
+      "sha256": "6f448639f87ed85bbbe3e1a7d7f4d3b3f68edbf2bee31b66da745c54487629a0"
+    },
+    {
+      "file": "reference-continuity-comparison.log",
+      "sha256": "9c5c038942603689339ec3585080721f6f6c355c9f4896fb39f8a54bbf511ee6"
+    },
+    {
+      "file": "reference-continuity-complete-full-robust.log",
+      "sha256": "37220409153bef36c383b982c0d22c255cd34aee70c4788ebaf8540164127976"
+    },
+    {
+      "file": "reference-continuity-complete-full-standard.log",
+      "sha256": "ed6bccff0b707c30caf8ec65add33317b87feceaf235143b3c1234f24039dc2b"
+    },
+    {
+      "file": "reference-continuity-complete-heavy-robust.log",
+      "sha256": "b59479fec89f36ba5d70854a51d623ac24dbcf772db7829314e344d8a834ab29"
+    },
+    {
+      "file": "reference-continuity-complete-heavy-standard.log",
+      "sha256": "315c6a98e47922e7dedef77f1c18d8f1967e074a6c57d530a4827a98441cc797"
+    },
+    {
+      "file": "reference-continuity-emulator-error.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "reference-continuity-emulator.log",
+      "sha256": "4776163e5e0d9e5fab004d8c50e063ff64759483eb8bcc8b6ffa0b244de34426"
+    },
+    {
+      "file": "reference-continuity-final-targeted.log",
+      "sha256": "f726f52683381dbf113bdc5085ac3a95b5a2d792d44770e5e9b3c6760728b3e5"
+    },
+    {
+      "file": "reference-continuity-native-export.log",
+      "sha256": "f4d8f23fda58f6c7a5fc6d74b4c3fd36eabafd5ee9eef3f2d4b9b8f985bbd29d"
+    },
+    {
+      "file": "reference-continuity-python-tests.log",
+      "sha256": "ae406638c533803355027cb735e3efde4e50935a334f75614e31144c61995430"
+    },
+    {
+      "file": "reference-continuity-qa.log",
+      "sha256": "332fd5758a2eebcc30d2da77db07590ffa0ce963f687247e3a0c1fc3cb3d00bc"
+    },
+    {
+      "file": "reference-continuity-skeletal-metrics.log",
+      "sha256": "6821deddbf0d04c079a0534e1f4f5b527a01276b7add326f16c7dfc34e257092"
+    },
+    {
+      "file": "reference-continuity-skeletal-replay.log",
+      "sha256": "0aae39327974032a7194a05be305d01d97baf8ad97262c4ed66548a359aa40f9"
+    },
+    {
+      "file": "reference-continuity-verification.log",
+      "sha256": "d0380c64a82fa6f7c1192bafd2950559b316c9232c76dc7dea6d44fcd1fa94e4"
+    },
+    {
+      "file": "reference-continuity-zipalign.log",
+      "sha256": "8396b4c2ad15673e8dc77c0dc41d02ac672703b92b817566a8cb71e39f05ba9b"
+    }
+  ]
+}

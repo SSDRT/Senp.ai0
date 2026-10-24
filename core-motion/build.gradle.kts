@@ -211,9 +211,9 @@ tasks.register<JavaExec>("qualifiedRepCounterfactualBenchmark") {
     classpath = sourceSets.test.get().runtimeClasspath
     mainClass.set("ai.senp.motion.QualifiedRepCounterfactualBenchmark")
     args(rootProject.file("test-artifacts/exercise-knowledge").absolutePath,
-        rootProject.file(providers.gradleProperty("qualifiedCounterfactualOutput").getOrElse("test-artifacts/exercise-knowledge/uiprmd-pipeline-counterfactuals.json")).absolutePath)
-    args(providers.gradleProperty("qualifiedCounterfactualRegistry").getOrElse("uiprmd-pipeline-summary"),
-        providers.gradleProperty("qualifiedCounterfactualReplayPrefix").getOrElse("uiprmd-pipeline"))
+        rootProject.file(providers.gradleProperty("qualifiedCounterfactualOutput").getOrElse("test-artifacts/exercise-knowledge/reference-continuity-counterfactuals.json")).absolutePath)
+    args(providers.gradleProperty("qualifiedCounterfactualRegistry").getOrElse("reference-continuity-summary"),
+        providers.gradleProperty("qualifiedCounterfactualReplayPrefix").getOrElse("reference-continuity"))
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }

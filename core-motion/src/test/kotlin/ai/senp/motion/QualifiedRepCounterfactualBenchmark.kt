@@ -19,8 +19,8 @@ object QualifiedRepCounterfactualBenchmark {
             Video(payload,spatial.analyzeSequence(CanonicalObservationSequence(role,DurationMs(observations.last().timestamp.value+1),
                 ObservationSampling(analysisFramesPerSecond = 15.0),observations)))
         }
-        val registryDirectory = args.getOrNull(2) ?: "uiprmd-pipeline-summary"
-        val replayPrefix = args.getOrNull(3) ?: "uiprmd-pipeline"
+        val registryDirectory = args.getOrNull(2) ?: "reference-continuity-summary"
+        val replayPrefix = args.getOrNull(3) ?: "reference-continuity"
         val registry = Json.parseToJsonElement(File(root,"$registryDirectory/complete-reference-backend-selection.json").readText()).jsonArray
         val rows = mutableListOf<JsonObject>()
         var originalAccepted = 0

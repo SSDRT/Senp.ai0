@@ -79,8 +79,8 @@ class QualifiedRepEvidenceInstrumentedTest {
         save("return-branch-controls.json",accepted,8)
     }
 
-    private fun calibrationSequence(mixed: Boolean): SpatialSequenceAnalysis {
-            val observations = (0 until 4).flatMap { rep -> (0..60).map { index ->
+    private fun calibrationSequence(mixed: Boolean, count: Int = 4): SpatialSequenceAnalysis {
+            val observations = (0 until count).flatMap { rep -> (0..60).map { index ->
                 val t = index*33L
                 val p = when { t < 300 -> 0.0;t < 900 -> (t-300)/600.0;t < 1100 -> 1.0;
                     t < 1700 -> (1700-t)/600.0;else -> 0.0 }
@@ -121,5 +121,31 @@ class QualifiedRepEvidenceInstrumentedTest {
         File(directory,"measurement-pipeline-guard.json").writeText(JSONObject().put("schema","qualified-measurement-pipeline-native/1")
             .put("compiler_policy",QualifiedRepCompiler.VERSION).put("custom_pipeline_self_accepted",4)
             .put("raw_and_other_pipeline_rejected",true).toString(2))
+    }
+
+    @Test fun referenceCycleSelectionCannotBorrowContinuityOrArmingAcrossMissingEvidence() {
+        val cases = listOf("segment_during_attempt","segment_during_ready_dwell","blind_departure")
+        for (case in cases) {
+            val raw = calibrationSequence(false,5)
+            val observations = raw.frames.map { frame ->
+                val t = frame.timestamp.value
+                when (case) {
+                    "segment_during_attempt" -> frame.copy(spatialSegmentId = if (t<1000) 0 else 1)
+                    "segment_during_ready_dwell" -> frame.copy(spatialSegmentId = if (t<264) 0 else 1)
+                    else -> if (t==396L) frame.copy(intrinsicDescriptor = frame.intrinsicDescriptor.copy(
+                        featureConfidences = frame.intrinsicDescriptor.featureConfidences+("angle.left_shoulder" to 0.0))) else frame
+                }
+            }
+            val result = QualifiedRepCompiler.compile(raw.copy(frames = observations),"biceps_curl",identity)
+            assertTrue(case,result is QualifiedRepCompilation.Ready)
+            val calibration = (result as QualifiedRepCompilation.Ready).reference.calibration
+            assertEquals(case,4,calibration?.observedCycles)
+            assertEquals(case,4,calibration?.acceptedSelfCycles)
+            assertEquals(case,1.0,requireNotNull(calibration).selfAcceptanceFraction,0.0)
+        }
+        val directory = File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null),"qualified-rep-evidence").apply { mkdirs() }
+        File(directory,"reference-continuity-guard.json").writeText(JSONObject().put("schema","qualified-reference-continuity-native/1")
+            .put("compiler_policy",QualifiedRepCompiler.VERSION).put("constructed_cases",cases.size)
+            .put("selected_cycles_per_case",4).put("causal_self_accepted_per_case",4).put("noncausal_cycle_excluded_per_case",1).toString(2))
     }
 }

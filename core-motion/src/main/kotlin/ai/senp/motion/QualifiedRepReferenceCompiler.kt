@@ -14,6 +14,9 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
     val driver = "angle.${side}_${spec.driver}"
     val required = (spec.quality.map { "angle.${side}_$it" }+driver).toSet()
     val frames = sequence.frames
+    val continuityBreaks = frames.zipWithNext().filter { (a,b) ->
+        a.spatialSegmentId != b.spatialSegmentId || a.selectedSubjectId != b.selectedSubjectId
+    }.mapTo(mutableSetOf()) { it.second.timestamp.value }
     fun value(frame: SpatialObservationFrame,name: String): Double? = frame.intrinsicDescriptor.values[name]?.takeIf {
         frame.evidenceKind == SpatialEvidenceKind.THREE_D && it in 0.0..180.0 &&
             (frame.intrinsicDescriptor.featureConfidences[name] ?: 0.0) >= config.minimumConfidence
@@ -32,7 +35,7 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
         val observed = frames.count { value(it,name) != null }
         if (observed < 30) return fail(RepReferenceFailure.MISSING_FEATURE,"Only $observed directly observed $name samples; 30 required")
     }
-    val endpoints = repeatedRepEndpoints(frames.map { it.timestamp.value to value(it,driver) },config)
+    val endpoints = repeatedRepEndpoints(frames.map { it.timestamp.value to value(it,driver) },config,continuityBreaks)
     val lo = endpoints?.first ?: quantile(anchors,0.10);val hi = endpoints?.second ?: quantile(anchors,0.90)
     if (hi-lo < config.minimumReferenceExcursionDegrees) return fail(RepReferenceFailure.INSUFFICIENT_EXCURSION,"Reference driver has insufficient robust excursion")
     val readyAngle = if (spec.readyAtMaximum) hi else lo;val farAngle = if (spec.readyAtMaximum) lo else hi
@@ -45,6 +48,13 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
     var priorProgress: Double? = null
     fun reset() { readySince = null;readyObservations = 0;armed = false;start = null;farSince = null;farObservations = 0;farSeen = false;returnSince = null;returnObservations = 0;priorProgress = null }
     frames.forEachIndexed { index,frame ->
+        // A reference cycle must be observable under the same continuity rules as
+        // live replay. Complete cycles from several bouts may contribute, but one
+        // cycle or its ready dwell cannot cross a capture/spatial context boundary.
+        if (frame.timestamp.value in continuityBreaks) {
+            if (start != null) rejected++
+            reset()
+        }
         val p = progress(frame)
         if (p == null || index > 0 && frame.timestamp.value-frames[index-1].timestamp.value > config.maximumEvidenceGapMs) {
             if (start != null) rejected++
@@ -55,6 +65,9 @@ internal fun compileRepCycles(sequence: SpatialSequenceAnalysis, exerciseId: Str
         val beforeProgress = priorProgress
         priorProgress = p
         if (start == null) {
+            // Live replay disarms when critical evidence disappears before an
+            // attempt. Do not train a cycle that starts after blind departure.
+            if (!visible) { armed = false;readySince = null;readyObservations = 0 }
             if (p <= config.readyProgress && p >= -0.35 && visible) {
                 if (readySince == null) { readySince = now;readyObservations = 0 }
                 readyObservations++
@@ -237,7 +250,8 @@ internal fun boundedPairwiseRepSlope(samples: List<Pair<Double,Double>>): Double
  * Adjacent supported observations and sustained reversals reject isolated spikes. Final cycle,
  * confidence, visibility, curve-noise and self-replay gates still operate on the original samples.
  */
-internal fun repeatedRepEndpoints(samples: List<Pair<Long,Double?>>, config: QualifiedRepConfig): Pair<Double,Double>? {
+internal fun repeatedRepEndpoints(samples: List<Pair<Long,Double?>>, config: QualifiedRepConfig,
+    continuityBreaks: Set<Long> = emptySet()): Pair<Double,Double>? {
     val minima = mutableListOf<Double>();val maxima = mutableListOf<Double>()
     val reverseDegrees = config.minimumReferenceExcursionDegrees*0.5
     var prior: Double? = null;var previousMs: Long? = null
@@ -245,6 +259,7 @@ internal fun repeatedRepEndpoints(samples: List<Pair<Long,Double?>>, config: Qua
     var reversalSince: Long? = null;var reversalObservations = 0
     fun reset() { prior = null;direction = 0;low = Double.POSITIVE_INFINITY;high = Double.NEGATIVE_INFINITY;reversalSince = null;reversalObservations = 0 }
     for ((now,value) in samples) {
+        if (now in continuityBreaks) reset()
         val gap = previousMs?.let { now-it > config.maximumEvidenceGapMs } ?: false
         previousMs = now
         if (value == null || gap) { reset();continue }

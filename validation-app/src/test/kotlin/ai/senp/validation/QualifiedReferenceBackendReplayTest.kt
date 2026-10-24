@@ -42,7 +42,7 @@ class QualifiedReferenceBackendReplayTest {
             data.getValue("source_video_sha256").jsonPrimitive.content to file
         }
         val cohort = if (complete) "complete" else "capped"
-        val registryDirectory = System.getProperty("qualifiedReferenceReplayRegistry") ?: "uiprmd-pipeline-summary"
+        val registryDirectory = System.getProperty("qualifiedReferenceReplayRegistry") ?: "reference-continuity-summary"
         val registry = Json.parseToJsonElement(File(root,"$registryDirectory/$cohort-reference-backend-selection.json").readText()).jsonArray
         assertEquals(32,registry.size)
         var extractions = 0
