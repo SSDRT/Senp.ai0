@@ -1,0 +1,516 @@
+{
+  "schema": "senpai-uiprmd-side-binding-provenance/1",
+  "kind": "rejected-for-promotion-research-variant-not-live-camera-precision",
+  "captured_utc": "2026-10-24T17:31:34.539816+00:00",
+  "candidate_freeze_commit": "cb6396c1d6886ea283a05650d2bdff25218e54e1",
+  "candidate_committed_before_validation_replay": true,
+  "production_engine_commit": "84f8aacdfe1e828ae1710222cd056ce5ec9e890e",
+  "compiler": "qualified-rep-compiler/5",
+  "policy": "causal-unilateral-side-binding/1",
+  "candidate_protocol_sha256": "f6b9d26aeb6aacee1a10b90c9742e18236d19cd1653c8e5314312af86c04ae16",
+  "readiness_rubric_sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e",
+  "readiness_score": 42.5,
+  "readiness_points_earned": 0,
+  "independent_label_gate_passed": false,
+  "frozen_right_side_score_replaced": false,
+  "final_test_subjects_opened": false,
+  "production_changed": false,
+  "raw_landmark_network_trained": false,
+  "actual_live_human_rep_precision": null,
+  "validation_subjects_are_already_opened_selection_data": true,
+  "all_publisher_labels_and_denominators_retained": true,
+  "results": {
+    "development": {
+      "fixed": {
+        "counts": {
+          "correct_reps": 80,
+          "total_reps": 160,
+          "false_negative": 49,
+          "verdict_UNASSESSABLE": 70,
+          "true_positive": 31,
+          "assessable_reps": 81,
+          "verdict_ACCEPTABLE": 55,
+          "verdict_NO_EVENT": 9,
+          "incorrect_reps": 80,
+          "verdict_REJECTED": 23,
+          "false_positive": 27,
+          "verdict_CORRECT": 3
+        },
+        "precision": 0.5344827586206896,
+        "good_rep_recall": 0.3875,
+        "assessable_coverage": 0.50625
+      },
+      "causal_variant": {
+        "counts": {
+          "correct_reps": 80,
+          "total_reps": 160,
+          "false_negative": 49,
+          "verdict_UNASSESSABLE": 70,
+          "true_positive": 31,
+          "assessable_reps": 81,
+          "verdict_ACCEPTABLE": 55,
+          "verdict_NO_EVENT": 9,
+          "incorrect_reps": 80,
+          "verdict_REJECTED": 23,
+          "false_positive": 27,
+          "verdict_CORRECT": 3
+        },
+        "precision": 0.5344827586206896,
+        "good_rep_recall": 0.3875,
+        "assessable_coverage": 0.50625
+      }
+    },
+    "validation": {
+      "fixed": {
+        "counts": {
+          "correct_reps": 60,
+          "total_reps": 120,
+          "false_negative": 47,
+          "verdict_UNASSESSABLE": 60,
+          "true_positive": 13,
+          "assessable_reps": 37,
+          "verdict_ACCEPTABLE": 20,
+          "verdict_NO_EVENT": 23,
+          "incorrect_reps": 60,
+          "verdict_REJECTED": 17,
+          "false_positive": 7
+        },
+        "precision": 0.65,
+        "good_rep_recall": 0.21666666666666667,
+        "assessable_coverage": 0.30833333333333335
+      },
+      "causal_variant": {
+        "counts": {
+          "correct_reps": 60,
+          "total_reps": 120,
+          "false_negative": 46,
+          "verdict_UNASSESSABLE": 76,
+          "true_positive": 14,
+          "assessable_reps": 40,
+          "verdict_ACCEPTABLE": 21,
+          "verdict_NO_EVENT": 4,
+          "incorrect_reps": 60,
+          "verdict_REJECTED": 19,
+          "false_positive": 7
+        },
+        "precision": 0.6666666666666666,
+        "good_rep_recall": 0.23333333333333334,
+        "assessable_coverage": 0.3333333333333333
+      }
+    }
+  },
+  "paired_changes": {
+    "development": {
+      "previously_counted_good_reps_lost": 0,
+      "good_counts_gained": 0,
+      "incorrect_counts_added": 0,
+      "replay_sha256": {
+        "fixed": "987b8b405142e9c8b60ae75f225235693364daac38d82eaef7a2f8dbae7a9eca",
+        "causal": "1649452d8cab37c731ddcb301b659b9947acbceffc72cde6d91a2afb18fefe73"
+      }
+    },
+    "validation": {
+      "previously_counted_good_reps_lost": 0,
+      "good_counts_gained": 1,
+      "incorrect_counts_added": 0,
+      "replay_sha256": {
+        "fixed": "ffa17d695f0889296bd2a99be42d8be376fc5fd5c2dcf74144633f354a5e2b62",
+        "causal": "e5082d693af4b7cb0194dee6e83e4aa0a1998467d5ceeae3b6e653949b45a540"
+      }
+    }
+  },
+  "verification": {
+    "jvm": {
+      "core-motion": {
+        "tests": 212,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "android-pose-mediapipe": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "validation-app": {
+        "tests": 34,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "python_tests": 53,
+    "python_failures": 0,
+    "constructed_controls": 2688,
+    "controlled_corruptions": 124,
+    "control_failures": 0,
+    "android_native_suite_rerun": false,
+    "android_native_note": "Test-source-only experiment. Existing app/native code and APK unchanged; no extra native/runtime credit. Adapter/app JVM results remain up-to-date unchanged inputs.",
+    "inspected_original_marker_sheets": 2,
+    "data_licence": "UI-PRMD publisher PDDL 1.0, no new human annotations"
+  },
+  "limitations": [
+    "Changed interchangeable-side research variant cannot replace frozen RIGHT-side metrics.",
+    "Only one additional labelled good rep counted in already-opened validation; no population-accuracy claim.",
+    "Validation precision 66.67%, good-rep recall 23.33%, coverage 33.33% fail unchanged gates.",
+    "Active-side scope alone does not fix companion-form ambiguity or six retained incorrect shoulder counts.",
+    "No Android integration, camera precision or exercising-person performance gain is demonstrated."
+  ],
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/reports/side-binding-development-fixed-replay.json",
+      "sha256": "987b8b405142e9c8b60ae75f225235693364daac38d82eaef7a2f8dbae7a9eca",
+      "bytes": 161096,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-development-fixed-replay.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/reports/side-binding-development-causal-replay.json",
+      "sha256": "1649452d8cab37c731ddcb301b659b9947acbceffc72cde6d91a2afb18fefe73",
+      "bytes": 170712,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-development-causal-replay.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/reports/side-binding-development-comparison.json",
+      "sha256": "658dbd2fc394c005b77132e1895ce7447827734675aad07515abb42734f2aa62",
+      "bytes": 109054,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-development-comparison.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/reports/side-binding-validation-fixed-replay.json",
+      "sha256": "ffa17d695f0889296bd2a99be42d8be376fc5fd5c2dcf74144633f354a5e2b62",
+      "bytes": 116002,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-validation-fixed-replay.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/reports/side-binding-validation-causal-replay.json",
+      "sha256": "e5082d693af4b7cb0194dee6e83e4aa0a1998467d5ceeae3b6e653949b45a540",
+      "bytes": 132513,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-validation-causal-replay.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/reports/side-binding-validation-comparison.json",
+      "sha256": "d126c7afa0198a4d8bb082a35af75e2c7bc7bbd71265dcff04683731fc925011",
+      "bytes": 80401,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-validation-comparison.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/reports/side-binding-error-audit.json",
+      "sha256": "2b939911256d5e6d94736b96257202d2626019d5e1afb3b4c2378b1f9e50cdbc",
+      "bytes": 9619,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-error-audit.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/reports/side-binding-marker-access.jsonl",
+      "sha256": "ee0208865cb4bc6201263aa144a60f60e77e706e990f64a2df767386a0a58bb2",
+      "bytes": 2724,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-marker-access.jsonl"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/marker-qa/s07-m07-correct.png",
+      "sha256": "839643009fa524221c018a57790269d6bae7a15f0d511a5679628fda4c91336f",
+      "bytes": 217016,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-original-marker-qa\\s07-m07-correct.png"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/marker-qa/s07-m07-incorrect.png",
+      "sha256": "cf516d8e07996f53c73b54e141b00d092aea4f8ad6e36cfbd4c2ebbea836e8b6",
+      "bytes": 213159,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\uiprmd\\side-binding-original-marker-qa\\s07-m07-incorrect.png"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "a143b40f352b7dac331bba33f9a693f43b3492e2548214455dc607b60c05ee25",
+      "bytes": 1127,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.CoreMotionProcessorTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "98c4af41f8c2e885c33ca5978c2fd7daa3cbcdac75dc4e89d85596ebd15c7474",
+      "bytes": 1864,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "59c049ddcea0fa295eafed2c5ef02ab3c9da802114d2943b3bc47dc8529ddf82",
+      "bytes": 1451,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "f7f308ae3eb1c94e89b7bfc47dcb29af3ea2c3807efa3ad13260c49493dae464",
+      "bytes": 961,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.LearnedExerciseQualityTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "6eb78703d09417d374f0b1182aeb63e5bae30be61b20b5c9560ea2eb03cdf857",
+      "bytes": 2887,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "9141375eac30b22545470f5d844123c852260e9e14ba42b91d77e34cfc260549",
+      "bytes": 1317,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.LivePoseStabilizerTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "298033c3b75ff7198fb8ba36434688d126ad49321fda5a716e6976dab34da50a",
+      "bytes": 3518,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.MotionEngineTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "382c035360d10e39ec50105793475d2354b8322626ee55800daa15391e2b2aba",
+      "bytes": 1115,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.MotionFixtureReplayTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "e7ade1e152f30f86cbb56641fcb63e0dbdfc6a959bf517f73b63641300c1a1b5",
+      "bytes": 1516,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "c9926efc131af0179d0782a64aee2d0571768eac3a91a124452e19433352a88d",
+      "bytes": 1859,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "66ed56c2a290cf7d10b187aa50a7731ca4455b0fca1ef336ac418b6eb9461d02",
+      "bytes": 3964,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.QualifiedRepEngineTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "845bf9b3bd58d526e9afd4368b703104b12658517ea3277d9ff3e3b85e02087d",
+      "bytes": 1389,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "bb439fe27dd23a18e3b35bc81108b4065272c5c60869c49f457b97de48f06514",
+      "bytes": 856,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "f050562c1877010790fcb127e5068e3d86ed0427e0d3d32218353738040a5a5d",
+      "bytes": 661,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "ffafe608e9936571a8ecf5be6e15c7b8c7f7b59b2cd529107cf013a9f4d6cc38",
+      "bytes": 2117,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "ddc158134209728269d8470bf477f327a99bd71dbe504414763c8f8ae2eb350d",
+      "bytes": 1144,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "85b1baa59fd271359de29732df9d15b04b0f7194d19d22e1b29847c98c43b0ac",
+      "bytes": 980,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "d4fd4ebbaeb8a33eb5f2478f9c7f6f32edd2b09f3c32ec933caef7ced0cd3411",
+      "bytes": 4020,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.ReferenceActionCoreTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "f3cf203d349eea4450719da55668bc0634bc24a215f1ce9b044ec7d4d5596292",
+      "bytes": 1064,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.SamplePoseClassifierTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "e7d82fcf58471cc9c4dd0554b598813b0d89cbb0a8883471eb131d9597210b04",
+      "bytes": 3916,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "18e88223e40100ed3b6873082465ae560de54ab120127338bb1c880095321949",
+      "bytes": 606,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.UiprmdReplayScopeTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/core-motion/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "dcacde5d2d86811bb61a23bf39dae285005355978b986b4d3e9ffdc7eaf7d833",
+      "bytes": 2456,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\test-results\\test\\TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.ConfigTest.xml",
+      "sha256": "c4687ee12a24e71ba8f5a2b26e4f306b5d86577eacb4a6446b565d8f1c69acfb",
+      "bytes": 1625,
+      "original_path": "D:\\Projects\\senpai\\android-pose-mediapipe\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.pose.mediapipe.ConfigTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.LiveFrameGateTest.xml",
+      "sha256": "be3092ef427b807372f87c656375f9734dac099b1b6545e7164f9f718d9ff5ae",
+      "bytes": 618,
+      "original_path": "D:\\Projects\\senpai\\android-pose-mediapipe\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.pose.mediapipe.LiveFrameGateTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.LiveTrackerResetPolicyTest.xml",
+      "sha256": "1d891dec60417ccded5691a841caf47ba90dcf647a8d7bff9846fcc17560154a",
+      "bytes": 652,
+      "original_path": "D:\\Projects\\senpai\\android-pose-mediapipe\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.pose.mediapipe.LiveTrackerResetPolicyTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/validation-app/TEST-ai.senp.validation.FrameReviewIntegrationTest.xml",
+      "sha256": "4a67d46473b8175674328433bb30e8497543afa2690a0defe66646ccb590a212",
+      "bytes": 628,
+      "original_path": "D:\\Projects\\senpai\\validation-app\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.validation.FrameReviewIntegrationTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/validation-app/TEST-ai.senp.validation.LearnedQualityGeometryTest.xml",
+      "sha256": "3f599dc62bba7e692702c28a02bc695764b8121110b74bfc07d53532a433c092",
+      "bytes": 656,
+      "original_path": "D:\\Projects\\senpai\\validation-app\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.validation.LearnedQualityGeometryTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/validation-app/TEST-ai.senp.validation.QualifiedReferenceBackendReplayTest.xml",
+      "sha256": "30e928ddf8bf5dc3d64ed9d225b80f2925985d4b12b25a9be32502e0c241d53b",
+      "bytes": 667,
+      "original_path": "D:\\Projects\\senpai\\validation-app\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.validation.QualifiedReferenceBackendReplayTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/validation-app/TEST-ai.senp.validation.QualifiedRepSessionTest.xml",
+      "sha256": "de9462d3a999563f9e90e361e2ea7f8947005df0d7fd4ed51976d62df1614a8a",
+      "bytes": 1868,
+      "original_path": "D:\\Projects\\senpai\\validation-app\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.validation.QualifiedRepSessionTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/validation-app/TEST-ai.senp.validation.RecordedComparisonAssemblyTest.xml",
+      "sha256": "3644788b25f2cd3be6eaeb70a90eb7cf755282d4cad90bd1fed7e4e359d8e551",
+      "bytes": 823,
+      "original_path": "D:\\Projects\\senpai\\validation-app\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.validation.RecordedComparisonAssemblyTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/validation-app/TEST-ai.senp.validation.ReferenceActionSessionTest.xml",
+      "sha256": "0ff87f86c64a2900ed927219535e38b087a1b4da00c9b6281315a0717fe01f75",
+      "bytes": 1970,
+      "original_path": "D:\\Projects\\senpai\\validation-app\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.validation.ReferenceActionSessionTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/jvm/validation-app/TEST-ai.senp.validation.ui.screens.PlaybackMappingTest.xml",
+      "sha256": "7275e1d28ed681a317f906db2749a4047bcce376ae86bdac5c05d4c62a51731f",
+      "bytes": 1125,
+      "original_path": "D:\\Projects\\senpai\\validation-app\\build\\test-results\\testDebugUnitTest\\TEST-ai.senp.validation.ui.screens.PlaybackMappingTest.xml"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-full-verification.log",
+      "sha256": "0bcdb8da26c026f9d40c8fba2c19d69175da29cdd7815ba28c820afb57446ad1",
+      "bytes": 9721,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-full-verification.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-python-tests.log",
+      "sha256": "e247851fde04e2c057dca4432153457b62717f9aaca374a2e6b1584486275dd4",
+      "bytes": 9816,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-python-tests.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-evaluation.log",
+      "sha256": "4c0579764a9f55fceddbda9bbc72c4aff477dcfabf760d94bd36407d08523ebc",
+      "bytes": 6905,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-evaluation.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-marker-audit.log",
+      "sha256": "bad1024f0f1474b758a6032185ab8248e27f0e4270ba9265f9eb44c668acfab7",
+      "bytes": 807,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-marker-audit.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-current-readiness.log",
+      "sha256": "7e1c1a9a2adc63f4fd9cb74c1d014d7a3b2820180cbea9e9299b8bdcab9eea8e",
+      "bytes": 756,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-current-readiness.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-candidate-jvm.log",
+      "sha256": "592d4b8371adc0c0a060a19ebd4291aa9bdadf5a0e47bd1c8196a935e15fba7b",
+      "bytes": 1685,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-candidate-jvm.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-development-fixed.log",
+      "sha256": "07819a91985d38a5fec1127edb6f2e6bc178b002f823ecb08f0c5a434abbc769",
+      "bytes": 1869,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-development-fixed.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-development-causal.log",
+      "sha256": "f5413fc626b5ca49d4fa17bcfdb10290c4d212ff7f6e8dca8171fbc8b8232ad2",
+      "bytes": 1870,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-development-causal.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-validation-fixed.log",
+      "sha256": "85b9628f2213df0e28bc5e5461a4b821a748369a0e8f888d3561e25cff72346d",
+      "bytes": 1867,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-validation-fixed.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/logs/side-binding-validation-causal.log",
+      "sha256": "af99d661c480f9677920ba3ece236ef494eb028a1abb4ea94bf4a39683f1202a",
+      "bytes": 1868,
+      "original_path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\side-binding-validation-causal.log"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/controls/mechanism-sweep.json",
+      "sha256": "37ee8c0049587b44787887a520bfc1de1a7fc47753f1a358148e3edd1a189186",
+      "bytes": 428533,
+      "original_path": "D:\\Projects\\senpai\\core-motion\\build\\reports\\qualified-reps\\mechanism-sweep.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/controls/observed-path-mechanism.json",
+      "sha256": "2d2ace83782197f3b9235ca6f2317d16bd04e11ac74907df4ca92274bfdfab0d",
+      "bytes": 228816,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\observed-path-mechanism.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/controls/side-binding-research-departure.json",
+      "sha256": "c7f67da41269b9804c21a509eb452984d2e450b408c9e979650687eeadd64e82",
+      "bytes": 144785,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\side-binding-research-departure.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/controls/side-binding-research-evidence-controls.json",
+      "sha256": "20d186267e3d524bcae733519d3bf717debb0170e5af4b6a9e89bdb85760e1ac",
+      "bytes": 196672,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\side-binding-research-evidence-controls.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/controls/side-binding-research-counterfactuals.json",
+      "sha256": "db5f30aa4e96f3db04b96d11b54d8cd3606546f3ed7c4941062fe1d1eafd5b7a",
+      "bytes": 61247,
+      "original_path": "D:\\Projects\\senpai\\test-artifacts\\exercise-knowledge\\side-binding-research-counterfactuals.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/models/uiprmd-side-binding-protocol.json",
+      "sha256": "f6b9d26aeb6aacee1a10b90c9742e18236d19cd1653c8e5314312af86c04ae16",
+      "bytes": 2103,
+      "original_path": "D:\\Projects\\senpai\\models\\uiprmd-side-binding-protocol.json"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/side-binding-checkpoint-cb6396c/scripts/audit_uiprmd_side_binding.py",
+      "sha256": "7168fa12d66c140c74e92641ab6f8a9a2d3240e061a782bc4197b8dd7fc921cc",
+      "bytes": 8654,
+      "original_path": "D:\\Projects\\senpai\\scripts\\audit_uiprmd_side_binding.py"
+    }
+  ]
+}
