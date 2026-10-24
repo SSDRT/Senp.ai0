@@ -1,0 +1,390 @@
+{
+  "schema": "uiprmd-quality-validation-checkpoint/1",
+  "date": "2026-10-24",
+  "candidate_freeze_commit": "8a330b7f23b33d9fda41a7b2733e8e405f00d7b9",
+  "verified_production_engine_commit": "01b83e46f4fd6c5c53f12372f568e557b6e8774b",
+  "measurement_domain": "skeletal",
+  "network_weights_changed": false,
+  "production_sources_changed": false,
+  "raw_landmarks_repaired": false,
+  "apk_promoted": false,
+  "final_test_subject_trajectories_opened": false,
+  "validation_subjects_opened": [
+    "05",
+    "06",
+    "07"
+  ],
+  "validation_labels": {
+    "correct": 60,
+    "incorrect": 60,
+    "total": 120
+  },
+  "new_manual_labels": 0,
+  "refitted_on_validation": false,
+  "readiness_score": 42.5,
+  "readiness_points_earned": 0,
+  "baseline": {
+    "counts": {
+      "correct_reps": 60,
+      "total_reps": 120,
+      "false_negative": 47,
+      "verdict_UNASSESSABLE": 60,
+      "true_positive": 13,
+      "assessable_reps": 37,
+      "verdict_ACCEPTABLE": 20,
+      "verdict_NO_EVENT": 23,
+      "incorrect_reps": 60,
+      "verdict_REJECTED": 17,
+      "false_positive": 7
+    },
+    "precision": 0.65,
+    "good_rep_recall": 0.21666666666666667,
+    "assessable_coverage": 0.30833333333333335,
+    "per_movement": {
+      "m01": {
+        "counts": {
+          "correct_reps": 30,
+          "total_reps": 60,
+          "false_negative": 22,
+          "verdict_UNASSESSABLE": 37,
+          "true_positive": 8,
+          "assessable_reps": 23,
+          "verdict_ACCEPTABLE": 9,
+          "incorrect_reps": 30,
+          "verdict_REJECTED": 14,
+          "false_positive": 1
+        },
+        "precision": 0.8888888888888888,
+        "good_rep_recall": 0.26666666666666666,
+        "assessable_coverage": 0.38333333333333336
+      },
+      "m07": {
+        "counts": {
+          "correct_reps": 30,
+          "total_reps": 60,
+          "false_negative": 25,
+          "verdict_UNASSESSABLE": 23,
+          "true_positive": 5,
+          "assessable_reps": 14,
+          "verdict_ACCEPTABLE": 11,
+          "verdict_NO_EVENT": 23,
+          "incorrect_reps": 30,
+          "verdict_REJECTED": 3,
+          "false_positive": 6
+        },
+        "precision": 0.45454545454545453,
+        "good_rep_recall": 0.16666666666666666,
+        "assessable_coverage": 0.23333333333333334
+      }
+    }
+  },
+  "candidate": {
+    "counts": {
+      "correct_reps": 60,
+      "total_reps": 120,
+      "false_negative": 54,
+      "verdict_UNASSESSABLE": 60,
+      "assessable_reps": 37,
+      "verdict_REJECTED": 31,
+      "true_positive": 6,
+      "verdict_ACCEPTABLE": 6,
+      "verdict_NO_EVENT": 23,
+      "incorrect_reps": 60
+    },
+    "precision": 1.0,
+    "good_rep_recall": 0.1,
+    "assessable_coverage": 0.30833333333333335,
+    "per_movement": {
+      "m01": {
+        "counts": {
+          "correct_reps": 30,
+          "total_reps": 60,
+          "false_negative": 29,
+          "verdict_UNASSESSABLE": 37,
+          "assessable_reps": 23,
+          "verdict_REJECTED": 22,
+          "true_positive": 1,
+          "verdict_ACCEPTABLE": 1,
+          "incorrect_reps": 30
+        },
+        "precision": 1.0,
+        "good_rep_recall": 0.03333333333333333,
+        "assessable_coverage": 0.38333333333333336
+      },
+      "m07": {
+        "counts": {
+          "correct_reps": 30,
+          "total_reps": 60,
+          "false_negative": 25,
+          "verdict_UNASSESSABLE": 23,
+          "true_positive": 5,
+          "assessable_reps": 14,
+          "verdict_ACCEPTABLE": 5,
+          "verdict_NO_EVENT": 23,
+          "incorrect_reps": 30,
+          "verdict_REJECTED": 9
+        },
+        "precision": 1.0,
+        "good_rep_recall": 0.16666666666666666,
+        "assessable_coverage": 0.23333333333333334
+      }
+    }
+  },
+  "candidate_passes": false,
+  "candidate_rejected": true,
+  "reason": "Correct-rep recall 10% and assessable coverage 30.83% fail the frozen requirements.",
+  "validation_access_log_records": 264,
+  "original_validation_export_reads": 132,
+  "geometry_plots_inspected": 6,
+  "geometry_reads": [
+    {
+      "archive": "Movements.zip",
+      "member": "Movements/Vicon/Positions/m01_s05_positions.txt",
+      "sha256": "59d868fbf580d6ed68a433df092878233d35c421bba2e64e51167f033936104d"
+    },
+    {
+      "archive": "Movements.zip",
+      "member": "Movements/Vicon/Positions/m07_s05_positions.txt",
+      "sha256": "b6696b7cdd9e53d3fcd74b264a98af44d3dc556c8f511b0378fdd968620e4c27"
+    },
+    {
+      "archive": "Incorrect Movements.zip",
+      "member": "Incorrect Movements/Vicon/Positions/m01_s05_positions_inc.txt",
+      "sha256": "0b67194eddeba5be5e84dc7e5894a8cefb3db71116555fbb1541099df28f0d5f"
+    },
+    {
+      "archive": "Incorrect Movements.zip",
+      "member": "Incorrect Movements/Vicon/Positions/m07_s05_positions_inc.txt",
+      "sha256": "be518b75970f38b38699a064e759d29428dcf8ae72d9d9bb1b8057dc68769ca5"
+    },
+    {
+      "archive": "Movements.zip",
+      "member": "Movements/Vicon/Positions/m01_s06_positions.txt",
+      "sha256": "9aaf599e3c57b7ddab8e1480183a407888a32733846b296d86d17cee870faba1"
+    },
+    {
+      "archive": "Movements.zip",
+      "member": "Movements/Vicon/Positions/m07_s06_positions.txt",
+      "sha256": "b0dad9c3970f954e6980843d93c0cdb8ae5d61733db2af66fff426469cbeaf72"
+    },
+    {
+      "archive": "Incorrect Movements.zip",
+      "member": "Incorrect Movements/Vicon/Positions/m01_s06_positions_inc.txt",
+      "sha256": "4f66dbeb1350e12a23735a4497604e37747e2937de611a0669e53e6a285255a1"
+    },
+    {
+      "archive": "Incorrect Movements.zip",
+      "member": "Incorrect Movements/Vicon/Positions/m07_s06_positions_inc.txt",
+      "sha256": "a866b2a8eda39f65485f5e073b74ed4e3d6385047df51a77169457bec1c07443"
+    },
+    {
+      "archive": "Movements.zip",
+      "member": "Movements/Vicon/Positions/m01_s07_positions.txt",
+      "sha256": "510a8d4414340cb6cfdaebf33c1d1c578c9eb191654da5e27b26bd816251c03e"
+    },
+    {
+      "archive": "Movements.zip",
+      "member": "Movements/Vicon/Positions/m07_s07_positions.txt",
+      "sha256": "83f16cd9bb27feb6b0c39596bfec35fc1aade1facab3387b604cb124662bffab"
+    },
+    {
+      "archive": "Incorrect Movements.zip",
+      "member": "Incorrect Movements/Vicon/Positions/m01_s07_positions_inc.txt",
+      "sha256": "abcfaa90421f270ac5bdb8476956ee9de8eac198bf8947947310856e1a525dae"
+    },
+    {
+      "archive": "Incorrect Movements.zip",
+      "member": "Incorrect Movements/Vicon/Positions/m07_s07_positions_inc.txt",
+      "sha256": "c86034cec5d2e3e22c03b56244ba11d3e914be9282d7904a6ef8cb15aea54baf"
+    }
+  ],
+  "bilateral_subject07_shoulder_audit": [
+    {
+      "subject": "07",
+      "movement": "m07",
+      "correct": true,
+      "engine_metrics": {
+        "counts": {
+          "correct_reps": 10,
+          "total_reps": 10,
+          "false_negative": 10,
+          "verdict_NO_EVENT": 10
+        },
+        "precision": null,
+        "good_rep_recall": 0.0,
+        "assessable_coverage": 0.0
+      },
+      "completed_attempts": 0,
+      "attempt_reasons": {},
+      "qualified_counts_vetoed": 0,
+      "bilateral_shoulder_proxy_quantiles_degrees": {
+        "left": {
+          "q05": 20.916041534071127,
+          "q50": 73.80198131184899,
+          "q95": 131.12378356560845,
+          "q95_minus_q05": 110.20774203153732
+        },
+        "right": {
+          "q05": 21.14367937897819,
+          "q50": 22.29949365952471,
+          "q95": 23.195512859938706,
+          "q95_minus_q05": 2.0518334809605143
+        }
+      }
+    },
+    {
+      "subject": "07",
+      "movement": "m07",
+      "correct": false,
+      "engine_metrics": {
+        "counts": {
+          "incorrect_reps": 10,
+          "total_reps": 10,
+          "verdict_NO_EVENT": 10
+        },
+        "precision": null,
+        "good_rep_recall": null,
+        "assessable_coverage": 0.0
+      },
+      "completed_attempts": 0,
+      "attempt_reasons": {},
+      "qualified_counts_vetoed": 0,
+      "bilateral_shoulder_proxy_quantiles_degrees": {
+        "left": {
+          "q05": 22.021940791683704,
+          "q50": 64.97188383716377,
+          "q95": 126.03990514027058,
+          "q95_minus_q05": 104.01796434858687
+        },
+        "right": {
+          "q05": 24.134507324437664,
+          "q50": 27.433332351997077,
+          "q95": 33.97863471236905,
+          "q95_minus_q05": 9.844127387931387
+        }
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-validation.json",
+      "sha256": "c5a6f82698a7dcf3cdcd689d64913f6a07365c0970b0f2cec50e808b202b0376"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-validation-error-audit.json",
+      "sha256": "a5ffdc2a169bc76692a0456d171e936a658f7cb7ea8e9736bebdff3704b130d1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-vicon/manifest.json",
+      "sha256": "d2efd45c767b2b4dc00827d322dda0369a8db6896328611c09cd82765242ae75"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-vicon/geometry-qa.json",
+      "sha256": "71d97b3fd8128bb09a47b751c51495784560c1235f32f3ca03058cd150d863f3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-replay.json",
+      "sha256": "5596f9ce88c26651e1cef53a51e6e480b5d8d2c0d9ca812e0bbcbafbee541530"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-access.jsonl",
+      "sha256": "741b9cb99648a3ef86d3127227472ed0108404d0322888d9ed36bc4db522a296"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-replay.json",
+      "sha256": "f4c8e010153cd0bae3f016b1e6065c20243985f5372f8212658f81b681496acd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development.json",
+      "sha256": "e1ee584c6cc91c85af5e2e7c1911ac3e917284e7d51d786be65b15987147e558"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-vicon/geometry-qa-s05-correct.png",
+      "sha256": "b8936c03b395551436caeef5afbe4162bc4282d761e13b1c21ed48533918fd79"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-vicon/geometry-qa-s05-incorrect.png",
+      "sha256": "151754d4fc290ea0c65eb13ce0a59cc305906166be2ec7511c22898b7852bc5d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-vicon/geometry-qa-s06-correct.png",
+      "sha256": "0d4b5535d65294eb2b4f654068ea19e186f13dc2adfe91ecb4730c827ddd06e4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-vicon/geometry-qa-s06-incorrect.png",
+      "sha256": "0068d97bcd430c8d8d23513f6bd470c9bb4391bbb5803ea92de6ee4e9816086c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-vicon/geometry-qa-s07-correct.png",
+      "sha256": "f84e9e8eb260811593a503755fd2a38e573e812784c3b4054802cea121577f47"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/validation-vicon/geometry-qa-s07-incorrect.png",
+      "sha256": "13e4f596c935fde31d0353dfc56ca550c425d4ed1951d4d9243494c7f871c692"
+    }
+  ],
+  "source_code_sha256": {
+    "scripts/prepare_uiprmd_validation.py": "f1a9867941ae0db5aeb824e4a6064a502c83f4c52e9509107050d6826a958fa3",
+    "scripts/evaluate_uiprmd_validation.py": "945a030b815d3658eeaae3ab1c504c87cd57debd65c082e2d4d86304b793ec3a",
+    "scripts/plot_uiprmd_validation.py": "fc4d7f4eb93e7b9d5e5dc3d7bca668c9999c580b9a1b7a70036969c3f1131f20",
+    "scripts/audit_uiprmd_validation.py": "7fad5e079dca488c29d6b6b54e62e6ef4e8d04b4f5da1ba77df25f60bc7a7c67",
+    "scripts/tests/test_uiprmd_validation_guard.py": "283f7eebb037d4ece34f1572d21cb457b907849e5ff42866ca407ba4e7c93a54",
+    "core-motion/build.gradle.kts": "fe3d4a4ff9a4182c6aa1dda8104712c3585d5ee670bde20505303d0e88d85b4c",
+    "core-motion/src/test/kotlin/ai/senp/motion/UiprmdDevelopmentReplay.kt": "88d544b9083513cfc687e3cebde655913cefc9de0ba5b6595ea0746b8301885b",
+    "core-motion/src/test/kotlin/ai/senp/motion/UiprmdReplayScopeTest.kt": "6c274829a4bc58ea725c027d980a8476094c67e47ad52038f6a5ebb443b9d624"
+  },
+  "fitted_models": [
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development-models/m01-logistic.joblib",
+      "sha256": "670c0fb1040d2efadbc01bfcdfe0e033dc55a289d5868eb5fcd3e562e76421f7",
+      "training_subjects": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "training_attempts": 78,
+      "release_approved": false
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development-models/m07-logistic.joblib",
+      "sha256": "754155e936e3f35f4e66c36ad9e03b5a85e6b3f6e7e31a3dce689be815c4fa4b",
+      "training_subjects": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "training_attempts": 73,
+      "release_approved": false
+    }
+  ],
+  "verification": {
+    "python_tests": 41,
+    "python_passed": true,
+    "core_motion_jvm": {
+      "tests": 202,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "development_replay_byte_identical_to_frozen_input": true,
+    "android_tests_rerun": false,
+    "android_note": "Research-only scripts/test harness; production Android code and APK unchanged.",
+    "log_sha256": {
+      "quality-validation-python-tests.log": "7bf6e21097e25da5fdbf44cdf573f235ed341859bbbad3c65ca7be4a4d0f3a6b",
+      "quality-validation-jvm-tests.log": "f0b38d0ed42e5dad778d7314ed3c4e2ea5a0bdfe0c7d28574ef7b4fefa0c4eee",
+      "quality-validation-replay.log": "aa25bc2ef9f0d53ce9039cb52e00f71bec46bc3c5a3f64696ca8b7bdf12cae0f",
+      "quality-validation-results.log": "a019386a398de89ee44f0a96680962aede6de552b7020d4265e98aeb730365f0",
+      "quality-validation-export.log": "3cd95b6f6840ab347dde97a98219e6fe76d86bbe4d5e0394f2243bf86a6db0ac",
+      "quality-validation-geometry.log": "9ff7b7b286b4bddb79aac49220daa485ee8e267666089f2ccbab5a77efe6036f",
+      "quality-validation-error-audit.log": "ea2cf538f9ff0d5a86f25831eb9842054f8346e88c9213f9bf4d9bfa0abcebd4"
+    }
+  },
+  "limitations": [
+    "Validation figures are not final-test or live-camera accuracy.",
+    "6/6 accepted validation events do not establish 100% population precision.",
+    "Frozen RIGHT-side labels and all original denominators are retained despite the detected laterality mismatch.",
+    "This whole-attempt veto cannot identify when a joint fault first became visible."
+  ]
+}

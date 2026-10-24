@@ -241,3 +241,17 @@ tasks.register<JavaExec>("uiprmdDevelopmentReplay") {
     maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("uiprmdValidationReplay") {
+    group = "verification"
+    description = "Replay the frozen validation cohort; final-test subjects are forbidden."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.UiprmdValidationReplay")
+    args(rootProject.file("test-artifacts/exercise-knowledge/uiprmd/validation-vicon").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/uiprmd/validation-replay.json").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/uiprmd/development-vicon").absolutePath,
+        rootProject.file("models/uiprmd-quality-validation-protocol.json").absolutePath)
+    maxHeapSize = "1200m"
+    outputs.upToDateWhen { false }
+}

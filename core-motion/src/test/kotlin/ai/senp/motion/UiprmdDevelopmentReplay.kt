@@ -7,29 +7,63 @@ import kotlinx.serialization.json.*
 
 /** Independent skeletal labels never enter the engine. No fake MP33/confidence/weights. */
 object UiprmdDevelopmentReplay {
+    @JvmStatic fun main(args: Array<String>) = UiprmdSkeletalReplay.run(File(args[0]),File(args[1]))
+}
+
+/** Explicit validation entry point. No CLI option can authorize final-test subjects. */
+object UiprmdValidationReplay {
+    @JvmStatic fun main(args: Array<String>) = UiprmdSkeletalReplay.run(
+        File(args[0]),File(args[1]),File(args[2]),File(args[3]),
+    )
+}
+
+internal object UiprmdSkeletalReplay {
     private val json = Json { prettyPrint = true }
     private fun sha(file: File): String = MessageDigest.getInstance("SHA-256").digest(file.readBytes()).joinToString("") { "%02x".format(it) }
-    @JvmStatic fun main(args: Array<String>) {
-        val directory = File(args[0]);val output = File(args[1])
-        val manifest = Json.parseToJsonElement(File(directory,"manifest.json").readText()).jsonObject
-        require(manifest.getValue("schema").jsonPrimitive.content == "uiprmd-development-export/1")
-        require(manifest.getValue("subjects_opened").jsonArray.map { it.jsonPrimitive.content }.toSet() == setOf("01","02","03","04"))
-        require(!manifest.getValue("validation_trajectories_opened").jsonPrimitive.boolean)
+    internal fun verifySubjects(manifest: JsonObject, validation: Boolean) {
+        val expected = if (validation) setOf("05","06","07") else setOf("01","02","03","04")
+        val scope = if (validation) "validation" else "development"
+        require(manifest.getValue("schema").jsonPrimitive.content == "uiprmd-$scope-export/1")
+        require(manifest.getValue("subjects_opened").jsonArray.map { it.jsonPrimitive.content }.toSet() == expected)
+        require(manifest.getValue("validation_trajectories_opened").jsonPrimitive.boolean == validation)
         require(!manifest.getValue("test_trajectories_opened").jsonPrimitive.boolean)
+        val records = manifest.getValue("records").jsonArray.map { it.jsonObject }
+        val keys = records.map { Triple(it.getValue("subject").jsonPrimitive.content,
+            it.getValue("movement").jsonPrimitive.content,it.getValue("correct").jsonPrimitive.boolean) }
+        val expectedKeys = expected.flatMap { s -> listOf("m01","m07").flatMap { m -> listOf(true,false).map { Triple(s,m,it) } } }.toSet()
+        require(keys.size == expectedKeys.size && keys.toSet() == expectedKeys)
+    }
+
+    fun run(directory: File, output: File, referenceDirectory: File = directory, validationProtocol: File? = null) {
+        val validation = validationProtocol != null
+        val manifest = Json.parseToJsonElement(File(directory,"manifest.json").readText()).jsonObject
+        verifySubjects(manifest,validation)
+        if (validationProtocol != null) {
+            val protocol = Json.parseToJsonElement(validationProtocol.readText()).jsonObject
+            require(protocol.getValue("compiler").jsonPrimitive.content == QualifiedRepCompiler.VERSION)
+            require(!protocol.getValue("evaluation").jsonObject.getValue("allow_final_test_access").jsonPrimitive.boolean)
+            require(manifest.getValue("candidate_protocol_sha256").jsonPrimitive.content == sha(validationProtocol))
+        }
         val backend = manifest.getValue("backend_sha256").jsonPrimitive.content
         val pipeline = manifest.getValue("pipeline").jsonPrimitive.content
         require(pipeline == "uiprmd-vicon39-marker-angle/1")
-        val records = manifest.getValue("records").jsonArray.map { item ->
-            val row = item.jsonObject
-            val file = File(directory,row.getValue("file").jsonPrimitive.content)
-            require(file.canonicalFile.parentFile == directory.canonicalFile && sha(file) == row.getValue("sha256").jsonPrimitive.content)
-            Json.parseToJsonElement(file.readText()).jsonObject.also { r ->
-                require(r.getValue("subject").jsonPrimitive.content in setOf("01","02","03","04"))
+        fun readRecord(root: File, row: JsonObject): JsonObject {
+            val file = File(root,row.getValue("file").jsonPrimitive.content)
+            require(file.canonicalFile.parentFile == root.canonicalFile && sha(file) == row.getValue("sha256").jsonPrimitive.content)
+            return Json.parseToJsonElement(file.readText()).jsonObject.also { r ->
+                for (key in listOf("subject","movement","correct")) require(r.getValue(key) == row.getValue(key))
                 require(r.getValue("backend_sha256").jsonPrimitive.content == backend && r.getValue("pipeline").jsonPrimitive.content == pipeline)
                 require(r.getValue("sample_period_ms").jsonPrimitive.int == 10)
             }
         }
-        require(records.size == 16)
+        val records = manifest.getValue("records").jsonArray.map { readRecord(directory,it.jsonObject) }
+        val references = if (!validation) records else {
+            val referenceManifest = Json.parseToJsonElement(File(referenceDirectory,"manifest.json").readText()).jsonObject
+            verifySubjects(referenceManifest,false)
+            referenceManifest.getValue("records").jsonArray.map { it.jsonObject }.filter {
+                it.getValue("subject").jsonPrimitive.content == "01" && it.getValue("correct").jsonPrimitive.boolean
+            }.map { readRecord(referenceDirectory,it) }.also { require(it.size == 2) }
+        }
         fun sequence(record: JsonObject, role: VideoRole): SpatialSequenceAnalysis {
             val frames = record.getValue("frames").jsonArray.mapIndexed { index,item ->
                 val row = item.jsonObject;val time = row.getValue("timestamp_ms").jsonPrimitive.long
@@ -47,8 +81,8 @@ object UiprmdDevelopmentReplay {
             val subject = record.getValue("subject").jsonPrimitive.content
             val movement = record.getValue("movement").jsonPrimitive.content
             // Fixed cross-person reference, chosen without source outcomes. Final subjects will use s01 only.
-            val referenceSubject = if (subject == "01") "02" else "01"
-            val reference = records.single { it.getValue("subject").jsonPrimitive.content == referenceSubject &&
+            val referenceSubject = if (!validation && subject == "01") "02" else "01"
+            val reference = references.single { it.getValue("subject").jsonPrimitive.content == referenceSubject &&
                 it.getValue("movement").jsonPrimitive.content == movement && it.getValue("correct").jsonPrimitive.boolean }
             val fingerprint = RepEvidenceFingerprint(reference.getValue("source_sha256").jsonPrimitive.content,backend,pipeline,"vicon39-global-marker-proxies")
             val config = QualifiedRepConfig(side = RepObservedSide.valueOf(record.getValue("side").jsonPrimitive.content))
@@ -82,13 +116,18 @@ object UiprmdDevelopmentReplay {
             }
         }
         val report = buildJsonObject {
-            put("schema","uiprmd-development-replay/1");put("measurement_domain","skeletal")
-            put("kind","development-only-independent-label-diagnostic-not-held-out-accuracy")
+            put("schema",if (validation) "uiprmd-validation-replay/1" else "uiprmd-development-replay/1");put("measurement_domain","skeletal")
+            put("kind",if (validation) "validation-only-independent-skeletal-label-diagnostic" else "development-only-independent-label-diagnostic-not-held-out-accuracy")
+            if (validationProtocol != null) {
+                put("candidate_protocol_sha256",sha(validationProtocol))
+                put("reference_manifest_sha256",sha(File(referenceDirectory,"manifest.json")))
+                put("final_test_trajectories_opened",false)
+            }
             put("manifest_sha256",sha(File(directory,"manifest.json")));put("compiler",QualifiedRepCompiler.VERSION)
             put("raw_landmark_network_trained",false);put("config","production-defaults-reference-match")
             put("rows",JsonArray(rows))
         }
         output.parentFile.mkdirs();output.writeText(json.encodeToString(JsonObject.serializer(),report))
-        println("UI-PRMD development: ${rows.count { it.getValue("status").jsonPrimitive.content == "REPLAYED" }}/${rows.size} recordings replayed; $output")
+        println("UI-PRMD ${if (validation) "validation" else "development"}: ${rows.count { it.getValue("status").jsonPrimitive.content == "REPLAYED" }}/${rows.size} recordings replayed; $output")
     }
 }
