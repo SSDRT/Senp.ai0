@@ -301,3 +301,16 @@ tasks.register<JavaExec>("uiprmdPlaneReferenceInputs") {
     maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("denseReferenceCalibrationAudit") {
+    group = "verification"
+    description = "Screen fixed 33 ms reference extractions with unchanged calibration gates; no source or holdout reads."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.DenseReferenceCalibrationAudit")
+    args(rootProject.file("test-artifacts/exercise-knowledge/dense-reference-full-cache").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/dense-reference-full-screen.json").absolutePath,
+        rootProject.file("models/dense-reference-extraction-protocol.json").absolutePath,rootProject.projectDir.absolutePath)
+    maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}

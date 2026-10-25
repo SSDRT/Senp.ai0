@@ -1,0 +1,13 @@
+# Denser reference extraction research
+
+The 25 October candidate tests whether retaining original frames at a 33 ms minimum interval, rather than 66 ms, improves calibration of the fixed sixteen complete reference uploads. MediaPipe VIDEO tracking consumes a different observed prefix at the denser cadence. This can change landmark estimates even at shared timestamps; it is an input/extraction experiment, not an isolated change in the rep algorithm or trained landmark weights.
+
+The protocol freezes Full model identity, 960-pixel maximum edge, the original source-PTS decoder, uncapped reference duration, all sixteen source hashes, the preceding 32-choice registry and ordinary/bounded reference fits before inference. Keep all image/world coordinates, visibility and presence for all 33 landmarks. Do not interpolate timestamps, coordinates, confidence or labels. The research fingerprint is `mp33-raw-world-dense33-research/1`, separate from the established pipeline. Existing reference/source caches are preserved.
+
+Screen each reference/side under the unchanged production confidence, range, dwell, coverage, noise, minimum-cycle and 80% reconstruction requirements. Existing Full/Heavy and ordinary/bounded choices retain priority; denser Full is eligible for research only where all established choices were unavailable. Source outcomes and weak whole-clip labels cannot choose between candidates. No UI-PRMD validation/final trajectories are opened.
+
+The first screen reads references only. A newly reconstructable reference alone earns no readiness points: source replay must use a coherent declared extraction pipeline, counts/verdicts must be audited and any production promotion requires scoped JVM/native verification and a fresh APK. A gain in self-reconstruction is not independent human-rep precision. The fixed 32-reference denominator, six-policy set and all independent gates stay unchanged.
+
+Fixed timestamped QA uses original RGB at the nearest shared observed PTS to 6,000 and 10,000 ms in reference 001 front squat, 005 side squat and 001 side push-up. Display original RGB alongside unmodified raw old/dense pose overlays. These frames are diagnostics, not new manual correctness annotations. Preserve both successful and failed outcomes.
+
+The code/protocol must be committed before launching the extraction. `scripts/extract_dense_reference_candidate.py` verifies protocol/source/input receipts before inference; `:core-motion:denseReferenceCalibrationAudit` performs the reference-only screen; `scripts/plot_dense_reference_extraction.py` creates timestamped QA. Results and promotion status will be recorded after inspection. Until then production readiness remains 42.5/100 and the previously verified APK remains current.
