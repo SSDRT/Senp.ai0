@@ -174,4 +174,45 @@ class QualifiedRepEvidenceInstrumentedTest {
         }
         save("mirror-reference-self-check.json",accepted,2)
     }
+
+    @Test fun confidentMotionWithoutATrackedSubjectCannotArmOrCount() {
+        val sequence = calibrationSequence(false,1)
+        for (subject in listOf(null,""," ","\t\r\n")) {
+            val engine = reference(false).newEngine()
+            for (source in sequence.frames) {
+                val output = engine.evaluate(source.copy(selectedSubjectId = subject),identity.poseModelSha256)
+                assertEquals(RepStage.UNAVAILABLE,output.stage)
+                assertEquals(RepReason.MISSING_CRITICAL_EVIDENCE,output.unavailableReason)
+                assertNull(output.activeAttemptId)
+                assertTrue(output.newFaults.isEmpty() && output.finalizedAttempts.isEmpty())
+            }
+            assertEquals(0,engine.finish(sequence.duration.value).counts.finalized)
+        }
+        save("unidentified-source-controls.json",0,4)
+    }
+
+    @Test fun earlyReversalFaultNamesTheActualSourceLimbInDirectAndMirroredMode() {
+        val sequence = calibrationSequence(false,1)
+        for (mirror in listOf(ActionMirrorMode.DIRECT,ActionMirrorMode.MIRRORED)) {
+            val compiled = QualifiedRepCompiler.compile(calibrationSequence(false),"biceps_curl",identity,
+                QualifiedRepConfig(mirrorMode = mirror)) as QualifiedRepCompilation.Ready
+            val engine = compiled.reference.newEngine()
+            val side = if (mirror == ActionMirrorMode.DIRECT) "left" else "right"
+            val faults = mutableListOf<RepFault>()
+            for (source in sequence.frames) {
+                val values = mapOf("angle.${side}_elbow" to 170-(170-source.intrinsicDescriptor.values.getValue("angle.left_elbow"))*.45,
+                    "angle.${side}_shoulder" to 15.0)
+                val frame = source.copy(intrinsicDescriptor = source.intrinsicDescriptor.copy(values = values,featureConfidences = values.mapValues { .95 }))
+                faults += engine.evaluate(frame,identity.poseModelSha256).newFaults
+            }
+            val fault = faults.single { it.reason == RepReason.EARLY_REVERSAL }
+            assertEquals("angle.${side}_elbow",fault.feature)
+            assertTrue(fault.firstEvidenceMs > 1100)
+            assertTrue(fault.confirmedMs-fault.firstEvidenceMs >= compiled.reference.config.reversalConfirmationMs)
+            val output = engine.finish(sequence.duration.value)
+            assertEquals(1,output.counts.rejected)
+            assertEquals(0,output.counts.qualified)
+        }
+        save("source-limb-early-reversal-controls.json",0,2)
+    }
 }

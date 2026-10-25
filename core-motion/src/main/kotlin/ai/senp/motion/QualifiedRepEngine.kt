@@ -67,7 +67,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         }
         if (poseModelSha256 != reference.fingerprint.poseModelSha256) return unavailable(RepReason.MODEL_MISMATCH)
         if (preprocessingId != reference.fingerprint.preprocessingId) return unavailable(RepReason.PREPROCESSING_MISMATCH)
-        if (frame.evidenceKind != SpatialEvidenceKind.THREE_D || frame.selectedSubjectId == null) return unavailable(RepReason.MISSING_CRITICAL_EVIDENCE)
+        if (frame.evidenceKind != SpatialEvidenceKind.THREE_D || frame.selectedSubjectId.isNullOrBlank()) return unavailable(RepReason.MISSING_CRITICAL_EVIDENCE)
         fun value(name: String): Double? {
             val key = config.side.observedFeature(name,config.mirrorMode)
             return frame.intrinsicDescriptor.values[key]?.takeIf {
@@ -126,7 +126,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
             if (confirmed(current.reversal,now,config.reversalConfirmationMs)) {
                 current.returning = true
                 if (current.maximumProgress >= config.departureProgress && current.maximumProgress < config.clearlyIncompleteProgress) {
-                    latch(current,"range",RepFault(RepReason.EARLY_REVERSAL,reference.driverFeature,
+                    latch(current,"range",RepFault(RepReason.EARLY_REVERSAL,config.side.observedFeature(reference.driverFeature,config.mirrorMode),
                         requireNotNull(current.reversal).since,now),newFaults)
                 }
             }
