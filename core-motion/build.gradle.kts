@@ -289,3 +289,15 @@ tasks.register<JavaExec>("uiprmdEvidenceAudit") {
     maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("uiprmdPlaneReferenceInputs") {
+    group = "verification"
+    description = "Export causal self-replay input for development references 01/02 only; no source-outcome selection."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.UiprmdPlaneReferenceInputs")
+    args(rootProject.file("test-artifacts/exercise-knowledge/uiprmd/development-vicon").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/uiprmd/plane-reference-inputs.json").absolutePath)
+    maxHeapSize = "1200m"
+    outputs.upToDateWhen { false }
+}
