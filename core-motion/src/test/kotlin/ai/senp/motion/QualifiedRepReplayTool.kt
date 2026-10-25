@@ -11,6 +11,7 @@ object QualifiedRepReplayTool {
     private data class Video(val name: String, val payload: JsonObject, val spatial: SpatialSequenceAnalysis)
     @JvmStatic fun main(args: Array<String>) {
         val directory = File(args[0]); val destination = File(args[1]);destination.mkdirs()
+        val exportEvidence = args.getOrNull(9)?.toBooleanStrict() ?: false
         val experimentalParameters = args.getOrNull(2)?.takeIf { it != "-" }?.let { path ->
             val root = Json.parseToJsonElement(File(path).readText()).jsonObject
             require(root.getValue("kind").jsonPrimitive.content == "autonomous-generated-oracle-parameter-search-not-human-accuracy")
@@ -93,7 +94,9 @@ object QualifiedRepReplayTool {
                     put("accepted",self?.counts?.qualified ?: 0);put("rejected",self?.counts?.rejected ?: 0);put("unassessable",self?.counts?.unassessable ?: 0)
                 }
             }
-            val engine = ready.newEngine();val legacy = (compiled as? ReferenceActionCompilation.Success)?.let { ActionStateRecognizer(it.profile) }
+            var lastEvidence: QualifiedRepFrameEvidence? = null
+            val engine = if (exportEvidence) QualifiedRepEngine(ready) { lastEvidence = it } else ready.newEngine()
+            val legacy = (compiled as? ReferenceActionCompilation.Success)?.let { ActionStateRecognizer(it.profile) }
             val trace = mutableListOf<JsonObject>();val attempts = mutableListOf<JsonObject>();val faults = mutableListOf<JsonObject>()
             var result: QualifiedRepOutput? = null
             for (frame in video.spatial.frames) {
@@ -102,6 +105,7 @@ object QualifiedRepReplayTool {
                 result.finalizedAttempts.forEach { attempts += attempt(it) }
                 result.newFaults.forEach { faults += fault(it) }
                 trace += buildJsonObject {
+                    if (exportEvidence) put("evidence",lastEvidence?.takeIf { it.timestampMs == frame.timestamp.value }?.toDiagnosticJson() ?: JsonNull)
                     put("timestamp_ms",frame.timestamp.value);put("stage",result.stage.name)
                     put("progress",result.progress?.let(::JsonPrimitive) ?: JsonNull);put("active_disqualified",result.activeDisqualified)
                     put("qualified_count",result.counts.qualified);put("legacy_raw_count",old?.completedRepetitions?.let(::JsonPrimitive) ?: JsonNull)

@@ -5,7 +5,8 @@ import kotlin.math.max
 import kotlin.math.min
 
 /** Causal visible-side reference matching. Does not use the legacy repetition count or learned form scores. */
-class QualifiedRepEngine internal constructor(private val reference: QualifiedRepReference) {
+class QualifiedRepEngine internal constructor(private val reference: QualifiedRepReference,
+    private val evidenceObserver: ((QualifiedRepFrameEvidence) -> Unit)? = null) {
     private val config = reference.config
     private data class Context(val subject: String?, val segment: Int?, val capture: String?)
     private data class Confirmation(val since: Long, var observations: Int = 1)
@@ -137,12 +138,21 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         // use the return curve immediately. This does not confirm reversal, endpoints
         // or a count, and never combines different branches feature by feature.
         val evidenceReturning = current.returning || (current.farObserved && progress < current.maximumProgress && compatible(true))
+        val evidence = if (evidenceObserver != null) mutableListOf<QualifiedRepFeatureEvidence>() else null
         val pendingKeys = mutableSetOf<String>()
         for (feature in reference.requiredFeatures) {
             val observed = value(feature)
-            if (observed == null) { current.pending.remove(feature); continue }
+            if (observed == null && evidence == null) { current.pending.remove(feature); continue }
             val band = reference.evidenceBand(feature,progress,evidenceReturning)
-            val distance = when { observed < band.lower -> band.lower-observed; observed > band.upper -> observed-band.upper; else -> 0.0 }
+            val distance = observed?.let { when { it < band.lower -> band.lower-it; it > band.upper -> it-band.upper; else -> 0.0 } }
+            if (evidence != null) {
+                val sourceFeature = config.side.observedFeature(feature,config.mirrorMode)
+                evidence += QualifiedRepFeatureEvidence(feature,sourceFeature,frame.intrinsicDescriptor.values[sourceFeature],
+                    frame.intrinsicDescriptor.featureConfidences[sourceFeature] ?: 0.0,observed,
+                    band.lower,band.upper,band.nominal,band.acceptable,band.reject,distance,band.ruleId)
+            }
+            if (observed == null) { current.pending.remove(feature); continue }
+            requireNotNull(distance)
             if (distance > band.nominal) current.minorDeviation = true
             if (distance > band.acceptable) { ambiguous = true; endpointAcceptable = false }
             val ruleKey = "${band.ruleId}|${if (observed < band.lower) -1 else 1}"
@@ -157,6 +167,8 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
                 }
             } else current.pending.remove(feature)
         }
+        evidenceObserver?.invoke(QualifiedRepFrameEvidence(now,reference.referenceKey,current.id,progress,
+            evidenceReturning,current.returning,current.farObserved,requireNotNull(evidence).toList()))
         current.pending.keys.filter { it !in pendingKeys }.forEach(current.pending::remove)
         // A visible but incompatible pose cannot be the sole evidence of the observed
         // path. Brief faults still keep their original dwell; lack of a compatible

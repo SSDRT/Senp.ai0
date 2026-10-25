@@ -147,6 +147,7 @@ tasks.register<JavaExec>("qualifiedRepVideoReplay") {
     args(providers.gradleProperty("qualifiedObservedDriverEnvelope").getOrElse("true"))
     args(providers.gradleProperty("qualifiedReplayReferences").orNull?.let { rootProject.file(it).absolutePath } ?: "-")
     args(providers.gradleProperty("qualifiedReplayMirror").getOrElse("DIRECT"))
+    args(providers.gradleProperty("qualifiedReplayEvidence").getOrElse("false"))
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
@@ -271,6 +272,20 @@ tasks.register<JavaExec>("uiprmdSideBindingReplay") {
         rootProject.file("test-artifacts/exercise-knowledge/uiprmd/side-binding-$scope-$mode-replay.json").absolutePath,
         rootProject.file("test-artifacts/exercise-knowledge/uiprmd/development-vicon").absolutePath,
         rootProject.file("models/uiprmd-side-binding-protocol.json").absolutePath,scope,mode)
+    maxHeapSize = "1200m"
+    outputs.upToDateWhen { false }
+}
+
+tasks.register<JavaExec>("uiprmdEvidenceAudit") {
+    group = "verification"
+    description = "Record passive reference-band diagnostics on previously opened skeletal cohorts; never final test."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.UiprmdEvidenceAudit")
+    val scope = providers.gradleProperty("uiprmdEvidenceScope").getOrElse("development")
+    require(scope in setOf("development","validation"))
+    args(scope,rootProject.file("test-artifacts/exercise-knowledge/uiprmd").absolutePath,
+        rootProject.file("test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-$scope").absolutePath)
     maxHeapSize = "1200m"
     outputs.upToDateWhen { false }
 }
