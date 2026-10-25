@@ -314,3 +314,14 @@ tasks.register<JavaExec>("denseReferenceCalibrationAudit") {
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("imageReferenceCalibrationAudit") {
+    group = "verification"
+    description = "Screen frozen same-frame Full IMAGE/crop references with strict raw-coordinate provenance."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.ImageReferenceCalibrationAudit")
+    args(rootProject.projectDir.absolutePath)
+    maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}
