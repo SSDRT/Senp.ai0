@@ -1,0 +1,686 @@
+{
+  "schema": "senpai-image-reference-extraction-provenance/1",
+  "captured_utc": "2026-10-27T01:28:49.750368+00:00",
+  "kind": "rejected-reference-preprocessing-research-not-human-rep-accuracy",
+  "candidate_status": "REJECTED_NO_ADDITIONAL_CALIBRATION",
+  "frozen_before_inference_commit": "f702bfca1c8ba937f50824238f32587528019da2",
+  "verified_production_engine_commit": "c6107062b8e0fffd2171fbdae8e51ccefd8df1c0",
+  "protocol_sha256": "d2e5afdcc273220172af39044e38eaed1e7f82ca8bc84cd5d7700a0d47d0f13e",
+  "variant_statistics": {
+    "full_image": {
+      "observation_slots": 7191,
+      "admitted_observations": 5311,
+      "raw_model_outputs_retained": 5886,
+      "fit_statuses": {
+        "ORDINARY_LEAST_SQUARES": {
+          "INSUFFICIENT_REFERENCE_CYCLES": 17,
+          "MISSING_FEATURE": 11,
+          "READY": 4
+        },
+        "BOUNDED_MEDIAN_PAIRWISE": {
+          "INSUFFICIENT_REFERENCE_CYCLES": 17,
+          "MISSING_FEATURE": 11,
+          "LOW_SELF_RECONSTRUCTION": 1,
+          "READY": 3
+        }
+      }
+    },
+    "coarse_roi_image": {
+      "observation_slots": 7191,
+      "admitted_observations": 1859,
+      "raw_model_outputs_retained": 1940,
+      "fit_statuses": {
+        "ORDINARY_LEAST_SQUARES": {
+          "INSUFFICIENT_REFERENCE_CYCLES": 7,
+          "MISSING_FEATURE": 23,
+          "LOW_SELF_RECONSTRUCTION": 2
+        },
+        "BOUNDED_MEDIAN_PAIRWISE": {
+          "INSUFFICIENT_REFERENCE_CYCLES": 7,
+          "MISSING_FEATURE": 23,
+          "LOW_SELF_RECONSTRUCTION": 2
+        }
+      }
+    }
+  },
+  "reference_side_variant_fit_trials": 128,
+  "mapping_verified_observation_slots": 14382,
+  "potential_new_reference_sides": 0,
+  "established_registry_preserved": true,
+  "reference_coverage": {
+    "usable": 12,
+    "denominator": 32
+  },
+  "source_outcome_selection": false,
+  "source_replay_performed": false,
+  "independent_evaluation_performed": false,
+  "final_skeletal_subjects_opened": false,
+  "new_manual_labels": 0,
+  "raw_established_caches_rewritten": false,
+  "world_or_confidence_repair": false,
+  "network_weights_changed": false,
+  "production_thresholds_changed": false,
+  "apk_promoted": false,
+  "readiness_score": 42.5,
+  "new_readiness_points": 0,
+  "actual_live_human_rep_precision": null,
+  "jvm_core": {
+    "tests": 222,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "python": {
+    "tests": 77,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "native_tests_rerun": false,
+  "native_note": "Previous 27 functional tests and frozen controls still bind unchanged production engine c610706; no new native/performance run claimed.",
+  "qa_original_rgb_frames_inspected": 6,
+  "qa_model_diagnostic_panels_inspected": 18,
+  "runtime_warnings_retained": [
+    "NORM_RECT projection without IMAGE_DIMENSIONS",
+    "Feedback tensor signature warning"
+  ],
+  "mmfit_review": {
+    "publisher_record": "https://zenodo.org/records/7672767",
+    "metadata_api": "https://zenodo.org/api/records/7672767",
+    "verified_video_license": "cc-by-4.0",
+    "video_downloaded": false,
+    "annotation_release_terms_verified": false,
+    "binary_rep_form_labels_established": false,
+    "potential_use": "Explicit seated lateral-raise camera reference; future guarded ingestion"
+  },
+  "readiness_evidence": "models/source-identity-fault-readiness.evidence.json",
+  "current_immutable_proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/reports/image-reference-extraction.json",
+      "sha256": "4d2a5d947d206447c930538b8c75c7a69fec5570db79e7d0d9e8d8342cfdfca1",
+      "bytes": 13780
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/reports/image-reference-screen.json",
+      "sha256": "4ae8eff31585743e2b4d2763df8acf99dbb5aa9400d7e98f1748304c376a1e44",
+      "bytes": 135763
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/reports/image-reference-original-frames.json",
+      "sha256": "c5ffbde933ba367ef77177f5dfdd95ec2a55362bf2a363d6d5ec90c270812ef7",
+      "bytes": 4232
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/reports/image-reference-original-frames.png",
+      "sha256": "03fbdf0e0275f2f8ddcd82b81eb0337986a95d98bcae00f6c227cdfd2950230d",
+      "bytes": 923204
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "3014ecb0bfa1c87d6a5e6fbf163e892db6d2afb4f2b2076c6faa345a7bfcd6de",
+      "bytes": 1127
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "fda1b4ebc61c63de37c29221b323d3d2993fd77ca708182e03b5e3ac36f8a688",
+      "bytes": 1864
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "45dd199d2b3bb46dc1ce3899e11d7c63c69e9a31b3e8d47f9b7b329bfa6eae16",
+      "bytes": 1451
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "7d676cf9043251dec7abac850f7f6d16ee37e9ca8611a8971ca9e3abbc55a5fb",
+      "bytes": 626
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "a2f226bb1c8662f148ab1722bde25175b5093a86484bd078c20ccbcd6203a8ea",
+      "bytes": 962
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "49d8cb64c857dc1e3606ae3a8d0e2d3033aa978add718866cdce2f763d9d6b49",
+      "bytes": 2899
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "8c339b2ab8672f93436c60495c45ec69e226c360a745a93e95092c7cb3caf620",
+      "bytes": 1319
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "e1bdab72860bbac2f3ea0e16c0e18e0b1119e61157d21c076b2c81c884dff555",
+      "bytes": 3540
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "43c86d51c983c06a6fd0e0f411769659998b77985b14b7134cbb2fe05e5a757e",
+      "bytes": 1115
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "8d85a503ae45ba74f9e5248bd565fd4a6b1fc7526114d1f772dfbb0ccbc917dc",
+      "bytes": 1526
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "19ad225b906d75a2c8009f3262ad077db2db70211054e9b1b8b6373eacd9ea0f",
+      "bytes": 1860
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "b4f75a257e56a269b04dbbecdc1f4ac571f9da7bd4be084f114cb3c83e28572c",
+      "bytes": 3960
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "890ba425dc9ca38dc359b2c1c96f44f798b2fea62cd6ed54f4448233d930d4b9",
+      "bytes": 1012
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "cf82325d97f82e648a46cd53f2da2fda15a44b6a10ae4eb85ca7a83270630676",
+      "bytes": 1389
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "377fa6be6aff6b2fe0ade404ac32a95e44e06cf1a75eb8daf61667e02a737ec9",
+      "bytes": 856
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "54ab6534379170c196f21268d7e36ac68f601480d50173a715a0784000c7a93e",
+      "bytes": 661
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "084d72d4a0b3707ecc90395f9fc42b3c17016392a0929a0b282e2bd7d5da81e9",
+      "bytes": 824
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "f3171d76f1ad614f19624c9d27190bd423392b50f1b1507fc9b4ecacf5912823",
+      "bytes": 2118
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "a75c61927dd06b50615cac725387b1a79aadd1b3a377ba00e2c8a3e0a8f1a830",
+      "bytes": 1142
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "b98d72424d363d2eb8255022ee085733b5dc68a8122c2dd024f194004008c7e8",
+      "bytes": 980
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "67ef502fb628e6904021428297caf3aebb8dff062d0e046d3b5ce3e15dce2020",
+      "bytes": 4018
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "46a39c61831ea0d2ceb0548b3c428dfdc9d50e13cda89901e8d03223111e61e0",
+      "bytes": 1069
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "cda83766f9c890635108313376bbbe9ad51e7fff04d5100a4cc0ae41f8b4708b",
+      "bytes": 3913
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "38a63ed55b2ff4e703b985bfaba6f1fd68f9e9e30fa41100031e52d2371fa197",
+      "bytes": 478
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "92295c0c7508a009dd77f48d6962a40f7a03b1509400b4a415d3d16fe7c7c5f5",
+      "bytes": 608
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "3c5688fc233e977104965130ecc0cab5a8101a7d3e0ac419127cf0799e96e0fc",
+      "bytes": 2458
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/logs/image-reference-extraction.log",
+      "sha256": "04e8a36359112f457c7739186e0e594d7bfa7cce6d4bdf48417997eff3a8fb05",
+      "bytes": 7463
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/logs/image-reference-final-jvm.log",
+      "sha256": "5f8afaeb2f1840c9a906329d6e1cb74414c8b3bfd10807ed3444109bf40bc28d",
+      "bytes": 1697
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/logs/image-reference-final-python.log",
+      "sha256": "f0f275eed00609bd3cca665d23c155c0210e0186691a1dca247a4a459147e8fa",
+      "bytes": 14668
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/logs/image-reference-jvm.log",
+      "sha256": "fa727e63a2bf3814241cd28bcf76da5ad095d018977d25cd1c9d8946b7572e80",
+      "bytes": 1750
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/logs/image-reference-mapping-final.log",
+      "sha256": "8b5de4ba5247ea2d4779f90413b84ddb1880e52be1c94ce2ca017ef3783ba9b9",
+      "bytes": 1686
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/logs/image-reference-python.log",
+      "sha256": "a641869a390aa2d34073aa50070255f66ea031b6a003960720a0b06f459c8bcc",
+      "bytes": 14442
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/logs/image-reference-qa.log",
+      "sha256": "660cdc5fe7f72b5af35d26ac3003a3b0e5fadf255e75d47082310e6f20ef2538",
+      "bytes": 90
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/logs/image-reference-screen.log",
+      "sha256": "842941d05aaa25da13026e34af99d6357ce1565be5a95b75cfee821bd36573e6",
+      "bytes": 1874
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/models/image-reference-extraction-protocol.json",
+      "sha256": "d2e5afdcc273220172af39044e38eaed1e7f82ca8bc84cd5d7700a0d47d0f13e",
+      "bytes": 9837
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/scripts/extract_image_reference_candidates.py",
+      "sha256": "d99d38a23213be7bf61d1c3f33452e92da2a9dc6b7b70446f5c1fb4ff265d294",
+      "bytes": 12119
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/scripts/extract_exercise_quality_features.py",
+      "sha256": "da63011034f2ee4fa0c7e5d39215b2011108f994912cd5a4499325a77969136f",
+      "bytes": 13266
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/scripts/plot_image_reference_candidates.py",
+      "sha256": "076f7c484915e1c44e63fde9f8a17211c5da23f3d5fe90927fff64af65cac9bd",
+      "bytes": 4622
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/scripts/tests/test_image_reference_geometry.py",
+      "sha256": "9e0eeb05821252bd1b2381ebeeaed0d0b14d3205d4fb254295f71c6e2cb61680",
+      "bytes": 4134
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/core-motion/build.gradle.kts",
+      "sha256": "1a3a4b033794888098808df6cf3a75eaa1f90995ce29f6f7a08c68517c8f6c3f",
+      "bytes": 16838
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/core-motion/src/test/kotlin/ai/senp/motion/ImageReferenceCalibrationAudit.kt",
+      "sha256": "036345956ca3c9e5623d300949a0c927bfdf46f15ca61a92e48167cfa54e37fa",
+      "bytes": 11742
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/core-motion/src/test/kotlin/ai/senp/motion/ImageReferenceMappingTest.kt",
+      "sha256": "05caaa646c9adaa0c5306ba43f89daf1c9b84f7a157acfdb40c4d12161365b3b",
+      "bytes": 1788
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/docs/IMAGE_REFERENCE_EXTRACTION_RESEARCH.md",
+      "sha256": "d24a9ac637e60185a30758070214e52af393449912177dbdbd91942691a8cf1a",
+      "bytes": 6822
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source/docs/INDEPENDENT_RGB_DATA_REVIEW.md",
+      "sha256": "f650dff4514cc88fe5a9dda7b5fab1ae792eee49a4200f3249dbd2826cc7f24c",
+      "bytes": 7550
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/commands/freeze-image-reference-results.py",
+      "sha256": "af03dea11df7fb43c23463dfe0a1f847e20722da727cfb2e649aabf1659e4126",
+      "bytes": 7122
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/commands/freeze-image-reference-protocol.py",
+      "sha256": "a1803bfa75f1e3be49931cb0d2c4102daf2097458148d6295314592ecc68a571",
+      "bytes": 3898
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-checkpoint-f702bfc/source-review/zenodo-7672767.json",
+      "sha256": "3aeb6a0b4360620ad3eab16e35d4e026b356d2415c859552ba0e98a927de28d3",
+      "bytes": 11334
+    }
+  ],
+  "input_receipts": [
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_good_front.mp4",
+      "sha256": "a7567a9201124b6580675ea5a16c47c73b8491c90d1b71d7ce6e2c924e33a9da",
+      "bytes": 3432322
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "c7d3817f8dcd2650c27b6dca705823a22273af9e3815ec3ef3b40f7bc41ece04",
+      "bytes": 1240089
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_good_side.mp4",
+      "sha256": "d55d8eb2f8d334095a4ed0c37e55c96d7f8b00eb8cf4806633b8fef65d356148",
+      "bytes": 2485491
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "2e7d45ded2b9d4f3d373ff2f9c88b093c17a29fd71f10b19860ca838ff08e2f8",
+      "bytes": 1088701
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_good_front.mp4",
+      "sha256": "dec7e02e38e5b6fb1aed167ba0e5b33f610615a1e94d5cba96e292363e2259d6",
+      "bytes": 3832303
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "d9e2eb1397b13f99643d2efa8cb9b19820a9a8cd9b4119eed9c628bf02e62f51",
+      "bytes": 1139864
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_good_side.mp4",
+      "sha256": "f437f915e8d1cb8dd651bbf3f63a80527bac74200429075bd1d3d6ec7c6a6a0d",
+      "bytes": 4128404
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "19cb6c502deab38a3a3a1df3614c8b1a0ee29606a137bb5d86b23de160b70cc6",
+      "bytes": 1063127
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_good_front.mp4",
+      "sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "bytes": 4221007
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "7874b4df273bd01829fb5808728e2d21146a71d16d3fe1df3b44809a7842422c",
+      "bytes": 1221045
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_good_side.mp4",
+      "sha256": "58365bfb99a0533cd3771f37f729eaf77f6b4056064f5476b24fac302008a214",
+      "bytes": 3842489
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "81da0eb8093a44f3b90e1a34d40cc3e6409d2ad0bd7389b17c115af8df222f6c",
+      "bytes": 1234554
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_good_front.mp4",
+      "sha256": "a268198533b49672e45dcae4f87c68daeb1334191b82f5dbfabb35204f68c52e",
+      "bytes": 4457119
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "5115fe2d3cabc306d174764d6cc160c83c4bd0114cf611e7d9fd280793b712da",
+      "bytes": 1228790
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_good_side.mp4",
+      "sha256": "71408510449717414d614e1e1a0a7ca498b7d8463f81d3375ea9da87fc18e7af",
+      "bytes": 4294397
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "3d38f0e6d29be161b3186d206f6a9e331845df00a3d37b265e37ba3b3417fb35",
+      "bytes": 750290
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_good_front.mp4",
+      "sha256": "cd356c554c8078a383fdcfc21d84cabd83f8442b8ecdfbc7bccdb131785a4778",
+      "bytes": 2875073
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "69ab5680ebf4f7d27dde11429fc18c225866f000ea509674da68dd7a841f3522",
+      "bytes": 1181540
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_good_side.mp4",
+      "sha256": "ab339121e1b4c28ce8867763f85845715a3946a7fdbb031cdf0a3773cbc19272",
+      "bytes": 4100983
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "1bd49828bed78703b39ebbbbacc607bd88fdf1435ea3c6a8eaa844f72b0cd84b",
+      "bytes": 1207888
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_good_front.mp4",
+      "sha256": "6e82daa9ed917ca646f22cc773ca574b286ee6d003e5f096e930b12b652f27fc",
+      "bytes": 2443423
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "0d1461cb1cc40945c7e720bb73fd0f7b4aea5ef34223d6fbd0f687e7f48ecd72",
+      "bytes": 672539
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_good_side.mp4",
+      "sha256": "0ac8ad70d6ba1d75b5ae2ba5d50113e94af02fab6e762a229ad4e37c19202b1e",
+      "bytes": 3140700
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "22c3a7fd74e644810365d6eb0d3fc4e8127b74e8a885c1bb8c0b2fe89e3574bc",
+      "bytes": 710126
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_good_front.mp4",
+      "sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853",
+      "bytes": 3028357
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "86b919dac76f1d5ed946fce690fd049ab98dacd8a86890039f5a13866663e52a",
+      "bytes": 1192505
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_good_side.mp4",
+      "sha256": "ee0f7bef8d6436bef19cfcd4eea67950be1ca2b614d5bc4a7f55f890da6c94b2",
+      "bytes": 4334723
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "c53000f8ef346a60576ad7553a9886399cc860979e596424e00d56fd062f0ed7",
+      "bytes": 1162211
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_good_front.mp4",
+      "sha256": "ddb822322967c5d19beb39074ff36b0e05d284813ae18dcb6e998e1a30be6acb",
+      "bytes": 3877759
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "3ad748ba6c0d4f7d8b6cfe007c5ba328b6246fd9ed4bb00c4381dcd586d97bb6",
+      "bytes": 1045869
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_good_side.mp4",
+      "sha256": "fd3e269778204f18c035aec90ba83bfad633b1202b88847b5784c1dc3d305570",
+      "bytes": 5799755
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "81cab3ecbd50f11d9e457b7ef1f70bd6f1bbe8f521642f47be758e4175962e57",
+      "bytes": 1139748
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "64803a54748417836c24205bcd1cd400f4456148fcf39ecf48b6472dc5f9631f",
+      "bytes": 1041682
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "05cdeb35250610a9cad568216c315c1bb9d9ffff45f7719d4bf699a99911393b",
+      "bytes": 4323
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "e270f20ef1083f5c56b5b5e6fe9812d1acca1a952144b434c0572b574b39f82d",
+      "bytes": 1101647
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "d28bd05fed67ed9417cef5f7dc83e9890ba0a23492f9983e5a8612abedbd0031",
+      "bytes": 4118
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "aa118d91ee711918e036211728800df321489fb04f04f18eb4ee8e86fda4fe16",
+      "bytes": 967337
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "b6fa8511583ee17dafa5caa6caf708e6dc1dd74edc6f514d3532646b4ed0d44b",
+      "bytes": 3902
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "4ea45f04f7eecb400e899ea83976b3a301683f1b410b2248bbdcf7b766e659e0",
+      "bytes": 1450131
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "517786ceeff8598176b147f2302c4f407865b4f8964a6f4bf032f05df9b7a094",
+      "bytes": 1796426
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "a2fb59fe66f486fcf307d7af625835f8c8969770135bb19f734310b00e5d2e51",
+      "bytes": 1361640
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "ed1dab69405b32c6eaa28667628016493cb0e6806acdb1587aee327983ecea3c",
+      "bytes": 1329375
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "2903b7a42e95dcecac5223e9d380946f10e131fc476b76f030045f0e75463113",
+      "bytes": 923021
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "c19d7cc44370f0fe55cd64f70762bfb6263ff48fd45d447c7b0c1e03b8febb3a",
+      "bytes": 4348
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "16fae22ab52b69ffea7625f70fd67fed5eb71a7482ae9721842fb77be31dda95",
+      "bytes": 541555
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "7090249767621db94039bbbe04e1ef44e7cb38834caf480c463047ae362ba532",
+      "bytes": 4191
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "414f822bd4b1d8b5b547843a4e1a85fb0819d4bd683deb4ad26940e43a3c51c3",
+      "bytes": 1377075
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "1a7243e27e2d448b6caab427c855f542dacefb7161ee951020946fc2c4bc87a8",
+      "bytes": 1606652
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "86e7449264bc89e39326932a97dc91bf6713814e6343a37fa23411523cfeefce",
+      "bytes": 1268282
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "1a9a75dd5cb6113bbbac72058917c219673a05cae703d47ee1b7812f21069cd4",
+      "bytes": 908049
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "c9f3c4b58a755671eedf8ffd899ba281a533afec010c43360e5660e0b99c17f2",
+      "bytes": 402299
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "e0f36634a36650db877c9f6c52b3b6f1bc766378bcae5d12d507459976de8a94",
+      "bytes": 2867
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "93be4040f6c1916ed4c23cc5608b7e41e7ff2577ed0bc84d8add7df2a8516a73",
+      "bytes": 1408391
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "a70437d8ad6fced4ebdf7dcfff94651c91a56476daf360fc7a26c19f19e1bbc8",
+      "bytes": 8937
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "288349087e4edfc01fb11d487bb30081497971a3b5e13d5fd7effcda8a851ae2",
+      "bytes": 804516
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "06d49fc6404994c121d0ff509faf58149a2ece69c9fe72f27bf3a11fc68546d6",
+      "bytes": 2957
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "901597b673ef443767ced6f97efb9900abdac013a320042cd903f7d6485482be",
+      "bytes": 1269103
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "14253fa61e3dcd637fdf5870fe28abcd4f79070664f381166966357e4c871809",
+      "bytes": 4139
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "92f3b60599a27723f74c84d1a6bd40b24a75afbe3c3e548bc7d487588814ff4c",
+      "bytes": 981288
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "40b0befc4dc7ffa58cab3dc1a2eee85d3dbeb90d66280e29ce942ed0b6a6815b",
+      "bytes": 73829
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "eb8516958adeb9fc76c7b630ff4be4a18ba5db375abc7b5b52e74eed71e90130",
+      "bytes": 1393255
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "6d6df08008d8a7fdced4f21ac02f0c22d14423d63bd4dd5f7300ba0e24d6e4e2",
+      "bytes": 1627699
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "472d8a420ec551b52ed0ad70d7c23abcfb43c1d05e7a907af174fd3bdbf7a4cd",
+      "bytes": 1054834
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-coarse_roi_image-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "07908ecf6f607d69c112c4b2c5fb4b77852abe0cdc53e7acc38fe62b403f42d8",
+      "bytes": 4086
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-extraction-report.json",
+      "sha256": "6a8b0afd33764fa1d128d08bfcbc425c2f78fe18585ed49b1f1cdbca406a725b",
+      "bytes": 19437
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-selection/complete-reference-backend-selection.json",
+      "sha256": "6d89eca190edac04986b820274fbc097bc7e26c8391576f0c1eabf5f6af58bc2",
+      "bytes": 16206
+    }
+  ]
+}
