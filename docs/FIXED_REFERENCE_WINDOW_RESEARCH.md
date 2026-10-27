@@ -11,3 +11,21 @@ Four constructed JVM cases verify that an earlier consistent demonstration can q
 The fixed screen loads the 32 original Full/Heavy reference caches (16 recordings each), reproduces every whole-upload calibration status/key/detail against the prior four reports, and writes all results to a new ignored file. It loads no source sessions or independent skeletal subject files. Preserve the 32-case denominator and every failed trial. A screen alone earns no readiness points. If there are no additions, reject the hypothesis without downstream source/holdout/native/APK work. If additions exist, keep them experimental until source regression/corruption checks, original-frame review, independent selection-data checks and native promotion requirements pass under a separately frozen implementation. Do not alter these window sizes or gates after inspecting this screen.
 
 Inspect original RGB and pinned raw Full/Heavy overlays at the four predeclared window boundaries 0/8/16/24 seconds (nearest original cache PTS), for the prior weak side-curl and front-press reference examples. Include missing/low-confidence results and keep hashes. A filename or a plausible-looking frame is not a new binary rep label. Final subjects 08–10 remain sealed, and live human-rep precision remains unknown.
+
+## Measured outcome: no production promotion
+
+The candidate and 77 source/input receipts were frozen in `171d4d1` before the calibration screen. All **128 whole-upload model/fit/side outcomes** reproduce the original status and, as applicable, exact reference key or failure detail. All 12 established reference choices stay intact. On the remaining 20 configurations, **248 fixed-window trials recover zero additional references**:
+
+| Original production gate withholding a trial | Trials |
+|---|---:|
+| Missing feature | 160 |
+| Insufficient complete cycles | 78 |
+| Insufficient excursion | 10 |
+
+Among missing-feature failures, 114 lack 30 directly observed driver samples, 40 have no qualified body-line observations, four have too few observed elbow samples, and two lack critical milestone samples. These are overlapping windows/fits/models from the same references, not 248 independent people or an accuracy denominator. Failing an earlier gate does not prove that later curve/noise gates would pass. Shorter windows cannot manufacture missing evidence, and no gate is weakened to rescue them.
+
+The predeclared original-frame contact sheet was generated and inspected: **eight original RGB frames plus sixteen pinned raw-pose panels**, including the exact 0/8/16/24-second boundary observations. It shows ongoing curls/presses and their retained observations; those views are not per-rep correctness labels. No new pose extraction, source timestamp, world coordinate, confidence or human annotation is introduced.
+
+All **234 core JVM** and **95 Python** checks pass, with no failures, errors or skips. The 234 include the four new mechanism cases; test-count growth earns no extra points. Production main sources remain identical to verified `1b52bcf`; earlier native/causal/corruption proofs remain valid and are explicitly not rerun. No source-session replay, independent-subject replay, new native run or APK is warranted for this unsuccessful reference screen. Final subjects remain unopened. The research implementation stays in test source only, and its fixed parameter recipe is not reselected after inspection.
+
+`models/fixed-reference-window.provenance.json` preserves the frozen source/inputs, every failed trial, contact-sheet receipts and test logs in a new immutable checkpoint. Current scoring still uses `models/api35-runtime-readiness.evidence.json` and remains **50/100**; live human-rep precision is unknown and the 70 milestone remains pending. This eliminates the tested bounded-window hypothesis, without claiming either a calibration or human-accuracy gain. Future reference work should establish sufficient directly observed critical evidence before fitting alternate curves; independent generalization/recall remains a separate unresolved requirement.
