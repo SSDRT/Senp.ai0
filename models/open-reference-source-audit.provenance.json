@@ -1,0 +1,100 @@
+{
+  "schema": "senpai-open-reference-source-audit-provenance/1",
+  "decision": "NO_ELIGIBLE_FLOOR_BRIDGE_SOURCE_IN_REVIEWED_METADATA",
+  "verified_production_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+  "baseline_metadata_commit": "3163998a19cb2d5ec902a40be6de8532a0b445a6",
+  "source_and_reports_sha256_lf": {
+    "scripts/audit_open_reference_sources.py": "062230e3df44b4f165dd047729040efbf363ce12f25b83e0bd46e15c16380e85",
+    "scripts/tests/test_open_reference_sources.py": "77bc9cc10a1206004e6a138a8d1a47565dc9e74b1a2703071a5c568aa7dcb484"
+  },
+  "publisher_exercises": 932,
+  "publisher_videos": 78,
+  "declared_variant": "bilateral-floor-glute-bridge",
+  "linked_variant_videos": 0,
+  "dvids_asset_restricted": true,
+  "flag3d_research_agreement_required": true,
+  "python_tests": 102,
+  "python_failures": 0,
+  "raw_videos_downloaded": 0,
+  "raw_network_weights_changed": false,
+  "production_changed": false,
+  "raw_MP33_changed": false,
+  "human_form_labels_created": 0,
+  "independent_final_subjects_opened": false,
+  "native_or_JVM_rerun": false,
+  "earlier_native_JVM_causal_corruption_proofs_retained": true,
+  "new_APK": false,
+  "readiness_before": 50,
+  "readiness_after": 50,
+  "milestone_reached": false,
+  "human_live_rep_precision": null,
+  "readiness_evidence": "models/api35-runtime-readiness.evidence.json",
+  "scope": "Bounded metadata/rights review only, not a claim that no eligible data exists elsewhere.",
+  "checkpoint": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/dvids-757660.html",
+      "sha256": "c798655cba9fc1930681b3e127e8534921dc530f13399f5e03bb734473eab522"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/dvids-copyright.html",
+      "sha256": "1e745ea2ca8c07387ec5389b656efd5bb05774c3404c8e04cba350b75811984a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/flag3d-license.pdf",
+      "sha256": "7bfe6da8e0862402f441a11d7c4c56c42352c8f33d72e5b1d6a3bbefd3950950"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/metadata-receipts.json",
+      "sha256": "27c7f7eb7a762eb730e8d0dd87f2d2a9d9bdc1b9730583ae3bcce7d38ce4ad2a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/readiness-score.json",
+      "sha256": "32cb31d8e0d29448f0b50e259291351b2defcc1a03eed117ce02cc17e18d1ea6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/source-eligibility.json",
+      "sha256": "4222b5e9fe0bdba9bdb00892c14d4bc8c679a209284490a116a35d16855ce5f0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/wger-exerciseinfo.json",
+      "sha256": "d52b665f6b0499cc857d71349b8971aef9e0ecfa663b03476d9dedae9521988a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/wger-licenses.json",
+      "sha256": "5c0f35f4f321c53a6865f1e8052b001ac051c73d29266102192a51434ec16bdf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/metadata/wger-videos.json",
+      "sha256": "031a7ae64b58d7c8a68b87d512dc6acff8b17107283a991af078b8770b0d205c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/source-and-report/scripts/audit_open_reference_sources.py",
+      "sha256": "062230e3df44b4f165dd047729040efbf363ce12f25b83e0bd46e15c16380e85"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/source-and-report/scripts/tests/test_open_reference_sources.py",
+      "sha256": "77bc9cc10a1206004e6a138a8d1a47565dc9e74b1a2703071a5c568aa7dcb484"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/source-and-report/docs/OPEN_REFERENCE_SOURCE_AUDIT_20261027.md",
+      "sha256": "00c743d4684d99ee7c8651bbddc841fee8ca9ea777de7fc0b60d04aec824582a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/source-and-report/docs/INDEPENDENT_RGB_DATA_REVIEW.md",
+      "sha256": "1fd75c74b09adeaa736fa847a2b2d738bcd6b97e11401871e2ea28b70badae16"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/source-and-report/docs/READINESS_70_PROGRESS.md",
+      "sha256": "57622459528b6992533092a46c3658ea68c6a6ee189c8b54a23571d94f77927a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/tests/python.log",
+      "sha256": "54bbd0bc401924a69f3937b1697ff5bed21a2d26a759331e438138a5e60d8e65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/open-reference-source-audit-checkpoint-20261027/reproduction-tools/freeze-open-reference-source-audit.py",
+      "sha256": "8acfde32ff993bdad107b9ec079e53a1f599d1dec15782805ce6d9a18fd59ad1"
+    }
+  ]
+}
