@@ -191,6 +191,22 @@ class QualifiedRepEvidenceInstrumentedTest {
         save("unidentified-source-controls.json",0,4)
     }
 
+    @Test fun incompatibleStartFormCannotBorrowArmingAndCompatibleFreshCycleRecovers() {
+        for (fps in listOf(10,15,30,60)) for (armedFirst in listOf(false,true)) {
+            val engine = reference(false).newEngine()
+            for (cycle in 0..1) for (i in 0..fps*2) {
+                val relative = (i*1000.0/fps).toLong()
+                val p = when { relative < 300 -> 0.0;relative < 900 -> (relative-300)/600.0;
+                    relative < 1100 -> 1.0;relative < 1700 -> (1700-relative)/600.0;else -> 0.0 }
+                val bad = cycle==0 && relative<300 && (!armedFirst || relative>=180)
+                val output = engine.evaluate(frame(cycle*2100L+relative,p,if(bad) 85.0 else 15.0),identity.poseModelSha256)
+                if(cycle==0) assertEquals(0,output.counts.qualified)
+            }
+            assertEquals(1,engine.finish(4200).counts.qualified)
+        }
+        save("ready-form-evidence-controls.json",8,8)
+    }
+
     @Test fun earlyReversalFaultNamesTheActualSourceLimbInDirectAndMirroredMode() {
         val sequence = calibrationSequence(false,1)
         for (mirror in listOf(ActionMirrorMode.DIRECT,ActionMirrorMode.MIRRORED)) {
