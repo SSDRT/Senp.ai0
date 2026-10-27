@@ -1,4 +1,4 @@
-# Live pose implementation and validation â€” 2026-10-22
+# Live pose implementation and validation — 2026-10-22
 
 Latest verified engine checkpoint (28 October 2026): compiler `/8`, implementation `6d1386b`, adds the confirmed-clear preparation guard. All 292 scoped JVM and the same 30 native cases on each of APIs 35/36 pass, alongside 124 Python checks, 2,688 controls and 124 corruptions. Existing references and qualified camera attempts remain intact. Readiness is 50/100; this is not a measured human-rep accuracy increase. See `PREPARATION_FAULT_RESEARCH.md` and `models/preparation-fault-readiness.evidence.json`; earlier dated sections retain their original results.
 
@@ -7,7 +7,7 @@ The project is set up in `D:\projects\senpai` on `codex/live-pose-accuracy`, bas
 ## Implemented behavior
 
 - Both live camera paths share capture admission and bitmap preparation. Duplicate, backward, sub-millisecond duplicate and cadence-exceeding frames are dropped before conversion. Accepted timestamps remain capture timestamps. At most one frame is inferred at a time; CameraX retains only the latest waiting frame.
-- Camera analysis requests 640Ã—480 with supported-resolution fallback. Preparation caps the long edge at 640 pixels, preserves aspect ratio, applies camera rotation, and delegates vendor row/pixel-stride handling to CameraX `toBitmap`. Preview and analysis use the same aspect strategy and explicit display rotation. Back camera is preferred; front camera is available as fallback with display-only mirroring. Anatomical IDs are preserved.
+- Camera analysis requests 640×480 with supported-resolution fallback. Preparation caps the long edge at 640 pixels, preserves aspect ratio, applies camera rotation, and delegates vendor row/pixel-stride handling to CameraX `toBitmap`. Preview and analysis use the same aspect strategy and explicit display rotation. Back camera is preferred; front camera is available as fallback with display-only mirroring. Anatomical IDs are preserved.
 - Live quality checks require at least six confident, in-frame major body joints and two torso anchors. Face/hand confidence alone cannot validate an absent body. Missing confidence stays missing. Blind frames retain their current observations and never borrow old reliable coordinates.
 - A causal, timestamp-driven 1 Euro filter is implemented in pure Kotlin/JVM, with independent image/world units, aspect-correct image coordinates, per-joint confidence resets, and reset on missing people, long gaps or geometry changes. `estimateDetailed` preserves raw output alongside the candidate output, delegate, timing, fallback and reset diagnostics.
 - Additional smoothing is **off by default** in the live adapter. MediaPipe VIDEO already applies temporal processing; the optional candidate uses 3 Hz minimum cutoff, image beta 80, world beta 5 and 1 Hz derivative cutoff. Full/CPU and the original 0.5 detection/presence/tracking thresholds remain the baseline until independent labels support a different choice.
@@ -46,13 +46,13 @@ An initial combined instrumentation run failed when the camera activity lost foc
 
 ## Tuning evidence and interpretation
 
-`core-motion:livePoseBenchmark` exercises the production filter against a deterministic synthetic trajectory at 10, 15, 30 and 60 FPS, each with regular and irregular timestamps. It uses 12-second runs, seed 20261022, Â±0.02 normalized-coordinate noise and a 0.8 Hz motion signal. It compares raw data and twelve cutoff/beta combinations (104 rows total).
+`core-motion:livePoseBenchmark` exercises the production filter against a deterministic synthetic trajectory at 10, 15, 30 and 60 FPS, each with regular and irregular timestamps. It uses 12-second runs, seed 20261022, ±0.02 normalized-coordinate noise and a 0.8 Hz motion signal. It compares raw data and twelve cutoff/beta combinations (104 rows total).
 
 | Profile | Static jitter RMSE reduction across cases | Moving RMSE / raw RMSE across cases |
 |---|---:|---:|
-| Fixed 3 Hz, beta 0 | 27.6â€“65.9% | 2.60â€“2.87 |
-| Adaptive 3 Hz, beta 20 | 21.9â€“57.5% | 0.98â€“1.26 |
-| Optional candidate: 3 Hz, beta 80 | 13.2â€“41.8% | 0.84â€“1.05 |
+| Fixed 3 Hz, beta 0 | 27.6–65.9% | 2.60–2.87 |
+| Adaptive 3 Hz, beta 20 | 21.9–57.5% | 0.98–1.26 |
+| Optional candidate: 3 Hz, beta 80 | 13.2–41.8% | 0.84–1.05 |
 
 The stronger static reduction comes with larger moving error. The chosen optional candidate bounds this synthetic tradeoff, but even it has a worst-case 5.2% moving-RMSE increase. It does not pass every proposed release gate, particularly the low-FPS static-reduction target. World-coordinate beta is configurable and has reset/unit coverage, but is not independently optimized by this 2D sweep. These are filter tests against synthetic truth, **not measurements of human pose accuracy**.
 
