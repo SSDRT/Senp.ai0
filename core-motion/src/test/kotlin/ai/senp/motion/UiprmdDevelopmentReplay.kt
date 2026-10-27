@@ -17,6 +17,12 @@ object UiprmdValidationReplay {
     )
 }
 
+/** Versioned re-evaluation of the already-opened validation set; no final-test route. */
+object UiprmdReadyFormValidationReplay {
+    @JvmStatic fun main(args: Array<String>) = UiprmdSkeletalReplay.run(File(args[0]),File(args[1]),File(args[2]),
+        readyFormValidationProtocol = File(args[3]))
+}
+
 /** Already-opened development/validation exports only; never a final-test entry point. */
 object UiprmdSideBindingReplay {
     @JvmStatic fun main(args: Array<String>) = UiprmdSkeletalReplay.run(
@@ -44,12 +50,28 @@ internal object UiprmdSkeletalReplay {
     }
 
     fun run(directory: File, output: File, referenceDirectory: File = directory, validationProtocol: File? = null,
-        sideBindingProtocol: File? = null, researchValidation: Boolean = false, sideBindingEnabled: Boolean = true) {
+        sideBindingProtocol: File? = null, researchValidation: Boolean = false, sideBindingEnabled: Boolean = true,
+        readyFormValidationProtocol: File? = null) {
         require(!researchValidation || sideBindingProtocol != null)
         require(validationProtocol == null || sideBindingProtocol == null)
-        val validation = validationProtocol != null || researchValidation
+        require(readyFormValidationProtocol == null || (validationProtocol == null && sideBindingProtocol == null && !researchValidation))
+        val validation = validationProtocol != null || researchValidation || readyFormValidationProtocol != null
         val manifest = Json.parseToJsonElement(File(directory,"manifest.json").readText()).jsonObject
         verifySubjects(manifest,validation)
+        if (readyFormValidationProtocol != null) {
+            val protocol = Json.parseToJsonElement(readyFormValidationProtocol.readText()).jsonObject
+            verifyReadyFormScope(protocol)
+            require(sha(File(directory,"manifest.json")) == protocol.getValue("validation_manifest_sha256").jsonPrimitive.content)
+            require(sha(File(referenceDirectory,"manifest.json")) == protocol.getValue("development_manifest_sha256").jsonPrimitive.content)
+            val root = readyFormValidationProtocol.canonicalFile.parentFile.parentFile
+            for (element in protocol.getValue("source_receipts").jsonArray) {
+                val receipt = element.jsonObject;val file = File(root,receipt.getValue("path").jsonPrimitive.content).canonicalFile
+                require(file.toPath().startsWith(root.toPath()))
+                val actual = if ("sha256_lf" in receipt) MessageDigest.getInstance("SHA-256").digest(
+                    file.readText().replace("\r\n","\n").toByteArray(Charsets.UTF_8)).joinToString("") { "%02x".format(it) } else sha(file)
+                require(actual == receipt.getValue(if ("sha256_lf" in receipt) "sha256_lf" else "sha256").jsonPrimitive.content)
+            }
+        }
         if (sideBindingProtocol != null) {
             val protocol = Json.parseToJsonElement(sideBindingProtocol.readText()).jsonObject
             require(protocol.getValue("schema").jsonPrimitive.content == "uiprmd-side-binding-protocol/1")
@@ -172,6 +194,12 @@ internal object UiprmdSkeletalReplay {
                 put("reference_manifest_sha256",sha(File(referenceDirectory,"manifest.json")))
                 put("final_test_trajectories_opened",false)
             }
+            if (readyFormValidationProtocol != null) {
+                put("candidate_protocol_sha256",sha(readyFormValidationProtocol))
+                put("reference_manifest_sha256",sha(File(referenceDirectory,"manifest.json")))
+                put("final_test_trajectories_opened",false)
+                put("scope","already-opened-validation")
+            }
             put("manifest_sha256",sha(File(directory,"manifest.json")));put("compiler",QualifiedRepCompiler.VERSION)
             put("raw_landmark_network_trained",false);put("config","production-defaults-reference-match")
             if (sideBindingProtocol != null) {
@@ -188,5 +216,13 @@ internal object UiprmdSkeletalReplay {
         }
         output.parentFile.mkdirs();output.writeText(json.encodeToString(JsonObject.serializer(),report))
         println("UI-PRMD ${if (validation) "validation" else "development"}: ${rows.count { it.getValue("status").jsonPrimitive.content == "REPLAYED" }}/${rows.size} recordings replayed; $output")
+    }
+
+    internal fun verifyReadyFormScope(protocol: JsonObject) {
+        require(protocol.getValue("schema").jsonPrimitive.content == "ready-form-validation/1")
+        require(protocol.getValue("compiler").jsonPrimitive.content == QualifiedRepCompiler.VERSION)
+        require(protocol.getValue("validation_access").jsonPrimitive.boolean && !protocol.getValue("final_test_access").jsonPrimitive.boolean)
+        require(protocol.getValue("subjects").jsonArray.map { it.jsonPrimitive.content } == listOf("05","06","07"))
+        require(protocol.getValue("reference_subject").jsonPrimitive.content == "01")
     }
 }
