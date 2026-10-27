@@ -97,7 +97,10 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
             // start here; absolute technique targets retain their active-attempt fault checks.
             val atReady = progress <= config.readyProgress && progress >= -0.35 && visible
             var clearReadyFault = false
-            if (atReady) {
+            // Ready dwell remains borrowed until actual departure. A persistent
+            // clear discrepancy in that armed interval must revoke it as well.
+            val preparing = armed && visible && progress > config.readyProgress && progress < config.departureProgress
+            if (atReady || preparing) {
                 for (feature in reference.requiredFeatures) {
                     val observed = requireNotNull(value(feature))
                     val band = reference.evidenceBand(feature,progress,false,includeTechniqueTargets = false)
