@@ -22,9 +22,9 @@ import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarker
  * The output is the same canonical 33-landmark [PoseFrame] used by offline video analysis.
  */
 class LiveMediaPipePoseEstimator private constructor(
-    private var landmarker: LivePoseTask,
+    private var landmarker: PoseLandmarker,
     private val mapper: PoseResultMapper,
-    private val factory: (Delegate) -> LivePoseTask,
+    private val factory: (Delegate) -> PoseLandmarker,
     private val config: Config,
     initialDelegate: Delegate,
     initialFallback: String?,
@@ -120,15 +120,7 @@ class LiveMediaPipePoseEstimator private constructor(
 
     private fun recreate(delegate: Delegate) {
         try {
-            val shutdownErrors = landmarker.close()
-            if (shutdownErrors.isNotEmpty()) {
-                // A failed GPU graph can report its Process error again in close.
-                // Its SDK listener now lets teardown complete before CPU recovery.
-                // Keep all other close/reset failure semantics fail-closed.
-                if (activeDelegate == Delegate.GPU && delegate == Delegate.CPU) {
-                    fallbackReason = "${fallbackReason ?: "GPU inference failed"}; GPU shutdown reported: ${shutdownErrors.first().javaClass.simpleName}"
-                } else throw shutdownErrors.first()
-            }
+            landmarker.close()
             try {
                 landmarker = factory(delegate)
                 activeDelegate = delegate
@@ -160,8 +152,7 @@ class LiveMediaPipePoseEstimator private constructor(
         if (closed) return
         checkOwner()
         closed = true
-        val errors = landmarker.close()
-        if (errors.isNotEmpty()) throw errors.first()
+        landmarker.close()
     }
 
     data class Config(
@@ -205,8 +196,7 @@ class LiveMediaPipePoseEstimator private constructor(
             try {
                 val modelBuffer = verifiedPoseModelBuffer(context, modelAssetPath, expectedModelSha256)
                 // The retained factory also owns the buffer throughout native graph resets.
-                val factory: (Delegate) -> LivePoseTask = { delegate ->
-                    val closer = LivePoseTaskCloser()
+                val factory: (Delegate) -> PoseLandmarker = { delegate ->
                     val options = PoseLandmarker.PoseLandmarkerOptions.builder()
                     .setBaseOptions(BaseOptions.builder().setModelAssetBuffer(modelBuffer.duplicate()).setDelegate(delegate).build())
                     .setRunningMode(RunningMode.VIDEO)
@@ -215,9 +205,8 @@ class LiveMediaPipePoseEstimator private constructor(
                     .setMinPosePresenceConfidence(config.presenceConfidence)
                     .setMinTrackingConfidence(config.trackingConfidence)
                     .setOutputSegmentationMasks(false)
-                    .setErrorListener { closer.onError(it) }
                     .build()
-                    LivePoseTask(PoseLandmarker.createFromOptions(context.applicationContext, options),closer)
+                    PoseLandmarker.createFromOptions(context.applicationContext, options)
                 }
                 var active = config.preferredDelegate
                 var fallback: String? = null
@@ -241,12 +230,6 @@ class LiveMediaPipePoseEstimator private constructor(
             }
         }
     }
-}
-
-private class LivePoseTask(private val task: PoseLandmarker, private val closer: LivePoseTaskCloser) {
-    fun detectForVideo(image: com.google.mediapipe.framework.image.MPImage, timestampMs: Long) =
-        task.detectForVideo(image,timestampMs)
-    fun close(): List<RuntimeException> = closer.close { task.close() }
 }
 
 sealed class LivePoseException(message: String, cause: Throwable? = null) : Exception(message, cause) {

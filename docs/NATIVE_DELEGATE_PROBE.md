@@ -1,5 +1,7 @@
 # Native delegate timing and evidence probe
 
+Follow-up: the listener-only recovery candidate `663b2ca` also failed the host probe and was rejected. Current production adapter sources match the verified CPU-first engine again. See `GPU_FAILURE_RECOVERY.md` for the missing SDK listener connection and immutable failed-candidate receipts. The optional GPU path remains unqualified on this host; the default CPU path is unchanged.
+
 27 October 2026. The verified app still defaults to CPU inference, with a separately supported optional GPU/fallback path. This experiment measures that existing path before considering any runtime change. Current engineering readiness is **50/100**; this probe earns no performance or accuracy points.
 
 Freeze `models/native-delegate-probe-protocol.json`, the exact research-only APK, original upstream fixture, pinned Full/Heavy assets, auditor and source before inference. The additional test source is included only through `scripts/live-delegate-probe.init.gradle`; normal builds and the existing native suites do not include this diagnostic class. No production module, model weight, reference selector or threshold changes.
