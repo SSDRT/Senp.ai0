@@ -1,0 +1,267 @@
+{
+  "schema": "senpai-second-runtime-provenance/1",
+  "decision": "SECOND_API_RUNTIME_VERIFIED",
+  "protocol_commit": "98a9fab8d15322df9f13458ea2f643dd258d4df3",
+  "initial_target_freeze_commit": "055de95ceae56f6461255fd0d57edeb25f7f4f87",
+  "verified_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+  "verification": {
+    "schema": "senpai-second-runtime-verification/1",
+    "kind": "functional-emulator-runtime-not-human-pose-accuracy",
+    "verified_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+    "api": 35,
+    "abi": "x86_64",
+    "page_bytes": 4096,
+    "emulator": true,
+    "physical": false,
+    "all_tests_pass": true,
+    "native_counts": {
+      "android-pose-mediapipe": 12,
+      "validation-app": 17
+    },
+    "native_total": 29,
+    "actual_live_rep_precision": null,
+    "sustained_performance_measured": false,
+    "independent_final_subjects_opened": false
+  },
+  "native_tests": 29,
+  "python_tests": 95,
+  "python_failures": 0,
+  "production_sources_changed": false,
+  "new_apk_needed": false,
+  "exact_existing_apks_reused": true,
+  "prior_causal_controls_and_JVM_receipts_preserved_not_rerun": true,
+  "independent_final_subjects_opened": false,
+  "new_human_labels": 0,
+  "actual_live_rep_precision": null,
+  "rubric_changed": false,
+  "readiness_before": 45.0,
+  "readiness_after": 50.0,
+  "scope": "API35 AOSP x86_64 on this Windows host, 4096-byte pages. Not a physical phone, 16KB runtime, sustained soak or pose-accuracy result.",
+  "checkpoint": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/publisher-repository.xml",
+      "sha256": "7b119fdc282a65432aab52e8bbc64546f7fb6ec74e79e235633c60d06564b111"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/publisher-package.xml",
+      "sha256": "af3f552ada4f5192eda289dbcce6dc9f91fffb40b346a5d3493718446c130169"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/publisher-license.txt",
+      "sha256": "00eceefbf21af958ba76722fdf3330143d7176e4626f341c3d8925a6e40726ea"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/acquisition.json",
+      "sha256": "d5f8200c4ba8bca811ecae61b72d57295bcbefe20113b6d0c267aec821b3f178"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/runtime.json",
+      "sha256": "066bb48860abe7c24ad9ed01853bae508f622fc2628f26a23a13d80c06a97124"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/owned-process.json",
+      "sha256": "54ef70085063ac9b5586424509bf1a9e2d88dcd3d1f0604212899beb701ad11d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/stopped.json",
+      "sha256": "97bf6d4c5e10d87fcbdb6bb993f4f7ba5be44a06413125461f0631a89bcd412f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/native-command.json",
+      "sha256": "626461a39923057e4f011ee5c55e1fca54d609edc6a4f8fe75334dcde6e27cfe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/verification.json",
+      "sha256": "4a007e2d598b573857a1a8f7598af97299088b98e87cb9b71fd370644f30ffb9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/native-logcat.txt",
+      "sha256": "20e466c4ef655997c9245e379a79fa999e65a2a204a5e1d90857bc7de60e6e9c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/emulator-stdout.log",
+      "sha256": "6a157d703833d05e7cba0134f420ef49a6f9d69ca21e9390066a43edb941a1c2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/native/android-pose-mediapipe/TEST-Senpai_API_35(AVD) - 15-_android-pose-mediapipe-.xml",
+      "sha256": "470e86ae049d818935a2ac54cc9c49f3524d97179c51b1efd7ffaeb915c8bd2a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/native/validation-app/TEST-Senpai_API_35(AVD) - 15-_validation-app-.xml",
+      "sha256": "6330bb54357fef40d91565cb5dc5be47bc81419506602a1f1cf4998c05939ce2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/avd/config.ini",
+      "sha256": "e5f5a6857de6beba3db02dfe1a89779948feacbdfcb2bc3938579840dac19a67"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/avd/Senpai_API_35.ini",
+      "sha256": "887c4dad9b95b0dc9e3b65b70e61843274b880e89182fbc224512403bcc9655b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/protocol.json",
+      "sha256": "8a70e220d39fc69e111c30d91166fa3d0aa8c5e5582f43ae93bda365a2d58417"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/source/scripts/verify_android_runtime.py",
+      "sha256": "519391e9f9a97f4aecc1bf98d39190a8acc8ce486de5fe799022b4837a0bb2fc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/source/scripts/tests/test_android_runtime_evidence.py",
+      "sha256": "977528b478d63eae7bf427edbe15c1abd01c2164688deb1e454bc32211dbec77"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/apks/android-pose-mediapipe-debug-androidTest.apk",
+      "sha256": "13be6db92d59635adb6c999931fde091e389fe0911212f4b6d49f24511c1cbfd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/apks/validation-app-debug-androidTest.apk",
+      "sha256": "3127ca27c582c11beba9b728d0fd3c57e10b4acd7d8c91c5c18574468aff3d7e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/apks/validation-app-debug.apk",
+      "sha256": "db83d289bad73f4627f8f384c2313d183ba3aff7dd963a2bf50a4feb7fad5f3a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/freeze-api35-runtime-results.py",
+      "sha256": "a0ed387f95c6e2c0ed17b963c34bd346a2526114d1379a9b727ae3574ec73b00"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/prepare-api35-runtime.py",
+      "sha256": "4f4a6e0862d1599bc5af8d6f0752c9bba0f5dfe599f237e8edebb2fd37386c12"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/boot-api35-runtime.ps1",
+      "sha256": "9dcc76e32a7afac14589e936210e1305a894a0439b840ddd1c0ddf7abf9ae2ad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/run-api35-native.ps1",
+      "sha256": "8195b22d3726ae7deda21420227009a0e36d8c978cf6ed0b4d054fae6b473465"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/api35-acquisition.log",
+      "sha256": "9ecba9209ab53ba841bf21ac77946f6ac11fbc1c9d2f755d72defec7c592f94c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/api35-boot.log",
+      "sha256": "066bb48860abe7c24ad9ed01853bae508f622fc2628f26a23a13d80c06a97124"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/api35-native.log",
+      "sha256": "d90f153f59c6392595a433b8f512d595af3817454a91a1a8eb5ea2f0b9b18820"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/api35-python-final.log",
+      "sha256": "4c1a90af297fa5a0ffde667e812ee8008b04851b1085ada2a3e6036f00188645"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime-checkpoint-98a9fab/work/api35-python.log",
+      "sha256": "9d29b60ad5752f9cdd5eb81f33636af714fb7f826427c5aaa7d72eeb810dd583"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/x86_64-35_r02.zip",
+      "sha256": "6dd7de33e63ef105cf2fabea6badda1dbe7665c96d8908e5f6e1407e63ff4556"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/advancedFeatures.ini",
+      "sha256": "b293a499caf9a3a2b0ba8e95fbc3d9113c8d3c33da27af59c6284e5f81119e5e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/build.prop",
+      "sha256": "ca6377120f658498f4e230829dfc862ece90dd6fd26ce608cc2d5e63830e16c8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/empty_data_disk",
+      "sha256": "e4dc7c33a83013f3d9eb9b5a5693c912e83a9c7f978933b5c7600039dbfde903"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/local.prop",
+      "sha256": "49b05d093a46d35d85df01fb99133f077fcc725cc49efe1a1bedae884d24e20b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/apns/apns-conf.xml",
+      "sha256": "c35b899f2b6296aee4a9742302651cce9eb64622669d4d8fe8d276ca11060eb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/emulator/config/radioconfig.xml",
+      "sha256": "534a81b662ad62fc70ec0ea22715670524a05a066afc9fdac8e7c0f5a7789cd7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/emulator/version.txt",
+      "sha256": "2f4ecb211f6b497d6011a75390fb0469ceaec4b816c10209198e43bafa57c695"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/modem_simulator/etc/modem_simulator/files/numeric_operator.xml",
+      "sha256": "c2557e604beea20b67642cdbb14ae7b792f804e4476b3f6cf47035690234f436"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/modem_simulator/iccprofile_for_carrierapitests.xml",
+      "sha256": "dc4b5f5344f084fc44f89250bbcf2b12e452eb98c104e4ef3ec115366eb6ce32"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/modem_simulator/iccprofile_for_sim0.xml",
+      "sha256": "a2744726a306b18d7547251026201aa5c6a9e120aa1555992eeb8b0a3b4aa6d9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/modem_simulator/iccprofile_for_sim_tel_alaska.xml",
+      "sha256": "462cc26ddaa9d6c470a2d9415771c80e323b526b1863f099accb298955b14db3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/pixel_fold/devicestate/device_state_configuration.xml",
+      "sha256": "8bebf4943ed3fc50973ac428ab8c8c0d71700af81419f44fc95a59f52f873838"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/pixel_fold/display_settings.xml",
+      "sha256": "2adca8f98a2c8ee0f780e10ca16587ac92641df5e93ab4437c3c47ad41b0041d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/pixel_fold/displayconfig/display_layout_configuration.xml",
+      "sha256": "a64e2eca65bc2f9196215fb72a88c9035a584319f8b3da3606fff161be642be8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/data/misc/pixel_fold/extra_feature.xml",
+      "sha256": "ba27b7a61457027e2a77917f8b07d716d3e918097901a14833749252b15aa38f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/encryptionkey.img",
+      "sha256": "522bd0b6a2c92e37de465059bb9487bb9597a9aae032b469a8ebe0b38146d8c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/kernel-ranchu",
+      "sha256": "a204606cf2f458540c5437e9ba804b5012acf0a2916d00f099a03e1e553e697e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/kernel_cmdline.txt",
+      "sha256": "ec34f1f155caa37116a3396e454beefab1eed40b66d95027450a1e4dbb95b2ff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/NOTICE.txt",
+      "sha256": "419fee21ab241b843823ff203d47485b72e2bbe65a1bc45049755918036b232d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/ramdisk.img",
+      "sha256": "60eb16b9c894514f3792c5bef9f58ea478bd1356f6e0fdb8045dca01ab903a30"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/source.properties",
+      "sha256": "98d57aac1a56bdff21e948a44332774d7f2127dc28fa413a85ad96bfb81cb7cb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/system.img",
+      "sha256": "8d7b29ad96c15adb663a5a8ced7f3ea40552019626f6a4420c54dc061f569970"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/vendor.img",
+      "sha256": "07a890bca988a65cd651edf340f1498d8ee3c2d0fe91659bc81425bcdd284750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/system-image/x86_64/VerifiedBootParams.textproto",
+      "sha256": "23273bc0eb2cf7b9f0792a14e9c6e9dcdf8a0111c0cab4c64c9b20633fec6cb6"
+    }
+  ]
+}
