@@ -164,11 +164,11 @@
   "verifier_source_receipts": [
     {
       "path": "scripts/verify_android_runtime.py",
-      "sha256_lf": "78d175a40f376ccf1f24c11ca7ecccaf56ade20491a8593da0ab90f2cba7e827"
+      "sha256_lf": "519391e9f9a97f4aecc1bf98d39190a8acc8ce486de5fe799022b4837a0bb2fc"
     },
     {
       "path": "scripts/tests/test_android_runtime_evidence.py",
-      "sha256_lf": "55e566d70f92e75e9cfc63605bd8fa9b56c124c7b988b59f77c64d516d6ba8f5"
+      "sha256_lf": "977528b478d63eae7bf427edbe15c1abd01c2164688deb1e454bc32211dbec77"
     }
   ],
   "excluded_test_classes": [
@@ -185,5 +185,6 @@
     "AOSP emulator runtime only; same host as existing API36.",
     "Page size must be observed; static 16KB compatibility is separate.",
     "Functional suite is not a ten-minute soak or human pose-accuracy measurement."
-  ]
+  ],
+  "avd_id": "Senpai_API_35"
 }

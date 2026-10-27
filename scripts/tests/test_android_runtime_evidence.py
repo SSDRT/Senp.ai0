@@ -16,10 +16,11 @@ class AndroidRuntimeEvidenceTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.xml = self.root / 'TEST-native.xml'
         self.xml.write_text('<testsuite tests="1" failures="0" errors="0" skipped="0">'
+                            '<properties><property name="device" value="Test_API_35(AVD) - 15"/></properties>'
                             '<testcase classname="Native" name="camera"/></testsuite>')
         (self.root / 'app.apk').write_bytes(b'frozen apk fixture')
         self.protocol = dict(schema='senpai-second-runtime-protocol/1', target_api=35, existing_api=36,
-                             abi='x86_64', verified_engine_commit='a' * 40,
+                             abi='x86_64', avd_id='Test_API_35', verified_engine_commit='a' * 40,
                              modules={'native': {'test_ids': [['Native', 'camera']]}},
                              apk_receipts=[dict(path='app.apk', sha256=runtime.sha256(self.root / 'app.apk'))])
         self.boot = dict(serial='emulator-5580', page_bytes='4096', properties={
@@ -53,20 +54,28 @@ class AndroidRuntimeEvidenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             self.verify()
 
+    def test_old_runtime_xml_cannot_be_reused_with_new_boot_properties(self):
+        self.xml.write_text(self.xml.read_text().replace('Test_API_35(AVD)', 'Test_API_36(AVD)'))
+        with self.assertRaises(ValueError):
+            self.verify()
+
     def test_skipped_or_failed_cases_cannot_hide_behind_green_totals(self):
         for child in ('failure', 'error', 'skipped'):
             self.xml.write_text('<testsuite tests="1" failures="0" errors="0" skipped="0">'
+                                '<properties><property name="device" value="Test_API_35(AVD) - 15"/></properties>'
                                 f'<testcase classname="Native" name="camera"><{child}/></testcase></testsuite>')
             with self.assertRaises(ValueError):
                 self.verify()
 
     def test_duplicated_or_substituted_cases_fail(self):
         self.xml.write_text('<testsuite tests="2" failures="0" errors="0" skipped="0">'
+                            '<properties><property name="device" value="Test_API_35(AVD) - 15"/></properties>'
                             '<testcase classname="Native" name="camera"/>'
                             '<testcase classname="Native" name="camera"/></testsuite>')
         with self.assertRaises(ValueError):
             self.verify()
         self.xml.write_text('<testsuite tests="1" failures="0" errors="0" skipped="0">'
+                            '<properties><property name="device" value="Test_API_35(AVD) - 15"/></properties>'
                             '<testcase classname="Native" name="other"/></testsuite>')
         with self.assertRaises(ValueError):
             self.verify()

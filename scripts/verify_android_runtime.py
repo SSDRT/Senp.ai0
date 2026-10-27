@@ -20,7 +20,7 @@ def sha256(path):
     return h.hexdigest()
 
 
-def native_inventory(paths):
+def native_inventory(paths, device_prefix=None):
     """Require every declared test to be present, unique and successful."""
     names = []
     if not paths:
@@ -28,6 +28,10 @@ def native_inventory(paths):
     for path in paths:
         root = ET.parse(path).getroot()
         cases = root.findall('testcase')
+        if device_prefix is not None:
+            devices = [p.get('value', '') for p in root.findall('properties/property') if p.get('name') == 'device']
+            if len(devices) != 1 or not devices[0].startswith(device_prefix):
+                raise ValueError('Native XML belongs to another device or has no device receipt')
         if root.tag != 'testsuite' or int(root.get('tests', '-1')) != len(cases):
             raise ValueError('Declared native count differs from recorded cases')
         if any(int(root.get(k, '-1')) != 0 for k in ('failures', 'errors', 'skipped')):
@@ -61,7 +65,7 @@ def verify_runtime(protocol, runtime, results, apk_root=ROOT):
         raise ValueError('Missing or extra native module')
     counts = {}
     for module, paths in results.items():
-        observed = native_inventory(paths)
+        observed = native_inventory(paths, protocol['avd_id'] + '(AVD) - ')
         expected = sorted(tuple(row) for row in protocol['modules'][module]['test_ids'])
         if observed != expected:
             raise ValueError(f'Native suite identities changed: {module}')
