@@ -1,0 +1,121 @@
+{
+  "schema": "senpai-native-delegate-probe-protocol/1",
+  "frozen_utc": "2026-10-27T14:51:35.159573+00:00",
+  "verified_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+  "baseline_metadata_commit": "fc25ac50611e8eaac5263a7378e09aa9c8b7b4c0",
+  "api": 35,
+  "abi": "x86_64",
+  "fixture_sha256": "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b",
+  "model_sha256": {
+    "FULL": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+    "HEAVY": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+  },
+  "graphics": [
+    {
+      "name": "software",
+      "avd": "Senpai_Delegate_Software",
+      "mode": "swiftshader_indirect"
+    },
+    {
+      "name": "host",
+      "avd": "Senpai_Delegate_Host",
+      "mode": "host"
+    }
+  ],
+  "scenarios_per_graphics": 8,
+  "order": "FULL/HEAVY then pose/blank then CPU/GPU",
+  "warmup_frames": 2,
+  "measured_frames": 8,
+  "diagnostic_timestamp_period_ms": 67,
+  "native_parity_tolerance": 1e-06,
+  "actual_delegate_and_fallback_must_be_recorded": true,
+  "CPU_fallback_is_not_GPU_acceleration": true,
+  "raw_original_MP33_required": true,
+  "production_changed": false,
+  "default_delegate_changed": false,
+  "real_camera_inference": false,
+  "ten_minute_soak": false,
+  "performance_points_for_probe": 0,
+  "source_video_or_independent_subject_access": false,
+  "allow_final_test_access": false,
+  "new_form_labels": false,
+  "human_rep_precision": null,
+  "research_test_apk": {
+    "path": "android-pose-mediapipe/build/outputs/apk/androidTest/debug/android-pose-mediapipe-debug-androidTest.apk",
+    "sha256": "02fc81e869d28c14861dbbf1d2444b9852b6b6520dde2ea4657ad4daffe97cef"
+  },
+  "source_receipts": [
+    {
+      "path": "research/android-delegate/LiveDelegateProbeInstrumentedTest.kt",
+      "sha256_lf": "743dd4c9b7a56c540b7036962ccc77adfee6c2377a1014f16caedafa6e279560"
+    },
+    {
+      "path": "scripts/live-delegate-probe.init.gradle",
+      "sha256_lf": "a600d9b99a274a3157a77150c611fdec6b38613230c2c72257ac91b48d8ff14f"
+    },
+    {
+      "path": "scripts/audit_live_delegate_probe.py",
+      "sha256_lf": "337b956d5a822cf33872cdacfedb875d4333679ab5f006f51dfaacacce34c0fe"
+    },
+    {
+      "path": "scripts/tests/test_live_delegate_probe.py",
+      "sha256_lf": "19d414f28c96b1f3d78210e6984b709102ee10d6950ee00168b68c605df905ca"
+    },
+    {
+      "path": "scripts/render_live_delegate_probe.py",
+      "sha256_lf": "0633d4f20ba72561fe400f788fcf2c977d8388f3a0ce5dceab80b317cd12b865"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveFrameGate.kt",
+      "sha256_lf": "3813a9428604f4fc09b354ec8754cfa6c3b48f79f8efc13f229e5cbb4b852ec6"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveMediaPipePoseEstimator.kt",
+      "sha256_lf": "3e16861e3b1c48e36071aa7ec1b41f22da22291446313dc648d012ccb0467e11"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LivePoseModel.kt",
+      "sha256_lf": "b152c69e80fd4c9b187b4ef992a22091052a1b2135d35fa5e1ec8412f1bebeab"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveTrackerResetPolicy.kt",
+      "sha256_lf": "26bb21c031dc5b6084121b0256109a0b41e52b3e39147c4e20058a6821c78b06"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/MediaPipePoseEstimator.kt",
+      "sha256_lf": "bedf4b38ce31eb1f3be7a8d61178b1a44f9deb2249a17f7489ba697ead6b5fb3"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/VerifiedPoseModelBuffer.kt",
+      "sha256_lf": "c6e623ff3ae9f58b32ecf3a9ed371460838034b0a6623476aeacedf5b8d1bdf9"
+    },
+    {
+      "path": "build/generated/live-pose-fixtures/pose.jpg",
+      "sha256": "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b"
+    },
+    {
+      "path": "build/generated/pose-model-assets/pose_landmarker_full.task",
+      "sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
+    },
+    {
+      "path": "build/generated/heavy-pose-model-assets/pose_landmarker_heavy.task",
+      "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+    },
+    {
+      "path": "android-pose-mediapipe/build/outputs/apk/androidTest/debug/android-pose-mediapipe-debug-androidTest.apk",
+      "sha256": "02fc81e869d28c14861dbbf1d2444b9852b6b6520dde2ea4657ad4daffe97cef"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe/avd-seeds/Senpai_Delegate_Host.config.ini",
+      "sha256": "75b000de51b0800cedd05557a6dc622a5ec452e2a1bf40fa406928a45eb0a53d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe/avd-seeds/Senpai_Delegate_Software.config.ini",
+      "sha256": "280ce691854f0b97e6119f473995a8216b9db86bde5e036dd8d5ee5d78c3b40b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/acquisition.json",
+      "sha256": "d5f8200c4ba8bca811ecae61b72d57295bcbefe20113b6d0c267aec821b3f178"
+    }
+  ]
+}
