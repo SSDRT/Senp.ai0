@@ -25,3 +25,24 @@ Six evenly spaced original RGB/overlay pairs and six original proposal-hit pairs
 `models/mmfit-dense-proposal-protocol.json` retains the failed first experiment and binds a second experiment to all eight existing machine activity seeds. Each seed receives a fixed ten seconds of original context on each side, clipped to the recording; overlapping windows merge without retiming or joining discontinuous footage. This produces one original interval, 1,727,000–1,752,033 ms. A fresh Full VIDEO graph samples it at 66 ms. The same confidence/geometry/grouping/eight-second/five-hit rules then select the first eligible fine bout, with original two-second padding bounded by the observed window. No calibration outcomes choose seeds, context, model, thresholds or a later bout.
 
 This is a higher-density verification of weak activity seeds, not a relaxation of qualified rep criteria. Raw all-33 coordinates/confidences and global decoder timestamps remain intact; the frozen original extractor is reused with its original-protocol receipt retained alongside the dense-protocol receipt. The unchanged compiler screens only the first fine-eligible bout. Run `python scripts/refine_mmfit_activity_proposals.py`, then `./gradlew.bat :core-motion:mmfitDenseProposalAudit --no-parallel`. Reproduce the first scan from its freeze commit because the subsequent Gradle task registration changes the build-file receipt; original reports/raw caches remain preserved.
+
+## Dense result: additional seated lateral-raise camera reference
+
+The second protocol was committed in `b4ffe4f` before dense inference. The original 25.033-second window yields 376 observations with a fresh graph and original timestamps. Applying the **unchanged** activity rules finds 53 target-like observations over fifteen seconds and one eligible bout, 1,735,000–1,752,033 ms including bounded padding. The 500 ms scan's missing continuity is therefore a sampling limitation in this recording, rather than evidence that its tentative activity cannot support a reference.
+
+All four production calibration trials pass on the selected 256 original observations:
+
+| Side | Existing curve fit | Observed self cycles | Reconstructed self cycles |
+|---|---|---:|---:|
+| LEFT | Ordinary least squares | 5 | 5 |
+| LEFT | Bounded median pairwise | 5 | 5 |
+| RIGHT | Ordinary least squares | 6 | 6 |
+| RIGHT | Bounded median pairwise | 6 | 6 |
+
+These are reference self-reconstruction results, **not 100% human-rep precision, independently correct repetitions or source generalization**. No new human correctness label is inferred from the filming, exercise identity or self replay. The two fits and sides are overlapping observations from one recording, not four independent videos. No outcome chooses a model, later activity bout or lower qualification threshold.
+
+The fixed camera-breadth category now has real MP33 calibration evidence for five of its six policy IDs, including this explicit seated lateral-raise variant: 4/6 → 5/6, or 10 → 12.5 points. The frozen reference cohort remains **12/32**, with no replacement/loss or denominator change. The new reproducible evidence gives **45/100 engineering readiness**, up 2.5 points from 42.5. It does not measure an accuracy improvement in the unchanged app. Glute bridge still lacks qualified real-camera reference evidence. Independent-label, additional runtime and sustained-performance requirements remain unmet; the 70 milestone is pending.
+
+All 225 core-motion JVM and 85 Python tests pass with zero failures/skips. Production main sources and network weights remain identical to verified engine `c610706`; the existing 27 native tests, frozen 2,688 controls and 124 corruptions remain preserved at their earlier checkpoint, rather than represented as fresh runs. No new APK is needed for this data/research-only evidence addition. Raw caches, original-frame reviews, source freezes, test XML/logs, publisher metadata and exact checksums are bound in `models/mmfit-reference-research.provenance.json`; `models/mmfit-reference-readiness.evidence.json` preserves the earlier scored evidence and adds this camera reference.
+
+This implements an offline automated seed/context/dense-verification research workflow. It does not add live automatic exercise identification, feed a multi-exercise session directly into the app, establish cross-person form precision, support every lateral-raise variant or solve the missing glute-bridge/independent evaluation evidence. Continue toward the fixed milestone with these distinctions intact.
