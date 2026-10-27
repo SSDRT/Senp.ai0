@@ -1,0 +1,12 @@
+gradle.projectsEvaluated {
+    def motion=gradle.rootProject.project(':core-motion')
+    def root=gradle.rootProject.projectDir
+    [qualifiedRepBenchmark:'mechanism.json',qualifiedRepPathBenchmark:'path.json',
+     qualifiedRepDepartureBenchmark:'departure.json',qualifiedRepEvidenceBenchmark:'evidence.json'].each { name,fileName ->
+        motion.tasks.named(name,JavaExec).configure {
+            def output=new File(root,'test-artifacts/exercise-knowledge/gpu-recovery-controls/'+fileName)
+            setArgs([output.absolutePath])
+            doFirst { if(output.exists()) throw new GradleException('Preserve frozen control receipt');output.parentFile.mkdirs() }
+        }
+    }
+}

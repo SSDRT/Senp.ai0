@@ -198,6 +198,32 @@ class LivePoseInstrumentedTest {
         } finally { blank.recycle() }
     }
 
+    @Test fun optionalGpuPositiveInferenceRetainsRawEvidenceWhenCpuRecoveryIsRequired() {
+        val bitmap=poseImage()
+        try {
+            create(LiveMediaPipePoseEstimator.Config(preferredDelegate=Delegate.GPU)).use { requested ->
+                create().use { baseline ->
+                    repeat(3) { index ->
+                        val actual=requested.estimateDetailed(bitmap,index*67L)
+                        val cpu=baseline.estimateDetailed(bitmap,index*67L)
+                        assertEquals(SHA,actual.modelSha256)
+                        assertEquals(33,actual.rawFrame.landmarks.count { it.world!=null })
+                        assertFalse(bitmap.isRecycled)
+                        if(actual.delegate==Delegate.CPU) {
+                            assertNotNull(actual.fallbackReason)
+                            actual.rawFrame.landmarks.zip(cpu.rawFrame.landmarks).forEach { (a,b) ->
+                                assertEquals(a.image.x,b.image.x,1e-6);assertEquals(a.image.y,b.image.y,1e-6);assertEquals(a.image.z,b.image.z,1e-6)
+                                assertEquals(a.world!!.xMeters,b.world!!.xMeters,1e-6);assertEquals(a.world!!.yMeters,b.world!!.yMeters,1e-6)
+                                assertEquals(a.world!!.zMeters,b.world!!.zMeters,1e-6)
+                                assertEquals(a.visibility!!,b.visibility!!,1e-6);assertEquals(a.presence!!,b.presence!!,1e-6)
+                            }
+                        }
+                    }
+                }
+            }
+        } finally { bitmap.recycle() }
+    }
+
     @Test fun timestampedNativeReplayWritesRawFilteredOverlaysAndLatencyEvidence() {
         val source = poseImage()
         val output = File(instrumentation.targetContext.getExternalFilesDir(null), "live-pose-evidence").apply { mkdirs() }
