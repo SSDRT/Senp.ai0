@@ -1,0 +1,14 @@
+gradle.projectsEvaluated {
+    def core = gradle.rootProject.project(':core-motion')
+    core.tasks.register('phaseQualityEvidence', JavaExec) {
+        dependsOn(core.tasks.named('testClasses'))
+        classpath = core.sourceSets.test.runtimeClasspath
+        mainClass = 'ai.senp.motion.UiprmdEvidenceAudit'
+        def out = new File(gradle.rootProject.projectDir, 'test-artifacts/exercise-knowledge/uiprmd/phase-quality-development')
+        doFirst {
+            if (out.exists()) throw new GradleException('Preserve existing phase experiment')
+        }
+        args('development', new File(gradle.rootProject.projectDir, 'test-artifacts/exercise-knowledge/uiprmd').absolutePath, out.absolutePath)
+        maxHeapSize = '1200m'
+    }
+}
