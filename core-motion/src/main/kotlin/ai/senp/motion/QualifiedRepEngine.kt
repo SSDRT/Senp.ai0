@@ -77,9 +77,9 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         val driver = value(reference.driverFeature) ?: return unavailable(RepReason.MISSING_CRITICAL_EVIDENCE)
         val progress = (driver-reference.readyAngle)/(reference.farAngle-reference.readyAngle)
         val visible = reference.requiredFeatures.all { value(it) != null }
-        fun compatible(returning: Boolean, includeTechniqueTargets: Boolean = true): Boolean = reference.requiredFeatures.all { feature ->
+        fun compatible(returning: Boolean): Boolean = reference.requiredFeatures.all { feature ->
             val observed = value(feature) ?: return@all false
-            val band = reference.evidenceBand(feature,progress,returning,includeTechniqueTargets)
+            val band = reference.evidenceBand(feature,progress,returning)
             observed >= band.lower-band.acceptable && observed <= band.upper+band.acceptable
         }
         var attempt = active
@@ -90,20 +90,12 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         previousObservedProgress = progress
         if (attempt == null) {
             // An observed start endpoint is mandatory; recovery in the middle of a rep cannot create a count.
-            // Match the demonstrated start. Absolute technique targets still produce their
-            // existing confirmed faults during an attempt, including a bad demonstration.
-            val compatibleStart = visible && compatible(false,includeTechniqueTargets = false)
-            if (progress <= config.readyProgress && progress >= -0.35 && compatibleStart) {
+            if (progress <= config.readyProgress && progress >= -0.35 && visible) {
                 ready = confirm(ready,now)
                 if (confirmed(ready,now,config.readyConfirmationMs)) armed = true
             } else if (!armed) ready = null
             if (progress <= config.readyProgress) primedOutboundPathObserved = false
-            // Start dwell must agree with the demonstrated form, not merely expose angles.
-            // Incompatible pre-departure evidence also revokes an earlier arming. Recovery
-            // after departure needs a fresh compatible start; it cannot borrow old dwell.
-            if (!visible || (progress < config.departureProgress && !compatibleStart)) {
-                armed = false; ready = null; primedOutboundPathObserved = false
-            }
+            if (!visible) { armed = false; ready = null; primedOutboundPathObserved = false }
             // Early visible motion after arming still belongs to this path even before the
             // departure threshold starts the attempt. Returning to ready discards that evidence.
             if (armed && visible && progress > config.readyProgress && progress < config.requiredProgress && compatible(false)) primedOutboundPathObserved = true

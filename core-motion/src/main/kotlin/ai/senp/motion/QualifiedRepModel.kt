@@ -173,7 +173,7 @@ class QualifiedRepReference internal constructor(
 }
 
 object QualifiedRepCompiler {
-    const val VERSION = "qualified-rep-compiler/6"
+    const val VERSION = "qualified-rep-compiler/5"
     val supportedExerciseIds: Set<String> = repExerciseSpecs.keys
     fun compile(sequence: SpatialSequenceAnalysis, exerciseId: String, fingerprint: RepEvidenceFingerprint,
         config: QualifiedRepConfig = QualifiedRepConfig()): QualifiedRepCompilation =
@@ -231,9 +231,8 @@ internal fun RepObservedSide.observedFeature(feature: String, mirror: ActionMirr
     if (mirror == ActionMirrorMode.MIRRORED) mirroredSpatialKey(feature) else feature
 
 internal data class RepAngleBand(val lower: Double, val upper: Double, val nominal: Double, val acceptable: Double, val reject: Double, val ruleId: String?)
-internal fun QualifiedRepReference.evidenceBand(feature: String, progress: Double, returning: Boolean,
-    includeTechniqueTargets: Boolean = true): RepAngleBand {
-    val phaseBand = band(feature,progress,returning,includeTechniqueTargets)
+internal fun QualifiedRepReference.evidenceBand(feature: String, progress: Double, returning: Boolean): RepAngleBand {
+    val phaseBand = band(feature,progress,returning)
     // Driver progress supplies range/completion. Its phase-conditional curve would compare
     // the angle against a phase inferred from that very angle, so use the supported range.
     return if (feature == driverFeature && phaseBand.ruleId == null) phaseBand.copy(
@@ -241,15 +240,14 @@ internal fun QualifiedRepReference.evidenceBand(feature: String, progress: Doubl
         upper = driverEnvelope?.upper ?: maxOf(readyAngle,farAngle),
     ) else phaseBand
 }
-internal fun QualifiedRepReference.band(feature: String, progress: Double, returning: Boolean,
-    includeTechniqueTargets: Boolean = true): RepAngleBand {
+internal fun QualifiedRepReference.band(feature: String, progress: Double, returning: Boolean): RepAngleBand {
     val branch = nodes.filter { if (returning) it.returning else it.outbound }.sortedBy { it.progress }
     val p = progress.coerceIn(0.0,1.0)
     val a = branch.lastOrNull { it.progress <= p } ?: branch.first()
     val b = branch.firstOrNull { it.progress >= p } ?: branch.last()
     val closest = if (abs(p-a.progress) <= abs(b.progress-p)) a else b
-    val target = if (includeTechniqueTargets) sourceTargets[closest.state.id]?.get(feature) else null
-    val sourceTolerance = if (includeTechniqueTargets) sourceTolerances[closest.state.id]?.get(feature) else null
+    val target = sourceTargets[closest.state.id]?.get(feature)
+    val sourceTolerance = sourceTolerances[closest.state.id]?.get(feature)
     val fa = a.state.features.first { it.name == feature }; val fb = b.state.features.first { it.name == feature }
     val alpha = if (b.progress-a.progress > 1e-8) (p-a.progress)/(b.progress-a.progress) else 0.0
     fun lerp(x: Double,y: Double) = x+(y-x)*alpha

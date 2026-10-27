@@ -1,0 +1,3456 @@
+{
+  "schema": "ready-form-rejected-research-provenance/1",
+  "decision": "REJECTED_NOT_PROMOTED",
+  "kind": "independent-skeletal-development-validation-and-fixed-camera-regression-not-live-accuracy",
+  "frozen_development_commit": "b0adbd7e97bdb52a28d5d193981af876cf0fa8c1",
+  "frozen_validation_commit": "5702915e8aa8c50a522a825c5765c6a4bff50d79",
+  "baseline_and_restored_production_engine_commit": "c6107062b8e0fffd2171fbdae8e51ccefd8df1c0",
+  "production_main_sources_restored": true,
+  "candidate_compiler": "qualified-rep-compiler/6",
+  "production_compiler": "qualified-rep-compiler/5",
+  "raw_MP33_changed": false,
+  "network_weights_changed": false,
+  "new_apk": false,
+  "readiness_score": 45.0,
+  "human_live_rep_precision": null,
+  "development": {
+    "before": {
+      "counts": {
+        "correct_reps": 80,
+        "total_reps": 160,
+        "false_negative": 49,
+        "verdict_UNASSESSABLE": 70,
+        "true_positive": 31,
+        "assessable_reps": 81,
+        "verdict_ACCEPTABLE": 55,
+        "verdict_NO_EVENT": 9,
+        "incorrect_reps": 80,
+        "verdict_REJECTED": 23,
+        "false_positive": 27,
+        "verdict_CORRECT": 3
+      },
+      "precision": 0.5344827586206896,
+      "good_rep_recall": 0.3875,
+      "assessable_coverage": 0.50625
+    },
+    "after": {
+      "counts": {
+        "correct_reps": 80,
+        "total_reps": 160,
+        "false_negative": 49,
+        "verdict_UNASSESSABLE": 66,
+        "true_positive": 31,
+        "assessable_reps": 79,
+        "verdict_ACCEPTABLE": 54,
+        "verdict_NO_EVENT": 15,
+        "incorrect_reps": 80,
+        "verdict_REJECTED": 22,
+        "false_positive": 26,
+        "verdict_CORRECT": 3
+      },
+      "precision": 0.543859649122807,
+      "good_rep_recall": 0.3875,
+      "assessable_coverage": 0.49375
+    },
+    "previously_counted_correct_lost": [],
+    "new_incorrect_counts": [],
+    "development_promotion_gate_passed": true
+  },
+  "validation": {
+    "before": {
+      "counts": {
+        "correct_reps": 60,
+        "total_reps": 120,
+        "false_negative": 47,
+        "verdict_UNASSESSABLE": 60,
+        "true_positive": 13,
+        "assessable_reps": 37,
+        "verdict_ACCEPTABLE": 20,
+        "verdict_NO_EVENT": 23,
+        "incorrect_reps": 60,
+        "verdict_REJECTED": 17,
+        "false_positive": 7
+      },
+      "precision": 0.65,
+      "good_rep_recall": 0.21666666666666667,
+      "assessable_coverage": 0.30833333333333335
+    },
+    "after": {
+      "counts": {
+        "correct_reps": 60,
+        "total_reps": 120,
+        "false_negative": 49,
+        "verdict_NO_EVENT": 62,
+        "true_positive": 11,
+        "assessable_reps": 25,
+        "verdict_ACCEPTABLE": 17,
+        "verdict_UNASSESSABLE": 33,
+        "incorrect_reps": 60,
+        "verdict_REJECTED": 8,
+        "false_positive": 6
+      },
+      "precision": 0.6470588235294118,
+      "good_rep_recall": 0.18333333333333332,
+      "assessable_coverage": 0.20833333333333334
+    },
+    "previously_counted_correct_lost": [
+      {
+        "subject": "06",
+        "movement": "m01",
+        "correct": true,
+        "episode": 3,
+        "before": "ACCEPTABLE",
+        "after": "NO_EVENT"
+      },
+      {
+        "subject": "06",
+        "movement": "m01",
+        "correct": true,
+        "episode": 5,
+        "before": "ACCEPTABLE",
+        "after": "NO_EVENT"
+      }
+    ],
+    "new_incorrect_counts": [],
+    "validation_promotion_gate_passed": false
+  },
+  "camera": {
+    "capped": {
+      "before_usable": 10,
+      "after_usable": 10,
+      "reference_losses": [],
+      "reference_gains": [],
+      "changed_source_outcomes": [
+        {
+          "video": "subject_001_bicep_curl_good_side.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 3,
+            "unassessable": 2,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 3,
+            "unassessable": 1,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_shoulder_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 7,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 5,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_shoulder_bad_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 6,
+            "correct": 1,
+            "acceptable": 5,
+            "rejected": 1,
+            "unassessable": 4,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 4,
+            "correct": 1,
+            "acceptable": 3,
+            "rejected": 0,
+            "unassessable": 4,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_shoulder_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 9,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 0,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_shoulder_good_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 9,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 0,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_squat_bad_side.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 7,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 3,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_squat_good_side.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 2,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 1,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_005_bicep_curl_good_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 7,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 6,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_005_shoulder_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 1,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 0,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_005_squat_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 8,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 6,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_005_squat_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 9,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 5,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_005_squat_good_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 3,
+            "unassessable": 7,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 6,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_018_bicep_curl_bad_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 7,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 5,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_018_shoulder_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 13,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 4,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_018_shoulder_bad_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 10,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 7,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_018_shoulder_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 2,
+            "correct": 0,
+            "acceptable": 2,
+            "rejected": 0,
+            "unassessable": 9,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 2,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_018_shoulder_good_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 3,
+            "correct": 2,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 8,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 3,
+            "correct": 2,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 6,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_018_squat_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 8,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 7,
+            "legacy_raw": 1
+          }
+        }
+      ]
+    },
+    "complete": {
+      "before_usable": 12,
+      "after_usable": 12,
+      "reference_losses": [],
+      "reference_gains": [],
+      "changed_source_outcomes": [
+        {
+          "video": "subject_001_bicep_curl_good_side.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 4,
+            "unassessable": 1,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 3,
+            "unassessable": 1,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_shoulder_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 3,
+            "legacy_raw": 7
+          },
+          "after_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 1,
+            "legacy_raw": 7
+          }
+        },
+        {
+          "video": "subject_001_shoulder_bad_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 6,
+            "correct": 0,
+            "acceptable": 6,
+            "rejected": 1,
+            "unassessable": 4,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 4,
+            "correct": 0,
+            "acceptable": 4,
+            "rejected": 0,
+            "unassessable": 4,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_shoulder_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 5,
+            "correct": 0,
+            "acceptable": 5,
+            "rejected": 1,
+            "unassessable": 4,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 0,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_001_shoulder_good_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 0,
+            "unassessable": 8,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 0,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_squat_bad_side.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 6,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 4,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_001_squat_good_side.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 2,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 1,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_005_bicep_curl_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 3,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 2,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_005_bicep_curl_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 2,
+            "unassessable": 10,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 1,
+            "correct": 0,
+            "acceptable": 1,
+            "rejected": 2,
+            "unassessable": 9,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_005_bicep_curl_good_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 7,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 6,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_005_push_up_good_side.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 3,
+            "unassessable": 2,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 1,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_005_shoulder_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 1,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 0,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_005_squat_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 8,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 7,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_005_squat_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 9,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 5,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_005_squat_good_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 2,
+            "unassessable": 8,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 7,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_018_bicep_curl_bad_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 7,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 5,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_018_push_up_bad_side.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 3,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 1,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_018_shoulder_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 13,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 2,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_018_shoulder_bad_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts",
+            "faults"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 10,
+            "legacy_raw": 0
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 7,
+            "legacy_raw": 0
+          }
+        },
+        {
+          "video": "subject_018_shoulder_good_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 3,
+            "correct": 0,
+            "acceptable": 3,
+            "rejected": 0,
+            "unassessable": 8,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 0,
+            "unassessable": 1,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_018_shoulder_good_front.mp4",
+          "side": "RIGHT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 2,
+            "correct": 0,
+            "acceptable": 2,
+            "rejected": 0,
+            "unassessable": 9,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 2,
+            "correct": 0,
+            "acceptable": 2,
+            "rejected": 0,
+            "unassessable": 7,
+            "legacy_raw": 1
+          }
+        },
+        {
+          "video": "subject_018_squat_bad_front.mp4",
+          "side": "LEFT",
+          "fields": [
+            "counts",
+            "attempts"
+          ],
+          "before_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 8,
+            "legacy_raw": 1
+          },
+          "after_counts": {
+            "qualified": 0,
+            "correct": 0,
+            "acceptable": 0,
+            "rejected": 1,
+            "unassessable": 7,
+            "legacy_raw": 1
+          }
+        }
+      ]
+    }
+  },
+  "candidate_verification": {
+    "core_jvm": {
+      "tests": 229,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "python_tests": 88,
+    "frozen_controls": 2688,
+    "control_failures": 0
+  },
+  "restored_verification": {
+    "core_jvm": {
+      "tests": 226,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "python_tests": 88
+  },
+  "candidate_native_or_124_corruption_suite_performed": false,
+  "earlier_verified_native_and_corruption_proofs_preserved": true,
+  "final_test_subjects_opened": false,
+  "validation_access": "Already-opened subjects 05\u201307 under separate pre-replay freeze",
+  "new_human_labels": 0,
+  "original_QA": {
+    "rgb_frames": 4,
+    "raw_model_diagnostic_panels": 8,
+    "marker_views": 9,
+    "marker_angle_plots": 3
+  },
+  "rejection_reason": "Two previously counted publisher-correct squat repetitions lost; precision/recall/coverage fall on validation",
+  "checkpoint": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/protocol.json",
+      "sha256": "f9d6bbb3a80f60f10da0f39bf55df25a91b5fdd763270503a03d04624c91b27b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/build.gradle.kts",
+      "sha256": "a19ddffd441523f4a805fd26c3299edafed4cc47f0c73caff58738937d8ce38b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "162471c67a8f36ba3925dead98bb9e3cc629ac7f9bfdfd71cab6b492777e6b52"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "223cfd3f81b53ffcb59297f288ab48ec1d8d90153fa52a2ca7dbf06f37323eeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/test/kotlin/ai/senp/motion/ExperimentalRepSideBindingTest.kt",
+      "sha256": "038e34d48246f957c9333a116c976c822ecccf47ba80404f39eaf8985689028d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepEngineTest.kt",
+      "sha256": "5a66f2147b215c805858068fe9f2bc4804502ab6bb604c9eaceacb48c0d3e706"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReadyFormTest.kt",
+      "sha256": "a9510f3390db206b2156d8ac31ab3d9da36a5cc56034de68215caf9e8eccf5b9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReferenceSubjectTest.kt",
+      "sha256": "dc045ee799815bd29c58149b2dab7536e655c1f92f62baca846497d08e4a33f2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepTestData.kt",
+      "sha256": "c53bb8fed7a0e13f322de6effafc17d8a1c7997b603f8603ff00f14dfd5cf8dd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdDevelopmentReplay.kt",
+      "sha256": "02df6247e717f16d0b143bc05aaf00073e8a972cb1a1cd13d67bc1c7c0670ff9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/AnalysisPipeline.kt",
+      "sha256": "908536b007e24deb916af2818466f1c73e0667f146960080bae74f06cccb8b4a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/Ports.kt",
+      "sha256": "b4f812a6467a5519cec7da860d9b8d987ffa684fdd1acce5f42eababd7215191"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/scripts/evaluate_uiprmd_development.py",
+      "sha256": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/source/validation-app/src/androidTest/kotlin/ai/senp/validation/QualifiedRepEvidenceInstrumentedTest.kt",
+      "sha256": "faf16755979a9aee29048c6e19027ae687b1fd09d5718a8f6275ad27bbaa83ff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/inputs/test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/inputs/test-artifacts/exercise-knowledge/uiprmd/provenance-fault-development-replay.json",
+      "sha256": "7d408a2f76efdec70c95093aed0a6c1bd3d21308f44b95df05f6bc020207ddca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/development/inputs/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/protocol.json",
+      "sha256": "ab2aad9f5227b27b8eb063835c7014cdb4dcd88f5ce86caf5b4cecfe86fc2da5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/build.gradle.kts",
+      "sha256": "a19ddffd441523f4a805fd26c3299edafed4cc47f0c73caff58738937d8ce38b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "162471c67a8f36ba3925dead98bb9e3cc629ac7f9bfdfd71cab6b492777e6b52"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "223cfd3f81b53ffcb59297f288ab48ec1d8d90153fa52a2ca7dbf06f37323eeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/test/kotlin/ai/senp/motion/ExperimentalRepSideBindingTest.kt",
+      "sha256": "038e34d48246f957c9333a116c976c822ecccf47ba80404f39eaf8985689028d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepEngineTest.kt",
+      "sha256": "5a66f2147b215c805858068fe9f2bc4804502ab6bb604c9eaceacb48c0d3e706"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReadyFormTest.kt",
+      "sha256": "a9510f3390db206b2156d8ac31ab3d9da36a5cc56034de68215caf9e8eccf5b9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReferenceSubjectTest.kt",
+      "sha256": "dc045ee799815bd29c58149b2dab7536e655c1f92f62baca846497d08e4a33f2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepTestData.kt",
+      "sha256": "c53bb8fed7a0e13f322de6effafc17d8a1c7997b603f8603ff00f14dfd5cf8dd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/test/kotlin/ai/senp/motion/ReadyFormValidationScopeTest.kt",
+      "sha256": "06e2fa821d8c0020f8b1b5692c3e967a41274f20d082c95c4d23f1c0242c6c75"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdDevelopmentReplay.kt",
+      "sha256": "a99336995ed9dda6fbb8368760c70a31618632233a893d1f78701653302be12a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/AnalysisPipeline.kt",
+      "sha256": "908536b007e24deb916af2818466f1c73e0667f146960080bae74f06cccb8b4a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/Ports.kt",
+      "sha256": "b4f812a6467a5519cec7da860d9b8d987ffa684fdd1acce5f42eababd7215191"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/scripts/audit_ready_form_camera.py",
+      "sha256": "2b0c5fe07b5185b336d64eed62facc4bfe3bcf51ac8af617d37dd21d4a7699bf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/scripts/audit_ready_form_research.py",
+      "sha256": "652724d8c9bfa8fbc42d875ee06175cfa4fd48115082ee2109e896d31bbce831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/scripts/audit_ready_form_validation.py",
+      "sha256": "f94c9b704a7c66446977f8158df988b6492c53f90c2545d226676548e0259624"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/scripts/evaluate_uiprmd_development.py",
+      "sha256": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/scripts/ready-form-controls.init.gradle",
+      "sha256": "cf5bd3492b62d7cb686ea61d662685f431016f71b86e54fa50a9e1ca10c184e9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/scripts/tests/test_ready_form_research.py",
+      "sha256": "b0b68aa94cdb3af0acadc701d7463db7481ed33df238957675b866dc732d2590"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/source/validation-app/src/androidTest/kotlin/ai/senp/validation/QualifiedRepEvidenceInstrumentedTest.kt",
+      "sha256": "faf16755979a9aee29048c6e19027ae687b1fd09d5718a8f6275ad27bbaa83ff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/inputs/models/ready-form-research-protocol.json",
+      "sha256": "f9d6bbb3a80f60f10da0f39bf55df25a91b5fdd763270503a03d04624c91b27b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/inputs/test-artifacts/exercise-knowledge/ready-form-development-comparison.json",
+      "sha256": "a24782ec7061b22c2e221e2bf1e7bbc9587bb7dc296e40fa162a097f520d327a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/inputs/test-artifacts/exercise-knowledge/ready-form-camera-comparison.json",
+      "sha256": "72877700b80b3a29a30cca5bcbf36cd0a12d573a7910592cdbf5609b1e8ae30d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/inputs/test-artifacts/exercise-knowledge/ready-form-camera-stage-frozen.json",
+      "sha256": "64807be45522a88eba979ab4fe706be40e223b2ee7cd72bfff710835340b380d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/inputs/test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/inputs/test-artifacts/exercise-knowledge/uiprmd/validation-vicon/manifest.json",
+      "sha256": "d2efd45c767b2b4dc00827d322dda0369a8db6896328611c09cd82765242ae75"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/validation/inputs/test-artifacts/exercise-knowledge/uiprmd/side-binding-validation-fixed-replay.json",
+      "sha256": "ffa17d695f0889296bd2a99be42d8be376fc5fd5c2dcf74144633f354a5e2b62"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m01-s01-correct.json",
+      "sha256": "8d365f5f89e70e3cd0b77631a7ad1f643ec0d47c861087103ce298fc855d086d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m01-s02-correct.json",
+      "sha256": "68e83a5e67b5225591d75ba3cb1543bc1e5b0bddc71b65483b7f8c6daf177aa3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m01-s03-correct.json",
+      "sha256": "c5b67f6887a45126760f724a4299cf224aa58fb028c380cb3d14ff4ab70897fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m01-s04-correct.json",
+      "sha256": "ef18dfd34002c794e76d45e6e0622cb11076700b10d95e27abbf1d8603dbec65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m07-s01-correct.json",
+      "sha256": "dd276a60f3724ae2e7472a22dcf19b75e055599a999ace982b4716727fe37ac5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m07-s02-correct.json",
+      "sha256": "8d7a2e6cf114dbbb467bceb49aef7b567f41d729fefc810c983a8b442a046b47"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m07-s03-correct.json",
+      "sha256": "1be0ef2d848e3394aae572f1b97e9c1203ab0d82930ab3340d634ccc03cb8e51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m07-s04-correct.json",
+      "sha256": "a9bf7d4e9db1b344a19f36ef8fac11befa92d807eae9bc89bdb9c74fb92c7765"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m01-s01-incorrect.json",
+      "sha256": "1636a96db53e7258d50d030a48f706c9e1d48b1bbc505f31310673f661decd3c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m01-s02-incorrect.json",
+      "sha256": "045d351b44b602252889a338c5fde5797a1d55524c123e0f715614f0b2d78462"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m01-s03-incorrect.json",
+      "sha256": "5dc50ab26f0c82fda863e3af38a0318e56c72d23d3cecce44bf9e320566d0329"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m01-s04-incorrect.json",
+      "sha256": "d22bfea373ccd879b1e942a60cb2be8dbb37b410d9c65bb6e7215cded36faa63"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m07-s01-incorrect.json",
+      "sha256": "e726eced1f6add501da50dd790464fe099d744c4df5de5d356813da84d970ffc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m07-s02-incorrect.json",
+      "sha256": "626262dba0c2d6224c47afb05440817544853043886fa291af23e32435acfb2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m07-s03-incorrect.json",
+      "sha256": "2b5dd1cc068f0dbd729d2e9db8d0e6a3ebee08681a114ea560e40ca08d8ed252"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/development/m07-s04-incorrect.json",
+      "sha256": "b7b7c2f694e689126708e2c723d38163d58eee44755e2838bdcc86c3fdf61b3a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/manifest.json",
+      "sha256": "d2efd45c767b2b4dc00827d322dda0369a8db6896328611c09cd82765242ae75"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m01-s05-correct.json",
+      "sha256": "632c02535c50f073ec0df8f69eeb49b34778e57dc0c5a976c9973c8e12370d6d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m01-s06-correct.json",
+      "sha256": "03c8ba520afc1909f396dd84cbc4f12060c16bb389e424ab53f952e3392e6360"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m01-s07-correct.json",
+      "sha256": "793a53aa3bcc452ae77a659b0ab21acd131bb0ba893d4884e259bb4522fe85e6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m07-s05-correct.json",
+      "sha256": "53c426e8a0d7dda9e2e2ca9f461e46f81e510f25fd7d40adb3203e2081018ac1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m07-s06-correct.json",
+      "sha256": "d430ac1c1a9e0efd39c3aaf8dc2c323ad93a51b232fbb9a64ec6e5cd9cbdd322"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m07-s07-correct.json",
+      "sha256": "f165722f7e696a3d6941fcc68d08017dbd14e78c58c9b48ce1156f2a3fddb774"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m01-s05-incorrect.json",
+      "sha256": "a289d63662a69c61d34ed46ea8a329a06f79f8f7ef24baa63e8230213d75ca18"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m01-s06-incorrect.json",
+      "sha256": "cc91f18089fa4c990773915e823d603e9ae8abea8c8b40727a092f2f906ed2c9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m01-s07-incorrect.json",
+      "sha256": "56ed93afdb345418b1d2829434ad6e6bebd5fc495954ad529cb812b2c680775b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m07-s05-incorrect.json",
+      "sha256": "f41d3b28de9720ff4d4a087671ba11aecbc398979f76886cc4b15936db40f9c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m07-s06-incorrect.json",
+      "sha256": "b182af4642431abdb3aa6dc859d43ba4dedec88f8062a60ed496910a156cbbbd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/input-records/validation/m07-s07-incorrect.json",
+      "sha256": "4138d690b1a2abd4df0258feec37b9004390e7337234e7e56c3638d36cb7e792"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-before/TEST-ai.senp.motion.QualifiedRepReadyFormTest.xml",
+      "sha256": "7609b8dbba5145a04f2f06758e9ceaed34f9ba49c1241a17123b23212f5a9ca2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_001_push_up_bad_side-left.json",
+      "sha256": "62b3b3f0a1c146c719dc9994fe4250bce57a46e45cdec2dc17119881731217bd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_001_push_up_good_side-left.json",
+      "sha256": "68db16ac3b1476d75e952a7d56aa9bd1bdf1b0857d782128cd907f2854de7779"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_001_shoulder_bad_front-left.json",
+      "sha256": "193080c0d095b6a041d69a1296c8a1fc49168e2ddcf7953c1b0aa542e1bb4e0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_001_shoulder_bad_front-right.json",
+      "sha256": "32e0eb1c4b045c73a0aaff8d1f4101dca24768827c50ea45a3fb31547c7ebf25"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_001_shoulder_good_front-left.json",
+      "sha256": "a2a71b97a53fa830669f6674ac94935d3ca7597e0272bc1ac2335d9b63a4159b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_001_shoulder_good_front-right.json",
+      "sha256": "17ebc40d034f1ce5c94728b11453a65d33ff8c84f15c19b333bc17c793b2e87d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_001_squat_bad_side-left.json",
+      "sha256": "0f9b16c4599d1323a7acf41347a09d9f404dc2e233a83d259ff47f9b71aa0db4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_001_squat_good_side-left.json",
+      "sha256": "c890e789498f9d717ff87f8e3413b879c3bb41fd0da96fafd415772fd825b860"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "7c625ac7984575ddd044906aa78bd551269a5a3228dd8c34d368d38ec7f9bc5c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "e2017d4e7c5e7913c04ef0b5037af1ebf9c701c27cb10992bccb89cd1f325ef0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_005_squat_bad_front-left.json",
+      "sha256": "d86ac39717e5fcc471031915d9a54e1f9c675b2d89d75a8f79891ced9edd0497"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_005_squat_bad_front-right.json",
+      "sha256": "90d2459cc52c2852a7ccfb23711b2136203439b94f28f59f1156941791000f1e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_005_squat_good_front-left.json",
+      "sha256": "b3a7022b6f506c0fb432b97714b6b3083522b6c2035b8659be9be061733c932c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_005_squat_good_front-right.json",
+      "sha256": "5b48982fef4d0c62369c0fd54cd6e26778c4b1bf0711d3c64d953fcf1d1a98e1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "7666fc8328b027a58f1c6994457316cbd4d0efcd13da3eb6fb211199f406ac79"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "630f536cd128ba4c05d6b7e512fb3237c806252232daaaf2fc32120de27ec5f6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_018_squat_bad_front-left.json",
+      "sha256": "7de022c3b88f9ad2f8d73f69248b69cd4011cabe1e61e77b95a424086cc81913"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_018_squat_bad_front-right.json",
+      "sha256": "03a15e7fe90944aaa5cb847568e44048f748dbec55cfc2953bdd501b1deae5d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_018_squat_good_front-left.json",
+      "sha256": "9a4b5e5c23c637bf1464c0bf8cc5a822b1d7ead4571ffc5889aac76f9058c86d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/subject_018_squat_good_front-right.json",
+      "sha256": "952129095bfb2d0456c296f6ad54a88eda95e9a73c9e8f0b8f8c5b7a2850e689"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-robust/summary.json",
+      "sha256": "488f2a56cec8a7304b24248f0be6a217a4e1cd5079b4841f8bae01029613c4e8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "28f86fd4e5ee940688fd0a44b1213d219f30f71b3f2ea3458ddce048058183c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "440695fb8919becb62775541f56562a5268f06c298c840adde9f36ffd9d1e38f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_001_shoulder_bad_front-left.json",
+      "sha256": "d007d41838aeba4531cf60c1ddab16164c2705409390cc96532718f538e2f926"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "b4391f048f8177a930edeff25d4300daeda883320a0007fa06aaa52d3d7fbd58"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_001_shoulder_good_front-left.json",
+      "sha256": "d58857f5d7c3f6957b694e0411dd82651e4772f95e43a1a31373f724a88d119f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "2857c44b8a8c7cfda2d8348ce956adaa57a8968a1045354edf9a22d88e867254"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "a76b137023dd041054532f369d7cf230446bad391f3e3b35249425efec0e9757"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_001_squat_good_side-left.json",
+      "sha256": "d348e014a20e0f54c66b9d83d775a501522312a2641eb84843f9ea9005a74c62"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "f4809464e8eb1e2e6c35d8aed95ce32c1f82b6b57630ee5609743cdefe0c5697"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "2764958e4ca4b743acce33efe5f5df2983eee8ec0d3a0a3b05a84e009461588e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "1203f288b255efe0c868770a383226584de88cc952e15a474bca098fcba69ce8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "92eb26d9b0c141395ee8267a134ba11b55ed90f94e670cf98c9cb3524853e410"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_005_squat_good_front-left.json",
+      "sha256": "7315d6a287c2ce83d8d418c51849c0d15cb7afcb045f105e62c98bfd2f20a1ae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_005_squat_good_front-right.json",
+      "sha256": "1bebd5dd79fbc1977b247de111d52ccd6709d723821b2b3733aa15e913859538"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "7121ca0e08141005d1c2f707783e8ee7b2480c659b339314cab836aeb3e60ac4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "004fae4fb9b9b06d64b6e9da1cdae098ada243d493c0196cb2adc9c73cc6a4ce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "433532c9c75846454b04d6b92ece36296f72b10df0b4602bd0d9becfd26d2e00"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "bbc1dc31e073d75fe4ef05f22d188ca0ef704306f6698ab58c9577b97f044270"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_018_squat_good_front-left.json",
+      "sha256": "09002b8286578fa37b665190a67eb333ef0d6cc60f89862cb87d86775e959486"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/subject_018_squat_good_front-right.json",
+      "sha256": "cd2c263bc75f410c44b414ff49564128f55ac2e469cfd8a4c516db833ed3d2b8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-full-standard/summary.json",
+      "sha256": "9fcf2dbd410d4ede5c404d08887a647985011b673b273a48ca3761a0787b3b0b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "c431fb9bd3a4fe5ac274d6360c3250983c64c11c2127643a78f4cf255dd2ee90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "fc35735c4e75184bb234d6f00dc6127a533141bf0b256684b9662c680e890304"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_push_up_bad_side-left.json",
+      "sha256": "55f9f5ca9f48a8d1bde60c8664bd5284769d221196bb39057179c5fd10495a13"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_push_up_good_side-left.json",
+      "sha256": "bd1d9e2aee3905256d383241916dbec52c91673eb56772517a5f5f24cc35365a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_shoulder_bad_front-left.json",
+      "sha256": "422c938a96c403eceef06cb66621ce3ab83c86bf187b0583a0cae44e1c381e4d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_shoulder_bad_front-right.json",
+      "sha256": "1f506eed641e15a1057719ce014d99e4a6247c09edfa6d451b65314c96f50b9f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_shoulder_good_front-left.json",
+      "sha256": "27b4e58c8758fdd583b860452b1a7bb9f6df0826ad27e38abad2d5db7e879d36"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_shoulder_good_front-right.json",
+      "sha256": "f6faa829105b25c26315fa8a84126ed53320aa6b8334950c7c2bc63dec44e61c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_squat_bad_side-left.json",
+      "sha256": "f0ade9be347e1f5c7c9ff3ac9bc9f1a5bd3c90df354010128d3a6109c5dddc8e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_001_squat_good_side-left.json",
+      "sha256": "50d0505f529b5e0a4ad211c3822a8383d30084729c67fd20f55ec884ace7b293"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_005_shoulder_bad_front-left.json",
+      "sha256": "cc7f3d40640d156545f101f755cd2b61650e78e404e92e838ce8a0cf03ccd9b4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_005_shoulder_bad_front-right.json",
+      "sha256": "d55ad0154e81c8548d0b7a9c3c95ab7ba7f7d8526b59bc01c4539ca8b6572c93"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_005_shoulder_good_front-left.json",
+      "sha256": "ec7fc066a42c5f47f87b15507626a0466091196052c80518f31bd1b8f4ddc467"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_005_shoulder_good_front-right.json",
+      "sha256": "64d17b8c43c857786cb56f0291a4dd13dd55cd29c7639e1b13afcc1e9a3569a5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_005_squat_bad_front-left.json",
+      "sha256": "0488779bcf48409738d85a4fa6ca40d85dac2be145c40e3559a07b9a1ffb24fe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_005_squat_bad_front-right.json",
+      "sha256": "9e9328719d00c33a32325bc03e985cc14f5533c1cec1198833cba0a19f201044"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_005_squat_good_front-left.json",
+      "sha256": "257048a9fd842367448f336a58ca5fa5d191b72b35750b086ca5ab21857f584a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_005_squat_good_front-right.json",
+      "sha256": "11e398a7d07b49c65199e06b9755e618d743ed83d7cd57591571610deebd714b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_018_shoulder_bad_front-left.json",
+      "sha256": "7106e89e3a4d6c31b51a65ab3fc6794e5d88015a82d32055ac16cdc3cc058856"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_018_shoulder_bad_front-right.json",
+      "sha256": "6335d1db59c3651bf826cc087f9c7ffbb7ed65bc42738998c1ad9a48a9015385"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_018_shoulder_good_front-left.json",
+      "sha256": "e43b4c396952113be8533b285356700c548f234d8d6987629eea23ea951831a5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_018_shoulder_good_front-right.json",
+      "sha256": "7be855f046264a6c4f732f4cf458a37e07041b6cb90fbc45f6798e8ee38249fb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_018_squat_bad_front-left.json",
+      "sha256": "f3e85aa301fac5d2ce46f693dcaff3f6733fe8d5f63ec16ff7e181816f83b44d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_018_squat_bad_front-right.json",
+      "sha256": "31020f849f3151f69f77688acfc014e29f33306e370f88cfca9f7c7387216201"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_018_squat_good_front-left.json",
+      "sha256": "69b20b98cd892310675b48cff62cb25c20175c665a1f086074b692f57b128472"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/subject_018_squat_good_front-right.json",
+      "sha256": "abf15b7761140553ff33c8ae348ab93b69f9d76c820f156dc3619b4618ee1882"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-robust/summary.json",
+      "sha256": "7b5372ce82f79341d9b0d803c3a31f6d6eedd0adba970626f786c518dce99721"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "d44a22c80bae6e46f13e1558b4a3026e13732f456009f547df0abe1f10d1ecfa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "c46c1a0bc38b9e99d1f0559f7bd09b439c41446681d32442a203606dedc09834"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "0db52d396ce49fc92a68764023b8da9fe74d99c42cf53f5d1fa71c36fab76303"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "8b20e2707a260c474f7a001fbfd1da0533d807f9f0527d601ae1e6a3f75675a6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "061a2f15009b21b93ccf1864e3888d262c8d0d1b8d41ceaeabd11f2ea3af61bd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "9aa9b640ff09106d60b0f6f2788faad0823b6c420c54b4808e42471a8a112fca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "110b067bd440e897b03329af3962548a84c0b8b3959edfa7d668e26ff40af1ce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_001_squat_good_side-left.json",
+      "sha256": "3b0e322250647cff2be765d6804457b71638448c93652e52922ef7c47064cfe6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_005_shoulder_bad_front-left.json",
+      "sha256": "fb115cb0ff77c2d728d7c9e298684676239904dbf49e80b760bccab5ce8de4e2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_005_shoulder_bad_front-right.json",
+      "sha256": "1114aa068788b9d57c2c7c19e83c3edda5b9a6892ef87746897ac4f4922cefa4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_005_shoulder_good_front-left.json",
+      "sha256": "388dec28802ebdda0ed7e9060fbbea63742b42625a7ead25eb644314657de37a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_005_shoulder_good_front-right.json",
+      "sha256": "315ef5a526d45e1c324ec72d0510307512b4ecbe70e6deaeb1bff4c3f1ac0683"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "423a90bb143afa15d2b2cc52b193358f367dd40431e3873dae86aa807ef4c296"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "00896b6fc00922846a166eed0710a8b4b9f64b98b79bfc2d6afd0494c99da696"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_005_squat_good_front-left.json",
+      "sha256": "48268b0d403eba3f5adddab0aebea1b050c2a7da3f86d65e88e58e102da6249d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_005_squat_good_front-right.json",
+      "sha256": "862734e8cb8769b3317979f68802b7b3411566852e20d7dfd799a4356348ae40"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_018_shoulder_bad_front-left.json",
+      "sha256": "b40e651b8f1cbc415424e00717fffe0c04d051f26855b0431bf5faa55b2c6fc6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_018_shoulder_bad_front-right.json",
+      "sha256": "a583e21efe532fd6df03bba1122193c3558b9572a6fe6e47401d952a38532529"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_018_shoulder_good_front-left.json",
+      "sha256": "dcd0529c7e561253b83c77385d0b99ef13a4fa4f8452ae87804bbd368ca97037"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_018_shoulder_good_front-right.json",
+      "sha256": "f7188ac1d2d3de86b276cd6438ce19ba60547fab3058fabaf0870de77425e72d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "44dc50bc5699bbf16b723b64a5102f607081ead271d1dbfe04dd1b71a4d1ea2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "82bcd62552b2f0990b531ed3e763aaf3a0e4db5b0a516a009adb18ae1997f143"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_018_squat_good_front-left.json",
+      "sha256": "fedd3f8df58ea568f14f54140439e3eaa9491338041736b3e58c2cf3ad69569b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/subject_018_squat_good_front-right.json",
+      "sha256": "f585931bf83c983296b5468f6217736eb36454d9ba0014e915b3077813e77174"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-capped-heavy-standard/summary.json",
+      "sha256": "07be35ffd3b2aa0b99cfa3631287ceda7111891bcd19e86f0ca5d08072350b00"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_001_push_up_bad_side-left.json",
+      "sha256": "62b3b3f0a1c146c719dc9994fe4250bce57a46e45cdec2dc17119881731217bd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_001_push_up_good_side-left.json",
+      "sha256": "68db16ac3b1476d75e952a7d56aa9bd1bdf1b0857d782128cd907f2854de7779"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_001_shoulder_bad_front-right.json",
+      "sha256": "c139a8ba4cc7cc8d2094605d7531abdc538ae698194eb323762f8864be0c9157"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_001_shoulder_good_front-right.json",
+      "sha256": "09af3703fa3da1f6f4e576062362b607c1eba3df7c8f662a9c7b502b28e24871"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_001_squat_bad_side-left.json",
+      "sha256": "550c0cc2f254ee3e5becc7bdd2e99c22d497dc95f07a8d2da3cbd1296c47efa5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_001_squat_good_side-left.json",
+      "sha256": "ac476a3235ad1fe5cec2531f205f77d971810d54f6085c7bc4dee87addda93e9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_bicep_curl_bad_front-left.json",
+      "sha256": "808f25450fb30ffbf619422ede081b4c4760e9ab1ffdf7ac0ffdd5c8d8d7bcb4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "dc5ebd4ea9873c623bfa83ebfa2b259c04d1ccdd147de9410fb668bd159dd884"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_bicep_curl_good_front-left.json",
+      "sha256": "4d69cb6644aedab004cee9330ed41a29a155b92fa12eac3b243cf9994647639d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "ab11571c1a35aaade2ce83f63043bfcbbbd180bdb14b56fa2bd401e29025ed60"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_push_up_bad_side-left.json",
+      "sha256": "b0ebcb65e4f462f7ab1445805f5afe0ac48c758716c58b931b1432a25abcd0cb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_push_up_good_side-left.json",
+      "sha256": "57486f3eea7d3b5f9c8893d96d29b6a0f53c758c5f40bc4eaad298e72f5a1574"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_squat_bad_front-left.json",
+      "sha256": "0671c865be1df7b50bee03257cb72ba659a797929415653d9edc59d588edfe82"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_squat_bad_front-right.json",
+      "sha256": "b11e3a72a1c815d483379e6176fb0037fb539c2a9dd7823276259d9dfe56f6b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_squat_good_front-left.json",
+      "sha256": "ce3ad704ff738496486096223577758b32eb1e25df71a9eaa49014065557b79c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_005_squat_good_front-right.json",
+      "sha256": "f2e2e4f3f97713f6ce86822239b251350d5256b3b8c106a4c5813ca367e53111"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_bicep_curl_bad_front-left.json",
+      "sha256": "3ef983d596ffbecfd6594184637f55800dbca737040c8fdbe53abbbfe727ec3b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "8189c7a269ab2e05d0193b4c7c0c528bf3ad790edec6ab972b38d77f52ad48a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_bicep_curl_good_front-left.json",
+      "sha256": "be43a398eeecc86947a2f0aa19ae66ca3ab4abe6db237fcae652b137494fe9a2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "e0d7c364abddbe6d6ef699dcfe82c5cae16dc664538a914df0aa54dd11763a74"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_push_up_bad_side-left.json",
+      "sha256": "2b4eba9104cc5123a7483ea720c79899af194aaffcf8c7d9de5df65fe6e65c4b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_push_up_good_side-left.json",
+      "sha256": "68f2926a4a93a2ceb201399496997424dc9ae6eb91d224ee23910628f24d5f9e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_squat_bad_front-left.json",
+      "sha256": "2737867c540f1bdfea448f8eb187f80ce017da0851ab04d81d6640478df89540"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_squat_bad_front-right.json",
+      "sha256": "9610f9acc938be65bdccaf0f1ce11aaafa8fff0d2ddf8476e9092471585d153b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_squat_good_front-left.json",
+      "sha256": "c7c034986f8b4668cb8b2e7bfc39636d89af61e0973618a94ae09683f3caabb5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/subject_018_squat_good_front-right.json",
+      "sha256": "87204151afd740386846ca1c066be9251512649df98dea1955c1095cd2dec611"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-robust/summary.json",
+      "sha256": "3263061f6bb6d28f4834bba59c65e7191d5c1bcea48c738093ac5fac7792c7ba"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "28f86fd4e5ee940688fd0a44b1213d219f30f71b3f2ea3458ddce048058183c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "440695fb8919becb62775541f56562a5268f06c298c840adde9f36ffd9d1e38f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "07958572ffa83f6ca842de15f782e0f2c5ed3157445f6d746683dee8f623408a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "b93cdb2d4cb2c68c13d9bde40169ecb9a47b1d13421362143071ed4f7bc62e3a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "8d359f1e37748888f2622b626958f89c06bdfe2f2c12015e8aeb4fd346799583"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_001_squat_good_side-left.json",
+      "sha256": "45cbae4ed50d50f310be85bcc56e6a544d8a3017f064189c2f097b8307447e34"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_bicep_curl_bad_front-left.json",
+      "sha256": "3be6797255575aabf112ded7c1f947cd7f0f2b675cc0ffaef960cc9d63f3703c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "5c0e7027db61c7bee3f16a37b579580b49b1e807c2868ad4636d0a14d83adb91"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_bicep_curl_good_front-left.json",
+      "sha256": "7577d26d154cd237cbfd67c72759b844e1b4edf6ad8b75419270f97afac158ff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "9ffed7c3d26661d91f1d25b948987c5549ac526aa40ab7541e9973c40494459c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_push_up_bad_side-left.json",
+      "sha256": "ee89db7b6fbc8672f106c666b68c241451d73c95273427c07481fc91774c728f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_push_up_good_side-left.json",
+      "sha256": "2a4dd21c2bde43fa713e0bbe3015a52aa132fd1bf12d35efcea1ec96b170e343"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "78385afeeae77bb870e365553ce9df07150fc7c92f3cceda6c1f2f308d3903bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "5b7af6e1a616edbd15d0fd0779152b6b678340d55e86f70ccbb7a13af2bb8736"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_squat_good_front-left.json",
+      "sha256": "098b653eba8334e8c51275201cbd3702af2519315ec72d36ff2fa64fa1d4b93e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_005_squat_good_front-right.json",
+      "sha256": "f16c4f754d394992ad114691c1c3863711a43fd118566acf4d8ceac8a4fc3742"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_bicep_curl_bad_front-left.json",
+      "sha256": "266d69ab2ae8ebec02e4001599ec476a2b32d2dd754e3729c436357118327438"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "87b284df190aa484270536c5a800ce6042324d6f12437109fc28a314038e3b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_bicep_curl_good_front-left.json",
+      "sha256": "b1e9f713111e8d290fab0e6f94855e0d32a332cd1bc3a41556aa707175799192"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "3f3b2dad72a03a7a2c98daa3c55983d981f6fd52913665481f1204b398c6e463"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_push_up_bad_side-left.json",
+      "sha256": "07b5060781e31a1e35e72622cae582ce7322a6ba955da5a5cabf726de8b41c15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_push_up_good_side-left.json",
+      "sha256": "5cb8434781f9c920f55a70763be5d5938294a323daa929fd0ad0cb8253423951"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "6ea46a04905f61c5f0699c7465ca37e767518c73628420f9f57b62ecfac47ffa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "3c912abc82c07113ccabdf715830e8de09e91757be0bd99e5db4120fc318dab5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_squat_good_front-left.json",
+      "sha256": "318843a3351e44dcad924e8803c9f7a261ea39ac3defc789ee247006e31e4647"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/subject_018_squat_good_front-right.json",
+      "sha256": "f45bd86c7697cc6e90f4899ea2b2714fbce4f777b5d8ac853dae336642000c20"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-full-standard/summary.json",
+      "sha256": "104ef70a13fb035d47846c1aa8561f28e4c9cbf09db1b82ab09f1ba584a32aa5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "949ad627f9c27a480061352f80f5d1001b1e2b0776271c5e3f0b6edcccb2bdee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "22f3598de0f42d287d2367e29242014bf725d99bf5a299be4a616508bf04d4a1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_push_up_bad_side-left.json",
+      "sha256": "55f9f5ca9f48a8d1bde60c8664bd5284769d221196bb39057179c5fd10495a13"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_push_up_good_side-left.json",
+      "sha256": "bd1d9e2aee3905256d383241916dbec52c91673eb56772517a5f5f24cc35365a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_shoulder_bad_front-left.json",
+      "sha256": "ec096628b75df0b160817879068b0921ca65c448dfab5519e16d15ed06135538"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_shoulder_bad_front-right.json",
+      "sha256": "02239c7c44cda0659bd9415c2f92a70e5cc7ec71ecc37a51c468658bff4a1b18"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_shoulder_good_front-left.json",
+      "sha256": "f50db3b308fd9dc66613fa65d8f358fbbd3aa642693b7fe8a568f32267e21b45"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_shoulder_good_front-right.json",
+      "sha256": "12faafb0579a69c9372ccc302c80768d59bbc71557db14ba632a2f16f1fdd61b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_squat_bad_side-left.json",
+      "sha256": "87615f4d647f3bca1187a28e98c82e9c8ad6e709c00198fcead3c10f2ba67dc8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_001_squat_good_side-left.json",
+      "sha256": "63256f5304d655c73ee3df3dbcab41d157b31f9e6d9eb6df9270f89d9756f15e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_005_shoulder_bad_front-left.json",
+      "sha256": "0cbce9641f68a76968a6c1f66a7cd0ad0392806870567aaa168e7c77d3d44fdc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_005_shoulder_bad_front-right.json",
+      "sha256": "dbd42c3cad67eb0f220695c1d0d104ba25e2c13c98adc9b50b0dcb1823e62e59"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_005_shoulder_good_front-left.json",
+      "sha256": "f9bea238e97d239dd98e2d3b4edcf32131ac470c981114b5d1d98faabb6e1880"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_005_shoulder_good_front-right.json",
+      "sha256": "b510a723a921db85b1c146f19da86aa07d082f3832a6abc1f3828708e8e34a32"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_005_squat_bad_front-left.json",
+      "sha256": "d67ab5d059793ba08eb3b6bb3a6ba9a6bb0415c58ffd6cadbfd5aeea0c09e24c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_005_squat_bad_front-right.json",
+      "sha256": "77a0ff123ab1cd37d411f5b6a065f7603d334b4031c384f1ac5b18f211c9172a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_005_squat_good_front-left.json",
+      "sha256": "272e0d5b20b765f79ec9e31f7963cccd2401fa4eea2b594db773bcfe9bdbb8c9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_005_squat_good_front-right.json",
+      "sha256": "e68fa9ba8492491947a999ce645a955c98f9faaff7a793b964ca19914f605d13"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_018_shoulder_bad_front-left.json",
+      "sha256": "9787ff09ba23e53ca3b9ac68b4f9918210cd734a09abd289b279b83ff7243049"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_018_shoulder_bad_front-right.json",
+      "sha256": "43c9af688788111b6dc971c40836e05df9aca60680cb50e1840ee390e4798065"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_018_shoulder_good_front-left.json",
+      "sha256": "bb49731cbdda6c12a286a8251d0963a110a8f8004d0a97c884d21ddbfa1f1759"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_018_shoulder_good_front-right.json",
+      "sha256": "5b52ded447c614b1344511a8ef66ffa63a8715fd66c3a1a6f74af2a28103755a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_018_squat_bad_front-left.json",
+      "sha256": "b6550548a8230dade67b1928d1a378de282ee0753df77a149735139d424847bf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_018_squat_bad_front-right.json",
+      "sha256": "7a1b5d967ef6d71dbba23e803973d730df28526ce0ad3007aa8cc1b1c20ab912"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_018_squat_good_front-left.json",
+      "sha256": "64f7187adc0a51445fdd0f52feb8de8b00de3ef31b62a8144fa62e63680ca187"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/subject_018_squat_good_front-right.json",
+      "sha256": "82350e80a19477f0200f8911843c77713a901ceb3e9464d818660f0a8c2819bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-robust/summary.json",
+      "sha256": "f4779ae903d3ed83d199341d5b95f384a74aada2d3606b9c4fe6e9b1df8bda59"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "5d3339cb6a86a47f8c12d6614ec404e6b33ff27e3d74e71fb1dc83f158f9978e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "a54cad290d0c0a6aeca6de09ab05b63754bf61c3f5abcd07b86090732beae198"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "0db52d396ce49fc92a68764023b8da9fe74d99c42cf53f5d1fa71c36fab76303"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "8b20e2707a260c474f7a001fbfd1da0533d807f9f0527d601ae1e6a3f75675a6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "7f2ebbb63703c7b9c97800d7118134c9f619a8d0de9c1e42eee102169347439b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "addf99f4ce8e51c6c2e629555251832227f186f93a380c27bb0613eb0e1c0d1b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "dd15f1cf753d67044f874693574abd47812a7f48a095204b00374d1175034142"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_001_squat_good_side-left.json",
+      "sha256": "75346627083bbf7f4be1c859591c3907ffef4f6376377d8ca728a1e1b369f6d8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_005_shoulder_bad_front-left.json",
+      "sha256": "f47de063218cf5e1f17381a2eca87e9466fe8b282572bf9a558a84dc513c278d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_005_shoulder_bad_front-right.json",
+      "sha256": "a46284f29bef7faf01792df84d12866f1047f29bb04cf8994a28e57eb17ea5a6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_005_shoulder_good_front-left.json",
+      "sha256": "21e2da34652bf187decff0eeff49ab0142a66eac395c6454645a9348a9132968"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_005_shoulder_good_front-right.json",
+      "sha256": "b0a47d6fb2648bd56c6aa332042ea5cbbcbe85ff344c4109e001ddd7c768e90a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "8593c058cbc42869e6af4a68178a5abc0f601a55c6a8ff17999287759c3c4a46"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "16dd34390fb537cc928e6c385a4cfbcaf2f9459d279b63a18dbabde6e6933a7c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_005_squat_good_front-left.json",
+      "sha256": "63e115ba447b5399fb2f0efda47e40011b6b6ebc0a175761a4b1880c9a02f622"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_005_squat_good_front-right.json",
+      "sha256": "7c90865fc7d52e30c323457ee3896b4f8c471839fd2bfda05eb438aec05f714a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_018_shoulder_bad_front-left.json",
+      "sha256": "107f3ee0507d1ed1337b213ce5e8d182c28f3025d4d6b2a542a0ad4bec5456da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_018_shoulder_bad_front-right.json",
+      "sha256": "2989ab50d5f4d39e32ee4c46afb6fbebf8b40a279e4e5959e43c679948098f68"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_018_shoulder_good_front-left.json",
+      "sha256": "9ede66a2d82ce1ea20ea1c2199b3294cf064af98c4f9024f187308286af6eb7f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_018_shoulder_good_front-right.json",
+      "sha256": "cf3dad80682a8885ea6a92ddfb930c4ff97ff2a46d6b95a8628e470d55084f28"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "caf31cdea1648a2d19d1f39ef03b0f00feac91936ba055e1b2e32fc7234a720a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "d8eb4aee2a4138952a88464ac3aa619a32fe8f96158820c8dcf7ef20eb3f8c1f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_018_squat_good_front-left.json",
+      "sha256": "04a03ee0a59be7786016499fd4c106ca2c4bb788c1290800cc98b73b1a8d9271"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/subject_018_squat_good_front-right.json",
+      "sha256": "4a38e08c30bfdc0948b285f42b49e081af88cf8be447691aec004114763b5ad6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-complete-heavy-standard/summary.json",
+      "sha256": "58b21fc9ce88b83f993ecff93c3d70d6207383c2225c24e5738e927bc886b695"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-controls/departure.json",
+      "sha256": "c7f67da41269b9804c21a509eb452984d2e450b408c9e979650687eeadd64e82"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-controls/evidence.json",
+      "sha256": "20d186267e3d524bcae733519d3bf717debb0170e5af4b6a9e89bdb85760e1ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-controls/mechanism.json",
+      "sha256": "37ee8c0049587b44787887a520bfc1de1a7fc47753f1a358148e3edd1a189186"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-controls/path.json",
+      "sha256": "2d2ace83782197f3b9235ca6f2317d16bd04e11ac74907df4ca92274bfdfab0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-camera-comparison.json",
+      "sha256": "72877700b80b3a29a30cca5bcbf36cd0a12d573a7910592cdbf5609b1e8ae30d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-camera-stage-frozen.json",
+      "sha256": "64807be45522a88eba979ab4fe706be40e223b2ee7cd72bfff710835340b380d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-development-comparison.json",
+      "sha256": "a24782ec7061b22c2e221e2bf1e7bbc9587bb7dc296e40fa162a097f520d327a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-original-camera.json",
+      "sha256": "b2739a639e38e7715cc8f0f279ccedf86c4010f2b20f3b17297fb4a5dee59f34"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-validation-comparison.json",
+      "sha256": "1e4bfecf44866a902b04181e40f06b88bfbdffa736f2df06b185499b34584919"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/ready-form-original-camera.png",
+      "sha256": "f4ab7511ab3d99c401096862ea63ff65d5c9aa27a92960cf2855567db8e3eb5f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/uiprmd/ready-form-development-replay.json",
+      "sha256": "b39d6ff47e893c28b2685036b92d71ec81768bd7cdbc6c1209dfe054dd0f5f82"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/uiprmd/ready-form-validation-replay.json",
+      "sha256": "9a79a89a471ff6043e2767ca59620475914162d504d6227da2f49d173125b115"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/uiprmd/ready-form-original-markers.png",
+      "sha256": "6c5a12f30f4d6561b100067fb880f1c406c0403a22e9aa89071e369978bb9ad1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/uiprmd/ready-form-original-markers.json",
+      "sha256": "b970bcd8c68be3225c39844129e8e7e106b04deb7ec32994ab2e8817e2531b9e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/results/uiprmd/ready-form-marker-access.jsonl",
+      "sha256": "cd8699773c6cbf75fdb6bfab1f29a1950a9c61009397e5578cfeb54810311d5c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-before-tests.log",
+      "sha256": "00dfa18ffc53f9318dc2a63e78157de19044a003507d5d312088c41381ead083"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-camera-qa.log",
+      "sha256": "2700f858536ff4088147e9f0951e4d491a216ebe9174d91ce36eaf49cfff3775"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-candidate-core.log",
+      "sha256": "aa21d48eb093111fe9076d9819b76ca0854d5b4279e39a1653860a08ecf2adee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-candidate-core2.log",
+      "sha256": "ab3245fc18631ef92d2002713b71dc20d0de6beaa899dfc2c67bd368faba2b18"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-capped-full-robust.log",
+      "sha256": "8fb45c69516bfd9dc479bf69ab0d26c84cb2eb1eefc63955e7ecad4056908213"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-capped-full-standard.log",
+      "sha256": "06f5e4d5ab03e481495b3e86d07a16cbe0ddd9bdc462cce88690266204c9bf6e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-capped-heavy-robust.log",
+      "sha256": "b40d53e2bc902a34e28d7406d4554f52bb74303d6f150a2e47c9e267f787b265"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-capped-heavy-standard.log",
+      "sha256": "a004f182ae0bfeafdc780beafb11f70541471c862e974a578cd3bf41ca98bd14"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-complete-full-robust.log",
+      "sha256": "64565c4c5571a6b793c7f4f17c330987946a8d807a3b86237c3488308cb0e4f3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-complete-full-standard.log",
+      "sha256": "26486c42051e39a18fc7d277688f390f49a6a27a90bddbb88caf0af3e0c8ffb0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-complete-heavy-robust.log",
+      "sha256": "c60c9bb9716e19e89e6180f44c3959b2a60be690637141f43146b759f16cf4fb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-complete-heavy-standard.log",
+      "sha256": "bf778a9a4984f3d3813860672c70d986a41d0f39fd22d6105347bdebbe90bd1b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-development-controls.log",
+      "sha256": "5e85b1251c97677d033c06e293e0e7d0e3f275bb2ca0f1f9f37a0677f56090b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-marker-qa.log",
+      "sha256": "6280ea504ac7c2f02d1e87693aba43a7538e186c80f1376e8ca1a5e44fedd78d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-python.log",
+      "sha256": "66d4ed4c6dc43d81fb9fa7237296b98e37b105668893ae8a91fb8593dcecab04"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-validation-scope-tests.log",
+      "sha256": "7de54f99285417f7b94aeba2a60685d4eb6de6b2d89dabbc71f1f0c2d31a0ba5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/logs/ready-form-validation.log",
+      "sha256": "bbae32a746a9e46b9bac3d655dbb9c5e9e665f203f7bf82ecff614dc178f9314"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "9e2e2fcd0ef07246fe6b5d78bdc44fc09dcef489aacc071d00c84076c5930704"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "9fcc4e4caa353132941d520a17f7d4968fcb93b86046b5f1d0b6a97d6a0daefa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "04dab4695c293d8ddc41cbfacd529f97442fd7dc2458227d0d7e93086b6981fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "b7fdbc9ca0623263f772b65eb86c129a2414163b44e3172f87caf17f86a0eee8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "22174297bc020bd20dbe9dc0df787b83dca19fec55021dcba3a97a796c8da74b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "dd88f4bded2c072e6478ea7735a3fd67f7afc3de175262a1cbd15de99d4c6700"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "c4cfcefcc821df76feab77694166efe261992c0a0fde4a4ebf2916946f491fbc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.MmfitRawEvidenceTest.xml",
+      "sha256": "1429907e171e4113c4a3d7086e2c69b5b486c445df6235e04f5e2bb2a886a389"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "21fe5b12caf5e29d75a54ccb24b184b3d93d3b436b30cacdc2d7fba54e6cb230"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "1ee748549ee892d2721a29f109bc56a59a65a0de50bfb16afcfb6d3680165fd8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "fab3215caba11e3ae19144222861881047922ebbcf4046913a4442940107a619"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "e760af59cc1426d1e39b733a4e7b1fcb7f2e2a2c26fac5f494161b32a868019f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "c16bb01fa58cc6c3c56f4262352015139d3d819a85e7d2f6bd5231bd3fe4ab09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "7aef22737c06e44f665dc2cc777951df8b8260200dcbdbf6f064713f663b3986"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "a46d1bd21c2e5461546159ba136b7765e53b8659ccf5ac7a12fe3aa8ddff03db"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "6266442c0ea660b7ec23d8e8f803aa44a4d699eb6359e72df2214d55640c069a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "62283dcff3bbfc982dd9000face7a273bdc1743da307a0f68d6d8bc527fc1c64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "2fc2ec96419ab339576e72cb6786670c93243acce09b8e53eb80dd7208128c24"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepReadyFormTest.xml",
+      "sha256": "8bbd5a279368dfe83b694dbc2edc7629c06d0cffe2961cb4649dbc16c73c12bb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "5b99a69a34cef8e4d2f563b09aceedbac937f6ddab2587fbc0a3151345cf4a05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "0faf85c0db35e2dde91a64624cd402c710d81afa3f85333faee3bdebc220aab3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "20a3c569368d0cfc369e1a389e910009e8941df70c735a346bfc8d9f3f354786"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.ReadyFormValidationScopeTest.xml",
+      "sha256": "4548d31f3df52d3f21e1dc29af0956147162b993e847f791b17c02fb99360eb2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "28b84072696e7f2362fc35c399837d79952b0007877a133ef92cdc11dac033fb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "83382afecee93a58b197797c89b1c5d786809ab0dadea50ee636f5d456bfd338"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "8542a1b1b0b4a7a8422756623e833fe3c56b5bfbfee114c7823d74f1fe5b25c7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "5e859ee2ee6d821f0641918f7df78f850eed68fe4349e4d2baed45d1de013827"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "88cec5e7f7ddcbbaa5ceebedde552ded77488eb8155e0348d01d31b382cb5db1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/candidate-jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "ceac77914e118448fce4f2e7ae88a6c55cc0c512d6177ba6d18025c505f92c02"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/qa-source/plot_ready_form_camera.py",
+      "sha256": "de9a64bba09a47c0de4d453b53ad897409324fc9141bcbc34959d654b3463675"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/qa-source/plot_ready_form_research.py",
+      "sha256": "af169daf8bdbd1e6cfdafc8f76f01fe921a0676396e816c6c38004d3075f900d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/index.json",
+      "sha256": "9b303ea9f947001137693868f4f88ac97b78b41c643e36d65749e8f68afd638c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "0d70615daa39dccbe23490e8ba5704e3de9091e0e324dccdcd06fd9a0c39117e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "013d81e877340c3f46e4ec13a24f920508cc2636b24c4b3c98b3d58d13982cc8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "58488ccf09f53f42a57435c0bdac137779f06be253841bb99d9b211eeec79b0b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "e481dd2765dfb8340641f3f9d1832c7442679bc31b238b0a82949df2ffb883c4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "680100cf1f91029b1826dbbb14b7ce6744947512e1de7367148b0fb404ed1b55"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "39df6f4865a2b592ca286e93f93637e22f23b5ea38b326cbe71d5394d52e8ba6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "4320ed22071559dea3a370f2ab573bbf89939e9ae0109cf33964a7c932168de9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.MmfitRawEvidenceTest.xml",
+      "sha256": "0cfbbdbb931287a414af687328505bdd8c397b53fc4f47d14332fbf7c6ce6acd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "5070a48cc76cfcb7000620c819ac34bdff7e107425e5558c82cccdc3d8b011a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "f3d4f1465b5a3d54a714f7e701e16af05645923b9dd2297f44f8b45d61b2e707"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "072f5270d431c7afdfc25735cf81a8c77341d896d78df4811cdad1e56bfa3b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "76ec7a955c9afc48263f19a328664869e5361db025fce8d2a2b041b065d205d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "13b1ad19bc503d0185af8eb15aa0ae42aacc3b184c583f14515e197f5986658c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "a6d34775a4c5185d7f2e36cda6348aaf9715718930ec24798317f9f64771b26e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "f334d2d6c1bce941785ad4f62c55dbeac96eb17aa5bacf84dd6241cf42733c33"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "95b0c928be33d25990be9fbf7faf9e3c66d8a256f6dea0c3a52dfc7ee43d8a1f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "4a3c71a7966e66465cad5eb62904d1cec1e4c8eb6e18612cf25a43a3de737d0b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "7ffb994fcdfaaadf833b75b95a26ef35237ebf3221c2f1daa38b67e152e535bf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "c6bf571e159b00d09f434bd2906aa20880be8c8fe0a93a9d160c1aa6df2a27d8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "9df118c2bbc02dbfafe8864e1a28994eacb61da10f12e78acbc2684078ebfb3f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "5a92acad194bfb603e7f62fbeb82cf9ee3a87ac6c4779360f74551dba56b1625"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.ReadyFormValidationScopeTest.xml",
+      "sha256": "925d369c6d08c2c256d4b7487c11cc7ebce1f02ad3de2619e215b4fdcccac3b5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "b604a0819afba2562d312979a03f611015db2840810c401961467f0d0fa1d2e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "937eb5c10233bd95a19c10ba624c8eccc9cce634282d45715b0fe34f01bc3492"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "3ab1a46e74cfb7c0610159c67b9baf8c21710d498044bbb0d47e2056dd2c9ced"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "f8a7cce840386cea7b0608650f4cfe71d37048da1bdac7e2caeb2ecd4cf3de2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "906554bf4e321c90c50e9266f1f1cdf669ea2db9017431cc8a35da740fcc0197"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "ddcb9f07ac8f707b983f734c5572dc12c313a8982467b7ef79b4ebe996f6bde2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/logs/ready-form-restored-core.log",
+      "sha256": "29417dedf52d957e123ececfab19e8135fc7a1d79871008d7450fdf8a980ee21"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/logs/ready-form-restored-python.log",
+      "sha256": "8f7737d9a789e79d1b95868983e06ee20c091fb7a3a258ed5114e187a02a4232"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ready-form-checkpoint-5702915/restored/readiness-score.json",
+      "sha256": "451f0c20abfd3f7055462df22b9d58e4452fec49e21eba32da73378d1cd0f3f9"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_bad_front.json.gz",
+      "sha256": "426de25f59353e49ba45b50204a97b28571b18727d4d035f37d093023e2e6ab7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_bad_side.json.gz",
+      "sha256": "4e528d2e7d95cf89e4ff985708dde2e2bda82d5be3cf86b2f8b368b99ed9d3f2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "d2e6d7d41646f8e2f6f7a528f50f32a2813f643b0ccb54375c405af614ae5fbe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "53fef63076b602c664fd78dcf0f45370cddaa82ae59be2da9007737245dc3871"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_bad_front.json.gz",
+      "sha256": "4a3cd62da2dad47c1161d16433a088875452de79c8f1f120ade04a2996ac30e1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_bad_side.json.gz",
+      "sha256": "0db517ac062cceca4123ec038f8b1d33c39d4432eab89defcf1ef7cc73ca4f6d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "eaf48cd95101b6428aca80b175b77f3de2426a1ce0a39a46b245c850d268fba4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "b36639e4136f6fb26ed0b4e34d8d8a73f77bcd94b4dcd1d1642c8ff305600f30"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_bad_front.json.gz",
+      "sha256": "92cd21cd880341d352e9bef46a0d4f7131077435bc313f7c7fcf61750937fee0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_bad_side.json.gz",
+      "sha256": "13b2d918d5ebdfed7c0b026641616d2d61ddde23bd7fae75fc669947c9785b2a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "babc928c18f0bfc3335be922198faba390e375fca444ea8b8452557938cf111c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "1eeac046e1dcf773e8ccf46c1a352088bf30ac5a8c3f9e9937fc0f8cfd74de79"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_bad_front.json.gz",
+      "sha256": "06bcf26686293858bf3aede1d01bc212c732a6e55d6c77224b0596ddba00fc73"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_bad_side.json.gz",
+      "sha256": "3615a459b20d087375c12009d502e40e19342a9e345197eff0bdbdbadeee45f0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "9a83cd239c75daf6246533524b6929a6596890e4f4c7f46383c80c04d35848fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "ea461a683414b60e06e0b68819432d8d9df412a3a5242e7582a9feb3461d04f2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_bad_front.json.gz",
+      "sha256": "a13f5cc5790e985064b54c6a55c83f83b6e3d4b80f2f7814db66222a665371f1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_bad_side.json.gz",
+      "sha256": "8d678dbeee27037066d85b5910408c3cb99a31bf6e52f99de845cde38a02a918"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "a7e12ec0f85353ae12fa8fcaec2854c599315e554f5bb67b144ad38d254af386"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "bdcbae9bf1cbbf1790caf2809c68396efc544686e4e4f1bd8ffbadee5e50b8d8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_bad_front.json.gz",
+      "sha256": "ce0e26382d1038755d5024fc9ce7a0f1c13f280ef3809767ccc3312efb916982"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_bad_side.json.gz",
+      "sha256": "d3aac8b342a3aaad3268e5cc5ce387466515b8e0d3a788f09ec325c359f3058d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "f59de67bcf50fed77d4b1e7f6ebd3b5ebf0779c9863ff308f988de08f7d81dc0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "3343a31f65efc7f15272a18c8499472ad68bddf6feb7983549c58735e9963538"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_bad_front.json.gz",
+      "sha256": "a7fda549ddac31164fa337a0d3045f011e84b9f981ed6f13f8843876783c9d5f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_bad_side.json.gz",
+      "sha256": "107e0cafb64bc115aac35d8cd6447bd23d6ce886c40408c72cbe4d2b270b72c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "e1d1bb6f350c77fa309241c0dcba984ba59725e80066e3b3ecac8d7e60d157d9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "da7a0e7710cb0171afc915553ccdc07ff9dc67fea44b6fdb11bdcac5cb0d065e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_bad_front.json.gz",
+      "sha256": "c07ed14af71e760b2577a2753705780981a4f17cf78842bd4e9ace7505139a02"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_bad_side.json.gz",
+      "sha256": "690789f60b9586f73befb621efb839cca75ef78e79a1bc95b0f5e5dcb07eb1c6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "b8f2de7f12f110c15d3ff0eedeb288ab455d2795cf7fde07af7a297cdeac3a05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "fd4ef62c54fad712d5fc998fae86e5380cb664e5cf3d609ad45e97983fc834d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_bad_front.json.gz",
+      "sha256": "b251dcec4b1a50f119e98c646a2b01e359c6f3725af6eba7d6675d3dbb9ebb8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_bad_side.json.gz",
+      "sha256": "bc0454574f3e1e5e467c0fe54ed4889fc95c7367da3c5bb91e344559d7fe2674"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_good_front.json.gz",
+      "sha256": "d02c7d23e07af0ff5dbf752628204301f412bbe13fb9b55f54682959073a6d61"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_good_side.json.gz",
+      "sha256": "4c41869c77e5c91eac5474eebb0d7812617f16dfd9b09b1eb8f7fcd9cb9b4529"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_bad_front.json.gz",
+      "sha256": "1421eb4b5f028e2fd161c8b216a2114c0b5f46f16d086f424f8fad775bf2b9ca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_bad_side.json.gz",
+      "sha256": "958810662dbb3676f9a06833b81fde82353a63648d6ae84f9fb0221865920daa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_good_front.json.gz",
+      "sha256": "3615dd3e87aeacb1162f0855653408761037140a6a610e24df5b985d8644b454"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_good_side.json.gz",
+      "sha256": "4a0ffab168baca3a242e4e366b802be71a3900afd8ab7dd2825ab8fa676a10ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_bad_front.json.gz",
+      "sha256": "f29ef9dbe0b2fcb8db094c74dd826f35062555da374009c38f3a107ba8867ba4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_bad_side.json.gz",
+      "sha256": "df8539b8d26435212fbfea892dfe00a20f12a83caa3a06062d2daf6559b80557"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_good_front.json.gz",
+      "sha256": "99bf65e1d2315d8507c1c14c8485c92208fc0d03da0f5bcbe6ae6708d127ded6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_good_side.json.gz",
+      "sha256": "4e92601ed362f6b7c1fe9549951bbeafbb6fd37df595f9ac66be8c93af81ec7d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_bad_front.json.gz",
+      "sha256": "a2e2c8420006f62931d2a98bee1bca013ca71dba6f840f87ade368eebe153636"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_bad_side.json.gz",
+      "sha256": "5f5974ca0409845e91d04f056519fca904b9f8f51c74abdf4ab9c8580c813968"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_good_front.json.gz",
+      "sha256": "82bc152a47786c78fc0df2563795a4ca50e4d65d156197a5cbd482764bdb1760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_good_side.json.gz",
+      "sha256": "ff595a6acb8050b63437d554fdd204add335b3d1eda4d03f0ea99f451f875631"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_bad_front.json.gz",
+      "sha256": "c8b9fa5dacbf1d8fd36e2445f2ada1cf50304d850066ebbeb64036cbb87c4590"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_bad_side.json.gz",
+      "sha256": "1cb27c3983859cdf7a1e676028f3340903b0de49a9a6d0b669ed8e969c3e4eca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "c7b63f4aa3c65f0310349604e759da6c943520be80b8870e0536bc8dc04bfa1b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "f6e8975714581aee184fcd13ac42c1710bbbedf3810bd4786ed2e240b59b239c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_bad_front.json.gz",
+      "sha256": "dbfda68d000a576903a43bf9707b8234861fa3085fd3d544cad7f94fc5e47137"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_bad_side.json.gz",
+      "sha256": "da44c493d0827d5facd3ee916953601668ffea040932f0ffac4333639797f3fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "113aa6d92985603457692deade8e9e0880c0add7e81397a0a46931451eb91b1c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "a3679d6f4367451bdc9bacfb35d68491a5c7cfa2be454959a07b42ce6e591d18"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_bad_front.json.gz",
+      "sha256": "99c9293b88e7e7e8a56762b1c657968a506985bacbdd73172fa58a6ee6555eec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_bad_side.json.gz",
+      "sha256": "7b7590434bd58df25e0a8b65ec5dccd950ca84e560013a6df9bf420c6d7972ce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "d8cb194191aa2ce519ded8693ab1a55f19c79db4f1b0235900aaede34efad5f0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "824f9bffdcb5a63923959c197ab88c68e21047fe48632951c99d10adc90b1a65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_bad_front.json.gz",
+      "sha256": "43bc51359a2d77a284dfe18a8c6947e5a2c48f2d8813ea86f7a332586e809f50"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_bad_side.json.gz",
+      "sha256": "cd68b9be4654044ffdb35775556a33d7428bad1c44df26b4b7090ba3887e9516"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "b153a84247a8a7c5e3f98b45991a6249fee747e2582785a2b349dfb0ae6064bb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "5c4947f69a61797498454b724b5a43971a41ebc69489aaa7bb20d9e71962e942"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_bad_front.json.gz",
+      "sha256": "7cbac2b0bfbeabc98b5c929f2d5d7b5c66426fe9f88bd040fe96404448108fca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_bad_side.json.gz",
+      "sha256": "f6973d16b6c487c4aad9482c36d704b7ec4618d37b3dd2b09fbdddcc3e26427f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "9019a500a0393d7674995e72f9d01cd71c2c25b599035fdc5bfc78125aaf6688"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "9b83d573a3924f8c01642b2ff11b3c712c5cc3f2eb03f0393726440430dcd151"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_bad_front.json.gz",
+      "sha256": "5259c0c42e9107983585622dd7632a0cc7b6f88f377ac025f3cce3b52b292736"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_bad_side.json.gz",
+      "sha256": "a04595a217745281bbae7cc3dd51def4f20ea804718429957212293ed666819a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "2a230862e594c3cf00ffc9e36faa85acb939ca5d1728ce87f737e83fc41ab419"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "6ba28eb845ccbada2f7d9a8859ae28204798c7c0135530a2722f2306d3948c89"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_bad_front.json.gz",
+      "sha256": "128ce1ae2ccd70c571d4e47cc334d9e3fcb12633e5a114ebb548b4a1eaadc6c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_bad_side.json.gz",
+      "sha256": "71c85f6301b231dfed28eba31134aa1141c95e7b779e95f363ebc4c4229e0ce5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "33228225088b2e68d680e3d58c18a2e2c656cba44b9437b1a5f11e98ad41e240"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "16a5e4cf7a4f3c8ae4510a9a4222a26e70599e27fc4eb3bd2780e8fb727b4630"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_bad_front.json.gz",
+      "sha256": "8da4c683782f2028e2e10ec5d5c23c6e3dd6dbadef2cfd42b77674ba30ba7ab2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_bad_side.json.gz",
+      "sha256": "9e5ffe929527410ddf2ecbc3855cbf0ec6ff89bc882a5a1e25c01c0f7e3978ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "2f7e70933388a38fc779a150769710cb9277f59d0d244249455906d64601bb9a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "3fe65be2d933afef8bd911acefd44197b19097dc714ee7e80416cce360e49b51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_bad_front.json.gz",
+      "sha256": "88034b1eeca4c38d0f97195ff91fd5e8cf239331d6c6e6370046fecc14df26b5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_bad_side.json.gz",
+      "sha256": "2593aa1b72155d4499926e1f233f5ff0e113430a05df3886bc9e657259cff1df"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_good_front.json.gz",
+      "sha256": "0777d3e9a44fc32bf4e26a1794e7797e7645ce548384ba06dbde65722ac581a6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_good_side.json.gz",
+      "sha256": "cc7bd4a7acc6e72646e5ca593b41d5758cefd2136615ba76770c1d0ac074d46b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_bad_front.json.gz",
+      "sha256": "824d06c69f9fa092e8bfc0b679dd81c135cc5fc8c1aa8593e27a61f7000171c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_bad_side.json.gz",
+      "sha256": "f12b8eda060166b1e64941b0b86d8cd4b082e20a8c5eab50485b24c556f5d6cf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_good_front.json.gz",
+      "sha256": "2950368953b1e073e67c4c2e3a1925d78f4a0ba2799ad66a3e40a046245df58a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_good_side.json.gz",
+      "sha256": "7f1a218125bb4f282498767b75c71044753e75684156a30536978c9ca46b657c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_bad_front.json.gz",
+      "sha256": "e7eaea8135a27093f5aded9e5436a5a3a21b7d2942e46f21681badb5f4ab4340"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_bad_side.json.gz",
+      "sha256": "74d75f8f64e9d27b5b3b4e6ff082399a1c3e1dc46659a4941f381a3808554b5e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_good_front.json.gz",
+      "sha256": "3b2b8b55ce05de89985869bf3e4c760218f04ae9033122485e6060b67412162c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_good_side.json.gz",
+      "sha256": "1ba9abf18160fda496900542345f40aa9a5fda8cd66b58b4a61978d1b1451698"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_bad_front.json.gz",
+      "sha256": "73dbd1cc663bc7e4faf14ddcc9355f94af798267645349a5e638701bf27c3600"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_bad_side.json.gz",
+      "sha256": "2e489b164f3d1087a35072e14797d9dddafea7733b067c9b3f24ae76ce04091d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_good_front.json.gz",
+      "sha256": "822f7d3536737c3fbcb438779b2aaa0f9eb72c6f1a052df7c8d32b28dc3416d0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_good_side.json.gz",
+      "sha256": "cb696e7849968c723eccb4ad4b087aa183dd6f17e942da250e2c7dbce2c85995"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "c7d3817f8dcd2650c27b6dca705823a22273af9e3815ec3ef3b40f7bc41ece04"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "2e7d45ded2b9d4f3d373ff2f9c88b093c17a29fd71f10b19860ca838ff08e2f8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "d9e2eb1397b13f99643d2efa8cb9b19820a9a8cd9b4119eed9c628bf02e62f51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "19cb6c502deab38a3a3a1df3614c8b1a0ee29606a137bb5d86b23de160b70cc6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "7874b4df273bd01829fb5808728e2d21146a71d16d3fe1df3b44809a7842422c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "81da0eb8093a44f3b90e1a34d40cc3e6409d2ad0bd7389b17c115af8df222f6c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "5115fe2d3cabc306d174764d6cc160c83c4bd0114cf611e7d9fd280793b712da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "3d38f0e6d29be161b3186d206f6a9e331845df00a3d37b265e37ba3b3417fb35"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "69ab5680ebf4f7d27dde11429fc18c225866f000ea509674da68dd7a841f3522"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "1bd49828bed78703b39ebbbbacc607bd88fdf1435ea3c6a8eaa844f72b0cd84b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "0d1461cb1cc40945c7e720bb73fd0f7b4aea5ef34223d6fbd0f687e7f48ecd72"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "22c3a7fd74e644810365d6eb0d3fc4e8127b74e8a885c1bb8c0b2fe89e3574bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "86b919dac76f1d5ed946fce690fd049ab98dacd8a86890039f5a13866663e52a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "c53000f8ef346a60576ad7553a9886399cc860979e596424e00d56fd062f0ed7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "3ad748ba6c0d4f7d8b6cfe007c5ba328b6246fd9ed4bb00c4381dcd586d97bb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "81cab3ecbd50f11d9e457b7ef1f70bd6f1bbe8f521642f47be758e4175962e57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "3e8ecc543bfbc7d392379b2a859c3adc23d8ec76f2186075c94ee267835acb1b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "d82c756a748957e3bd113514058a3821b466a9bb6f4ea442b7f633ace3a102c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "019d31e862bb0ba83c6ef1a4eb2cff83f6ce6049b4566e0a8a670effeb0a53d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "2e02bc228e871b15f4d08cb16f60981413f07a4dac98ccc7a475c2fa894a6b0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "1a1a3f5b6449763a6f6acf348069b369ec693b1b4bfa9ac5adddc26debea45fa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "a3dafe79ac3688c312d8d8965466bb972b01deaca6f010f5dc8cdda2a0e55751"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "b8b9ea2838085dbee195c5658e32b64a78c1e0cbcad7633015ae14b998dbed9a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "8dea09b54a3470164d9800dce1dfcb57c6b7d23e7bf051a2cf11b2ac8c196db9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "c792ad78192684ee9c5c3228967f7f42cfef2d3484817ed8e832a2b64ce36576"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "b636ec35d1f5f326d499ca82807f97d89fc22ecd62e25baef77aa29eae6a9dba"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "bb8aa378e0fd5166d1f580303c0f4c1c22cfdcf98983b6786faee0443bb74ba1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "e5361f8a31bee0c092b7173396a013793e318a7e4f4ed68d828c08bf68f33ce4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "f18c06d66fc499480fb3738797498aa9c24deb164a78c21f2b15f54a79836f25"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "70926b7f7d8fe7e134bf03a2e09bed42d3edaaabee1c63d2f168e310aaabcd57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "4d9d1ffd3f7b1167f0405c0f2802161e1fdf196934dc33415da6c998c5a222b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "cfa1d9bff61c43ce342e97b97249774ccbe60eeecda60ce7bd0752f1b1dc2e66"
+    }
+  ]
+}

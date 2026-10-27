@@ -36,9 +36,7 @@ class ExperimentalRepSideBindingTest {
                 values = f.intrinsicDescriptor.values + ("angle.${side.name.lowercase()}_elbow" to 70.0))) }
             assertEquals(normal.map { it.side to it.lockedMs },activeFault.map { it.side to it.lockedMs })
             assertEquals(0,activeFault.last().output?.counts?.qualified)
-            // Binding remains driver-only. The stricter reference comparator cannot arm
-            // from this incompatible start, so it emits no fabricated attempted rep.
-            assertEquals(0,activeFault.last().output?.counts?.finalized)
+            assertEquals(1,activeFault.last().output?.counts?.rejected)
         }
     }
 
