@@ -31,6 +31,6 @@ class QualifiedRepReferenceSubjectTest {
         val ref = assertIs<QualifiedRepCompilation.Ready>(QualifiedRepCompiler.compile(sequence { "same-tracked-subject" },"biceps_curl",QualifiedRepTestData.identity)).reference
         assertEquals(4,ref.calibration?.observedCycles)
         assertEquals(4,ref.calibration?.acceptedSelfCycles)
-        assertEquals("qualified-rep-compiler/5",QualifiedRepCompiler.VERSION)
+        assertEquals("qualified-rep-compiler/7",QualifiedRepCompiler.VERSION)
     }
 }

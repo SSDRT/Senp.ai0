@@ -36,7 +36,9 @@ class ExperimentalRepSideBindingTest {
                 values = f.intrinsicDescriptor.values + ("angle.${side.name.lowercase()}_elbow" to 70.0))) }
             assertEquals(normal.map { it.side to it.lockedMs },activeFault.map { it.side to it.lockedMs })
             assertEquals(0,activeFault.last().output?.counts?.qualified)
-            assertEquals(1,activeFault.last().output?.counts?.rejected)
+            // Driver-only binding is identical; a persistent clear discrepancy at the
+            // initial endpoint prevents an attempted rep instead of fabricating one.
+            assertEquals(0,activeFault.last().output?.counts?.finalized)
         }
     }
 

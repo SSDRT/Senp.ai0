@@ -191,6 +191,39 @@ class QualifiedRepEvidenceInstrumentedTest {
         save("unidentified-source-controls.json",0,4)
     }
 
+    @Test fun persistentClearStartDisagreementRevokesArmingAndFreshCycleRecovers() {
+        for(fps in listOf(10,15,30,60)) for(prepared in listOf(false,true)) {
+            val engine=reference(false).newEngine()
+            val delay=if(prepared) 400L else 0L
+            for(i in 0..(fps*(2+if(prepared) 1 else 0))) {
+                val t=(i*1000.0/fps).toLong()
+                if(t>2000+delay) break
+                val relative=t-delay
+                val p=when { relative<300 -> 0.0;relative<900 -> (relative-300)/600.0;relative<1100 -> 1.0;
+                    relative<1700 -> (1700-relative)/600.0;else -> 0.0 }
+                val bad=if(prepared) t in 350..699 else t<300
+                assertEquals(0,engine.evaluate(frame(t,p,if(bad) 85.0 else 15.0),identity.poseModelSha256).counts.qualified)
+            }
+            for(source in calibrationSequence(false,1).frames) engine.evaluate(source.copy(timestamp=TimestampMs(source.timestamp.value+2600)),identity.poseModelSha256)
+            assertEquals(1,engine.finish(4700).counts.qualified)
+        }
+        save("persistent-clear-ready-controls.json",8,8)
+    }
+
+    @Test fun greyAndTransientStartDifferencesDoNotBecomeClearFaults() {
+        for(fps in listOf(10,15,30,60)) for(kind in listOf("grey","transient")) {
+            val engine=reference(false).newEngine()
+            for(i in 0..fps*2) {
+                val t=(i*1000.0/fps).toLong()
+                val p=when { t<300 -> 0.0;t<900 -> (t-300)/600.0;t<1100 -> 1.0;t<1700 -> (1700-t)/600.0;else -> 0.0 }
+                val q=when { kind=="grey" && t<300 -> 38.0;kind=="transient" && t<80 -> 85.0;else -> 15.0 }
+                assertTrue(engine.evaluate(frame(t,p,q),identity.poseModelSha256).newFaults.isEmpty())
+            }
+            assertEquals(1,engine.finish(2100).counts.qualified)
+        }
+        save("grey-transient-ready-controls.json",8,8)
+    }
+
     @Test fun earlyReversalFaultNamesTheActualSourceLimbInDirectAndMirroredMode() {
         val sequence = calibrationSequence(false,1)
         for (mirror in listOf(ActionMirrorMode.DIRECT,ActionMirrorMode.MIRRORED)) {

@@ -35,6 +35,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
     private var previousMs: Long? = null
     private var previousObservedProgress: Double? = null
     private var ready: Confirmation? = null
+    private val readyFaults = mutableMapOf<String,PendingFault>()
     private var armed = false
     private var primedOutboundPathObserved = false
     private var nextId = 1L
@@ -43,6 +44,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
 
     @Synchronized fun reset() {
         context = null; previousMs = null; previousObservedProgress = null; ready = null; armed = false; primedOutboundPathObserved = false; nextId = 1; active = null; counts = QualifiedRepCounts()
+        readyFaults.clear()
     }
 
     @Synchronized fun evaluate(frame: SpatialObservationFrame, poseModelSha256: String?,
@@ -56,6 +58,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         fun close(reason: RepReason) {
             active?.let { finalized += finalize(it,now,reason) }
             active = null; ready = null; armed = false; primedOutboundPathObserved = false; previousObservedProgress = null
+            readyFaults.clear()
         }
         val nextContext = Context(frame.selectedSubjectId,frame.spatialSegmentId,captureContext)
         if (context != null && context != nextContext) close(RepReason.CONTEXT_CHANGED)
@@ -89,13 +92,32 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         val priorProgress = previousObservedProgress
         previousObservedProgress = progress
         if (attempt == null) {
+            // Only directly observed, persistent CLEAR disagreement can revoke ready dwell.
+            // Grey/transient preparation keeps its existing semantics. Match the demonstrated
+            // start here; absolute technique targets retain their active-attempt fault checks.
+            val atReady = progress <= config.readyProgress && progress >= -0.35 && visible
+            var clearReadyFault = false
+            if (atReady) {
+                for (feature in reference.requiredFeatures) {
+                    val observed = requireNotNull(value(feature))
+                    val band = reference.evidenceBand(feature,progress,false,includeTechniqueTargets = false)
+                    val distance = maxOf(band.lower-observed,observed-band.upper,0.0)
+                    if (distance > band.reject) {
+                        val ruleKey = "${band.ruleId}|${if (observed < band.lower) -1 else 1}"
+                        val old = readyFaults[feature]?.takeIf { it.ruleKey == ruleKey }
+                        val pending = PendingFault(confirm(old?.confirmation,now),ruleKey)
+                        readyFaults[feature] = pending
+                        if (confirmed(pending.confirmation,now,config.faultConfirmationMs)) clearReadyFault = true
+                    } else readyFaults.remove(feature)
+                }
+            } else readyFaults.clear()
             // An observed start endpoint is mandatory; recovery in the middle of a rep cannot create a count.
-            if (progress <= config.readyProgress && progress >= -0.35 && visible) {
+            if (atReady && !clearReadyFault) {
                 ready = confirm(ready,now)
                 if (confirmed(ready,now,config.readyConfirmationMs)) armed = true
             } else if (!armed) ready = null
             if (progress <= config.readyProgress) primedOutboundPathObserved = false
-            if (!visible) { armed = false; ready = null; primedOutboundPathObserved = false }
+            if (!visible || clearReadyFault) { armed = false; ready = null; primedOutboundPathObserved = false }
             // Early visible motion after arming still belongs to this path even before the
             // departure threshold starts the attempt. Returning to ready discards that evidence.
             if (armed && visible && progress > config.readyProgress && progress < config.requiredProgress && compatible(false)) primedOutboundPathObserved = true
@@ -104,6 +126,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
                 // needs the same adjacent peak support as every subsequent frame.
                 attempt = Attempt(nextId++,now,progress,requireNotNull(priorProgress),true).also { it.outboundPathObserved = primedOutboundPathObserved }
                 active = attempt; armed = false; ready = null; primedOutboundPathObserved = false
+                readyFaults.clear()
             } else {
                 return output(now,if (armed) RepStage.READY else RepStage.SYNCHRONIZING,progress,finalized = finalized)
             }
@@ -208,6 +231,7 @@ class QualifiedRepEngine internal constructor(private val reference: QualifiedRe
         require(timestampMs >= (previousMs ?: 0))
         val events = active?.let { listOf(finalize(it,timestampMs,RepReason.INTERRUPTED)) }.orEmpty()
         active = null; ready = null; armed = false; primedOutboundPathObserved = false; previousObservedProgress = null; previousMs = timestampMs
+        readyFaults.clear()
         return output(timestampMs,RepStage.SYNCHRONIZING,finalized = events)
     }
 
