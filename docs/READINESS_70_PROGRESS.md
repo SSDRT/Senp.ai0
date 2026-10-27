@@ -1,6 +1,8 @@
 # Readiness continuation checkpoint
 
-Latest experiment: frozen CW90/CW270 reference extraction completes 128 unchanged-gate calibration trials and recovers **zero** additional sides. Existing 12/32 references and verified production engine remain unchanged. Readiness remains **50/100**, with measured live human-rep precision unknown. See `ROTATION_REFERENCE_RESEARCH.md` and `models/rotation-reference.provenance.json`.
+Latest experiment: the publisher's Apache-licensed Lite model completes 64 unchanged-gate reference calibration trials and recovers **zero** additional sides. Existing 12/32 references and verified production engine remain unchanged. Readiness remains **50/100**, with measured live human-rep precision unknown. See `LITE_REFERENCE_RESEARCH.md` and `models/lite-reference.provenance.json`.
+
+The preceding frozen CW90/CW270 extraction completes 128 calibration trials and also recovers zero additional sides. Both rotations remain research-only. See `ROTATION_REFERENCE_RESEARCH.md` and `models/rotation-reference.provenance.json`.
 
 The preceding phase-specific skeletal veto retains 31 currently counted good development reps and reduces incorrect counts 27 → 13, but recall stays 38.75% and all independent gates still fail. It remains research-only, rejected before validation/final access. See `PHASE_QUALITY_RESEARCH.md` and `models/uiprmd-phase-quality.provenance.json`.
 
@@ -170,3 +172,11 @@ Verification passes 234 core JVM and 115 Python cases; six original timestamped 
 All 128 calibration trials complete: ordinary/bounded ready sides are 4/4 for CW90 and 6/5 for CW270, all already served. **Zero additional sides recover**, so both pipelines remain excluded from production. Reference coverage stays 12/32. Six original timestamped RGB frames and eighteen diagnostic panels are inspected, including a withheld raw detection in the push-up scene. No new correctness labels or camera-precision result is inferred.
 
 Verification passes 238 core JVM and 121 Python cases; 152 immutable receipts bind sources, raw candidates, results and QA. Main production sources match verified `1b52bcf`, and all 1,336 scored receipts plus the unchanged rubric verify at **50/100**. No new APK, native/causal/corruption rerun, network-weight change or independent final-subject access occurs. See `ROTATION_REFERENCE_RESEARCH.md` and `models/rotation-reference.provenance.json`. Continue source acquisition and reference/generalization work; the independent-label and sustained-performance gaps still prevent the 70 milestone.
+
+## Licensed Lite model reference screen rejected
+
+The official versioned Lite asset is checked against publisher size, MD5, CRC32C and GCS generation, with the original Apache-2.0 model card retained. `115130b` freezes the research pipeline before inference. A fresh Lite VIDEO graph processes all 7,191 original reference timestamps; all 33 raw image/world points and confidence channels remain intact. Current Full torso agreement and every production calibration gate stay unchanged. No app asset or Full/Heavy backend choice changes.
+
+Lite retains 6,780 raw pose results, with 6,041 admitted observations. Ordinary and bounded fits each calibrate the same nine already-supported sides. All 64 trials complete, but **zero additional sides recover**, leaving fixed coverage **12/32** and readiness **50/100**. These observation/calibration counts are not human-rep accuracy. No source or independent-label evaluation follows this failed screen.
+
+Verification passes 242 core JVM / 124 Python cases. Six original timestamped RGB frames and twelve raw-pose panels are inspected; displayed RGB hashes independently match the actual inferred inputs. All 1,336 scored receipts still verify, and production main sources match verified `1b52bcf`. The 142-receipt checkpoint retains the new research model, publisher/card proofs, complete raw outcomes, QA and tests. No network training, app promotion, new APK, native/causal/corruption rerun or final-subject access is claimed. See `LITE_REFERENCE_RESEARCH.md` and `models/lite-reference.provenance.json`. The 70 milestone remains pending; continue eligible source and reference-generalization work without relaxing gates.
