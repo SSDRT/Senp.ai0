@@ -87,7 +87,7 @@ class QualifiedRepInstrumentedTest {
         val videos = fixture.getJSONObject("videos")
         val reference = videos.getJSONObject("reference");val source = videos.getJSONObject("source")
         if (expectations != null) {
-            val overrides = requireNotNull(javaClass.classLoader?.getResourceAsStream("qualified-rep-v5-parity.json")).bufferedReader()
+            val overrides = requireNotNull(javaClass.classLoader?.getResourceAsStream("qualified-rep-v8-parity.json")).bufferedReader()
                 .use { JSONObject(it.readText()).getJSONObject(expectations) }
             assertEquals(reference.getString("source_video_sha256"),overrides.getString("reference_video_sha256"))
             assertEquals(source.getString("source_video_sha256"),overrides.getString("source_video_sha256"))

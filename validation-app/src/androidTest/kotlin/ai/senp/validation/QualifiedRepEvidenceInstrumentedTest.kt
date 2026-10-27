@@ -260,7 +260,7 @@ class QualifiedRepEvidenceInstrumentedTest {
                     kind=="brief" && t in 400..479 -> 85.0
                     else -> 15.0
                 }
-                engine.evaluate(frame(t,p,quality),identity.poseModelSha256)
+                engine.evaluate(frame(t,p,quality).copy(selectedSubjectId="same-person"),identity.poseModelSha256)
             }
             for(source in calibrationSequence(false,1).frames.filter { it.timestamp.value>=462 }) {
                 engine.evaluate(source.copy(timestamp=TimestampMs(1000+source.timestamp.value-462)),identity.poseModelSha256)
