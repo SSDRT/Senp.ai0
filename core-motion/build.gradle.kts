@@ -336,3 +336,14 @@ tasks.register<JavaExec>("mmfitReferenceCalibrationAudit") {
     maxHeapSize = "1500m"
     outputs.upToDateWhen { false }
 }
+
+tasks.register<JavaExec>("mmfitDenseProposalAudit") {
+    group = "verification"
+    description = "Verify original RGB activity seeds at 66 ms before unchanged production calibration."
+    dependsOn(tasks.testClasses)
+    classpath = sourceSets.test.get().runtimeClasspath
+    mainClass.set("ai.senp.motion.MmfitDenseProposalAudit")
+    args(rootProject.projectDir.absolutePath)
+    maxHeapSize = "1500m"
+    outputs.upToDateWhen { false }
+}
