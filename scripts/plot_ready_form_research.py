@@ -1,4 +1,4 @@
-"""Original marker views of known-correct validation losses; no new annotations or pose repair."""
+"""Original marker views of known-correct validation examples; no new labels or pose repair."""
 import hashlib
 import json
 import zipfile
@@ -13,8 +13,12 @@ from prepare_uiprmd_validation import read_validation_member
 from uiprmd_vicon import markers,measurement_features,INDEX
 
 
-def main():
-    path=DATA/'ready-form-original-markers.png';receipt=DATA/'ready-form-original-markers.json'
+def main(prefix='ready-form'):
+    if prefix not in {'ready-form','clear-ready'}:raise ValueError('Unknown frozen research checkpoint')
+    from evaluate_uiprmd_development import evaluate_rows
+    replay=json.loads((DATA/f'{prefix}-validation-replay.json').read_text())
+    verdicts={(r['subject'],r['movement'],r['correct'],r['episode']):r['verdict'] for r in evaluate_rows(replay['rows'])['rep_results']}
+    path=DATA/(prefix+'-original-markers.png');receipt=DATA/(prefix+'-original-markers.json')
     if path.exists() or receipt.exists():raise FileExistsError('Preserve marker QA')
     cases=[('01',3,'development'),('06',3,'validation'),('06',5,'validation')]
     links=[('LSHO','RSHO'),('LASI','RASI'),('LSHO','LASI'),('RSHO','RASI'),('LASI','LKNE'),('LKNE','LANK'),
@@ -24,7 +28,7 @@ def main():
         for row,(subject,number,scope) in enumerate(cases):
             record=json.loads((DATA/f'{scope}-vicon/m01-s{subject}-correct.json').read_text())
             intent=dict(subject=subject,member=record['source_member'],utc=datetime.now(timezone.utc).isoformat())
-            with (DATA/'ready-form-marker-access.jsonl').open('a') as access:
+            with (DATA/(prefix+'-marker-access.jsonl')).open('a') as access:
                 access.write(json.dumps(intent|dict(status='requested'))+'\n');access.flush()
                 raw=(read_development_member(archive,record['source_member'],{'01','02','03','04'}) if scope=='development' else
                      read_validation_member(archive,record['source_member']))
@@ -48,13 +52,16 @@ def main():
             ax=axes[row,3]
             for name in ['angle.left_knee','angle.left_hip']:
                 ax.plot(np.arange(start,end+1)/100,features[name][start:end+1],label=name)
-            ax.set_title('Reference context' if subject=='01' else 'Baseline ACCEPTABLE → candidate NO_EVENT')
+            ax.set_title('Reference context' if subject=='01' else 'Baseline ACCEPTABLE → candidate '+verdicts[(subject,'m01',True,number)])
             ax.set_xlabel('original acquisition seconds');ax.set_ylabel('surface-marker angle, degrees');ax.legend(fontsize=8)
-    fig.suptitle('Known-correct skeletal validation losses: original Vicon39, not MP33 camera accuracy; no reconstruction or relabelling')
+    fig.suptitle(prefix+': known-correct validation examples; original Vicon39, not MP33 camera accuracy; no repair or relabelling')
     fig.tight_layout();fig.savefig(path,dpi=110);plt.close(fig)
     receipt.write_text(json.dumps(dict(schema='ready-form-original-marker-qa/1',source_reads=reads,rendered=rendered,
         plot_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),new_labels=0,final_test_access=False),indent=2)+'\n',newline='\n')
     print(path)
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--prefix',choices=['ready-form','clear-ready'],default='ready-form')
+    main(parser.parse_args().prefix)
