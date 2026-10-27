@@ -1,0 +1,20 @@
+{
+  "schema": "senpai-readiness-score/1",
+  "kind": "engineering-readiness-not-human-form-accuracy",
+  "points": {
+    "causal_mechanism_regressions": 20,
+    "frozen_real_reference_coverage": 7.5,
+    "real_camera_exercise_breadth": 12.5,
+    "independent_label_validation": 0,
+    "android_runtime_validation": 10,
+    "sustained_live_performance": 0
+  },
+  "raw_score": 50.0,
+  "reported_score": 50.0,
+  "target": 70,
+  "milestone_reached": false,
+  "actual_live_rep_precision": null,
+  "verified_engine_commit": "6d1386b4cefe8a9a6b3b5a6aefcc19389c322c71",
+  "evidence_sha256": "08a81d01b13d3acf2c2c1526a9e0040c370e8a6676e561b99fb715fc3ee8105a",
+  "rubric_sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+}
