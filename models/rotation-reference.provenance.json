@@ -1,0 +1,693 @@
+{
+  "schema": "senpai-rotation-reference-provenance/1",
+  "decision": "REJECTED_NO_NEW_REFERENCE_SIDES",
+  "experiment_freeze_commit": "d06fa8856d2d0f762741d386739a4928824caa72",
+  "verified_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+  "additional_reference_sides": 0,
+  "baseline_reference_sides": 12,
+  "fixed_reference_total": 32,
+  "calibration_trials": 128,
+  "summary": [
+    {
+      "clockwise_degrees": 90,
+      "fit": "ORDINARY_LEAST_SQUARES",
+      "observations": 7191,
+      "admitted_observations": 5267,
+      "raw_model_outputs": 5848,
+      "status_counts": {
+        "INSUFFICIENT_REFERENCE_CYCLES": 13,
+        "MISSING_FEATURE": 12,
+        "WEAK_REFERENCE": 2,
+        "INSUFFICIENT_EXCURSION": 1,
+        "READY": 4
+      }
+    },
+    {
+      "clockwise_degrees": 90,
+      "fit": "BOUNDED_MEDIAN_PAIRWISE",
+      "observations": 7191,
+      "admitted_observations": 5267,
+      "raw_model_outputs": 5848,
+      "status_counts": {
+        "INSUFFICIENT_REFERENCE_CYCLES": 13,
+        "MISSING_FEATURE": 12,
+        "WEAK_REFERENCE": 2,
+        "INSUFFICIENT_EXCURSION": 1,
+        "READY": 4
+      }
+    },
+    {
+      "clockwise_degrees": 270,
+      "fit": "ORDINARY_LEAST_SQUARES",
+      "observations": 7191,
+      "admitted_observations": 5246,
+      "raw_model_outputs": 5786,
+      "status_counts": {
+        "INSUFFICIENT_REFERENCE_CYCLES": 13,
+        "READY": 6,
+        "MISSING_FEATURE": 11,
+        "WEAK_REFERENCE": 2
+      }
+    },
+    {
+      "clockwise_degrees": 270,
+      "fit": "BOUNDED_MEDIAN_PAIRWISE",
+      "observations": 7191,
+      "admitted_observations": 5246,
+      "raw_model_outputs": 5786,
+      "status_counts": {
+        "INSUFFICIENT_REFERENCE_CYCLES": 13,
+        "READY": 5,
+        "MISSING_FEATURE": 11,
+        "WEAK_REFERENCE": 3
+      }
+    }
+  ],
+  "extraction_seconds": 206.10939630004577,
+  "core_jvm_tests": 238,
+  "python_tests": 121,
+  "original_RGB_frames_inspected": 6,
+  "raw_pose_diagnostic_panels_inspected": 18,
+  "current_person_and_inverse_mapping_verified_on_all_observations": true,
+  "production_changed": false,
+  "source_replay_performed": false,
+  "network_weights_changed": false,
+  "new_app_apk": false,
+  "native_suites_rerun": false,
+  "final_test_access": false,
+  "validation_access": false,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "reported_readiness": 50,
+  "checkpoint": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "a59716fdb7eb7759ff09aa43dc572a9b5bb6cfb4310edf65bf31eb6a66f8082f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "0398ac2c5970909e22e706f4fc9dae0846e399a85480f644d9ff410976b283a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReplayTool.kt",
+      "sha256": "a65132593d2dd0a8e5c07d4b684722770a61b0bc7443eb7240b716ed24c77e59"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/test/kotlin/ai/senp/motion/RotationReferenceCalibrationAudit.kt",
+      "sha256": "16537d306b84f467a87ee7222f6c3dd33340bac2ec940053eee3bd386d1cb977"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/core-motion/src/test/kotlin/ai/senp/motion/RotationReferenceMappingTest.kt",
+      "sha256": "18a7cf889e16a7733868944ac7467a1e4417c2859507557af96987ec9a0862cc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/scripts/extract_exercise_quality_features.py",
+      "sha256": "da63011034f2ee4fa0c7e5d39215b2011108f994912cd5a4499325a77969136f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/scripts/extract_image_reference_candidates.py",
+      "sha256": "d99d38a23213be7bf61d1c3f33452e92da2a9dc6b7b70446f5c1fb4ff265d294"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/scripts/extract_rotation_reference_candidates.py",
+      "sha256": "5ffe7ff902eddf82b7f5f0c6ab11c45a1516ed9da4708c5f0fe38d664dbfd3b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/scripts/plot_rotation_reference_candidates.py",
+      "sha256": "eb7fc74b8eb1e44943d5d476c77524db5d265bdf3c61bf7c1a01fc4fa9518d28"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/scripts/rotation-reference-research.init.gradle",
+      "sha256": "9edde3915a4ccb7fb65859d507d727b55389c8178ce518d435b5429b4a780e60"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/source/scripts/tests/test_rotation_reference_geometry.py",
+      "sha256": "69d7cf938f740c234124d85abec55338df497136c0cd3cfc571c15a3f5f5f602"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/build/generated/pose-model-assets/pose_landmarker_full.task",
+      "sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/clear-ready-checkpoint-1b52bcf/results/clear-ready-summary/complete-reference-backend-selection.json",
+      "sha256": "8fc85248f5ada10f3c1587edea4fb67c96f455b6deeb5d4b18f3efc17315892e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "c7d3817f8dcd2650c27b6dca705823a22273af9e3815ec3ef3b40f7bc41ece04"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "2e7d45ded2b9d4f3d373ff2f9c88b093c17a29fd71f10b19860ca838ff08e2f8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "d9e2eb1397b13f99643d2efa8cb9b19820a9a8cd9b4119eed9c628bf02e62f51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "19cb6c502deab38a3a3a1df3614c8b1a0ee29606a137bb5d86b23de160b70cc6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "7874b4df273bd01829fb5808728e2d21146a71d16d3fe1df3b44809a7842422c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "81da0eb8093a44f3b90e1a34d40cc3e6409d2ad0bd7389b17c115af8df222f6c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "5115fe2d3cabc306d174764d6cc160c83c4bd0114cf611e7d9fd280793b712da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "3d38f0e6d29be161b3186d206f6a9e331845df00a3d37b265e37ba3b3417fb35"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "69ab5680ebf4f7d27dde11429fc18c225866f000ea509674da68dd7a841f3522"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "1bd49828bed78703b39ebbbbacc607bd88fdf1435ea3c6a8eaa844f72b0cd84b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "0d1461cb1cc40945c7e720bb73fd0f7b4aea5ef34223d6fbd0f687e7f48ecd72"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "22c3a7fd74e644810365d6eb0d3fc4e8127b74e8a885c1bb8c0b2fe89e3574bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "86b919dac76f1d5ed946fce690fd049ab98dacd8a86890039f5a13866663e52a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "c53000f8ef346a60576ad7553a9886399cc860979e596424e00d56fd062f0ed7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "3ad748ba6c0d4f7d8b6cfe007c5ba328b6246fd9ed4bb00c4381dcd586d97bb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "81cab3ecbd50f11d9e457b7ef1f70bd6f1bbe8f521642f47be758e4175962e57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/rep-extraction-report.json",
+      "sha256": "6a8b0afd33764fa1d128d08bfcbc425c2f78fe18585ed49b1f1cdbca406a725b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_good_front.mp4",
+      "sha256": "a7567a9201124b6580675ea5a16c47c73b8491c90d1b71d7ce6e2c924e33a9da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_good_side.mp4",
+      "sha256": "d55d8eb2f8d334095a4ed0c37e55c96d7f8b00eb8cf4806633b8fef65d356148"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_good_front.mp4",
+      "sha256": "dec7e02e38e5b6fb1aed167ba0e5b33f610615a1e94d5cba96e292363e2259d6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_good_side.mp4",
+      "sha256": "f437f915e8d1cb8dd651bbf3f63a80527bac74200429075bd1d3d6ec7c6a6a0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_good_front.mp4",
+      "sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_good_side.mp4",
+      "sha256": "58365bfb99a0533cd3771f37f729eaf77f6b4056064f5476b24fac302008a214"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_good_front.mp4",
+      "sha256": "a268198533b49672e45dcae4f87c68daeb1334191b82f5dbfabb35204f68c52e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_good_side.mp4",
+      "sha256": "71408510449717414d614e1e1a0a7ca498b7d8463f81d3375ea9da87fc18e7af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_good_front.mp4",
+      "sha256": "cd356c554c8078a383fdcfc21d84cabd83f8442b8ecdfbc7bccdb131785a4778"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_good_side.mp4",
+      "sha256": "ab339121e1b4c28ce8867763f85845715a3946a7fdbb031cdf0a3773cbc19272"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_good_front.mp4",
+      "sha256": "6e82daa9ed917ca646f22cc773ca574b286ee6d003e5f096e930b12b652f27fc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_good_side.mp4",
+      "sha256": "0ac8ad70d6ba1d75b5ae2ba5d50113e94af02fab6e762a229ad4e37c19202b1e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_good_front.mp4",
+      "sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_good_side.mp4",
+      "sha256": "ee0f7bef8d6436bef19cfcd4eea67950be1ca2b614d5bc4a7f55f890da6c94b2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_good_front.mp4",
+      "sha256": "ddb822322967c5d19beb39074ff36b0e05d284813ae18dcb6e998e1a30be6acb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/inputs/test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_good_side.mp4",
+      "sha256": "fd3e269778204f18c035aec90ba83bfad633b1202b88847b5784c1dc3d305570"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/protocol.json",
+      "sha256": "789cce53b4dec781758f0ce9867e2d4edaee9e013b314a13b37438a94ab6dc62"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "5c41a99823a56f78033866cae6b09614ccc8df8e50d822e349db4c3e0e1f72d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "4cdc5f0cbe2a0b0d2d450dad47054d7deddee5d44d4cdf894aa851c8afe46355"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "80874496ccbb7c5007fc0ee790d6f6a9717b587904859b44a4e501f868acff55"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "50c9172135f4bf55015bb2d156a5e01e9716e5a5f441788c113fd6e4ca291efd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_001_push_up_good_front.json.gz",
+      "sha256": "c6fa07a09a4c4d7299e9e1881c7e69b3de8a1c65c32fa2081a983fc956ea6784"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_001_push_up_good_front.json.gz",
+      "sha256": "d04dd8bf8ac161e39ec895185a55a3f3d659ffc7dc251a2ace42236e339e0253"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_001_push_up_good_side.json.gz",
+      "sha256": "9a3b76b6dacd6e48e989b2305c9a9375c52b6b21bfeba22e2a4815f2a8ccd543"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_001_push_up_good_side.json.gz",
+      "sha256": "413805d0b25e3f717d0e5b330a540bd2939c30742809fd812ec2b0deb250d683"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_001_shoulder_good_front.json.gz",
+      "sha256": "19abce5cbc4f0c276bd96f2900f31776efc8d095c9a50bc38002113bb63dd636"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_001_shoulder_good_front.json.gz",
+      "sha256": "01da7a395ee791de3150dc6d3a70ca53346ac08449bc18d1fb002d67eade122f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_001_shoulder_good_side.json.gz",
+      "sha256": "3eb27d1aebb00dbbe6c639726f61140587244b4da762fb17f2618c2d54a5ac10"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_001_shoulder_good_side.json.gz",
+      "sha256": "ac1e47d9789c66566d4ae26929e28e5767f1cc0f5a8a0806c03fd0c81b2662b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_001_squat_good_front.json.gz",
+      "sha256": "295d75aa49ef8d7dd0dfe3d872240cc607cbc1c91e9af3647c5957ed512e3a81"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_001_squat_good_front.json.gz",
+      "sha256": "57bf520b817d23f735d9cfcabd271d948609bbe2309e01a470b27ef4bce49815"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_001_squat_good_side.json.gz",
+      "sha256": "565adba865d99e36a0634d7a0a5e59ba8f27dbd02f7e2f980c763633f34ece1a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_001_squat_good_side.json.gz",
+      "sha256": "5693ff86676af18de605140e44c205b283ae5c47dba1c978188817a24c5bd8b2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "6c40d206f7c177d5abc3bece439023337957b4bb54c6c9ec4691a54a85f52db1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "fc2b53ca3740362da28e00b1a511fc7d038b557a32d0f545433e35b5207f1ee2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "d578940b65a5cef00e5bbfa209d4f684becbb5ce0aa48e4d8812979854db02f5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "ef5fc4b4c3e49fa5c18b6c02d53d9148f3fa466eb22543810bb0172d1fac1ede"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_005_push_up_good_front.json.gz",
+      "sha256": "38820d5a2e2bad736d67a7c59eedd27e518fe14826f4e97a8367f88b0e32c60a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_005_push_up_good_front.json.gz",
+      "sha256": "cb93e5d79c3c9e6c054ce28ee34222fa89ec347c343ec626e22e01edbe823b86"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_005_push_up_good_side.json.gz",
+      "sha256": "5c8ca4ec9d472be5843136a28173d3fa963b90270878cf070c0bb1cdf74cf05a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_005_push_up_good_side.json.gz",
+      "sha256": "6fe0f7deee54cb699e9499c4161db83bfa492137b48dc559fbad6e58a4f57496"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_005_shoulder_good_front.json.gz",
+      "sha256": "e81dde67818509adcba5525fde1873ee1452bc64393b0ebf89939a87af798cae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_005_shoulder_good_front.json.gz",
+      "sha256": "c07405ea6f34c24f1d790e75a3779d7e5a193a1358232c2c7ab5cb71bbf688fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_005_shoulder_good_side.json.gz",
+      "sha256": "d1e6a86c6301156753ec85808b5ce2a722b196503124aa567f807ab93213d329"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_005_shoulder_good_side.json.gz",
+      "sha256": "3a38ecfb2916b91f2504b3c9160dae35c07baffe2a5ad2e4c290d585c689c76e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_005_squat_good_front.json.gz",
+      "sha256": "b1823877bb90cd9472908e6bade1a12a926d791c332fdb635745055f2e453c96"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_005_squat_good_front.json.gz",
+      "sha256": "38502934caedf896bc5dfcaea478eec95bc68bd34d15cfe0f4d3aa42fe43917f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/90/subject_005_squat_good_side.json.gz",
+      "sha256": "cf42b943f85a32e330ea59b32c73737be2723bce3bd0c67a4472cfe6d6b8918a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/raw/270/subject_005_squat_good_side.json.gz",
+      "sha256": "e651a62d1a15dbca18408b213dad6dd51b92f421911769da0aaaeecebac4dc6f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/results/rotation-reference-extraction.json",
+      "sha256": "1a10257c2f617ff7a99f6734262fe52d53dcef56d8f02828748f011d7adce9bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/results/rotation-reference-screen.json",
+      "sha256": "1bea58441d2132a95be7818fff7f764a8e95edd3fb98211994989a2a8892b2c5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/results/rotation-reference-original-frames.png",
+      "sha256": "1b36e477ec50c8291ef544550c12ce369f478f8a206c243868a2e4c1af562493"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/results/rotation-reference-original-frames.json",
+      "sha256": "c4bbf837ee520455fe56cbfaed0d21fd0bcb922a88dfa5e308764f4a42cb1b69"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/results/rotation-reference-readiness.json",
+      "sha256": "32cb31d8e0d29448f0b50e259291351b2defcc1a03eed117ce02cc17e18d1ea6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/logs/rotation-reference-jvm-preflight.log",
+      "sha256": "3044dc0b2892fa2ba15c55339f8f51b1825dff18c56107bba8292e82e95e19c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/logs/rotation-reference-jvm-preflight-repaired.log",
+      "sha256": "edf1834e2b25ee617e830f2c3202185a06ae189024b00c43b955407684577e25"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/logs/rotation-reference-extraction.log",
+      "sha256": "cf3c0c3774169b9b1cf6cdb09b939882967c9960643d8a7597d7a77a209e5d8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/logs/rotation-reference-screen.log",
+      "sha256": "949dbf8d55f2c67fa977e9ffe703c4312e0a0b9ef3852e43945ba54f12b967cb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/logs/rotation-reference-qa.log",
+      "sha256": "98f032d78f9334d01b238e0d8ab52456b20dd624a4ac5801ff83b3c247e816eb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/logs/rotation-reference-python.log",
+      "sha256": "c55796d38c14805dbe9b11c6bf7cf28271cd3bc1245f31c03dd6c97bb977fab9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "cbdc12d0b33a3faf6458bb9d915a1371d128be8dbfc15f1a414be26a288c199e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "a95d0bbe4e2d96d5aff545c94ab70b45635469fa14e235833b95f90a751f9dd3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "bf57cb716c03f60b9f7a19f6134979b59fa33ee62cf9a054cda1fdb01db14a0b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.FixedReferenceWindowResearchTest.xml",
+      "sha256": "9db03eaf1cb3afad1f3544a2db88100156c1979a3c57991d38128f33811d67a0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "0f58cdc13391ab660f81c92cf122c648bb317822c72c187409bcef5e64a017b8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "5517c33410661e205451dc923528a07da5b3f0cfb7f06bae4e188379dff003cd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "ee664948be7f696c95aeb01bef407499976cab6260a0aa8864f9b70a1b3c67c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "4fd1bc4fbcd2eabd4b87e681fe729da4ff1273166dd90ca657ccf6a2f90b16fb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.MmfitRawEvidenceTest.xml",
+      "sha256": "386d4b4a44a47ca6e484d25427d8ed2a493a241020e8425544a9ebbe54fe3c63"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "5a0de89296ff4262a5ea825f4c0be828c1dd2fc5781f04a8ace769b67631579a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "e1bfa240fe6d8d5955ba358e92b16b4a168ef3492b193c5b8801c0d4b2086fc7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "948481fcbc67a6bb92aad1b047f184b460e086cf6206b4db95fefa3a4e2fda6f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "a4b6836152decc6401d9f6a18f2f2de1399b8cd938509c1080bba3f17c73080f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepClearReadyTest.xml",
+      "sha256": "49578b64eac068c2f1e433d7b73cabbb12895c5425e49d12d9ea63b326fc53c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "ed8ef6f47e667d203175d27a8feeafb6548d4d9ba0a1cc7ef0ef5f8a11ce4991"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "b0b86d61090b15f9893527b088cd4fb9adbeafb35efe8293c1b13cd6c5095671"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "5e44c9eab12293ff0b4b6463bc2600128c419d07c79177981f132554cd66a8e7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "beb2faa6f603219f92ce9e2ba38c626c1517562e478b9799d83e0413b82192b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "9a7ed45a4d0544a7e35158cbaa4d4c0f587fe27e2a9e45adc60549bedd2d90c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "fdf12c231c50e7189ea8c3236f9e9400c41868b96b37266dea7eaa4533825bcc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "7019233d16b6944a223a56ba5264cea7a023d110e28bee636e1787b158297bdf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "83dccaa96b681afcbf323d7d5677f4954804ee2dd212e23712a7d40a9eeb1ca4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "1815472c7a904582778103fe3301acb71aee5b0e01a89505fcedbd5e9a9d2620"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.ReadyFormValidationScopeTest.xml",
+      "sha256": "d319e8927c8ff7bce6de51c6510c2d738841a0af28ebfe0788e8777b0b3c620d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "af681d93ab748cff4b5bec33ca83445ea456a87f1a5db505c23ab889a6005822"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.RotationReferenceMappingTest.xml",
+      "sha256": "5ebeb7f4e8770b3bd9237d4d1ae94ffc356c6c92826ef808af07ab541daf8a55"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "419f52eae4e76d9992a7f20a3de4a59ce0ea6b4b9795f30f98181143c008355d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "bcb4f09241a61a3c9b2b93929580a6d8698138a7d48cc964cbc350f91e74fd5a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "416be98a7672d06cf67a31821310a66d24396ddbf80d5dc8e7ff4c6951f81356"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "faee3b80a9ac1a2b31f64014ec6da799dde45855b48f9098087d91e208e7c935"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "b6414f78d47f537951b8b9c05345e556dbb998d1734895937eca83620f63a1ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rotation-reference-checkpoint-d06fa88/reproduction-tools/freeze-rotation-reference-results.py",
+      "sha256": "1a0d30b233885bf1bcea7c63bc0800ef113a26272d47f683d97c52c8c8154101"
+    }
+  ]
+}
