@@ -1,0 +1,11 @@
+# Second Android API runtime verification
+
+27 October 2026. Verify the unchanged compiler `/7` engine and exact APKs already tested on API 36 on a second, separately booted API 35 runtime. The fixed rubric awards five additional runtime points only if the same scoped functional suite passes. It awards no additional pose precision, reference, independent-label, physical-phone or sustained-performance points.
+
+`models/api35-runtime-protocol.json` freezes all 29 original native test identities, three APK hashes, the prior evidence identity and the actual target API before boot/testing. `scripts/verify_android_runtime.py` requires every frozen case, no skips/errors/failures, actual booted API/ABI/emulator properties and unchanged APK hashes. A duplicate API, abbreviated XML count or substituted test cannot qualify. The opt-in ten-minute soak remains excluded, as on API 36.
+
+The publisher's default AOSP API 35 x86_64 revision 2 image comes from the [official Android system-image repository](https://dl.google.com/android/repository/sys-img/android/sys-img2-3.xml). Its 782,404,023-byte ZIP matches publisher SHA1 `2d857d170c0d1b827149565da34b3383e5306f7f` and local SHA256 `6dd7de33e63ef105cf2fabea6badda1dbe7665c96d8908e5f6e1407e63ff4556`. Preserve the publisher XML/license and every extracted-file hash under ignored runtime artifacts. The existing SDK license is already present. No image is bundled with the app or committed. The AVD uses isolated task-owned storage and the installed emulator; other AVDs remain intact. Headless cold boot and camera options follow the [official emulator command-line documentation](https://developer.android.com/studio/run/emulator-commandline).
+
+Use the two original connected test tasks sequentially with `--no-parallel`, `-PincludeHeavyPoseModel=true` and `-Pandroid.testInstrumentationRunnerArguments.notClass=ai.senp.validation.LiveCameraSoakInstrumentedTest`. Preserve logs, raw XML, boot properties, emulator configuration and exact binary receipts before scoring. Stop the owned emulator afterward. No reference videos, data labels, timing, raw MP33, production source, frozen final subjects or scoring gates change for this checkpoint.
+
+This protocol alone earns no points. Record the measured outcome after verification; a failed or skipped case prevents qualification and must remain in the evidence.

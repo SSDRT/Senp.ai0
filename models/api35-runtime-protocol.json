@@ -1,0 +1,189 @@
+{
+  "schema": "senpai-second-runtime-protocol/1",
+  "frozen_date": "2026-10-27",
+  "target_api": 35,
+  "existing_api": 36,
+  "abi": "x86_64",
+  "verified_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+  "compiler": "qualified-rep-compiler/7",
+  "baseline_evidence": {
+    "path": "models/clear-ready-readiness.evidence.json",
+    "sha256": "fef7dd67fe525a680b8cb038fea9397a0b2fa904d71158abb75cc8644556ccfb"
+  },
+  "image_acquisition": {
+    "path": "test-artifacts/exercise-knowledge/api35-runtime/acquisition.json",
+    "sha256": "d5f8200c4ba8bca811ecae61b72d57295bcbefe20113b6d0c267aec821b3f178"
+  },
+  "publisher_package": "system-images;android-35;default;x86_64",
+  "publisher_revision": 2,
+  "publisher_repository": "https://dl.google.com/android/repository/sys-img/android/sys-img2-3.xml",
+  "image_sha256": "6dd7de33e63ef105cf2fabea6badda1dbe7665c96d8908e5f6e1407e63ff4556",
+  "modules": {
+    "android-pose-mediapipe": {
+      "test_ids": [
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "blankFramesHaveNoPersonTimestampAndCloseRulesAreEnforced"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "geometryAndLongGapResetNativeTrackingAndSignalContinuityBreak"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "modelMismatchAndMissingAssetsAreTyped"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "neverTrackedEmptyGraphRetainsNoPoseHistoryButEveryGapStillBreaksContinuity"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "optionalGpuInitializesOrFallsBackToCpuWithDiagnostics"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "overlappingModelCreationDoesNotRewriteAnActiveGraphModel"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "positivePoseMatchesUpstreamRegressionAndKeepsRawWorldAndConfidence"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "timestampedNativeReplayWritesRawFilteredOverlaysAndLatencyEvidence"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseModelBenchmarkTest",
+          "fullAndHeavyRetainTheSameContractAndReportMeasuredLatency"
+        ],
+        [
+          "ai.senp.pose.mediapipe.MediaPipePoseEstimatorInstrumentedTest",
+          "blankFrameProducesNoPersonAndRejectsDuplicateTimestamp"
+        ],
+        [
+          "ai.senp.pose.mediapipe.MediaPipePoseEstimatorInstrumentedTest",
+          "missingOrMismatchedModelIsTypedInternally"
+        ],
+        [
+          "ai.senp.pose.mediapipe.MediaPipePoseEstimatorInstrumentedTest",
+          "packagedModelMatchesPinnedArtifact"
+        ]
+      ]
+    },
+    "validation-app": {
+      "test_ids": [
+        [
+          "ai.senp.validation.LiveCameraInstrumentedTest",
+          "cameraProducesFramesAfterLaunchAndPauseResumeAndClosesOnAnalyzerThread"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "asymmetricReturnCurveIsUsedWithoutConfirmingAReversalEarly"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "calibrationCannotPoolCyclesFromDifferentTrackedPeople"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "confidentMotionWithoutATrackedSubjectCannotArmOrCount"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "customMeasurementPipelineSelfCheckPreservesRuntimeMismatchRejection"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "earlyReversalFaultNamesTheActualSourceLimbInDirectAndMirroredMode"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "greyAndTransientStartDifferencesDoNotBecomeClearFaults"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "incompatibleIntermediateEvidenceIsWithheldWithoutAnInventedSevereFault"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "persistentClearStartDisagreementRevokesArmingAndFreshCycleRecovers"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "referenceCycleSelectionCannotBorrowContinuityOrArmingAcrossMissingEvidence"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "unilateralReferenceSelfCheckUsesDirectEvidenceAndLiveSourceStillUsesMirroredFeatures"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "correctReturnBranchKeepsTheRecoveredLeftReferenceWithoutWideningItsRange"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "liveReferenceCameraUsesTheSelectedHeavyModelAcrossPauseAndResume"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "originalSourceVideoLandmarksReproduceTheJvmAcceptedRepResultsOnAndroid"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "realHeavyOnlyReferenceSelectsFallbackAndReproducesThreeAcceptedOutputs"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "robustFitRecoversTheCompleteReferenceAfterBothEstablishedModelFitsFail"
+        ],
+        [
+          "ai.senp.validation.WorkoutPrecisionInstrumentedTest",
+          "nativePoseReferenceCompilationStaticRecognitionAndThresholdFeedbackAreConnected"
+        ]
+      ]
+    }
+  },
+  "apk_receipts": [
+    {
+      "path": "android-pose-mediapipe/build/outputs/apk/androidTest/debug/android-pose-mediapipe-debug-androidTest.apk",
+      "sha256": "13be6db92d59635adb6c999931fde091e389fe0911212f4b6d49f24511c1cbfd",
+      "bytes": 90759597
+    },
+    {
+      "path": "validation-app/build/outputs/apk/androidTest/debug/validation-app-debug-androidTest.apk",
+      "sha256": "3127ca27c582c11beba9b728d0fd3c57e10b4acd7d8c91c5c18574468aff3d7e",
+      "bytes": 7708790
+    },
+    {
+      "path": "validation-app/build/outputs/apk/debug/validation-app-debug.apk",
+      "sha256": "db83d289bad73f4627f8f384c2313d183ba3aff7dd963a2bf50a4feb7fad5f3a",
+      "bytes": 104233742
+    }
+  ],
+  "verifier_source_receipts": [
+    {
+      "path": "scripts/verify_android_runtime.py",
+      "sha256_lf": "78d175a40f376ccf1f24c11ca7ecccaf56ade20491a8593da0ab90f2cba7e827"
+    },
+    {
+      "path": "scripts/tests/test_android_runtime_evidence.py",
+      "sha256_lf": "55e566d70f92e75e9cfc63605bd8fa9b56c124c7b988b59f77c64d516d6ba8f5"
+    }
+  ],
+  "excluded_test_classes": [
+    "ai.senp.validation.LiveCameraSoakInstrumentedTest"
+  ],
+  "expected_native_total": 29,
+  "qualification": "All 29 frozen test identities on the actual second API, no failures/errors/skips; frozen APK hashes must match. No performance or physical-device points.",
+  "final_subjects_opened": false,
+  "engine_changed": false,
+  "raw_MP33_changed": false,
+  "weights_changed": false,
+  "runtime_host": "Windows x86_64 Android Emulator 36.3.10.0 build 14472402",
+  "limitations": [
+    "AOSP emulator runtime only; same host as existing API36.",
+    "Page size must be observed; static 16KB compatibility is separate.",
+    "Functional suite is not a ten-minute soak or human pose-accuracy measurement."
+  ]
+}
