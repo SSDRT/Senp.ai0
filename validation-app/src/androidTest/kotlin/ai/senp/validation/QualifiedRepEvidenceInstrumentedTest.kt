@@ -248,4 +248,30 @@ class QualifiedRepEvidenceInstrumentedTest {
         }
         save("source-limb-early-reversal-controls.json",0,2)
     }
+    @Test fun persistentPreparationFaultRequiresFreshReadyDwell() {
+        for(fps in listOf(10,15,30,60)) for(kind in listOf("clear","grey","brief")) {
+            val engine=reference(false).newEngine()
+            for(i in 0 until fps) {
+                val t=(i*1000.0/fps).toLong()
+                val p=if(t<400) 0.0 else .15
+                val quality=when {
+                    kind=="clear" && t>=400 -> 85.0
+                    kind=="grey" && t>=400 -> 38.0
+                    kind=="brief" && t in 400..479 -> 85.0
+                    else -> 15.0
+                }
+                engine.evaluate(frame(t,p,quality),identity.poseModelSha256)
+            }
+            for(source in calibrationSequence(false,1).frames.filter { it.timestamp.value>=462 }) {
+                engine.evaluate(source.copy(timestamp=TimestampMs(1000+source.timestamp.value-462)),identity.poseModelSha256)
+            }
+            assertEquals(kind,if(kind=="clear") 0 else 1,engine.finish(2600).counts.qualified)
+            for(source in calibrationSequence(false,1).frames) {
+                engine.evaluate(source.copy(timestamp=TimestampMs(3000+source.timestamp.value)),identity.poseModelSha256)
+            }
+            assertEquals(kind,if(kind=="clear") 1 else 2,engine.finish(5100).counts.qualified)
+        }
+        save("preparation-clear-fault-controls.json",20,12)
+    }
+
 }
