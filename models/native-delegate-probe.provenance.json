@@ -1,0 +1,238 @@
+{
+  "schema": "senpai-native-delegate-probe-provenance/1",
+  "decision": "GPU_PROMOTION_WITHHELD_HOST_FALLBACK_BUG_FOUND",
+  "experiment_freeze_commit": "e0cdedc200ed9c54962191dd335a3b9c8b46422e",
+  "verified_production_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+  "production_changed": false,
+  "software_native_tests": 1,
+  "software_native_failures": 0,
+  "software_conditions": 8,
+  "software_observations": 80,
+  "software_all_GPU_requests_fell_back_to_CPU": true,
+  "software_pose_raw_parity_max_error": 0.0,
+  "host_native_tests": 1,
+  "host_native_failures": 1,
+  "host_completed_stream_report": false,
+  "host_failure": "GPU inference GL_INVALID_ENUM is reported again by TaskRunner.close; recreate exits before constructing CPU fallback.",
+  "existing_CPU_default_changed": false,
+  "real_camera_measured": false,
+  "ten_minute_soak": false,
+  "raw_network_weights_changed": false,
+  "human_rep_precision": null,
+  "final_test_access": false,
+  "python_tests": 108,
+  "readiness_points_earned": 0,
+  "checkpoint": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/research/android-delegate/LiveDelegateProbeInstrumentedTest.kt",
+      "sha256": "743dd4c9b7a56c540b7036962ccc77adfee6c2377a1014f16caedafa6e279560"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/scripts/live-delegate-probe.init.gradle",
+      "sha256": "a600d9b99a274a3157a77150c611fdec6b38613230c2c72257ac91b48d8ff14f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/scripts/audit_live_delegate_probe.py",
+      "sha256": "337b956d5a822cf33872cdacfedb875d4333679ab5f006f51dfaacacce34c0fe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/scripts/tests/test_live_delegate_probe.py",
+      "sha256": "19d414f28c96b1f3d78210e6984b709102ee10d6950ee00168b68c605df905ca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/scripts/render_live_delegate_probe.py",
+      "sha256": "0633d4f20ba72561fe400f788fcf2c977d8388f3a0ce5dceab80b317cd12b865"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveFrameGate.kt",
+      "sha256": "3813a9428604f4fc09b354ec8754cfa6c3b48f79f8efc13f229e5cbb4b852ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveMediaPipePoseEstimator.kt",
+      "sha256": "3e16861e3b1c48e36071aa7ec1b41f22da22291446313dc648d012ccb0467e11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LivePoseModel.kt",
+      "sha256": "b152c69e80fd4c9b187b4ef992a22091052a1b2135d35fa5e1ec8412f1bebeab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveTrackerResetPolicy.kt",
+      "sha256": "26bb21c031dc5b6084121b0256109a0b41e52b3e39147c4e20058a6821c78b06"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/MediaPipePoseEstimator.kt",
+      "sha256": "bedf4b38ce31eb1f3be7a8d61178b1a44f9deb2249a17f7489ba697ead6b5fb3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/VerifiedPoseModelBuffer.kt",
+      "sha256": "c6e623ff3ae9f58b32ecf3a9ed371460838034b0a6623476aeacedf5b8d1bdf9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/inputs/build/generated/live-pose-fixtures/pose.jpg",
+      "sha256": "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/inputs/build/generated/pose-model-assets/pose_landmarker_full.task",
+      "sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/inputs/build/generated/heavy-pose-model-assets/pose_landmarker_heavy.task",
+      "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/inputs/android-pose-mediapipe/build/outputs/apk/androidTest/debug/android-pose-mediapipe-debug-androidTest.apk",
+      "sha256": "02fc81e869d28c14861dbbf1d2444b9852b6b6520dde2ea4657ad4daffe97cef"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/inputs/test-artifacts/exercise-knowledge/native-delegate-probe/avd-seeds/Senpai_Delegate_Host.config.ini",
+      "sha256": "75b000de51b0800cedd05557a6dc622a5ec452e2a1bf40fa406928a45eb0a53d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/inputs/test-artifacts/exercise-knowledge/native-delegate-probe/avd-seeds/Senpai_Delegate_Software.config.ini",
+      "sha256": "280ce691854f0b97e6119f473995a8216b9db86bde5e036dd8d5ee5d78c3b40b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/inputs/test-artifacts/exercise-knowledge/api35-runtime/acquisition.json",
+      "sha256": "d5f8200c4ba8bca811ecae61b72d57295bcbefe20113b6d0c267aec821b3f178"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/protocol.json",
+      "sha256": "68d9c100c45ad4895f82fcd6ae348eb7e2eb72b5f1d8bb2c419b96d986a68a83"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/audit.json",
+      "sha256": "b098d098ecb6def9b0da9f43ee4edbc24a3730c351546cb132048639d2b2607d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/audit.log",
+      "sha256": "280075435efbff38bce304e3e69fab58fa258463b03193e0d54ff053059d1993"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/benchmark.json",
+      "sha256": "491d97a524666da5a3a8503b4ad7ebbc2c6bd850817800355179e604cdd57f70"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/emulator-stdout.log",
+      "sha256": "56c095aab58fc3d861a8be5bf0271a5a05120241bbc0bb811d6280f6e24bd2d9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/fixture-review.json",
+      "sha256": "8f5bd9ab8af817cbff12812349547867529137c2447f7e2bd6b9352fc5154e38"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/fixture-review.png",
+      "sha256": "c03aae41ef2ce65c5eb90c2a38b0a15f793d9035c86cfa3ae76899d8bfb2f3bb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/instrumentation.log",
+      "sha256": "359e6ca0d037c64795c8e912010eea02dc4d6edfc97f6a6142b9f49d7ed5bde0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/logcat.txt",
+      "sha256": "05298734b4b4c5284a4f3981b22fca9ec14cb041bcecf450e58651b726012eab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/owned-process.json",
+      "sha256": "1f1bc76719c68c60d5d415166f9b014e2a7979f2b0bb85055b6ba5bf4106e6d4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/pull.log",
+      "sha256": "72e5800a4b949d1bf6348ccf2485e02a1d8ac44de7ba5db107ce8a9bed3bada6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/qa.log",
+      "sha256": "cadef871f98038511fcb6c4b848c1f64530ad7b74720f0c8bc49ab3b7e8bdb22"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/runtime.json",
+      "sha256": "365241d17f3bc60d97277c532ae3151e91c0591e28454fd0bfa808ba15cc5770"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/stop.log",
+      "sha256": "483d31d727a891b284fe65f3b042180f0dcf884ee845c457e261de7a6e891804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/stopped.json",
+      "sha256": "ab47ff0f2acb0d6cf5bf30b524a8a50cad70f49cfa9a0bdf15b136c8de292e09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/software/surfaceflinger.txt",
+      "sha256": "20a2552de51c2eb84e06bdd35e0534403ca1a2927392624aec8ee0f4581bd76d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/emulator-stdout.log",
+      "sha256": "d3b2c0f4b27557a4abd05d3e3c817f133bd52632fff8077a5721d9b73a414136"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/failure.json",
+      "sha256": "666b85a12c2ddf0fb692b2387444200c1f595b57a52fecf409c25270609ff84b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/instrumentation.log",
+      "sha256": "f03d99d562dd35705d2d1aeb3a4f9da223372e767a9e166053796f18b567708f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/logcat.txt",
+      "sha256": "a16dd789c4017125bb4cb85f600583b1cd675d4a971fe6408615a1f6e60c17ba"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/owned-process.json",
+      "sha256": "d378a576c21391b5912dcdbba7e224eeb95a90ddaffdd91cc56ff36606b717b9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/runtime.json",
+      "sha256": "fa507f59c06e5efcabf6c1b019567976bb8fa2bb7d78aff5220ddbc844056d7d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/stop.log",
+      "sha256": "483d31d727a891b284fe65f3b042180f0dcf884ee845c457e261de7a6e891804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/stopped.json",
+      "sha256": "405a5d70178e4bd23eca1603dd2a9a80b22747de72f3b3effa2e3123a5a3813a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/results/host/surfaceflinger.txt",
+      "sha256": "a9b170707b9bc42e802d2b98696eb0a2d7aef33f133bdda123c57cb2223191c9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/logs/delegate-probe-build-initial.log",
+      "sha256": "0a77ee07727274a4f49c778f759e222a9cbc27aff4a8f3cf6783f13a5aba0ad1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/logs/delegate-probe-python-initial.log",
+      "sha256": "2bd2bbaa1906ecf40f63fad963fc52bc8eb78636a47068740a1f0a17f3219ef8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/reproduction-tools/run-native-delegate-probe.ps1",
+      "sha256": "a04afcec4205a2bc89b5c3b3ce9c64fdb971d8c193d2bb4c3e874d40eab0ff5d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/reproduction-tools/freeze-delegate-probe-original.py",
+      "sha256": "55cb258e58cc157e537771cffc1976fa26f390e30ecff1f91b9b3736ce0e7676"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/native-delegate-probe-checkpoint-e0cdedc/logs/delegate-probe-python-complete.log",
+      "sha256": "2bd2bbaa1906ecf40f63fad963fc52bc8eb78636a47068740a1f0a17f3219ef8"
+    }
+  ],
+  "python_failures": 0,
+  "initial_snapshot_python_log_may_be_partial": "The complete log is separately preserved as delegate-probe-python-complete.log; initial snapshot is retained."
+}
