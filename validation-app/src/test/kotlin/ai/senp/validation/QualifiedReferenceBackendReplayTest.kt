@@ -101,7 +101,7 @@ class QualifiedReferenceBackendReplayTest {
             }
         }
         val choices = results.groupingBy { it.getValue("selected_model").jsonPrimitive.content }.eachCount()
-        assertEquals(if (complete) mapOf("full" to 8,"heavy" to 4,"unavailable" to 20) else mapOf("full" to 7,"heavy" to 3,"unavailable" to 22),choices)
+        assertEquals(if (complete) mapOf("full" to 8,"heavy" to 4,"unavailable" to 20) else mapOf("full" to 7,"heavy" to 4,"unavailable" to 21),choices)
         val report = buildJsonObject {
             put("kind","production-reference-backend-selection-real-observation-replay-not-human-accuracy")
             put("reference_sides",32);put("primary_ready",choices.getValue("full"));put("fallback_ready",choices.getValue("heavy"));put("unavailable",choices.getValue("unavailable"))

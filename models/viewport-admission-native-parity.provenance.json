@@ -1,0 +1,56 @@
+{
+  "kind": "updated-engine-expectations-on-unchanged-raw-observations",
+  "reference_schema": "qualified-reference-reps/5",
+  "compiler": "qualified-rep-compiler/9",
+  "dataset_doi": "10.17632/kgbb3yn47p.3",
+  "license": "CC BY 4.0",
+  "new_human_labels": 0,
+  "expectations_sha256": "ae526f61c3a6b4337eacda3fa4c6eb0dc09d9309ec4b0042ec9fd20d6937398b",
+  "cases": {
+    "full": {
+      "raw_fixture": "qualified-rep-native.json.gz",
+      "raw_fixture_sha256": "26a28034a15f3616cb4908d26e918b745e4e6f9b556bf3c85cba1500b2162e64",
+      "replay_directory": "viewport-admission-capped-full-standard",
+      "replay_sha256": "6a2f0068ec693cc75e8b4ee6dcbace5c0561c721a82020f20444f62af495dad5",
+      "reference_video": "subject_005_shoulder_good_front.mp4",
+      "source_video": "subject_001_shoulder_good_front.mp4",
+      "reference_video_sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853",
+      "source_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
+    },
+    "heavy": {
+      "raw_fixture": "qualified-rep-heavy-native.json.gz",
+      "raw_fixture_sha256": "1af50b1b88410605d74897e9dd018d01381211d3664c1b96d3fe1f58a03c24fc",
+      "replay_directory": "viewport-admission-capped-heavy-standard",
+      "replay_sha256": "40b84da6b8e57898b6740995011e62f840d2d5139ddf5332544a7089cb68d0f3",
+      "reference_video": "subject_001_shoulder_good_front.mp4",
+      "source_video": "subject_018_shoulder_good_front.mp4",
+      "reference_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "source_video_sha256": "137824b720ed9eb0ea56c6f77a9d524126586bcfeeb81626298e34a8a37a2840",
+      "model_sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+    },
+    "range_recovery": {
+      "raw_fixture": "qualified-rep-heavy-native.json.gz",
+      "raw_fixture_sha256": "1af50b1b88410605d74897e9dd018d01381211d3664c1b96d3fe1f58a03c24fc",
+      "replay_directory": "viewport-admission-capped-heavy-standard",
+      "replay_sha256": "e4310958a5e23a812ad16a562d4e7bb38d1de4ea4affd9eeec3f97aaf80df519",
+      "reference_video": "subject_001_shoulder_good_front.mp4",
+      "source_video": "subject_018_shoulder_good_front.mp4",
+      "reference_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "source_video_sha256": "137824b720ed9eb0ea56c6f77a9d524126586bcfeeb81626298e34a8a37a2840",
+      "model_sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+    },
+    "robust": {
+      "raw_fixture": "qualified-rep-robust-native.json.gz",
+      "raw_fixture_sha256": "1d7c77409e3ad67c6f689986c33fb66849a2081f46b259791972db89a566ccc7",
+      "replay_directory": "viewport-admission-complete-heavy-robust",
+      "replay_sha256": "59441e7133c9fd56fbfeea76e4ad701385defc526816bd4e94ab66be6316be2b",
+      "reference_video": "subject_005_shoulder_good_front.mp4",
+      "source_video": "subject_001_shoulder_good_front.mp4",
+      "reference_video_sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853",
+      "source_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "model_sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+    }
+  },
+  "note": "Original landmark fixtures and earlier policy expectations remain unchanged; these targets verify the new runtime policy."
+}
