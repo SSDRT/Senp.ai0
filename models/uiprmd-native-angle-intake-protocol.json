@@ -1,0 +1,189 @@
+{
+  "schema": "uiprmd-native-angular-intake-protocol/1",
+  "frozen_utc": "2026-10-28T09:06:56.282492+00:00",
+  "baseline_metadata_commit": "cb593cdb1630f7886ff545b495e00ec5a4e183c1",
+  "production_engine": "872c9f7aa2516e99580e75e188c18a5d3b683881",
+  "compiler": "qualified-rep-compiler/9",
+  "subjects": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
+  "movements": [
+    "m01",
+    "m07"
+  ],
+  "full_recordings": 16,
+  "original_episodes": 160,
+  "angle_archive_reads": 176,
+  "allow_validation_access": false,
+  "allow_final_test_access": false,
+  "fit_model": false,
+  "map_to_camera_ABC": false,
+  "native_components_as_recorded": true,
+  "angle_alignment_absolute_tolerance_degrees": 1e-06,
+  "primary_paper_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5773117/",
+  "vendor_guide_url": "https://help.vicon.com/download/attachments/11250652/Plug-in%20Gait%20Reference%20Guide.pdf",
+  "production_changed": false,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "receipts": [
+    {
+      "path": "scripts/uiprmd_native_angles.py",
+      "sha256_lf": "cd73a19f21a8007f81bc0d532cc37ccd83e5a9324ee97db4f68b975b16c404ff"
+    },
+    {
+      "path": "scripts/audit_uiprmd_native_angles.py",
+      "sha256_lf": "35d82971ec7052044bbbb960ce67a7fbe439a1d4b831631f86a204c29236c02c"
+    },
+    {
+      "path": "scripts/plot_uiprmd_native_angles.py",
+      "sha256_lf": "347948cca9d3838f445b7da7b988f259382066a41c0615ba48141d3677619016"
+    },
+    {
+      "path": "scripts/tests/test_uiprmd_native_angles.py",
+      "sha256_lf": "21be0f22fc30c38a756af3822fad00a7b9a5d365f4c8b6e7f59b2a08f4cdcb4f"
+    },
+    {
+      "path": "scripts/inspect_uiprmd_development.py",
+      "sha256_lf": "51afc5271098326e0ef56def3a0e174f90644e1ef9a1e6b9fc4adc26c4c777c8"
+    },
+    {
+      "path": "scripts/fetch_uiprmd.py",
+      "sha256_lf": "56fa0e818cba730f26626f615ea129532b21bd854bb29b926cb068bba7e6e311"
+    },
+    {
+      "path": "scripts/uiprmd_vicon.py",
+      "sha256_lf": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1"
+    },
+    {
+      "path": "docs/NATIVE_ANGLE_INTAKE_RESEARCH.md",
+      "sha256_lf": "979865d4b74abdfcf92a8a1bcc30b42cd4bf233baa4558b3bb73a94eab99d957"
+    },
+    {
+      "path": "models/uiprmd-evaluation-protocol.json",
+      "sha256": "cec24dad3d99e353817e6039c4ba2798aee8238837d9d29e72d567db1e0bbd81"
+    },
+    {
+      "path": "models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "models/viewport-admission-readiness.evidence.json",
+      "sha256": "b98616c63e84a931fe4165978e4d6411f9b95bc7332e54ee3b84b132b01a40aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/paper.xml",
+      "sha256": "b47ebeb7556b7a37d030a564be33b2aa8aa81bd929d40ce5d42d6c3549c9f01e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/source-receipts.json",
+      "sha256": "88cbfe331386e3f5f39c94ff6b1fc31e3fa346baafd987c0f7e2f276a6a3b3b5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/vicon-guide.pdf",
+      "sha256": "d455cf9419341aa5d7bf320097a97f73857f1b51292c05bf403bf988d648e49b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/acquisition.json",
+      "sha256": "47dde1ad2dfc6fb04ee820f1ad526a27157e099e82c944d8ddd4576abb741c09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/README.md",
+      "sha256": "d411dddc51dec53071934d2b164e5fcebff8b54eacd6c0eb55ef31441ee27868"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Animation.m",
+      "sha256": "1f5300079cc0ec90921e33b80012fb107e37e42bd9168199bf68b1a261e6d958"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-inspection.json",
+      "sha256": "be8a16f6377bfe6434a1841eb8c0437be4abd65d1fa730c5afa50ed247d5c12a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Incorrect Movements.zip",
+      "sha256": "039ffd9bf3d037e7b0971e28cf7c0410f6fed2f90e7d31f7122b2c7a9b036d95"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Incorrect Segmented Movements.zip",
+      "sha256": "d886f76e5096e934f7200a9307a2ad29327ab396a3728439f8e9bcd4717ac154"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Movements.zip",
+      "sha256": "b0d42b786f5e9bb7f7ab21a7e7fdf3aa06d192e25eaaaa4cdcf40932b90c19ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Segmented Movements.zip",
+      "sha256": "37478419e5bd6cdb814a94d1ec0fa0b2dfa6497cae03d25e1c2fbc51c676d721"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s01-correct.json",
+      "sha256": "8d365f5f89e70e3cd0b77631a7ad1f643ec0d47c861087103ce298fc855d086d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s02-correct.json",
+      "sha256": "68e83a5e67b5225591d75ba3cb1543bc1e5b0bddc71b65483b7f8c6daf177aa3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s03-correct.json",
+      "sha256": "c5b67f6887a45126760f724a4299cf224aa58fb028c380cb3d14ff4ab70897fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s04-correct.json",
+      "sha256": "ef18dfd34002c794e76d45e6e0622cb11076700b10d95e27abbf1d8603dbec65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s01-correct.json",
+      "sha256": "dd276a60f3724ae2e7472a22dcf19b75e055599a999ace982b4716727fe37ac5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s02-correct.json",
+      "sha256": "8d7a2e6cf114dbbb467bceb49aef7b567f41d729fefc810c983a8b442a046b47"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s03-correct.json",
+      "sha256": "1be0ef2d848e3394aae572f1b97e9c1203ab0d82930ab3340d634ccc03cb8e51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s04-correct.json",
+      "sha256": "a9bf7d4e9db1b344a19f36ef8fac11befa92d807eae9bc89bdb9c74fb92c7765"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s01-incorrect.json",
+      "sha256": "1636a96db53e7258d50d030a48f706c9e1d48b1bbc505f31310673f661decd3c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s02-incorrect.json",
+      "sha256": "045d351b44b602252889a338c5fde5797a1d55524c123e0f715614f0b2d78462"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s03-incorrect.json",
+      "sha256": "5dc50ab26f0c82fda863e3af38a0318e56c72d23d3cecce44bf9e320566d0329"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s04-incorrect.json",
+      "sha256": "d22bfea373ccd879b1e942a60cb2be8dbb37b410d9c65bb6e7215cded36faa63"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s01-incorrect.json",
+      "sha256": "e726eced1f6add501da50dd790464fe099d744c4df5de5d356813da84d970ffc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s02-incorrect.json",
+      "sha256": "626262dba0c2d6224c47afb05440817544853043886fa291af23e32435acfb2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s03-incorrect.json",
+      "sha256": "2b5dd1cc068f0dbd729d2e9db8d0e6a3ebee08681a114ea560e40ca08d8ed252"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s04-incorrect.json",
+      "sha256": "b7b7c2f694e689126708e2c723d38163d58eee44755e2838bdcc86c3fdf61b3a"
+    }
+  ]
+}
