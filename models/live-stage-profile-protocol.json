@@ -1,0 +1,435 @@
+{
+  "schema": "senpai-live-stage-profile-protocol/1",
+  "frozen_utc": "2026-10-28T11:01:53.633349+00:00",
+  "baseline_metadata_commit": "9bf01134e8a1672f14d6a491652716d645213551",
+  "verified_engine_commit": "872c9f7aa2516e99580e75e188c18a5d3b683881",
+  "compiler": "qualified-rep-compiler/9",
+  "target_api": 35,
+  "abi": "x86_64",
+  "avd_id": "Senpai_API_35",
+  "main_APK_identical_to_verified_viewport_delivery": true,
+  "profile_cases": 4,
+  "warmup_frames_each": 8,
+  "measured_frames_each": 24,
+  "source_images_inspected": 4,
+  "model_selection": "Full pinned by existing reference fixture only",
+  "real_camera_capture_measured": false,
+  "generated_replay_timestamps": true,
+  "original_soak_compiler": "qualified-rep-compiler/5",
+  "new_native_test_inventory": [
+    [
+      "ai.senp.validation.LiveStageProfileInstrumentedTest",
+      "profileProductionComponentsOnFrozenStaticInputsWithoutClaimingCameraLatency"
+    ]
+  ],
+  "allow_final_test_access": false,
+  "allow_validation_access": false,
+  "weights_or_thresholds_changed": false,
+  "production_changed": false,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "runner_receipt": {
+    "path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\work\\live-stage-profile-native.ps1",
+    "sha256": "d10778fdbd2e408b091797c7ca98ac1b9e4fa205eeb0127860540a9ae201e617"
+  },
+  "apk_receipts": [
+    {
+      "path": "validation-app/build/outputs/apk/debug/validation-app-debug.apk",
+      "sha256": "57a4d201d61a7466869d8ddf9e4ff8d6ef2a83650176c780af467cc33b874a58"
+    },
+    {
+      "path": "validation-app/build/outputs/apk/androidTest/debug/validation-app-debug-androidTest.apk",
+      "sha256": "b084a667d7406cb6149f0667c51915152840d34f6df602d2d0e0e5002e18a1cf"
+    }
+  ],
+  "receipts": [
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256_lf": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256_lf": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256_lf": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256_lf": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256_lf": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256_lf": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256_lf": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256_lf": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256_lf": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256_lf": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256_lf": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256_lf": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256_lf": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256_lf": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256_lf": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256_lf": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedMp33Evidence.kt",
+      "sha256_lf": "fb78d2e889273b0f9366502ed7204cb0e4ba1d68d3be956b2ae9a9a1a44dceac"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256_lf": "6b96f2348e0d918ee316cdeb53e36f8bdc451a2f0f6bb5836486dc0e14d3660f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256_lf": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256_lf": "7162e76fa7ac4bdf46f75b3d6ed23645da8c3e1756140f798531243ef589c5a9"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256_lf": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256_lf": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256_lf": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256_lf": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256_lf": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256_lf": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256_lf": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256_lf": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256_lf": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256_lf": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256_lf": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256_lf": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256_lf": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256_lf": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256_lf": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256_lf": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256_lf": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256_lf": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256_lf": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256_lf": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256_lf": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256_lf": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256_lf": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveFrameGate.kt",
+      "sha256_lf": "3813a9428604f4fc09b354ec8754cfa6c3b48f79f8efc13f229e5cbb4b852ec6"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveMediaPipePoseEstimator.kt",
+      "sha256_lf": "3e16861e3b1c48e36071aa7ec1b41f22da22291446313dc648d012ccb0467e11"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LivePoseModel.kt",
+      "sha256_lf": "b152c69e80fd4c9b187b4ef992a22091052a1b2135d35fa5e1ec8412f1bebeab"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveTrackerResetPolicy.kt",
+      "sha256_lf": "26bb21c031dc5b6084121b0256109a0b41e52b3e39147c4e20058a6821c78b06"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/MediaPipePoseEstimator.kt",
+      "sha256_lf": "bedf4b38ce31eb1f3be7a8d61178b1a44f9deb2249a17f7489ba697ead6b5fb3"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/VerifiedPoseModelBuffer.kt",
+      "sha256_lf": "c6e623ff3ae9f58b32ecf3a9ed371460838034b0a6623476aeacedf5b8d1bdf9"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/EngineComposition.kt",
+      "sha256_lf": "3419480d5e3eb57642fdc326d3d9d737c4debab786e174619690cc27a7d8c219"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/FrameReviewIntegration.kt",
+      "sha256_lf": "42cca0ebb6cb856e25f6164d575c9ef412921c6116ff2aab1e828fc801fd7568"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LiveCameraDiagnostics.kt",
+      "sha256_lf": "a4612fdc226cbf684469224f6696138a1d7b45e62e67903a8f06522dc401e1ae"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LiveCameraFrame.kt",
+      "sha256_lf": "77208cc9146fed0c4691cefb603eac54fa1957eddda6956fd25652ef4406daac"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LivePushUpActivity.kt",
+      "sha256_lf": "13109ba6c2e8bd2c788d9befe24514fb111dfe7cd14c893bff4532df170c6e6b"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LiveReferenceActionActivity.kt",
+      "sha256_lf": "5e75020f5dfc5f161df9b813ad56a051e62770306fddb5d1b553787cf5b85e83"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/QualifiedReferenceBackend.kt",
+      "sha256_lf": "fed0d3906da7f4c5e5470a2c7edcedcc2dc8a0bc6350b2b7e61e8e02325c8b05"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/RecordedComparisonAssembly.kt",
+      "sha256_lf": "4ccb7090f7f25654398f2ed2b456397fc84425c191c69fc3de64cb1557b23e3e"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ReferenceActionSession.kt",
+      "sha256_lf": "52ddea3f83541c56660c638f80a0baf3268a9b0d2f7bb72ef36be342c5f75785"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ValidationActivity.kt",
+      "sha256_lf": "6f2b90d599259f7a75f025eb820bd1ec43fff1d8529ff1f6286eab403db751aa"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/SenpApp.kt",
+      "sha256_lf": "b2ee0f6b37229e8617e7b92048084ba70db7584683af4c187f31194fce34b656"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/SenpEngineViewModel.kt",
+      "sha256_lf": "a91f3440fc0115a222bfb1e1e8f74674b748b3f7a77e25a30518d12d26141006"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/components/DiagnosticsBottomSheet.kt",
+      "sha256_lf": "8875ff90763bd2edbf1eaea3e1a5ed222c8c15ff3c9097ba281d4e6f2348836c"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/components/PoseLandmarkOverlay.kt",
+      "sha256_lf": "96cfa25a8a4812afb805a034ec335281002729caa696af9582459d0b252b3bbc"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/screens/AnalysisPlayerScreen.kt",
+      "sha256_lf": "9342fc373aed3721e2e80176907913870e457f09e57e6d0132b518f1020468d0"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/screens/AnalysisProgressScreen.kt",
+      "sha256_lf": "f1e4fc0af6fb36c5ce9236e3d30de95b3f5dca470695fda9486f78f5f83e7db6"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/screens/ConfigurationScreen.kt",
+      "sha256_lf": "4d16f63a952eb96d05023a165a96aad4dfa5233a504d0eb859b4b6a6c2d42529"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/screens/PlaybackMapping.kt",
+      "sha256_lf": "b07b39842d831ec3acd2c8ccf5b0505b09db4b19a894dd0a515225729916beff"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/screens/VideoEditorScreen.kt",
+      "sha256_lf": "fd3b6fae0a45f48ec9b4befc43112dfedb66087f4ec8bbecb056d1064d78ac80"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/state/SenpEngineState.kt",
+      "sha256_lf": "a0404dd1868f094879c0fbb8b443aceae57d6cde495f1089b68acbf818480b0c"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/theme/Glassmorphism.kt",
+      "sha256_lf": "96094bc3b9131c720298b4cb80f5aae47f36062078127cdcf9a830c877eb29a7"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/ui/theme/Theme.kt",
+      "sha256_lf": "06f65ef601d14f95c8452ff28d402957c4ad4593ac1be1b72c09f76e122cd64f"
+    },
+    {
+      "path": "validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/LiveStageProfileInstrumentedTest.kt",
+      "sha256_lf": "0a3f670f9291d821cbf1a05c6335356bfea462210e5c20206614667685cd4b18"
+    },
+    {
+      "path": "scripts/live-stage-profile.init.gradle",
+      "sha256_lf": "1ba40511d6ddfbb7e37ba4c2f9ae69bc09738695c02a274f5c56f78794f98998"
+    },
+    {
+      "path": "scripts/profile_live_processing_stages.py",
+      "sha256_lf": "2c4df4b73170de450aaf418a084e2ea0152e5c327147ba63cf54a9cc08ca34e3"
+    },
+    {
+      "path": "scripts/tests/test_live_stage_profile.py",
+      "sha256_lf": "83261b33af0d3e4866c67cefd012422beb09d8cd13f643c21ce7c7d8bf789c4f"
+    },
+    {
+      "path": "scripts/analyze_live_camera_soak.py",
+      "sha256_lf": "3aa569d296998c1880e51667cdfa7b53965049586a6354a5796df7d052b92817"
+    },
+    {
+      "path": "docs/LIVE_STAGE_PROFILE_RESEARCH.md",
+      "sha256_lf": "cf98f8583e96caec810d00b33f9fb1c6fb519012a48cc6a4029638ef6f51b377"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/assets/stage-profile/manifest.json",
+      "sha256": "ebeef83022bc06842fb304223824f723e26368fa58dfb822c7fcc4033be75e81"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/assets/stage-profile/recorded-virtual-end.jpg",
+      "sha256": "d2a453efeab9d0d569458d9e019770e73b4830f5d4e288e91046365a78a2be90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/assets/stage-profile/recorded-virtual-mid.jpg",
+      "sha256": "f3d4dac12b1bfd8c266a90c4b8c8133605d384afb86c7060e714ab23acaea834"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/assets/stage-profile/recorded-virtual-start.jpg",
+      "sha256": "8af787258ad2b3deace0bb6159bef58c52e193bac16f86b9678e9796ebfecf0e"
+    },
+    {
+      "path": "models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "models/viewport-admission-readiness.evidence.json",
+      "sha256": "b98616c63e84a931fe4165978e4d6411f9b95bc7332e54ee3b84b132b01a40aa"
+    },
+    {
+      "path": "models/live-pose-fixtures.provenance.json",
+      "sha256": "ee1201afd699f6757a16c41b43f35d91caabdcb420f835b2fe1fa525f0e8e6ff"
+    },
+    {
+      "path": "build/generated/live-pose-fixtures/pose.jpg",
+      "sha256": "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b"
+    },
+    {
+      "path": "validation-app/src/androidTest/resources/qualified-rep-native.json.gz",
+      "sha256": "26a28034a15f3616cb4908d26e918b745e4e6f9b556bf3c85cba1500b2162e64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/audit.json",
+      "sha256": "209f63ee23fd79a72cf913c1eb38395d594916589f8fd786074c18da5114a5ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/summary.json",
+      "sha256": "ffcfbcf4708d00606a4a4a2f0a089c07e845838540f8e4b1469f8b1843c41521"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/frames.csv",
+      "sha256": "b7dfd3c08c22a799c86709a2818052a341f3b727f7cbc94828202df5a76ff023"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/memory.json",
+      "sha256": "509e1c9d3659e0f7267b9317f2cf81c0371ebc213019e0196772146aa156f1b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-13947119613100.jpg",
+      "sha256": "8af787258ad2b3deace0bb6159bef58c52e193bac16f86b9678e9796ebfecf0e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-13947119613100.json",
+      "sha256": "e732e8e778842a29bc83c0fa22a5b29ed81d7caae27f5e5c3dae7b91d878ba94"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-14247068659600.jpg",
+      "sha256": "f3d4dac12b1bfd8c266a90c4b8c8133605d384afb86c7060e714ab23acaea834"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-14247068659600.json",
+      "sha256": "6a1e77e81c28ba63afe05d36cd167dc3883a656edc0c10c94257241210beecbc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-14546713570200.jpg",
+      "sha256": "d2a453efeab9d0d569458d9e019770e73b4830f5d4e288e91046365a78a2be90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-14546713570200.json",
+      "sha256": "1fa53fce8a6efb0fe57d3eca611cc5185ef028a28090d16c054da0664e361801"
+    }
+  ]
+}
