@@ -1,0 +1,10 @@
+gradle.projectsEvaluated {
+    def core=gradle.rootProject.project(':core-motion')
+    core.tasks.register('inImageSourceAudit',JavaExec) {
+        dependsOn(core.tasks.named('testClasses'))
+        classpath=core.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.InImageSourceAudit'
+        args(gradle.rootProject.projectDir.absolutePath)
+        maxHeapSize='1800m'
+    }
+}

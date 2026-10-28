@@ -1,0 +1,1566 @@
+{
+  "schema": "senpai-in-image-source-protocol/1",
+  "frozen_utc": "2026-10-28T05:08:11.819113+00:00",
+  "baseline_metadata_commit": "30118bb27feba1ac71a419ab34e9ad7fa508fbbe",
+  "verified_engine_commit": "6d1386b4cefe8a9a6b3b5a6aefcc19389c322c71",
+  "compiler": "qualified-rep-compiler/8",
+  "pipeline": "mp33-raw-world-in-image-evidence-research/1",
+  "models": {
+    "full": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+    "heavy": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+  },
+  "reference_only": false,
+  "allow_source_replay": true,
+  "allow_validation_access": false,
+  "allow_final_test_access": false,
+  "reference_screen": "test-artifacts/exercise-knowledge/in-image-reference-screen.json",
+  "references": [
+    {
+      "video": "subject_001_bicep_curl_good_front.mp4",
+      "source_sha256": "a7567a9201124b6580675ea5a16c47c73b8491c90d1b71d7ce6e2c924e33a9da",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_bicep_curl_good_front.json.gz"
+    },
+    {
+      "video": "subject_001_bicep_curl_good_side.mp4",
+      "source_sha256": "d55d8eb2f8d334095a4ed0c37e55c96d7f8b00eb8cf4806633b8fef65d356148",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_bicep_curl_good_side.json.gz"
+    },
+    {
+      "video": "subject_001_push_up_good_front.mp4",
+      "source_sha256": "dec7e02e38e5b6fb1aed167ba0e5b33f610615a1e94d5cba96e292363e2259d6",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_push_up_good_front.json.gz"
+    },
+    {
+      "video": "subject_001_push_up_good_side.mp4",
+      "source_sha256": "f437f915e8d1cb8dd651bbf3f63a80527bac74200429075bd1d3d6ec7c6a6a0d",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_push_up_good_side.json.gz"
+    },
+    {
+      "video": "subject_001_shoulder_good_front.mp4",
+      "source_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_shoulder_good_front.json.gz"
+    },
+    {
+      "video": "subject_001_shoulder_good_side.mp4",
+      "source_sha256": "58365bfb99a0533cd3771f37f729eaf77f6b4056064f5476b24fac302008a214",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_shoulder_good_side.json.gz"
+    },
+    {
+      "video": "subject_001_squat_good_front.mp4",
+      "source_sha256": "a268198533b49672e45dcae4f87c68daeb1334191b82f5dbfabb35204f68c52e",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_squat_good_front.json.gz"
+    },
+    {
+      "video": "subject_001_squat_good_side.mp4",
+      "source_sha256": "71408510449717414d614e1e1a0a7ca498b7d8463f81d3375ea9da87fc18e7af",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_squat_good_side.json.gz"
+    },
+    {
+      "video": "subject_005_bicep_curl_good_front.mp4",
+      "source_sha256": "cd356c554c8078a383fdcfc21d84cabd83f8442b8ecdfbc7bccdb131785a4778",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_bicep_curl_good_front.json.gz"
+    },
+    {
+      "video": "subject_005_bicep_curl_good_side.mp4",
+      "source_sha256": "ab339121e1b4c28ce8867763f85845715a3946a7fdbb031cdf0a3773cbc19272",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_bicep_curl_good_side.json.gz"
+    },
+    {
+      "video": "subject_005_push_up_good_front.mp4",
+      "source_sha256": "6e82daa9ed917ca646f22cc773ca574b286ee6d003e5f096e930b12b652f27fc",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_push_up_good_front.json.gz"
+    },
+    {
+      "video": "subject_005_push_up_good_side.mp4",
+      "source_sha256": "0ac8ad70d6ba1d75b5ae2ba5d50113e94af02fab6e762a229ad4e37c19202b1e",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_push_up_good_side.json.gz"
+    },
+    {
+      "video": "subject_005_shoulder_good_front.mp4",
+      "source_sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_shoulder_good_front.json.gz"
+    },
+    {
+      "video": "subject_005_shoulder_good_side.mp4",
+      "source_sha256": "ee0f7bef8d6436bef19cfcd4eea67950be1ca2b614d5bc4a7f55f890da6c94b2",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_shoulder_good_side.json.gz"
+    },
+    {
+      "video": "subject_005_squat_good_front.mp4",
+      "source_sha256": "ddb822322967c5d19beb39074ff36b0e05d284813ae18dcb6e998e1a30be6acb",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_squat_good_front.json.gz"
+    },
+    {
+      "video": "subject_005_squat_good_side.mp4",
+      "source_sha256": "fd3e269778204f18c035aec90ba83bfad633b1202b88847b5784c1dc3d305570",
+      "full_cache_path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_squat_good_side.json.gz"
+    }
+  ],
+  "sources": [
+    {
+      "video": "subject_001_bicep_curl_bad_front.mp4",
+      "reference_video": "subject_005_bicep_curl_good_front.mp4",
+      "source_sha256": "b72f1eb1f1b2a9d4157b63e67085de66eaa3a3926fdcf8e9a7108e32b99d9f1e",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_bad_front.json.gz"
+    },
+    {
+      "video": "subject_001_bicep_curl_bad_side.mp4",
+      "reference_video": "subject_005_bicep_curl_good_side.mp4",
+      "source_sha256": "886341fa763d60d8dc17b5420212c6b054516409cc529472f15e7032ee5f533e",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_bad_side.json.gz"
+    },
+    {
+      "video": "subject_001_bicep_curl_good_front.mp4",
+      "reference_video": "subject_005_bicep_curl_good_front.mp4",
+      "source_sha256": "a7567a9201124b6580675ea5a16c47c73b8491c90d1b71d7ce6e2c924e33a9da",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_good_front.json.gz"
+    },
+    {
+      "video": "subject_001_bicep_curl_good_side.mp4",
+      "reference_video": "subject_005_bicep_curl_good_side.mp4",
+      "source_sha256": "d55d8eb2f8d334095a4ed0c37e55c96d7f8b00eb8cf4806633b8fef65d356148",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_good_side.json.gz"
+    },
+    {
+      "video": "subject_001_push_up_bad_front.mp4",
+      "reference_video": "subject_005_push_up_good_front.mp4",
+      "source_sha256": "b12231581b6d02e3a39d10be62a1b027c9343059eef989c626e6dee025a580f8",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_bad_front.json.gz"
+    },
+    {
+      "video": "subject_001_push_up_bad_side.mp4",
+      "reference_video": "subject_005_push_up_good_side.mp4",
+      "source_sha256": "d41d899c9c89c5cc99bb8e3c3602f284aa774371632c79900bb918b1b80e1976",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_bad_side.json.gz"
+    },
+    {
+      "video": "subject_001_push_up_good_front.mp4",
+      "reference_video": "subject_005_push_up_good_front.mp4",
+      "source_sha256": "dec7e02e38e5b6fb1aed167ba0e5b33f610615a1e94d5cba96e292363e2259d6",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_good_front.json.gz"
+    },
+    {
+      "video": "subject_001_push_up_good_side.mp4",
+      "reference_video": "subject_005_push_up_good_side.mp4",
+      "source_sha256": "f437f915e8d1cb8dd651bbf3f63a80527bac74200429075bd1d3d6ec7c6a6a0d",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_good_side.json.gz"
+    },
+    {
+      "video": "subject_001_shoulder_bad_front.mp4",
+      "reference_video": "subject_005_shoulder_good_front.mp4",
+      "source_sha256": "9bd8a764c6575135e494f3e728104d5295f6e41ccdec8f7706d2e4a1f37f11bb",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_bad_front.json.gz"
+    },
+    {
+      "video": "subject_001_shoulder_bad_side.mp4",
+      "reference_video": "subject_005_shoulder_good_side.mp4",
+      "source_sha256": "06b6d20c36dddbe6059c028f37ea57fc13f7827cd38d398c63e5e06ae036b7c2",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_bad_side.json.gz"
+    },
+    {
+      "video": "subject_001_shoulder_good_front.mp4",
+      "reference_video": "subject_005_shoulder_good_front.mp4",
+      "source_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_good_front.json.gz"
+    },
+    {
+      "video": "subject_001_shoulder_good_side.mp4",
+      "reference_video": "subject_005_shoulder_good_side.mp4",
+      "source_sha256": "58365bfb99a0533cd3771f37f729eaf77f6b4056064f5476b24fac302008a214",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_good_side.json.gz"
+    },
+    {
+      "video": "subject_001_squat_bad_front.mp4",
+      "reference_video": "subject_005_squat_good_front.mp4",
+      "source_sha256": "55c7b72a314c0f1b8194a279f2b9b1d921cfd0a239658d872afc777adbf283d4",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_bad_front.json.gz"
+    },
+    {
+      "video": "subject_001_squat_bad_side.mp4",
+      "reference_video": "subject_005_squat_good_side.mp4",
+      "source_sha256": "68e23ba81449591d793cb71c93bff36083d2c3c552ac984309b8ddb834f12c04",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_bad_side.json.gz"
+    },
+    {
+      "video": "subject_001_squat_good_front.mp4",
+      "reference_video": "subject_005_squat_good_front.mp4",
+      "source_sha256": "a268198533b49672e45dcae4f87c68daeb1334191b82f5dbfabb35204f68c52e",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_good_front.json.gz"
+    },
+    {
+      "video": "subject_001_squat_good_side.mp4",
+      "reference_video": "subject_005_squat_good_side.mp4",
+      "source_sha256": "71408510449717414d614e1e1a0a7ca498b7d8463f81d3375ea9da87fc18e7af",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_good_side.json.gz"
+    },
+    {
+      "video": "subject_005_bicep_curl_bad_front.mp4",
+      "reference_video": "subject_001_bicep_curl_good_front.mp4",
+      "source_sha256": "9d2d2d32b9e7bb58da893aa21f7781012dffcb0dd0ac57b875d505566bdc0f68",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_bad_front.json.gz"
+    },
+    {
+      "video": "subject_005_bicep_curl_bad_side.mp4",
+      "reference_video": "subject_001_bicep_curl_good_side.mp4",
+      "source_sha256": "f5040ebd2e8f8f0ba851089a6bd3168bc62991f9ea767dd87117115a747eb239",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_bad_side.json.gz"
+    },
+    {
+      "video": "subject_005_bicep_curl_good_front.mp4",
+      "reference_video": "subject_001_bicep_curl_good_front.mp4",
+      "source_sha256": "cd356c554c8078a383fdcfc21d84cabd83f8442b8ecdfbc7bccdb131785a4778",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_good_front.json.gz"
+    },
+    {
+      "video": "subject_005_bicep_curl_good_side.mp4",
+      "reference_video": "subject_001_bicep_curl_good_side.mp4",
+      "source_sha256": "ab339121e1b4c28ce8867763f85845715a3946a7fdbb031cdf0a3773cbc19272",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_good_side.json.gz"
+    },
+    {
+      "video": "subject_005_push_up_bad_front.mp4",
+      "reference_video": "subject_001_push_up_good_front.mp4",
+      "source_sha256": "d4c36dd7452eec624d4a0afda5bbede275a37694e3376a7d70ec5c02496c5d56",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_bad_front.json.gz"
+    },
+    {
+      "video": "subject_005_push_up_bad_side.mp4",
+      "reference_video": "subject_001_push_up_good_side.mp4",
+      "source_sha256": "d05c5fc35f7b0761acee5115b1bfdc50288308b2c4fd2b7fba2d6a838139c9ac",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_bad_side.json.gz"
+    },
+    {
+      "video": "subject_005_push_up_good_front.mp4",
+      "reference_video": "subject_001_push_up_good_front.mp4",
+      "source_sha256": "6e82daa9ed917ca646f22cc773ca574b286ee6d003e5f096e930b12b652f27fc",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_good_front.json.gz"
+    },
+    {
+      "video": "subject_005_push_up_good_side.mp4",
+      "reference_video": "subject_001_push_up_good_side.mp4",
+      "source_sha256": "0ac8ad70d6ba1d75b5ae2ba5d50113e94af02fab6e762a229ad4e37c19202b1e",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_good_side.json.gz"
+    },
+    {
+      "video": "subject_005_shoulder_bad_front.mp4",
+      "reference_video": "subject_001_shoulder_good_front.mp4",
+      "source_sha256": "073f81be93eb93fd39281f86e04f45934bdd6ba8c39830a7989626d36fd201e3",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_bad_front.json.gz"
+    },
+    {
+      "video": "subject_005_shoulder_bad_side.mp4",
+      "reference_video": "subject_001_shoulder_good_side.mp4",
+      "source_sha256": "a17cd568d009f4bd161a7628e0be4f3d00dc5c9c1ff275381a04701e59637cf8",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_bad_side.json.gz"
+    },
+    {
+      "video": "subject_005_shoulder_good_front.mp4",
+      "reference_video": "subject_001_shoulder_good_front.mp4",
+      "source_sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_good_front.json.gz"
+    },
+    {
+      "video": "subject_005_shoulder_good_side.mp4",
+      "reference_video": "subject_001_shoulder_good_side.mp4",
+      "source_sha256": "ee0f7bef8d6436bef19cfcd4eea67950be1ca2b614d5bc4a7f55f890da6c94b2",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_good_side.json.gz"
+    },
+    {
+      "video": "subject_005_squat_bad_front.mp4",
+      "reference_video": "subject_001_squat_good_front.mp4",
+      "source_sha256": "0b74127019e4a519d52175fd15cce76aa7c63d13a35b077e9997ff8d31ffa25d",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_bad_front.json.gz"
+    },
+    {
+      "video": "subject_005_squat_bad_side.mp4",
+      "reference_video": "subject_001_squat_good_side.mp4",
+      "source_sha256": "7ddfce41ffdd67a7cd4a25fbb8ae62b88ba71bb0b4aaf6953a77c9137fc14648",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_bad_side.json.gz"
+    },
+    {
+      "video": "subject_005_squat_good_front.mp4",
+      "reference_video": "subject_001_squat_good_front.mp4",
+      "source_sha256": "ddb822322967c5d19beb39074ff36b0e05d284813ae18dcb6e998e1a30be6acb",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_good_front.json.gz"
+    },
+    {
+      "video": "subject_005_squat_good_side.mp4",
+      "reference_video": "subject_001_squat_good_side.mp4",
+      "source_sha256": "fd3e269778204f18c035aec90ba83bfad633b1202b88847b5784c1dc3d305570",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_good_side.json.gz"
+    },
+    {
+      "video": "subject_018_bicep_curl_bad_front.mp4",
+      "reference_video": "subject_001_bicep_curl_good_front.mp4",
+      "source_sha256": "a2bdc8da2070f958ac45b8546024ee4b284866ec75ea0c9ae0cf9d5f31a05236",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_bad_front.json.gz"
+    },
+    {
+      "video": "subject_018_bicep_curl_bad_side.mp4",
+      "reference_video": "subject_001_bicep_curl_good_side.mp4",
+      "source_sha256": "c9b2a305e0a02ad250cdc5b5374eafdc72f9bb85c29611b53d01575292028a2d",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_bad_side.json.gz"
+    },
+    {
+      "video": "subject_018_bicep_curl_good_front.mp4",
+      "reference_video": "subject_001_bicep_curl_good_front.mp4",
+      "source_sha256": "3c9db410485690444319c63937cad3e370e0a1d84513d48c3c5ce5f1e5860c0d",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_good_front.json.gz"
+    },
+    {
+      "video": "subject_018_bicep_curl_good_side.mp4",
+      "reference_video": "subject_001_bicep_curl_good_side.mp4",
+      "source_sha256": "e51ecc3a77647c86aea3e7c3f744298d1f0f58dc489e3b4abcef8347a913d385",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_good_side.json.gz"
+    },
+    {
+      "video": "subject_018_push_up_bad_front.mp4",
+      "reference_video": "subject_001_push_up_good_front.mp4",
+      "source_sha256": "861b615fa29eca8eba7237bbc4d8137d3d0325b99e9095e672498059b4422390",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_bad_front.json.gz"
+    },
+    {
+      "video": "subject_018_push_up_bad_side.mp4",
+      "reference_video": "subject_001_push_up_good_side.mp4",
+      "source_sha256": "0d929360090f5e3af54d604ce6e94266ab0ce30830a40b6fcc6140cdad3bb02f",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_bad_side.json.gz"
+    },
+    {
+      "video": "subject_018_push_up_good_front.mp4",
+      "reference_video": "subject_001_push_up_good_front.mp4",
+      "source_sha256": "49857ba7187c5311c908ce71a787a56115b0257035c1dafaf694b9b65513cdd8",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_good_front.json.gz"
+    },
+    {
+      "video": "subject_018_push_up_good_side.mp4",
+      "reference_video": "subject_001_push_up_good_side.mp4",
+      "source_sha256": "c19242117db5201e438e6dd68ecbdae7258a6e3620a39d18341e342fa675f8a7",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_good_side.json.gz"
+    },
+    {
+      "video": "subject_018_shoulder_bad_front.mp4",
+      "reference_video": "subject_001_shoulder_good_front.mp4",
+      "source_sha256": "de52da931d823b12fd1f824c2d4505b32705df507671b95b79f5635afc02dab0",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_bad_front.json.gz"
+    },
+    {
+      "video": "subject_018_shoulder_bad_side.mp4",
+      "reference_video": "subject_001_shoulder_good_side.mp4",
+      "source_sha256": "16096756cb339daa0516c5d39269d559de539914bdd26ce568243f02684a03f0",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_bad_side.json.gz"
+    },
+    {
+      "video": "subject_018_shoulder_good_front.mp4",
+      "reference_video": "subject_001_shoulder_good_front.mp4",
+      "source_sha256": "137824b720ed9eb0ea56c6f77a9d524126586bcfeeb81626298e34a8a37a2840",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_good_front.json.gz"
+    },
+    {
+      "video": "subject_018_shoulder_good_side.mp4",
+      "reference_video": "subject_001_shoulder_good_side.mp4",
+      "source_sha256": "0822fd5dd956044936a6c8208048eaa80431ff0c341861bae6660b5f61d9bb0f",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_good_side.json.gz"
+    },
+    {
+      "video": "subject_018_squat_bad_front.mp4",
+      "reference_video": "subject_001_squat_good_front.mp4",
+      "source_sha256": "36fe4f5cee710a0d0c033e00dae18afcc7f173e6a5d200fdfa0c32667f341bb6",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_bad_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_bad_front.json.gz"
+    },
+    {
+      "video": "subject_018_squat_bad_side.mp4",
+      "reference_video": "subject_001_squat_good_side.mp4",
+      "source_sha256": "a5d0ff01ab16b37e3fe659d0eac2415064435cc7d0a45b59ae0ac4329141874a",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_bad_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_bad_side.json.gz"
+    },
+    {
+      "video": "subject_018_squat_good_front.mp4",
+      "reference_video": "subject_001_squat_good_front.mp4",
+      "source_sha256": "97f5f32a278e4db22d141016eb18bf9f137a2f9e74c4314b98477747384d43fc",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_good_front.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_good_front.json.gz"
+    },
+    {
+      "video": "subject_018_squat_good_side.mp4",
+      "reference_video": "subject_001_squat_good_side.mp4",
+      "source_sha256": "21014302d231ec006ea15c0e8d3ca004a4053e716f487652b9bf043a586f9659",
+      "full_cache_path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_good_side.json.gz",
+      "heavy_cache_path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_good_side.json.gz"
+    }
+  ],
+  "fixed_source_sides": 96,
+  "reference_qualified_source_sides": 36,
+  "expected_variant_replays": 72,
+  "selection": "frozen-complete-reference-only-backend-and-fit",
+  "production_changed": false,
+  "readiness_points_earned": 0,
+  "human_rep_precision": null,
+  "receipts": [
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256_lf": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256_lf": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256_lf": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256_lf": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256_lf": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256_lf": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256_lf": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256_lf": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256_lf": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256_lf": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256_lf": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256_lf": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256_lf": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256_lf": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256_lf": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256_lf": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256_lf": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256_lf": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256_lf": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256_lf": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256_lf": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256_lf": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256_lf": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256_lf": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256_lf": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256_lf": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256_lf": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256_lf": "6b96f2348e0d918ee316cdeb53e36f8bdc451a2f0f6bb5836486dc0e14d3660f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256_lf": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256_lf": "492acbb9afea38cb5579b78ae6c424ff1a5966b7b7404871167412a0c5495a2c"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256_lf": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256_lf": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256_lf": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256_lf": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256_lf": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256_lf": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256_lf": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256_lf": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256_lf": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256_lf": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256_lf": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256_lf": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/InImageMp33Evidence.kt",
+      "sha256_lf": "266ff62fceb4ca51aec6a0419427d5f0d98a61b10d0902b3623213bc7e394774"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/InImageMp33EvidenceTest.kt",
+      "sha256_lf": "cad37c0905e76b2274efe3b36e5b45323e76caa8b226647fa00a0129d438298f"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/InImageReferenceAudit.kt",
+      "sha256_lf": "78a45deb588d46d4ab06bcb0f12a1289162d6bfcebe59e27b0c14d240967dd62"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReplayTool.kt",
+      "sha256_lf": "a65132593d2dd0a8e5c07d4b684722770a61b0bc7443eb7240b716ed24c77e59"
+    },
+    {
+      "path": "scripts/extract_exercise_quality_features.py",
+      "sha256_lf": "da63011034f2ee4fa0c7e5d39215b2011108f994912cd5a4499325a77969136f"
+    },
+    {
+      "path": "scripts/extract_image_reference_candidates.py",
+      "sha256_lf": "d99d38a23213be7bf61d1c3f33452e92da2a9dc6b7b70446f5c1fb4ff265d294"
+    },
+    {
+      "path": "scripts/in-image-reference-research.init.gradle",
+      "sha256_lf": "e02a2209a11b2a99ebaf0a69c0b214af75e31c9f78a93bb43e715944dd1ede29"
+    },
+    {
+      "path": "scripts/plot_in_image_reference.py",
+      "sha256_lf": "a51d1e1afe4901102c0d7908880268ee4c6116b7bd7162ab08c8eb149202bb98"
+    },
+    {
+      "path": "models/preparation-fault-readiness.evidence.json",
+      "sha256": "08a81d01b13d3acf2c2c1526a9e0040c370e8a6676e561b99fb715fc3ee8105a"
+    },
+    {
+      "path": "models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "c7d3817f8dcd2650c27b6dca705823a22273af9e3815ec3ef3b40f7bc41ece04"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "2e7d45ded2b9d4f3d373ff2f9c88b093c17a29fd71f10b19860ca838ff08e2f8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "d9e2eb1397b13f99643d2efa8cb9b19820a9a8cd9b4119eed9c628bf02e62f51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "19cb6c502deab38a3a3a1df3614c8b1a0ee29606a137bb5d86b23de160b70cc6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "7874b4df273bd01829fb5808728e2d21146a71d16d3fe1df3b44809a7842422c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "81da0eb8093a44f3b90e1a34d40cc3e6409d2ad0bd7389b17c115af8df222f6c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "5115fe2d3cabc306d174764d6cc160c83c4bd0114cf611e7d9fd280793b712da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "3d38f0e6d29be161b3186d206f6a9e331845df00a3d37b265e37ba3b3417fb35"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "69ab5680ebf4f7d27dde11429fc18c225866f000ea509674da68dd7a841f3522"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "1bd49828bed78703b39ebbbbacc607bd88fdf1435ea3c6a8eaa844f72b0cd84b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "0d1461cb1cc40945c7e720bb73fd0f7b4aea5ef34223d6fbd0f687e7f48ecd72"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "22c3a7fd74e644810365d6eb0d3fc4e8127b74e8a885c1bb8c0b2fe89e3574bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "86b919dac76f1d5ed946fce690fd049ab98dacd8a86890039f5a13866663e52a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "c53000f8ef346a60576ad7553a9886399cc860979e596424e00d56fd062f0ed7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "3ad748ba6c0d4f7d8b6cfe007c5ba328b6246fd9ed4bb00c4381dcd586d97bb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "81cab3ecbd50f11d9e457b7ef1f70bd6f1bbe8f521642f47be758e4175962e57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "3e8ecc543bfbc7d392379b2a859c3adc23d8ec76f2186075c94ee267835acb1b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "d82c756a748957e3bd113514058a3821b466a9bb6f4ea442b7f633ace3a102c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "019d31e862bb0ba83c6ef1a4eb2cff83f6ce6049b4566e0a8a670effeb0a53d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "2e02bc228e871b15f4d08cb16f60981413f07a4dac98ccc7a475c2fa894a6b0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "1a1a3f5b6449763a6f6acf348069b369ec693b1b4bfa9ac5adddc26debea45fa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "a3dafe79ac3688c312d8d8965466bb972b01deaca6f010f5dc8cdda2a0e55751"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "b8b9ea2838085dbee195c5658e32b64a78c1e0cbcad7633015ae14b998dbed9a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "8dea09b54a3470164d9800dce1dfcb57c6b7d23e7bf051a2cf11b2ac8c196db9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "c792ad78192684ee9c5c3228967f7f42cfef2d3484817ed8e832a2b64ce36576"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "b636ec35d1f5f326d499ca82807f97d89fc22ecd62e25baef77aa29eae6a9dba"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "bb8aa378e0fd5166d1f580303c0f4c1c22cfdcf98983b6786faee0443bb74ba1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "e5361f8a31bee0c092b7173396a013793e318a7e4f4ed68d828c08bf68f33ce4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "f18c06d66fc499480fb3738797498aa9c24deb164a78c21f2b15f54a79836f25"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "70926b7f7d8fe7e134bf03a2e09bed42d3edaaabee1c63d2f168e310aaabcd57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "4d9d1ffd3f7b1167f0405c0f2802161e1fdf196934dc33415da6c998c5a222b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-heavy-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "cfa1d9bff61c43ce342e97b97249774ccbe60eeecda60ce7bd0752f1b1dc2e66"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-summary/complete-reference-backend-selection.json",
+      "sha256": "a793fdbf2643a27e418f295bde63c11b60b8307a92e67a06e5329cb6ff852be7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-extraction-report.json",
+      "sha256": "6a8b0afd33764fa1d128d08bfcbc425c2f78fe18585ed49b1f1cdbca406a725b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_good_front.mp4",
+      "sha256": "a7567a9201124b6580675ea5a16c47c73b8491c90d1b71d7ce6e2c924e33a9da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_good_side.mp4",
+      "sha256": "d55d8eb2f8d334095a4ed0c37e55c96d7f8b00eb8cf4806633b8fef65d356148"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_good_front.mp4",
+      "sha256": "dec7e02e38e5b6fb1aed167ba0e5b33f610615a1e94d5cba96e292363e2259d6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_good_side.mp4",
+      "sha256": "f437f915e8d1cb8dd651bbf3f63a80527bac74200429075bd1d3d6ec7c6a6a0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_good_front.mp4",
+      "sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_good_side.mp4",
+      "sha256": "58365bfb99a0533cd3771f37f729eaf77f6b4056064f5476b24fac302008a214"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_good_front.mp4",
+      "sha256": "a268198533b49672e45dcae4f87c68daeb1334191b82f5dbfabb35204f68c52e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_good_side.mp4",
+      "sha256": "71408510449717414d614e1e1a0a7ca498b7d8463f81d3375ea9da87fc18e7af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_good_front.mp4",
+      "sha256": "cd356c554c8078a383fdcfc21d84cabd83f8442b8ecdfbc7bccdb131785a4778"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_good_side.mp4",
+      "sha256": "ab339121e1b4c28ce8867763f85845715a3946a7fdbb031cdf0a3773cbc19272"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_good_front.mp4",
+      "sha256": "6e82daa9ed917ca646f22cc773ca574b286ee6d003e5f096e930b12b652f27fc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_good_side.mp4",
+      "sha256": "0ac8ad70d6ba1d75b5ae2ba5d50113e94af02fab6e762a229ad4e37c19202b1e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_good_front.mp4",
+      "sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_good_side.mp4",
+      "sha256": "ee0f7bef8d6436bef19cfcd4eea67950be1ca2b614d5bc4a7f55f890da6c94b2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_good_front.mp4",
+      "sha256": "ddb822322967c5d19beb39074ff36b0e05d284813ae18dcb6e998e1a30be6acb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_good_side.mp4",
+      "sha256": "fd3e269778204f18c035aec90ba83bfad633b1202b88847b5784c1dc3d305570"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/InImageSourceAudit.kt",
+      "sha256_lf": "d889c71f3df1ac283c26a007feb6e809ac32b56cd34163c2c02b102c6cf00f4d"
+    },
+    {
+      "path": "scripts/in-image-source-research.init.gradle",
+      "sha256_lf": "f6eca0d0b178814a5f3cd1c56ca5254a7a69424f8f578bc7c41a846284013a57"
+    },
+    {
+      "path": "docs/IN_IMAGE_SOURCE_RESEARCH.md",
+      "sha256_lf": "bc2eb5a554d134e9dd7eb7650fea7abb128cc0dd4253f65da26adb5732b42c7d"
+    },
+    {
+      "path": "models/in-image-reference-protocol.json",
+      "sha256": "a74d7ba531d42fe635c33d37b906f6a4460bf10ce2e3685e4127e59b095fbe7e"
+    },
+    {
+      "path": "models/in-image-reference.provenance.json",
+      "sha256": "6d08062662a552e2788db91c10fff33f6b9762bd7e0c72ffd3a978ed1648d6d9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/in-image-reference-screen.json",
+      "sha256": "57ba89d7d790bf934b7b784d46a848ae1434ee156f854ad258230e612d9d475d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/in-image-reference-original-frames.png",
+      "sha256": "143706718668126a9c47a6dc17e107a6608f89e585296eda09d5f42e5fe3c0e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/in-image-reference-original-frames.json",
+      "sha256": "bd661735ba6ab4f1b3b81489f2b52258ee7182de5a53eac12a15586b24f125fb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_bad_front.mp4",
+      "sha256": "b72f1eb1f1b2a9d4157b63e67085de66eaa3a3926fdcf8e9a7108e32b99d9f1e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_bad_front.json.gz",
+      "sha256": "426de25f59353e49ba45b50204a97b28571b18727d4d035f37d093023e2e6ab7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_bad_front.json.gz",
+      "sha256": "c8b9fa5dacbf1d8fd36e2445f2ada1cf50304d850066ebbeb64036cbb87c4590"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_bad_side.mp4",
+      "sha256": "886341fa763d60d8dc17b5420212c6b054516409cc529472f15e7032ee5f533e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_bad_side.json.gz",
+      "sha256": "4e528d2e7d95cf89e4ff985708dde2e2bda82d5be3cf86b2f8b368b99ed9d3f2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_bad_side.json.gz",
+      "sha256": "1cb27c3983859cdf7a1e676028f3340903b0de49a9a6d0b669ed8e969c3e4eca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "a593ab174b328631922264bae82facbaec33d0b1c2cd937253f0271f695a4e2b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "d2e6d7d41646f8e2f6f7a528f50f32a2813f643b0ccb54375c405af614ae5fbe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "c7b63f4aa3c65f0310349604e759da6c943520be80b8870e0536bc8dc04bfa1b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "53fef63076b602c664fd78dcf0f45370cddaa82ae59be2da9007737245dc3871"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "f6e8975714581aee184fcd13ac42c1710bbbedf3810bd4786ed2e240b59b239c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "5f86306451af61bab119e3e698f5489efeff8a30f1d686b8928b416b310a9143"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_bad_front.mp4",
+      "sha256": "b12231581b6d02e3a39d10be62a1b027c9343059eef989c626e6dee025a580f8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_bad_front.json.gz",
+      "sha256": "4a3cd62da2dad47c1161d16433a088875452de79c8f1f120ade04a2996ac30e1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_bad_front.json.gz",
+      "sha256": "dbfda68d000a576903a43bf9707b8234861fa3085fd3d544cad7f94fc5e47137"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_bad_side.mp4",
+      "sha256": "d41d899c9c89c5cc99bb8e3c3602f284aa774371632c79900bb918b1b80e1976"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_bad_side.json.gz",
+      "sha256": "0db517ac062cceca4123ec038f8b1d33c39d4432eab89defcf1ef7cc73ca4f6d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_bad_side.json.gz",
+      "sha256": "da44c493d0827d5facd3ee916953601668ffea040932f0ffac4333639797f3fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "ba5227e823eb3456845b822a402c4dabbb28d7aa0a834ace3a0e4486e5283092"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "eaf48cd95101b6428aca80b175b77f3de2426a1ce0a39a46b245c850d268fba4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "113aa6d92985603457692deade8e9e0880c0add7e81397a0a46931451eb91b1c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "b36639e4136f6fb26ed0b4e34d8d8a73f77bcd94b4dcd1d1642c8ff305600f30"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "a3679d6f4367451bdc9bacfb35d68491a5c7cfa2be454959a07b42ce6e591d18"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "c1d47fead9e6f0709d9788af4311ebf46abf901ebf703d74db04e32e4a0fa1bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_bad_front.mp4",
+      "sha256": "9bd8a764c6575135e494f3e728104d5295f6e41ccdec8f7706d2e4a1f37f11bb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_bad_front.json.gz",
+      "sha256": "92cd21cd880341d352e9bef46a0d4f7131077435bc313f7c7fcf61750937fee0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_bad_front.json.gz",
+      "sha256": "99c9293b88e7e7e8a56762b1c657968a506985bacbdd73172fa58a6ee6555eec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-robust/subject_001_shoulder_bad_front-left.json",
+      "sha256": "aec5471eaf05205940a5648c68d2634583c180622506dd61ca9e8cf9c233a432"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "7bafda681e529fd1229c205d485fff77baf8ee265138adbb6266a38231390c88"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_bad_side.mp4",
+      "sha256": "06b6d20c36dddbe6059c028f37ea57fc13f7827cd38d398c63e5e06ae036b7c2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_bad_side.json.gz",
+      "sha256": "13b2d918d5ebdfed7c0b026641616d2d61ddde23bd7fae75fc669947c9785b2a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_bad_side.json.gz",
+      "sha256": "7b7590434bd58df25e0a8b65ec5dccd950ca84e560013a6df9bf420c6d7972ce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "babc928c18f0bfc3335be922198faba390e375fca444ea8b8452557938cf111c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "d8cb194191aa2ce519ded8693ab1a55f19c79db4f1b0235900aaede34efad5f0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-robust/subject_001_shoulder_good_front-left.json",
+      "sha256": "31eceb228844cf3931261f7ac67f031ab4a215fd64e9eb9e4b174ed5091e493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "ee849fde0e9be67b7d303d1e96bf1475b1b59c62de3d6d9bce0ca6130964fbb3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "1eeac046e1dcf773e8ccf46c1a352088bf30ac5a8c3f9e9937fc0f8cfd74de79"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "824f9bffdcb5a63923959c197ab88c68e21047fe48632951c99d10adc90b1a65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_bad_front.mp4",
+      "sha256": "55c7b72a314c0f1b8194a279f2b9b1d921cfd0a239658d872afc777adbf283d4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_bad_front.json.gz",
+      "sha256": "06bcf26686293858bf3aede1d01bc212c732a6e55d6c77224b0596ddba00fc73"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_bad_front.json.gz",
+      "sha256": "43bc51359a2d77a284dfe18a8c6947e5a2c48f2d8813ea86f7a332586e809f50"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_bad_side.mp4",
+      "sha256": "68e23ba81449591d793cb71c93bff36083d2c3c552ac984309b8ddb834f12c04"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_bad_side.json.gz",
+      "sha256": "3615a459b20d087375c12009d502e40e19342a9e345197eff0bdbdbadeee45f0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_bad_side.json.gz",
+      "sha256": "cd68b9be4654044ffdb35775556a33d7428bad1c44df26b4b7090ba3887e9516"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "b228887d57c4354fde595e32539a02e90b184494210b2bd7572b7e3ad3242a75"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "9a83cd239c75daf6246533524b6929a6596890e4f4c7f46383c80c04d35848fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "b153a84247a8a7c5e3f98b45991a6249fee747e2582785a2b349dfb0ae6064bb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "ea461a683414b60e06e0b68819432d8d9df412a3a5242e7582a9feb3461d04f2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "5c4947f69a61797498454b724b5a43971a41ebc69489aaa7bb20d9e71962e942"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_001_squat_good_side-left.json",
+      "sha256": "e9f93ce13523dff7160a82040a20aa828095430032b6a44e9c3b79f31d7913d7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_bad_front.mp4",
+      "sha256": "9d2d2d32b9e7bb58da893aa21f7781012dffcb0dd0ac57b875d505566bdc0f68"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_bad_front.json.gz",
+      "sha256": "a13f5cc5790e985064b54c6a55c83f83b6e3d4b80f2f7814db66222a665371f1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_bad_front.json.gz",
+      "sha256": "7cbac2b0bfbeabc98b5c929f2d5d7b5c66426fe9f88bd040fe96404448108fca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_bicep_curl_bad_front-left.json",
+      "sha256": "2ed01bffa2bd32cae9af68a073028a35683d0808dbc1c4e02bad1dd9cfaa1f5f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "d7932aad6ea015314faf2a3c0f0b3dc5ed592dce872e44df134eac8a78a547af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_bad_side.mp4",
+      "sha256": "f5040ebd2e8f8f0ba851089a6bd3168bc62991f9ea767dd87117115a747eb239"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_bad_side.json.gz",
+      "sha256": "8d678dbeee27037066d85b5910408c3cb99a31bf6e52f99de845cde38a02a918"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_bad_side.json.gz",
+      "sha256": "f6973d16b6c487c4aad9482c36d704b7ec4618d37b3dd2b09fbdddcc3e26427f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "a7e12ec0f85353ae12fa8fcaec2854c599315e554f5bb67b144ad38d254af386"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "9019a500a0393d7674995e72f9d01cd71c2c25b599035fdc5bfc78125aaf6688"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_bicep_curl_good_front-left.json",
+      "sha256": "393ce40dc1d2afc406d831f152841a7758af440cef08a206e790834966ab8d53"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "5bbeebe1714185c2499290b9bf1b57d9d2ed70423b46f4fc73902787ca0fdc56"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "bdcbae9bf1cbbf1790caf2809c68396efc544686e4e4f1bd8ffbadee5e50b8d8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "9b83d573a3924f8c01642b2ff11b3c712c5cc3f2eb03f0393726440430dcd151"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_bad_front.mp4",
+      "sha256": "d4c36dd7452eec624d4a0afda5bbede275a37694e3376a7d70ec5c02496c5d56"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_bad_front.json.gz",
+      "sha256": "ce0e26382d1038755d5024fc9ce7a0f1c13f280ef3809767ccc3312efb916982"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_bad_front.json.gz",
+      "sha256": "5259c0c42e9107983585622dd7632a0cc7b6f88f377ac025f3cce3b52b292736"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_bad_side.mp4",
+      "sha256": "d05c5fc35f7b0761acee5115b1bfdc50288308b2c4fd2b7fba2d6a838139c9ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_bad_side.json.gz",
+      "sha256": "d3aac8b342a3aaad3268e5cc5ce387466515b8e0d3a788f09ec325c359f3058d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_bad_side.json.gz",
+      "sha256": "a04595a217745281bbae7cc3dd51def4f20ea804718429957212293ed666819a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_push_up_bad_side-left.json",
+      "sha256": "f539d164e5eb13ecf414543c45f54e3ef78796c0196fddcac78b52f2785d1182"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "f59de67bcf50fed77d4b1e7f6ebd3b5ebf0779c9863ff308f988de08f7d81dc0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "2a230862e594c3cf00ffc9e36faa85acb939ca5d1728ce87f737e83fc41ab419"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "3343a31f65efc7f15272a18c8499472ad68bddf6feb7983549c58735e9963538"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "6ba28eb845ccbada2f7d9a8859ae28204798c7c0135530a2722f2306d3948c89"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_push_up_good_side-left.json",
+      "sha256": "9ff76eb54cb1f47a188fe2cad744b79e556079f15ef7f6a9d492c9cdd93230d4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_bad_front.mp4",
+      "sha256": "073f81be93eb93fd39281f86e04f45934bdd6ba8c39830a7989626d36fd201e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_bad_front.json.gz",
+      "sha256": "a7fda549ddac31164fa337a0d3045f011e84b9f981ed6f13f8843876783c9d5f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_bad_front.json.gz",
+      "sha256": "128ce1ae2ccd70c571d4e47cc334d9e3fcb12633e5a114ebb548b4a1eaadc6c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_005_shoulder_bad_front-left.json",
+      "sha256": "baac87532d47428c0a4db5342f8c8eda4ca3338f169f170fcb68f3ecde482dee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_005_shoulder_bad_front-right.json",
+      "sha256": "5619da21ec311c409b92081028164e08b240758c0d3937d0369919d92b52e4c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_bad_side.mp4",
+      "sha256": "a17cd568d009f4bd161a7628e0be4f3d00dc5c9c1ff275381a04701e59637cf8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_bad_side.json.gz",
+      "sha256": "107e0cafb64bc115aac35d8cd6447bd23d6ce886c40408c72cbe4d2b270b72c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_bad_side.json.gz",
+      "sha256": "71c85f6301b231dfed28eba31134aa1141c95e7b779e95f363ebc4c4229e0ce5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "e1d1bb6f350c77fa309241c0dcba984ba59725e80066e3b3ecac8d7e60d157d9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "33228225088b2e68d680e3d58c18a2e2c656cba44b9437b1a5f11e98ad41e240"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_005_shoulder_good_front-left.json",
+      "sha256": "09f48663181a7ac30f0168a2b5c0be490745c5852da353ed2f47761ae4dbd033"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_005_shoulder_good_front-right.json",
+      "sha256": "8231a4527f0936675bdad34a8c0130e48f889531c7c6069c52de14942ee72b07"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "da7a0e7710cb0171afc915553ccdc07ff9dc67fea44b6fdb11bdcac5cb0d065e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "16a5e4cf7a4f3c8ae4510a9a4222a26e70599e27fc4eb3bd2780e8fb727b4630"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_bad_front.mp4",
+      "sha256": "0b74127019e4a519d52175fd15cce76aa7c63d13a35b077e9997ff8d31ffa25d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_bad_front.json.gz",
+      "sha256": "c07ed14af71e760b2577a2753705780981a4f17cf78842bd4e9ace7505139a02"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_bad_front.json.gz",
+      "sha256": "8da4c683782f2028e2e10ec5d5c23c6e3dd6dbadef2cfd42b77674ba30ba7ab2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "62217f29753707ed05a19959ca0045706b1443c66ae70574ef91b4a03d9e661a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "f8a5fe7877b6cf159900c52c735f0f7d5877ed289c1f23f1946e3a4a2baa07fe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_bad_side.mp4",
+      "sha256": "7ddfce41ffdd67a7cd4a25fbb8ae62b88ba71bb0b4aaf6953a77c9137fc14648"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_bad_side.json.gz",
+      "sha256": "690789f60b9586f73befb621efb839cca75ef78e79a1bc95b0f5e5dcb07eb1c6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_bad_side.json.gz",
+      "sha256": "9e5ffe929527410ddf2ecbc3855cbf0ec6ff89bc882a5a1e25c01c0f7e3978ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "b8f2de7f12f110c15d3ff0eedeb288ab455d2795cf7fde07af7a297cdeac3a05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "2f7e70933388a38fc779a150769710cb9277f59d0d244249455906d64601bb9a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_squat_good_front-left.json",
+      "sha256": "321241983dc8229b023987b16fcdf9a4c6f70561fb8a9fc46ee60b84b830b57f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_005_squat_good_front-right.json",
+      "sha256": "c8f25d3f255b8f31b5cf1334acf5ba3ed85ae0a7494a4a5aa37a1c19af130f41"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "fd4ef62c54fad712d5fc998fae86e5380cb664e5cf3d609ad45e97983fc834d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "3fe65be2d933afef8bd911acefd44197b19097dc714ee7e80416cce360e49b51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_bicep_curl_bad_front.mp4",
+      "sha256": "a2bdc8da2070f958ac45b8546024ee4b284866ec75ea0c9ae0cf9d5f31a05236"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_bad_front.json.gz",
+      "sha256": "b251dcec4b1a50f119e98c646a2b01e359c6f3725af6eba7d6675d3dbb9ebb8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_bad_front.json.gz",
+      "sha256": "88034b1eeca4c38d0f97195ff91fd5e8cf239331d6c6e6370046fecc14df26b5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_bicep_curl_bad_front-left.json",
+      "sha256": "15084e1c84684410926a3d1a9e25c10c374a7ccb8cc6ce93b10c24543c863cb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "8bed67d0eebee79970d905401b82cedf87fdd8c3d012d577f2786304218e6142"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_bicep_curl_bad_side.mp4",
+      "sha256": "c9b2a305e0a02ad250cdc5b5374eafdc72f9bb85c29611b53d01575292028a2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_bad_side.json.gz",
+      "sha256": "bc0454574f3e1e5e467c0fe54ed4889fc95c7367da3c5bb91e344559d7fe2674"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_bad_side.json.gz",
+      "sha256": "2593aa1b72155d4499926e1f233f5ff0e113430a05df3886bc9e657259cff1df"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_bicep_curl_good_front.mp4",
+      "sha256": "3c9db410485690444319c63937cad3e370e0a1d84513d48c3c5ce5f1e5860c0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_good_front.json.gz",
+      "sha256": "d02c7d23e07af0ff5dbf752628204301f412bbe13fb9b55f54682959073a6d61"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_good_front.json.gz",
+      "sha256": "0777d3e9a44fc32bf4e26a1794e7797e7645ce548384ba06dbde65722ac581a6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_bicep_curl_good_front-left.json",
+      "sha256": "3395ca1d0fe9300b320470bd1ea0de159491656cfc7ec9a6d2d2b5428670e72f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "303455eae73522b083c1545a0ff7f06f1723613cbe70a3c553d45719b262a0ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_bicep_curl_good_side.mp4",
+      "sha256": "e51ecc3a77647c86aea3e7c3f744298d1f0f58dc489e3b4abcef8347a913d385"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_bicep_curl_good_side.json.gz",
+      "sha256": "4c41869c77e5c91eac5474eebb0d7812617f16dfd9b09b1eb8f7fcd9cb9b4529"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_bicep_curl_good_side.json.gz",
+      "sha256": "cc7bd4a7acc6e72646e5ca593b41d5758cefd2136615ba76770c1d0ac074d46b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_push_up_bad_front.mp4",
+      "sha256": "861b615fa29eca8eba7237bbc4d8137d3d0325b99e9095e672498059b4422390"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_bad_front.json.gz",
+      "sha256": "1421eb4b5f028e2fd161c8b216a2114c0b5f46f16d086f424f8fad775bf2b9ca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_bad_front.json.gz",
+      "sha256": "824d06c69f9fa092e8bfc0b679dd81c135cc5fc8c1aa8593e27a61f7000171c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_push_up_bad_side.mp4",
+      "sha256": "0d929360090f5e3af54d604ce6e94266ab0ce30830a40b6fcc6140cdad3bb02f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_bad_side.json.gz",
+      "sha256": "958810662dbb3676f9a06833b81fde82353a63648d6ae84f9fb0221865920daa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_bad_side.json.gz",
+      "sha256": "f12b8eda060166b1e64941b0b86d8cd4b082e20a8c5eab50485b24c556f5d6cf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_push_up_bad_side-left.json",
+      "sha256": "07d3a183052ac07da1f422043828c1718b669878600582384461f36fd05418cf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_push_up_good_front.mp4",
+      "sha256": "49857ba7187c5311c908ce71a787a56115b0257035c1dafaf694b9b65513cdd8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_good_front.json.gz",
+      "sha256": "3615dd3e87aeacb1162f0855653408761037140a6a610e24df5b985d8644b454"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_good_front.json.gz",
+      "sha256": "2950368953b1e073e67c4c2e3a1925d78f4a0ba2799ad66a3e40a046245df58a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_push_up_good_side.mp4",
+      "sha256": "c19242117db5201e438e6dd68ecbdae7258a6e3620a39d18341e342fa675f8a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_push_up_good_side.json.gz",
+      "sha256": "4a0ffab168baca3a242e4e366b802be71a3900afd8ab7dd2825ab8fa676a10ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_push_up_good_side.json.gz",
+      "sha256": "7f1a218125bb4f282498767b75c71044753e75684156a30536978c9ca46b657c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_push_up_good_side-left.json",
+      "sha256": "16aae84c0b481399ae1a9b7c80ed8fa15a806d58b403a4839a046f7efc46bd3c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_shoulder_bad_front.mp4",
+      "sha256": "de52da931d823b12fd1f824c2d4505b32705df507671b95b79f5635afc02dab0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_bad_front.json.gz",
+      "sha256": "f29ef9dbe0b2fcb8db094c74dd826f35062555da374009c38f3a107ba8867ba4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_bad_front.json.gz",
+      "sha256": "e7eaea8135a27093f5aded9e5436a5a3a21b7d2942e46f21681badb5f4ab4340"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_018_shoulder_bad_front-left.json",
+      "sha256": "2e441719aadcec8380e829fc9ce72109395b479a5ca69d544b256d53190c505e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_018_shoulder_bad_front-right.json",
+      "sha256": "59a1ec9d20f7b92cbb7dcbe627eb9deb241de19cf32f0f96e57ce38d4c79f1e8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_shoulder_bad_side.mp4",
+      "sha256": "16096756cb339daa0516c5d39269d559de539914bdd26ce568243f02684a03f0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_bad_side.json.gz",
+      "sha256": "df8539b8d26435212fbfea892dfe00a20f12a83caa3a06062d2daf6559b80557"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_bad_side.json.gz",
+      "sha256": "74d75f8f64e9d27b5b3b4e6ff082399a1c3e1dc46659a4941f381a3808554b5e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_shoulder_good_front.mp4",
+      "sha256": "137824b720ed9eb0ea56c6f77a9d524126586bcfeeb81626298e34a8a37a2840"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_good_front.json.gz",
+      "sha256": "99bf65e1d2315d8507c1c14c8485c92208fc0d03da0f5bcbe6ae6708d127ded6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_good_front.json.gz",
+      "sha256": "3b2b8b55ce05de89985869bf3e4c760218f04ae9033122485e6060b67412162c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_018_shoulder_good_front-left.json",
+      "sha256": "1e2bd49aebe8a328dd9c0b03a182a259f1d7b4cafbcd8a2b194ee1daeaab8faf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-standard/subject_018_shoulder_good_front-right.json",
+      "sha256": "567425269eb27cffbf504427d0f3f8603db5fdf13c5c177d344959d754836a57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_shoulder_good_side.mp4",
+      "sha256": "0822fd5dd956044936a6c8208048eaa80431ff0c341861bae6660b5f61d9bb0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_shoulder_good_side.json.gz",
+      "sha256": "4e92601ed362f6b7c1fe9549951bbeafbb6fd37df595f9ac66be8c93af81ec7d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_shoulder_good_side.json.gz",
+      "sha256": "1ba9abf18160fda496900542345f40aa9a5fda8cd66b58b4a61978d1b1451698"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_squat_bad_front.mp4",
+      "sha256": "36fe4f5cee710a0d0c033e00dae18afcc7f173e6a5d200fdfa0c32667f341bb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_bad_front.json.gz",
+      "sha256": "a2e2c8420006f62931d2a98bee1bca013ca71dba6f840f87ade368eebe153636"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_bad_front.json.gz",
+      "sha256": "73dbd1cc663bc7e4faf14ddcc9355f94af798267645349a5e638701bf27c3600"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "b64a4da9119b3e52c6bdffd677458b2bc7724e70b69917549e0f3edabeef33f2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "175ba66ae3cafe2b84cb5dc4939d071492c65d6d9392642f1a44b82800d57fcc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_squat_bad_side.mp4",
+      "sha256": "a5d0ff01ab16b37e3fe659d0eac2415064435cc7d0a45b59ae0ac4329141874a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_bad_side.json.gz",
+      "sha256": "5f5974ca0409845e91d04f056519fca904b9f8f51c74abdf4ab9c8580c813968"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_bad_side.json.gz",
+      "sha256": "2e489b164f3d1087a35072e14797d9dddafea7733b067c9b3f24ae76ce04091d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_squat_good_front.mp4",
+      "sha256": "97f5f32a278e4db22d141016eb18bf9f137a2f9e74c4314b98477747384d43fc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_good_front.json.gz",
+      "sha256": "82bc152a47786c78fc0df2563795a4ca50e4d65d156197a5cbd482764bdb1760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_good_front.json.gz",
+      "sha256": "822f7d3536737c3fbcb438779b2aaa0f9eb72c6f1a052df7c8d32b28dc3416d0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_squat_good_front-left.json",
+      "sha256": "f824f0283aa85600f900ed08f11ee924e36e2f595129f0bfbe0d4f479a69c73a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-complete-full-standard/subject_018_squat_good_front-right.json",
+      "sha256": "f89786d01229763a0f72300442bccc2e8889aad621fd0603ca2ac603488abb99"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_018_squat_good_side.mp4",
+      "sha256": "21014302d231ec006ea15c0e8d3ca004a4053e716f487652b9bf043a586f9659"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-world-feature-cache/subject_018_squat_good_side.json.gz",
+      "sha256": "ff595a6acb8050b63437d554fdd204add335b3d1eda4d03f0ea99f451f875631"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/autonomous-heavy-cache/subject_018_squat_good_side.json.gz",
+      "sha256": "cb696e7849968c723eccb4ad4b087aa183dd6f17e942da250e2c7dbce2c85995"
+    }
+  ]
+}
