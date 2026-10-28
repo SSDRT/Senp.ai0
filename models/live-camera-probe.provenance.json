@@ -1,0 +1,559 @@
+{
+  "schema": "senpai-live-camera-probe-provenance/1",
+  "decision": "CURRENT_CAMERA_SLOWDOWN_CONFIRMED_NO_OPTIMIZATION_PROMOTED",
+  "experiment_freeze_commit": "3dcc8b72a1efe4223bcd3d139d4645b59514f84a",
+  "verified_engine_commit": "872c9f7aa2516e99580e75e188c18a5d3b683881",
+  "compiler": "qualified-rep-compiler/9",
+  "main_APK_byte_identical_to_verified_delivery": true,
+  "api": 35,
+  "abi": "x86_64",
+  "emulator": true,
+  "page_bytes": 4096,
+  "measurement_duration_ms": 60232.9666,
+  "all_callback_rows_preserved": 125,
+  "measured_frames": 78,
+  "delivered_fps": 1.2949719132711621,
+  "p95_analyzer_to_result_ms": 1208.6398,
+  "p95_native_detect_ms": 748.6214,
+  "paired_unattributed_analyzer_p95_ms": 679.3716,
+  "capture_clock_comparable": false,
+  "p95_capture_to_result_ms": null,
+  "native_recreation_increase": 0,
+  "tracker_reset_increase": 67,
+  "model_mismatches": 0,
+  "analyzer_errors": 0,
+  "crash_or_anr_log_matches": 0,
+  "original_camera_frames_inspected": 3,
+  "complete_raw_MP33_results_inspected": 3,
+  "observer_export_total_ms": 1117.6107,
+  "observer_cost_not_filtered_out_of_delivery": true,
+  "python_tests": 145,
+  "isolated_native_case_passed": true,
+  "normal_native_suite_inventory_unchanged": true,
+  "normal_native_suite_rerun": false,
+  "production_changed": false,
+  "weights_or_thresholds_changed": false,
+  "reference_model_selection_changed": false,
+  "raw_MP33_modified": false,
+  "generated_replay_timestamps": false,
+  "independent_label_or_final_subject_access": false,
+  "new_human_labels": 0,
+  "new_delivery_APK": false,
+  "accuracy_gain_measured": false,
+  "human_rep_precision": null,
+  "ten_minute_performance_qualification": false,
+  "readiness_points_earned": 0,
+  "readiness": 50.0,
+  "production_readiness_receipts_revalidated": 2531,
+  "checkpoint": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedMp33Evidence.kt",
+      "sha256": "fb78d2e889273b0f9366502ed7204cb0e4ba1d68d3be956b2ae9a9a1a44dceac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "6b96f2348e0d918ee316cdeb53e36f8bdc451a2f0f6bb5836486dc0e14d3660f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "7162e76fa7ac4bdf46f75b3d6ed23645da8c3e1756140f798531243ef589c5a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveFrameGate.kt",
+      "sha256": "3813a9428604f4fc09b354ec8754cfa6c3b48f79f8efc13f229e5cbb4b852ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveMediaPipePoseEstimator.kt",
+      "sha256": "3e16861e3b1c48e36071aa7ec1b41f22da22291446313dc648d012ccb0467e11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LivePoseModel.kt",
+      "sha256": "b152c69e80fd4c9b187b4ef992a22091052a1b2135d35fa5e1ec8412f1bebeab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveTrackerResetPolicy.kt",
+      "sha256": "26bb21c031dc5b6084121b0256109a0b41e52b3e39147c4e20058a6821c78b06"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/MediaPipePoseEstimator.kt",
+      "sha256": "bedf4b38ce31eb1f3be7a8d61178b1a44f9deb2249a17f7489ba697ead6b5fb3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/VerifiedPoseModelBuffer.kt",
+      "sha256": "c6e623ff3ae9f58b32ecf3a9ed371460838034b0a6623476aeacedf5b8d1bdf9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/EngineComposition.kt",
+      "sha256": "3419480d5e3eb57642fdc326d3d9d737c4debab786e174619690cc27a7d8c219"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/FrameReviewIntegration.kt",
+      "sha256": "42cca0ebb6cb856e25f6164d575c9ef412921c6116ff2aab1e828fc801fd7568"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/LiveCameraDiagnostics.kt",
+      "sha256": "a4612fdc226cbf684469224f6696138a1d7b45e62e67903a8f06522dc401e1ae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/LiveCameraFrame.kt",
+      "sha256": "77208cc9146fed0c4691cefb603eac54fa1957eddda6956fd25652ef4406daac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/LivePushUpActivity.kt",
+      "sha256": "13109ba6c2e8bd2c788d9befe24514fb111dfe7cd14c893bff4532df170c6e6b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/LiveReferenceActionActivity.kt",
+      "sha256": "5e75020f5dfc5f161df9b813ad56a051e62770306fddb5d1b553787cf5b85e83"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/QualifiedReferenceBackend.kt",
+      "sha256": "fed0d3906da7f4c5e5470a2c7edcedcc2dc8a0bc6350b2b7e61e8e02325c8b05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/RecordedComparisonAssembly.kt",
+      "sha256": "4ccb7090f7f25654398f2ed2b456397fc84425c191c69fc3de64cb1557b23e3e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ReferenceActionSession.kt",
+      "sha256": "52ddea3f83541c56660c638f80a0baf3268a9b0d2f7bb72ef36be342c5f75785"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ValidationActivity.kt",
+      "sha256": "6f2b90d599259f7a75f025eb820bd1ec43fff1d8529ff1f6286eab403db751aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/SenpApp.kt",
+      "sha256": "b2ee0f6b37229e8617e7b92048084ba70db7584683af4c187f31194fce34b656"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/SenpEngineViewModel.kt",
+      "sha256": "a91f3440fc0115a222bfb1e1e8f74674b748b3f7a77e25a30518d12d26141006"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/components/DiagnosticsBottomSheet.kt",
+      "sha256": "8875ff90763bd2edbf1eaea3e1a5ed222c8c15ff3c9097ba281d4e6f2348836c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/components/PoseLandmarkOverlay.kt",
+      "sha256": "96cfa25a8a4812afb805a034ec335281002729caa696af9582459d0b252b3bbc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/AnalysisPlayerScreen.kt",
+      "sha256": "9342fc373aed3721e2e80176907913870e457f09e57e6d0132b518f1020468d0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/AnalysisProgressScreen.kt",
+      "sha256": "f1e4fc0af6fb36c5ce9236e3d30de95b3f5dca470695fda9486f78f5f83e7db6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/ConfigurationScreen.kt",
+      "sha256": "4d16f63a952eb96d05023a165a96aad4dfa5233a504d0eb859b4b6a6c2d42529"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/PlaybackMapping.kt",
+      "sha256": "b07b39842d831ec3acd2c8ccf5b0505b09db4b19a894dd0a515225729916beff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/VideoEditorScreen.kt",
+      "sha256": "fd3b6fae0a45f48ec9b4befc43112dfedb66087f4ec8bbecb056d1064d78ac80"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/state/SenpEngineState.kt",
+      "sha256": "a0404dd1868f094879c0fbb8b443aceae57d6cde495f1089b68acbf818480b0c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/theme/Glassmorphism.kt",
+      "sha256": "96094bc3b9131c720298b4cb80f5aae47f36062078127cdcf9a830c877eb29a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/main/kotlin/ai/senp/validation/ui/theme/Theme.kt",
+      "sha256": "06f65ef601d14f95c8452ff28d402957c4ad4593ac1be1b72c09f76e122cd64f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/LiveCameraProbeInstrumentedTest.kt",
+      "sha256": "b8e12988b4bff5735aa53a6040d8415a0dc85b8fa7a5fe50da13f6b361b17182"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/scripts/live-stage-profile.init.gradle",
+      "sha256": "1ba40511d6ddfbb7e37ba4c2f9ae69bc09738695c02a274f5c56f78794f98998"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/scripts/analyze_live_camera_probe.py",
+      "sha256": "1b60e52569bf167b8b2ac88ee4a1360d4f2ac91bd391bd54bd077901b354f4a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/scripts/tests/test_live_camera_probe.py",
+      "sha256": "65986b48ee05adebd852fe0b6f2ea87c211e351bfb18331c281879f7cfded4af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/scripts/analyze_live_camera_soak.py",
+      "sha256": "3aa569d296998c1880e51667cdfa7b53965049586a6354a5796df7d052b92817"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/scripts/profile_live_processing_stages.py",
+      "sha256": "2c4df4b73170de450aaf418a084e2ea0152e5c327147ba63cf54a9cc08ca34e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/source/docs/LIVE_CAMERA_PROBE_RESEARCH.md",
+      "sha256": "7405d14c21df64abddc7fc54456a06f7c0a5b638a553c78505cfb1d67a3812c3"
+    },
+    {
+      "path": "models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "models/viewport-admission-readiness.evidence.json",
+      "sha256": "b98616c63e84a931fe4165978e4d6411f9b95bc7332e54ee3b84b132b01a40aa"
+    },
+    {
+      "path": "models/live-stage-profile.provenance.json",
+      "sha256": "822d49f8df34ac6c2ed5fe93fe00b4b97c61ed01362f3bf1d320a6c159ff9298"
+    },
+    {
+      "path": "validation-app/src/androidTest/resources/qualified-rep-native.json.gz",
+      "sha256": "26a28034a15f3616cb4908d26e918b745e4e6f9b556bf3c85cba1500b2162e64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/native-stage-capacity.json",
+      "sha256": "6ea92364771d87895cef88bd589f30c9b745a171313a5a25d95ba208d93ebf80"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35-export2/runtime.json",
+      "sha256": "13abbb52bca6616a5b5a0bbfff8cbfe83e00673b3532edd8dc9b78ded6ee8224"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/avd-home/Senpai_API_35.avd/config.ini",
+      "sha256": "e5f5a6857de6beba3db02dfe1a89779948feacbdfcb2bc3938579840dac19a67"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/analysis.json",
+      "sha256": "57791611f8c0c80f79e246bd1c14cbb699a8fc47d8875850ac74c36f5c3623ab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/camera-processing-durations.png",
+      "sha256": "f2b198d556531e2bd3bac8a53a8e06f7d73e5e6d9a1974e9ec2efb74c17aadb7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/original-camera-and-raw-predictions.png",
+      "sha256": "d13563cbe3bce82456b6ba3dd31ed788b4e37ff33a0c27ffeac33ef6e51c97b9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/original-camera-review.json",
+      "sha256": "5e2b3e6650c2f203bbcdb09ce89c7c15a86806aff44dd2188c2ff11fac313759"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/readiness.json",
+      "sha256": "eec400f79d0755f11220cb8eee0ef58d0ea85c832a3582bc6cef425f4d8593ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/emulator-stdout.log",
+      "sha256": "9ea88396b94b3886e67818cf2935b7e9c770a512b035c19eb963c39d9241c4b8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/capture-106361991000.json",
+      "sha256": "41b6708090ddbcdeaf0b368b3573e18a7441095a01265dd95d9ffbdc24310c9f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/capture-106361991000.png",
+      "sha256": "15d9044b64c3793c4ca194bcf98731a8232274e0bb9ce3fb423cbe3ba37f27ad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/capture-130641273200.json",
+      "sha256": "f80bef9618b082f13102b85cec4ab136e21d5cc2c0eeff4a05637cd5278c76ad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/capture-130641273200.png",
+      "sha256": "9f4cce741a61efa2b10ef54633a56bd7f9a49fcef4a4be9d7c385dfee30dc4e1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/capture-76340888700.json",
+      "sha256": "b5bc02f67366a368bb11ed57db416e4e2618e560575f16f27f455b50aa5b6eef"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/capture-76340888700.png",
+      "sha256": "bdec46224fb3a672f7bc896098f010d8771a6806124da98e1a6c04a05fd52f3d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/frames.csv",
+      "sha256": "716f93f8e27eef58d84321856afa23f4aa6a7c6fa6855ef87c15229e6ae2de36"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/memory.json",
+      "sha256": "79e9c46d2ba9ee2edf3f2fc6b3e672e00b7d1d4d477d907cbf6ac62e50e576aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/snapshots.json",
+      "sha256": "ccad4d33b8e1fdd165c85ac1dae8e670fda1690f89176c32fcd50de9994ea298"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/evidence/summary.json",
+      "sha256": "62452c7b231a9a5c8aa6dc1a477be613e4e79320a3b4ff57fbd868ce068022a0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/logcat.txt",
+      "sha256": "7e07d778006941ab36ff3a63dd91d7db83404c9996fd35b1d46bb19ead7cb14a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/native/instrumentation.txt",
+      "sha256": "34ffa91d1b8d0d4b720afd90f3bc0694d906e047cfb736b174f7c5766fade06c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/native-command.json",
+      "sha256": "d3c13b621a54692afb6542af2c0564d6490bb45ec12c224eab71871cf5935df2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/owned-process.json",
+      "sha256": "045a382e9cdb0db78135b5c761e1c36407f0b355d8ceee92eca2daeb1f7fca65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/pull.log",
+      "sha256": "d8bd95a81961337ac63850d0ce755f85153a19c4e95c9691ec36891c316aba52"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/runtime.json",
+      "sha256": "eee3c981e07e37377745d27907f460e2425c556c1bc9398a4f156b00504de13a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/stop.log",
+      "sha256": "483d31d727a891b284fe65f3b042180f0dcf884ee845c457e261de7a6e891804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/stopped.json",
+      "sha256": "773aac31a76c457645719b33d611d143a419d7eebac7ae88d1c65fb07e992185"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/validation-app-debug-androidTest.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/results/runtime-api35/validation-app-debug.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/logs/live-camera-probe-analysis.log",
+      "sha256": "bdd8d4d99df374ba22451602e2752868d2c4be4aae85399cce1001a56eb7aaf2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/logs/live-camera-probe-build.log",
+      "sha256": "b61e133298158b331eedfd9a015bbd63646daafd557282f5c353dd0f3e4db032"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/logs/live-camera-probe-native.log",
+      "sha256": "34ffa91d1b8d0d4b720afd90f3bc0694d906e047cfb736b174f7c5766fade06c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/logs/live-camera-probe-preflight.log",
+      "sha256": "c541aea473d2c029073d685e991166a38c6a99825a263c24436733962879652e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/logs/live-camera-probe-python.log",
+      "sha256": "7327f5576d014e5a3f75bc69b4fab96af1906876dcce59373945fa52b9b0493f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/logs/live-camera-probe-qa.log",
+      "sha256": "f215992e2bee5702ee62d26262a2f32fdd364b4cd7b3014ba40b4e97c706afaa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/logs/live-camera-probe-runner.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/work/live-camera-probe-native.ps1",
+      "sha256": "9b3004030838f4d7a0e57e442febb6958c004b4afb5dba2d1a00915d58bae483"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/work/freeze-live-camera-probe.py",
+      "sha256": "ac213df81f10a9fceade8871b706bdeede1d57bf969882d76a9ea0409020e0e1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/work/freeze-live-camera-probe-results.py",
+      "sha256": "4e6e823310b679e40c0f32644a5f1d2c9e88a53700c1dfb6b00109a4532d0466"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/protocol.json",
+      "sha256": "c4dc1dc0366c4eba94cd23757b05be815a1b88df2155863794dcbb40d369bc1e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/review-source/plot_live_camera_probe.py",
+      "sha256": "612d0eebc9f6df46b712c52cf4ed88158e8d15adbf1bbe700adf81dbf1bea1d5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/viewport-admission-checkpoint-872c9f7/apks/validation-app-debug.apk",
+      "sha256": "57a4d201d61a7466869d8ddf9e4ff8d6ef2a83650176c780af467cc33b874a58"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-camera-probe-checkpoint-3dcc8b7/apks/validation-app-debug-androidTest.apk",
+      "sha256": "6e71d51bc86ce58cd0e10185c2a7a9897af86de92e6a664d2ca7c34c1fec1916"
+    }
+  ]
+}
