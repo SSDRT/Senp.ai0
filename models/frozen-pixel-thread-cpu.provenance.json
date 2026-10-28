@@ -1,0 +1,1188 @@
+{
+  "schema": "senpai-frozen-pixel-thread-cpu-provenance/1",
+  "experiment_freeze_commit": "6e58e461150062e6c25b095fa0b7b00cb6a550f4",
+  "verified_engine_commit": "872c9f7aa2516e99580e75e188c18a5d3b683881",
+  "compiler": "qualified-rep-compiler/9",
+  "decision": "COARSE_NAMED_THREAD_COUNTER_EVIDENCE_NO_OPTIMIZATION_PROMOTED",
+  "api": 35,
+  "abi": "x86_64",
+  "page_bytes": 4096,
+  "main_APK_byte_identical_to_verified_delivery": true,
+  "blocks": 8,
+  "all_timing_rows": 256,
+  "measured_timing_rows": 192,
+  "thread_scans_preserved": 512,
+  "original_proc_stat_lines_preserved": 20052,
+  "clock_ticks_per_second": 100,
+  "thread_results": [
+    {
+      "folder": "original-room-block1",
+      "camera_active": false,
+      "observed_stable_identity_cpu_ms": 570.0,
+      "matched_thread_intervals": 552,
+      "scan_overhead": {
+        "samples": 24,
+        "p50_ms": 5.5741,
+        "p95_ms": 24.0753,
+        "mean_ms": 8.298341666666667
+      },
+      "identity_or_read_changes": {
+        "born": 0,
+        "exited": 0,
+        "reused": 0,
+        "unreadable_before": 0,
+        "unreadable_after": 0,
+        "unsupported_enumeration_intervals": 0
+      },
+      "top_observed_names": [
+        {
+          "name": "HeapTaskDaemon",
+          "ticks": 12,
+          "cpu_ms": 120.0
+        },
+        {
+          "name": "pool-2-thread-1",
+          "ticks": 12,
+          "cpu_ms": 120.0
+        },
+        {
+          "name": "Thread-2",
+          "ticks": 9,
+          "cpu_ms": 90.0
+        },
+        {
+          "name": "Thread-3",
+          "ticks": 8,
+          "cpu_ms": 80.0
+        },
+        {
+          "name": "Thread-5",
+          "ticks": 7,
+          "cpu_ms": 70.0
+        }
+      ]
+    },
+    {
+      "folder": "original-room-block2",
+      "camera_active": true,
+      "observed_stable_identity_cpu_ms": 15470.0,
+      "matched_thread_intervals": 1008,
+      "scan_overhead": {
+        "samples": 24,
+        "p50_ms": 336.922,
+        "p95_ms": 905.0925,
+        "mean_ms": 391.29030416666666
+      },
+      "identity_or_read_changes": {
+        "born": 0,
+        "exited": 0,
+        "reused": 0,
+        "unreadable_before": 0,
+        "unreadable_after": 0,
+        "unsupported_enumeration_intervals": 0
+      },
+      "top_observed_names": [
+        {
+          "name": "RenderThread",
+          "ticks": 455,
+          "cpu_ms": 4550.0
+        },
+        {
+          "name": "pool-2-thread-1",
+          "ticks": 324,
+          "cpu_ms": 3240.0
+        },
+        {
+          "name": "senp.validation",
+          "ticks": 174,
+          "cpu_ms": 1740.0
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "ticks": 72,
+          "cpu_ms": 720.0
+        },
+        {
+          "name": "binder:1830_7",
+          "ticks": 71,
+          "cpu_ms": 710.0
+        }
+      ]
+    },
+    {
+      "folder": "original-room-block3",
+      "camera_active": true,
+      "observed_stable_identity_cpu_ms": 17820.0,
+      "matched_thread_intervals": 1008,
+      "scan_overhead": {
+        "samples": 24,
+        "p50_ms": 276.7328,
+        "p95_ms": 758.4291,
+        "mean_ms": 355.7192625
+      },
+      "identity_or_read_changes": {
+        "born": 0,
+        "exited": 0,
+        "reused": 0,
+        "unreadable_before": 0,
+        "unreadable_after": 0,
+        "unsupported_enumeration_intervals": 0
+      },
+      "top_observed_names": [
+        {
+          "name": "RenderThread",
+          "ticks": 408,
+          "cpu_ms": 4080.0
+        },
+        {
+          "name": "pool-2-thread-1",
+          "ticks": 282,
+          "cpu_ms": 2820.0
+        },
+        {
+          "name": "senp.validation",
+          "ticks": 223,
+          "cpu_ms": 2230.0
+        },
+        {
+          "name": "drishti_gl_runn",
+          "ticks": 90,
+          "cpu_ms": 900.0
+        },
+        {
+          "name": "binder:1830_8",
+          "ticks": 80,
+          "cpu_ms": 800.0
+        }
+      ]
+    },
+    {
+      "folder": "original-room-block4",
+      "camera_active": false,
+      "observed_stable_identity_cpu_ms": 670.0,
+      "matched_thread_intervals": 960,
+      "scan_overhead": {
+        "samples": 24,
+        "p50_ms": 8.3037,
+        "p95_ms": 30.7871,
+        "mean_ms": 11.649841666666665
+      },
+      "identity_or_read_changes": {
+        "born": 0,
+        "exited": 0,
+        "reused": 0,
+        "unreadable_before": 0,
+        "unreadable_after": 0,
+        "unsupported_enumeration_intervals": 0
+      },
+      "top_observed_names": [
+        {
+          "name": "pool-2-thread-1",
+          "ticks": 16,
+          "cpu_ms": 160.0
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "ticks": 13,
+          "cpu_ms": 130.0
+        },
+        {
+          "name": "Thread-26",
+          "ticks": 13,
+          "cpu_ms": 130.0
+        },
+        {
+          "name": "Thread-24",
+          "ticks": 8,
+          "cpu_ms": 80.0
+        },
+        {
+          "name": "Thread-27",
+          "ticks": 7,
+          "cpu_ms": 70.0
+        }
+      ]
+    },
+    {
+      "folder": "upstream-positive-block1",
+      "camera_active": false,
+      "observed_stable_identity_cpu_ms": 880.0,
+      "matched_thread_intervals": 960,
+      "scan_overhead": {
+        "samples": 24,
+        "p50_ms": 8.9263,
+        "p95_ms": 30.7258,
+        "mean_ms": 12.082929166666666
+      },
+      "identity_or_read_changes": {
+        "born": 0,
+        "exited": 0,
+        "reused": 0,
+        "unreadable_before": 0,
+        "unreadable_after": 0,
+        "unsupported_enumeration_intervals": 0
+      },
+      "top_observed_names": [
+        {
+          "name": "pool-2-thread-1",
+          "ticks": 19,
+          "cpu_ms": 190.0
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "ticks": 17,
+          "cpu_ms": 170.0
+        },
+        {
+          "name": "Thread-30",
+          "ticks": 17,
+          "cpu_ms": 170.0
+        },
+        {
+          "name": "Thread-28",
+          "ticks": 11,
+          "cpu_ms": 110.0
+        },
+        {
+          "name": "Thread-29",
+          "ticks": 9,
+          "cpu_ms": 90.0
+        }
+      ]
+    },
+    {
+      "folder": "upstream-positive-block2",
+      "camera_active": true,
+      "observed_stable_identity_cpu_ms": 22820.0,
+      "matched_thread_intervals": 1008,
+      "scan_overhead": {
+        "samples": 24,
+        "p50_ms": 462.5853,
+        "p95_ms": 1064.3231,
+        "mean_ms": 475.0466208333333
+      },
+      "identity_or_read_changes": {
+        "born": 0,
+        "exited": 0,
+        "reused": 0,
+        "unreadable_before": 0,
+        "unreadable_after": 0,
+        "unsupported_enumeration_intervals": 0
+      },
+      "top_observed_names": [
+        {
+          "name": "RenderThread",
+          "ticks": 521,
+          "cpu_ms": 5210.0
+        },
+        {
+          "name": "pool-2-thread-1",
+          "ticks": 324,
+          "cpu_ms": 3240.0
+        },
+        {
+          "name": "senp.validation",
+          "ticks": 216,
+          "cpu_ms": 2160.0
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "ticks": 143,
+          "cpu_ms": 1430.0
+        },
+        {
+          "name": "Thread-39",
+          "ticks": 116,
+          "cpu_ms": 1160.0
+        }
+      ]
+    },
+    {
+      "folder": "upstream-positive-block3",
+      "camera_active": true,
+      "observed_stable_identity_cpu_ms": 22820.0,
+      "matched_thread_intervals": 1032,
+      "scan_overhead": {
+        "samples": 24,
+        "p50_ms": 401.2829,
+        "p95_ms": 994.717,
+        "mean_ms": 502.0642
+      },
+      "identity_or_read_changes": {
+        "born": 0,
+        "exited": 0,
+        "reused": 0,
+        "unreadable_before": 0,
+        "unreadable_after": 0,
+        "unsupported_enumeration_intervals": 0
+      },
+      "top_observed_names": [
+        {
+          "name": "RenderThread",
+          "ticks": 478,
+          "cpu_ms": 4780.0
+        },
+        {
+          "name": "pool-2-thread-1",
+          "ticks": 335,
+          "cpu_ms": 3350.0
+        },
+        {
+          "name": "senp.validation",
+          "ticks": 232,
+          "cpu_ms": 2320.0
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "ticks": 150,
+          "cpu_ms": 1500.0
+        },
+        {
+          "name": "Thread-43",
+          "ticks": 128,
+          "cpu_ms": 1280.0
+        }
+      ]
+    },
+    {
+      "folder": "upstream-positive-block4",
+      "camera_active": false,
+      "observed_stable_identity_cpu_ms": 990.0,
+      "matched_thread_intervals": 984,
+      "scan_overhead": {
+        "samples": 24,
+        "p50_ms": 10.0099,
+        "p95_ms": 32.4191,
+        "mean_ms": 12.831775
+      },
+      "identity_or_read_changes": {
+        "born": 0,
+        "exited": 0,
+        "reused": 0,
+        "unreadable_before": 0,
+        "unreadable_after": 0,
+        "unsupported_enumeration_intervals": 0
+      },
+      "top_observed_names": [
+        {
+          "name": "pool-2-thread-1",
+          "ticks": 19,
+          "cpu_ms": 190.0
+        },
+        {
+          "name": "Thread-48",
+          "ticks": 18,
+          "cpu_ms": 180.0
+        },
+        {
+          "name": "Thread-47",
+          "ticks": 18,
+          "cpu_ms": 180.0
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "ticks": 17,
+          "cpu_ms": 170.0
+        },
+        {
+          "name": "Thread-49",
+          "ticks": 13,
+          "cpu_ms": 130.0
+        }
+      ]
+    }
+  ],
+  "same_model_pixel_hash_verified_per_input": true,
+  "model_input_is_actual_camera_frame": false,
+  "generated_model_timestamps": true,
+  "live_delivered_fps": null,
+  "capture_to_result_latency": null,
+  "scan_overhead_in_cpu_bracket": true,
+  "unobserved_or_recycled_thread_cpu": null,
+  "zero_ticks_proves_idle": false,
+  "thread_names_prove_operator_identity": false,
+  "original_model_inputs_inspected": 2,
+  "static_prediction_pairs_inspected": 8,
+  "distinct_actual_camera_source_frames_inspected": 4,
+  "new_human_labels": 0,
+  "python_tests": 167,
+  "isolated_native_case_passed": true,
+  "normal_native_suite_rerun": false,
+  "production_changed": false,
+  "weights_or_thresholds_changed": false,
+  "reference_model_selection_changed": false,
+  "raw_MP33_modified": false,
+  "independent_label_or_final_subject_access": false,
+  "new_delivery_APK": false,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "readiness": 50,
+  "production_readiness_receipts_revalidated": 2531,
+  "checkpoint": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveFrameGate.kt",
+      "sha256": "3813a9428604f4fc09b354ec8754cfa6c3b48f79f8efc13f229e5cbb4b852ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveMediaPipePoseEstimator.kt",
+      "sha256": "3e16861e3b1c48e36071aa7ec1b41f22da22291446313dc648d012ccb0467e11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LivePoseModel.kt",
+      "sha256": "b152c69e80fd4c9b187b4ef992a22091052a1b2135d35fa5e1ec8412f1bebeab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveTrackerResetPolicy.kt",
+      "sha256": "26bb21c031dc5b6084121b0256109a0b41e52b3e39147c4e20058a6821c78b06"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/MediaPipePoseEstimator.kt",
+      "sha256": "bedf4b38ce31eb1f3be7a8d61178b1a44f9deb2249a17f7489ba697ead6b5fb3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/VerifiedPoseModelBuffer.kt",
+      "sha256": "c6e623ff3ae9f58b32ecf3a9ed371460838034b0a6623476aeacedf5b8d1bdf9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedMp33Evidence.kt",
+      "sha256": "fb78d2e889273b0f9366502ed7204cb0e4ba1d68d3be956b2ae9a9a1a44dceac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "6b96f2348e0d918ee316cdeb53e36f8bdc451a2f0f6bb5836486dc0e14d3660f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "7162e76fa7ac4bdf46f75b3d6ed23645da8c3e1756140f798531243ef589c5a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/docs/CAMERA_PREVIEW_ABLATION_RESEARCH.md",
+      "sha256": "a8fd9658c565e3c68ca77bd998c7280e322cfdb293a402080380c1dfa11a04b5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/docs/FROZEN_PIXEL_CAMERA_RESEARCH.md",
+      "sha256": "26a357e78dcc108363de6bb5a4f98dd74534a74e3be687a6a804870065d22d2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/docs/FROZEN_PIXEL_THREAD_CPU_RESEARCH.md",
+      "sha256": "b0d31923f2d450f588805027876ce4fa4a3a9de94edcfa4b1e08ae702773eaa3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/docs/LIVE_CAMERA_PROBE_RESEARCH.md",
+      "sha256": "7405d14c21df64abddc7fc54456a06f7c0a5b638a553c78505cfb1d67a3812c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/analyze_camera_preview_ablation.py",
+      "sha256": "1e28d44863770735ab19f438240645d1c46b86f9b9c7a8fae3dd0e0571a6e163"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/analyze_frozen_pixel_camera.py",
+      "sha256": "263d2b3d6bf8cc4e4ff36ba75409e855425069b2e81d961f6e9db9c1740d2455"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/analyze_frozen_pixel_thread_cpu.py",
+      "sha256": "d8d6a865895c82933e0baf0d1610944929fde6b2d5c9f4012dc1621e6476f601"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/analyze_live_camera_probe.py",
+      "sha256": "1b60e52569bf167b8b2ac88ee4a1360d4f2ac91bd391bd54bd077901b354f4a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/analyze_live_camera_soak.py",
+      "sha256": "3aa569d296998c1880e51667cdfa7b53965049586a6354a5796df7d052b92817"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/frozen-pixel-camera.init.gradle",
+      "sha256": "6ae83a3a1153328d59dee9df4f623ca1e3d92f2bab34322e62f884cef1853fb7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/live-stage-profile.init.gradle",
+      "sha256": "1ba40511d6ddfbb7e37ba4c2f9ae69bc09738695c02a274f5c56f78794f98998"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/plot_camera_preview_ablation.py",
+      "sha256": "aee6795913eb5523e77462f1ef19f30809d7d6dabc37726e9bff33132cc768c8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/plot_frozen_pixel_camera.py",
+      "sha256": "cda2404f814876f9092d19a27d6fb13f7aac9e761d9594b72577810f5fa0b427"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/plot_frozen_pixel_thread_cpu.py",
+      "sha256": "39341be82b996a0dc2ad1f8a96d6e156d100ae5999c4109a72db9c773870135c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/profile_live_processing_stages.py",
+      "sha256": "2c4df4b73170de450aaf418a084e2ea0152e5c327147ba63cf54a9cc08ca34e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/tests/test_camera_preview_ablation.py",
+      "sha256": "035f5cb8ea7e5923f8ab2d7635f4c43589e7160827a97b0f72dfb01f4701b94e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/tests/test_frozen_pixel_camera.py",
+      "sha256": "3b488d7c66bffb6419a645554007114d7c9d55c191dc32e624e649935c2b77ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/tests/test_frozen_pixel_thread_cpu.py",
+      "sha256": "6fa0ed2a3a0d5f7c79cd7d66d68c0af48ede176ea1604063ec2771c35182f11c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/scripts/tests/test_live_camera_probe.py",
+      "sha256": "65986b48ee05adebd852fe0b6f2ea87c211e351bfb18331c281879f7cfded4af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/EngineComposition.kt",
+      "sha256": "3419480d5e3eb57642fdc326d3d9d737c4debab786e174619690cc27a7d8c219"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/FrameReviewIntegration.kt",
+      "sha256": "42cca0ebb6cb856e25f6164d575c9ef412921c6116ff2aab1e828fc801fd7568"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/LiveCameraDiagnostics.kt",
+      "sha256": "a4612fdc226cbf684469224f6696138a1d7b45e62e67903a8f06522dc401e1ae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/LiveCameraFrame.kt",
+      "sha256": "77208cc9146fed0c4691cefb603eac54fa1957eddda6956fd25652ef4406daac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/LivePushUpActivity.kt",
+      "sha256": "13109ba6c2e8bd2c788d9befe24514fb111dfe7cd14c893bff4532df170c6e6b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/LiveReferenceActionActivity.kt",
+      "sha256": "5e75020f5dfc5f161df9b813ad56a051e62770306fddb5d1b553787cf5b85e83"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/QualifiedReferenceBackend.kt",
+      "sha256": "fed0d3906da7f4c5e5470a2c7edcedcc2dc8a0bc6350b2b7e61e8e02325c8b05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/RecordedComparisonAssembly.kt",
+      "sha256": "4ccb7090f7f25654398f2ed2b456397fc84425c191c69fc3de64cb1557b23e3e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ReferenceActionSession.kt",
+      "sha256": "52ddea3f83541c56660c638f80a0baf3268a9b0d2f7bb72ef36be342c5f75785"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ValidationActivity.kt",
+      "sha256": "6f2b90d599259f7a75f025eb820bd1ec43fff1d8529ff1f6286eab403db751aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/SenpApp.kt",
+      "sha256": "b2ee0f6b37229e8617e7b92048084ba70db7584683af4c187f31194fce34b656"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/SenpEngineViewModel.kt",
+      "sha256": "a91f3440fc0115a222bfb1e1e8f74674b748b3f7a77e25a30518d12d26141006"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/components/DiagnosticsBottomSheet.kt",
+      "sha256": "8875ff90763bd2edbf1eaea3e1a5ed222c8c15ff3c9097ba281d4e6f2348836c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/components/PoseLandmarkOverlay.kt",
+      "sha256": "96cfa25a8a4812afb805a034ec335281002729caa696af9582459d0b252b3bbc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/AnalysisPlayerScreen.kt",
+      "sha256": "9342fc373aed3721e2e80176907913870e457f09e57e6d0132b518f1020468d0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/AnalysisProgressScreen.kt",
+      "sha256": "f1e4fc0af6fb36c5ce9236e3d30de95b3f5dca470695fda9486f78f5f83e7db6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/ConfigurationScreen.kt",
+      "sha256": "4d16f63a952eb96d05023a165a96aad4dfa5233a504d0eb859b4b6a6c2d42529"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/PlaybackMapping.kt",
+      "sha256": "b07b39842d831ec3acd2c8ccf5b0505b09db4b19a894dd0a515225729916beff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/VideoEditorScreen.kt",
+      "sha256": "fd3b6fae0a45f48ec9b4befc43112dfedb66087f4ec8bbecb056d1064d78ac80"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/state/SenpEngineState.kt",
+      "sha256": "a0404dd1868f094879c0fbb8b443aceae57d6cde495f1089b68acbf818480b0c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/theme/Glassmorphism.kt",
+      "sha256": "96094bc3b9131c720298b4cb80f5aae47f36062078127cdcf9a830c877eb29a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/main/kotlin/ai/senp/validation/ui/theme/Theme.kt",
+      "sha256": "06f65ef601d14f95c8452ff28d402957c4ad4593ac1be1b72c09f76e122cd64f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/FrozenPixelCameraInstrumentedTest.kt",
+      "sha256": "f3863df2b789e5e3fff40a830a42cc19799af6b16714088670fd8ef226a77be7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/FrozenPixelThreadCpuInstrumentedTest.kt",
+      "sha256": "83a73f204265846b7c7019aff30d6e4b41883315657a8f88785806cfaeb45f17"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/LiveCameraPreviewAblationInstrumentedTest.kt",
+      "sha256": "e079d821a25c274f499d30088c7925d9c520af47bd0f31d12b93315bb8520502"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/LiveCameraProbeInstrumentedTest.kt",
+      "sha256": "b8e12988b4bff5735aa53a6040d8415a0dc85b8fa7a5fe50da13f6b361b17182"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/source/validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/ThreadCpuCapture.kt",
+      "sha256": "0cc21a794ab55c9d0773f978764690b1d3181727eafaa7db74e9c4b9007d383c"
+    },
+    {
+      "path": "models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "models/viewport-admission-readiness.evidence.json",
+      "sha256": "b98616c63e84a931fe4165978e4d6411f9b95bc7332e54ee3b84b132b01a40aa"
+    },
+    {
+      "path": "models/live-stage-profile.provenance.json",
+      "sha256": "822d49f8df34ac6c2ed5fe93fe00b4b97c61ed01362f3bf1d320a6c159ff9298"
+    },
+    {
+      "path": "validation-app/src/androidTest/resources/qualified-rep-native.json.gz",
+      "sha256": "26a28034a15f3616cb4908d26e918b745e4e6f9b556bf3c85cba1500b2162e64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/native-stage-capacity.json",
+      "sha256": "6ea92364771d87895cef88bd589f30c9b745a171313a5a25d95ba208d93ebf80"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35-export2/runtime.json",
+      "sha256": "13abbb52bca6616a5b5a0bbfff8cbfe83e00673b3532edd8dc9b78ded6ee8224"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/api35-runtime/avd-home/Senpai_API_35.avd/config.ini",
+      "sha256": "e5f5a6857de6beba3db02dfe1a89779948feacbdfcb2bc3938579840dac19a67"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/manifest.json",
+      "sha256": "ef51d5904848e48d6283cf816611e42ff375505e930bba05b505b6b61eedf06a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/original-room.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/upstream-positive.jpg",
+      "sha256": "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camera-preview-ablation-20261028/runtime-api35/evidence/block1-preview/original.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camera-preview-ablation-20261028/runtime-api35/evidence/block1-preview/raw.json",
+      "sha256": "c0a7a05c67487f438835fc196b763ab91546272dc389160e85a64d5d04a6ba4c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/actual-camera-source-separate.png",
+      "sha256": "71ed4662455987fdb12f4758b286d692c704e51d8285465a93e354680cb7b4da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/analysis.json",
+      "sha256": "a96923dba5df1fa51cbad6fbf6df79fa0a7dbd224caa02611b0523969c8bab74"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/frozen-input-wall-times.png",
+      "sha256": "819f1bd5f9fe37d5486ea42ef0da8b56bfc94696b4e827a4db2965724c5b9d7c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/frozen-model-input-and-predictions.png",
+      "sha256": "f37cfb95669dae49d10ebc0adfe6ea48a26a53caa400d2ea102fbba6e2a241fb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/input-review.json",
+      "sha256": "20354414b989827e1e13f1e4c8bdb57a942ef5f4b59ee194e9ecb98d62c9eb13"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/observed-thread-cpu.png",
+      "sha256": "24b992def1e91119fad2236fbf85e0185a83d5c83a1d8d4a978d2d7315a9a130"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/readiness.json",
+      "sha256": "eec400f79d0755f11220cb8eee0ef58d0ea85c832a3582bc6cef425f4d8593ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/emulator-stdout.log",
+      "sha256": "470c7bc0479fa9933da77bba7d82440f0638a784f2dca1db44fe52445cd514ce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block1/camera-startup.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block1/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block1/model-input.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block1/raw-model-prediction.json",
+      "sha256": "bbc43c7e4d85b0f598649ffb15e98a47faf0326cc7802a413ab3a196670c1ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block1/rows.json",
+      "sha256": "19c19359ee8a4bbf4a8f98535b7157a9d3811457e73d0c4b9cf620f30b3e0720"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block2/actual-camera-source-not-model-input.png",
+      "sha256": "6b7f9b9f9e25c4c7eab1bb9fe81e75c241f41ca477def447556b43810cc30617"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block2/camera-startup.json",
+      "sha256": "e719aaf45aed2b7e7b66a27d3341b79663a25b917b8e300251491c8addc7e764"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block2/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block2/model-input.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block2/raw-model-prediction.json",
+      "sha256": "bbc43c7e4d85b0f598649ffb15e98a47faf0326cc7802a413ab3a196670c1ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block2/rows.json",
+      "sha256": "259613e1ff50472e7127fb1170ae12bfb5ce1a117b2e6c36a656b59538c5ba08"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block3/actual-camera-source-not-model-input.png",
+      "sha256": "0ced2dce4c4ffeceb28e1ca0b3c2914ad24bc207eb33e0f22f5d748d971d6f81"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block3/camera-startup.json",
+      "sha256": "6187b4cdeec7d2d9fadd3d3d3abe424524cbd16636bb0e3829585fe7189cfb8e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block3/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block3/model-input.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block3/raw-model-prediction.json",
+      "sha256": "bbc43c7e4d85b0f598649ffb15e98a47faf0326cc7802a413ab3a196670c1ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block3/rows.json",
+      "sha256": "a734d7a347134936d054d58f4877b5aa3a1d417ec0f6deffde477f463d687795"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block4/camera-startup.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block4/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block4/model-input.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block4/raw-model-prediction.json",
+      "sha256": "bbc43c7e4d85b0f598649ffb15e98a47faf0326cc7802a413ab3a196670c1ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/original-room-block4/rows.json",
+      "sha256": "e89788dd94ce38d02378f8c2bfe8ebcbdf34e419f2235279a5d7a7572076eeae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/summary.json",
+      "sha256": "f5a416fdc63ee1c314bce9a0598835de86ad6d9dfba2d202df85c268d559abe8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block1/camera-startup.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block1/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block1/model-input.png",
+      "sha256": "87da24424925881c19532f1d7fa058ea4f384b3e2c357733e36c1271ffc530b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block1/raw-model-prediction.json",
+      "sha256": "02b9051d4b820be151bc52d71d24b4723e6765bbd8744660656eac86bf09747c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block1/rows.json",
+      "sha256": "ba5c3909c5400b77d79b59859a7cddddbda0a6585aab3276d4fd5b29794f522a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block2/actual-camera-source-not-model-input.png",
+      "sha256": "0390a90b494ef84fed9e7bd927b87f0387057c2c39905990e1298dc0a65d66cf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block2/camera-startup.json",
+      "sha256": "47e3d5e62d7484ade9e1e543d86975c5fb1d6b84b0cdcbedfe6d437e0e6ed9ce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block2/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block2/model-input.png",
+      "sha256": "87da24424925881c19532f1d7fa058ea4f384b3e2c357733e36c1271ffc530b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block2/raw-model-prediction.json",
+      "sha256": "02b9051d4b820be151bc52d71d24b4723e6765bbd8744660656eac86bf09747c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block2/rows.json",
+      "sha256": "fbc29845fb35f155ad204920b1f26151832148f2eade3061b68942dac21277aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block3/actual-camera-source-not-model-input.png",
+      "sha256": "b1925ae421b9b552d9170e1e598ed93eb0c8f68441862047e29531b02b093200"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block3/camera-startup.json",
+      "sha256": "639b81f8fb0ed3c6d45ac195ecd0f5c25a93bcd37dcc3f2b12ea48a4b742de3b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block3/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block3/model-input.png",
+      "sha256": "87da24424925881c19532f1d7fa058ea4f384b3e2c357733e36c1271ffc530b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block3/raw-model-prediction.json",
+      "sha256": "02b9051d4b820be151bc52d71d24b4723e6765bbd8744660656eac86bf09747c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block3/rows.json",
+      "sha256": "07849ec262686cd8e711245e0b63712ef17051e36800274a3417af192441c732"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block4/camera-startup.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block4/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block4/model-input.png",
+      "sha256": "87da24424925881c19532f1d7fa058ea4f384b3e2c357733e36c1271ffc530b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block4/raw-model-prediction.json",
+      "sha256": "02b9051d4b820be151bc52d71d24b4723e6765bbd8744660656eac86bf09747c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/evidence/upstream-positive-block4/rows.json",
+      "sha256": "c85337eb972cce0b83c7cc9186f47fee9ada722832ff01232c197c2e93af69cf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/logcat.txt",
+      "sha256": "a2c94bddd278eb708fb50def215329799c688739a037ef78226968dea063fb54"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/native/instrumentation.txt",
+      "sha256": "5788c6db5cd3015442592e0d829ae38dcdc9813e1d672731c524257d44c3caa5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/native-command.json",
+      "sha256": "078e7739b83a8bd579c0c56f3e51f3af303d259ae386ead04a5beacd593ec345"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/owned-process.json",
+      "sha256": "c7f80880f7b2bdfabc4edb55fd6480a46751097d3a5926809bf6382c5649aeec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/pull.log",
+      "sha256": "d880f1f7c5aeb919d6d2b2aa318f3ebcca452a510d5aced8171be47be52dd95d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/runtime.json",
+      "sha256": "bcc89c8679f12aba4e667d1a0dba34779e2054644d3bf18aed2c66f79371dcf6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/stop.log",
+      "sha256": "483d31d727a891b284fe65f3b042180f0dcf884ee845c457e261de7a6e891804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/stopped.json",
+      "sha256": "6e5bae97082eb942c77f159ecd26a0ba647fe80600200642621b95024df175df"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/validation-app-debug-androidTest.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/runtime-api35/validation-app-debug.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/results/thread-chart.json",
+      "sha256": "f5da4c13ca738c405ed41e1de06bd7da1d0a31add60b44a63d7de37699074feb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-analysis.log",
+      "sha256": "6fa82db216959341c64007558bb02c23ccb84b234b7ba081a594dfe8f77984f6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-build.log",
+      "sha256": "3d961633d3e3dfadb9c419159a2d02854d7fab4f788c0a72417106d7d9eea40b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-preflight.log",
+      "sha256": "c0fe06072de8fb1c614c4fd86aa54e19bba926a418124ce02ed52ba5592707a6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-python-final.log",
+      "sha256": "b7a44dbd80225e0b7a314be6a1c21d4a1960e34c9ccaaac5d4fa7b243610a169"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-python.log",
+      "sha256": "ce24558d814baa18f9ceadc229db7c7ed8067f69b8987270dacb93131fb7a173"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-readiness.log",
+      "sha256": "eec400f79d0755f11220cb8eee0ef58d0ea85c832a3582bc6cef425f4d8593ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-review.log",
+      "sha256": "57460f0bb84104fa678c26c674fcf28519278923af3621ad88fd2e81b8742df8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-runner.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/thread-cpu-unknown-census.log",
+      "sha256": "c36f5f89d3aaa826fd97d79a27fa172df5477a92ab9205dae6e4ff5369c4d4c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/logs/frozen-pixel-thread-cpu-native.log",
+      "sha256": "5788c6db5cd3015442592e0d829ae38dcdc9813e1d672731c524257d44c3caa5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/work/thread-cpu-native.ps1",
+      "sha256": "9f4fae79cd6940c0908f25c4fb072fb65dc1353ddf4ade5813c1a3b4ed6b9930"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/work/freeze-thread-cpu-protocol.py",
+      "sha256": "49772a1c147adb5f03ad24aadc39b1efaa24dcfde4e368985280cb53166dff52"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/work/create-thread-cpu-harness.py",
+      "sha256": "73cb6008dac161e1716b9df770621112ab77fb494937f52eaf2c5f267953b3d1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/work/freeze-thread-cpu-results.py",
+      "sha256": "7746e775357654430e9386d36dfad7460231b15f4b4382eafb4989c413e34859"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/protocol.json",
+      "sha256": "eeb5f18816759beafa91e24cd374ef14d55c99476d298f9a44a984904a7aa63c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/report/FROZEN_PIXEL_THREAD_CPU_RESULTS.md",
+      "sha256": "30eed0741303d501b09cf600528d8a80a050e0d53a319b3094087955d049e60b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/viewport-admission-checkpoint-872c9f7/apks/validation-app-debug.apk",
+      "sha256": "57a4d201d61a7466869d8ddf9e4ff8d6ef2a83650176c780af467cc33b874a58"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-thread-cpu-checkpoint-6e58e46/apks/validation-app-debug-androidTest.apk",
+      "sha256": "54c71b951686d4a91c108ac1a97b7030abdf99a546894bef715c5486eb9e63d6"
+    }
+  ]
+}
