@@ -1,0 +1,24 @@
+{
+  "schema": "viewport-admission-controlled-corruption-protocol/1",
+  "frozen_utc": "2026-10-28T07:05:32.063975+00:00",
+  "compiler": "qualified-rep-compiler/9",
+  "fixed_scenarios": 124,
+  "oracle_mutations_unchanged": true,
+  "admitted_observation_matches_production": true,
+  "original_benchmark_preserved": true,
+  "human_rep_precision": null,
+  "receipts": [
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/ViewportCounterfactualBenchmark.kt",
+      "sha256_lf": "c025871b721b92e45c95e3617d528e46a7e8b99480ee192bcbddc6b555132608"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepCounterfactualBenchmark.kt",
+      "sha256_lf": "9003a262e490688fd9845961df368543616866d19bdf12f5eb489a0ca1f70fcd"
+    },
+    {
+      "path": "scripts/viewport-corruption.init.gradle",
+      "sha256_lf": "dba7f2d326dea2e4e8342723555a60060db55500e575c99978f6af99d967692c"
+    }
+  ]
+}
