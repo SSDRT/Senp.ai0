@@ -1,0 +1,729 @@
+{
+  "schema": "uiprmd-central-torso-provenance/1",
+  "experiment_freeze_commit": "77f5fc12b67c7a6bea512f747731ee718348c156",
+  "verified_engine_commit": "872c9f7aa2516e99580e75e188c18a5d3b683881",
+  "compiler": "qualified-rep-compiler/9",
+  "decision": "DO_NOT_ADVANCE_TO_VALIDATION",
+  "publisher_licence": "Open Data Commons PDDL1.0",
+  "subjects_opened": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
+  "original_recordings": 16,
+  "original_repetitions": 160,
+  "correct_repetitions": 80,
+  "incorrect_repetitions": 80,
+  "baseline": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "false_negative": 49,
+      "verdict_UNASSESSABLE": 70,
+      "true_positive": 31,
+      "assessable_reps": 81,
+      "verdict_ACCEPTABLE": 55,
+      "verdict_NO_EVENT": 9,
+      "incorrect_reps": 80,
+      "verdict_REJECTED": 23,
+      "false_positive": 27,
+      "verdict_CORRECT": 3
+    },
+    "precision": 0.5344827586206896,
+    "good_rep_recall": 0.3875,
+    "assessable_coverage": 0.50625
+  },
+  "candidate": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "false_negative": 38,
+      "verdict_UNASSESSABLE": 57,
+      "true_positive": 42,
+      "assessable_reps": 94,
+      "verdict_ACCEPTABLE": 70,
+      "verdict_NO_EVENT": 9,
+      "incorrect_reps": 80,
+      "verdict_REJECTED": 22,
+      "false_positive": 30,
+      "verdict_CORRECT": 2
+    },
+    "precision": 0.5833333333333334,
+    "good_rep_recall": 0.525,
+    "assessable_coverage": 0.5875
+  },
+  "changed_episode_verdicts": 20,
+  "squat_attempts_and_metrics_unchanged": true,
+  "reference_unavailable": 0,
+  "reference_assignment_and_thresholds_unchanged": true,
+  "explicit_research_feature_projection": true,
+  "missing_anchor_fallback": false,
+  "original_marker_frames_inspected": 9,
+  "original_episode_traces_inspected": 3,
+  "missing_original_start_preserved": true,
+  "python_tests": 152,
+  "core_motion_jvm_tests": 255,
+  "production_changed": false,
+  "camera_or_native_runtimes_rerun": false,
+  "new_delivery_APK": false,
+  "raw_MP33_modified": false,
+  "network_weights_trained": false,
+  "native_Euler_mapping_used": false,
+  "new_human_labels": 0,
+  "validation_trajectories_opened": false,
+  "final_test_subjects_opened": false,
+  "development_gate_met": false,
+  "independent_skeletal_test_qualified": false,
+  "human_rep_precision": null,
+  "readiness": 50,
+  "readiness_points_earned": 0,
+  "production_readiness_receipts_revalidated": 2531,
+  "checkpoint": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/build.gradle.kts",
+      "sha256": "a19ddffd441523f4a805fd26c3299edafed4cc47f0c73caff58738937d8ce38b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedMp33Evidence.kt",
+      "sha256": "fb78d2e889273b0f9366502ed7204cb0e4ba1d68d3be956b2ae9a9a1a44dceac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "6b96f2348e0d918ee316cdeb53e36f8bdc451a2f0f6bb5836486dc0e14d3660f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "7162e76fa7ac4bdf46f75b3d6ed23645da8c3e1756140f798531243ef589c5a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdCentralTorsoProjectionTest.kt",
+      "sha256": "ce4b139ed35d9f38d383c664fd1d788a500bfc646cc4f40f91afd53089a4d4d8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdCentralTorsoReplay.kt",
+      "sha256": "8af80e190a1e65a28a3728274847ee7f619d14907e67309087c0e8adb2dfbc50"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/AnalysisPipeline.kt",
+      "sha256": "908536b007e24deb916af2818466f1c73e0667f146960080bae74f06cccb8b4a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/Ports.kt",
+      "sha256": "b4f812a6467a5519cec7da860d9b8d987ffa684fdd1acce5f42eababd7215191"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/docs/CENTRAL_TORSO_DRIVER_RESEARCH.md",
+      "sha256": "24a29ff488a8c155868d86349af87141bf45ba5bc6b6bd64579ed33b5b311f64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/models/uiprmd-evaluation-protocol.json",
+      "sha256": "cec24dad3d99e353817e6039c4ba2798aee8238837d9d29e72d567db1e0bbd81"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/central-torso-research.init.gradle",
+      "sha256": "a96f7c89277628b2864e44627cde8ce1d175bbb4fc998946deb9f2c12ccfe3d0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/evaluate_uiprmd_central_torso.py",
+      "sha256": "0c5aaa45eee36d3ebc8fb8ca98f788c33df9fffa0a45bd2c5414b54d1304bb50"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/evaluate_uiprmd_development.py",
+      "sha256": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/fetch_uiprmd.py",
+      "sha256": "56fa0e818cba730f26626f615ea129532b21bd854bb29b926cb068bba7e6e311"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/inspect_uiprmd_development.py",
+      "sha256": "51afc5271098326e0ef56def3a0e174f90644e1ef9a1e6b9fc4adc26c4c777c8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/plot_uiprmd_central_torso.py",
+      "sha256": "2892d63460cfb645ea9e8357cc4e380885b2fc7b0448f18522556caf814eb0eb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/prepare_uiprmd_central_torso.py",
+      "sha256": "ebbf7050dcd913d4d817d5415f5bf18076414af16f92b9b64282f4eac997056b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/tests/test_uiprmd_central_torso.py",
+      "sha256": "10e8138613b7c733ef59b93eb5022fa8e1e0c3b733435c1d505feee030364563"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/uiprmd_central_torso.py",
+      "sha256": "aa1921738acc0aa2063f6f592ce75ddadfbf170daa09ff3795701359b1a395f4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/source/scripts/uiprmd_vicon.py",
+      "sha256": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/acquisition.json",
+      "sha256": "47dde1ad2dfc6fb04ee820f1ad526a27157e099e82c944d8ddd4576abb741c09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/README.md",
+      "sha256": "d411dddc51dec53071934d2b164e5fcebff8b54eacd6c0eb55ef31441ee27868"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/paper.xml",
+      "sha256": "b47ebeb7556b7a37d030a564be33b2aa8aa81bd929d40ce5d42d6c3549c9f01e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s01-correct.json",
+      "sha256": "8d365f5f89e70e3cd0b77631a7ad1f643ec0d47c861087103ce298fc855d086d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s01-incorrect.json",
+      "sha256": "1636a96db53e7258d50d030a48f706c9e1d48b1bbc505f31310673f661decd3c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s02-correct.json",
+      "sha256": "68e83a5e67b5225591d75ba3cb1543bc1e5b0bddc71b65483b7f8c6daf177aa3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s02-incorrect.json",
+      "sha256": "045d351b44b602252889a338c5fde5797a1d55524c123e0f715614f0b2d78462"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s03-correct.json",
+      "sha256": "c5b67f6887a45126760f724a4299cf224aa58fb028c380cb3d14ff4ab70897fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s03-incorrect.json",
+      "sha256": "5dc50ab26f0c82fda863e3af38a0318e56c72d23d3cecce44bf9e320566d0329"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s04-correct.json",
+      "sha256": "ef18dfd34002c794e76d45e6e0622cb11076700b10d95e27abbf1d8603dbec65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s04-incorrect.json",
+      "sha256": "d22bfea373ccd879b1e942a60cb2be8dbb37b410d9c65bb6e7215cded36faa63"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s01-correct.json",
+      "sha256": "dd276a60f3724ae2e7472a22dcf19b75e055599a999ace982b4716727fe37ac5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s01-incorrect.json",
+      "sha256": "e726eced1f6add501da50dd790464fe099d744c4df5de5d356813da84d970ffc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s02-correct.json",
+      "sha256": "8d7a2e6cf114dbbb467bceb49aef7b567f41d729fefc810c983a8b442a046b47"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s02-incorrect.json",
+      "sha256": "626262dba0c2d6224c47afb05440817544853043886fa291af23e32435acfb2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s03-correct.json",
+      "sha256": "1be0ef2d848e3394aae572f1b97e9c1203ab0d82930ab3340d634ccc03cb8e51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s03-incorrect.json",
+      "sha256": "2b5dd1cc068f0dbd729d2e9db8d0e6a3ebee08681a114ea560e40ca08d8ed252"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s04-correct.json",
+      "sha256": "a9bf7d4e9db1b344a19f36ef8fac11befa92d807eae9bc89bdb9c74fb92c7765"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s04-incorrect.json",
+      "sha256": "b7b7c2f694e689126708e2c723d38163d58eee44755e2838bdcc86c3fdf61b3a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Movements.zip",
+      "sha256": "b0d42b786f5e9bb7f7ab21a7e7fdf3aa06d192e25eaaaa4cdcf40932b90c19ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Incorrect Movements.zip",
+      "sha256": "039ffd9bf3d037e7b0971e28cf7c0410f6fed2f90e7d31f7122b2c7a9b036d95"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Segmented Movements.zip",
+      "sha256": "37478419e5bd6cdb814a94d1ec0fa0b2dfa6497cae03d25e1c2fbc51c676d721"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Incorrect Segmented Movements.zip",
+      "sha256": "d886f76e5096e934f7200a9307a2ad29327ab396a3728439f8e9bcd4717ac154"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/protocol.json",
+      "sha256": "f07fe231199e77cc92dfa1b14178859350e3b8d04ab2a3ace06621e55e243d22"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.ClaheReferenceEvidenceTest.xml",
+      "sha256": "2b2e4966315160fcd50f7900fb2eac253283b29b6ccebc433cc8339eb87d378f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "0d7fcbb00831aec5ada3c51d8c178474aac5be2638d41c17ef4b36fb162d98f6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "ba3493ebccf438ee7b20bbaecefba7e4b235942e439494932a767bff65a0f1da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "59d83c78ea3597016ec3e61ecc831ddb10aaad8b16f65020f86b0015705d3d4d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.FixedReferenceWindowResearchTest.xml",
+      "sha256": "37e746755f000f0248b60c8e38846a3518f08a2069f30850187afcde48974130"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "6cfd65de8e440fc4b8938fc593cba8fc6bd5c85060e10a17b89efa1e1b5ea940"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.InImageMp33EvidenceTest.xml",
+      "sha256": "69a8f1402817b2228fab627182c8cf7de688f07b17dab50ff65c59013b4e22c7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "5c8825342c798b674759ec00d872fca43fb1e9a61cdbc4d9ddc533d087bac071"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.LiteReferenceEvidenceTest.xml",
+      "sha256": "a70a7e50df5a2198b4ca48ad93317251ef0c981e0aefc9acdb5c47a11e96e7e8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "95d7ccf239725b3d96a294da416e613f435d8d302a65374887810cb166ac0dba"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "84e4d2c87f0524bd3ee8772fc8bd946c123845162eceb0b3e985a208a88b40a2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.MmfitRawEvidenceTest.xml",
+      "sha256": "332f880341f08776b1109266c314c906c6d93c211f48b1d7ee165e4f99e7d83d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "243f08d0d99e75aa85ef1f6b016d477db2fd62b6dba6e493fe246a061a656cc9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "606383f4bb1ae067d29d79eeb878ffa2a75a66da9c2274ae61db38b743647684"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "fc30edafff5554cc5f681da62a115fb78260c1d0ab0e397f0108f7bef43f91dc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedMp33EvidenceTest.xml",
+      "sha256": "d084d9dbe8f8a8a7ab0a0fc293f80aafc65749f76167449b6c84037bc7ac9a35"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "d248b68b129938a668184c3e1c4590ea09c0a867cf397be5940ff309f7943e8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepClearReadyTest.xml",
+      "sha256": "34863c38a132ff21a7a5d0feec6829eb8dcb9a9b9cdc56b1b81bf59cbe53585b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "057986b182fb8719fe73d8156c98507a02645232dca41e4e085438b31dd32c03"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "857c8c3d81616277977c73650ecfd405edf46dcf6574d42126ea20b155d6c718"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "52ada99339046574e9265e5ae38f9e6ff577c0d75e1ed8eda1a448a985d027b6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "6cd1b772956bb8c6432e7a99a6021ec232b4cf24f21ab5a4fb5da07a98eddb9f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "89afee3dfb9b8f0c427eed4d2440f5e123b697f6f455f702fad54277cca49ce0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepPreparationFaultTest.xml",
+      "sha256": "ddf09e3c6edb45db83658352c07e2fbe17fdb698868c336fec2ea1a3950707ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "5daaf6ba84c483d415bcad45957daab4b62184aabc10fbf25601212d32c2504c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "8cc218d39bbe458142bea4afc41952a7d0f80e4db886e9392171468aece54321"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "7d14618002d2d47de042a38ab33edbe1652ae9c7fe09b5a578760b82c35dcde8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "40043bd49b7bbfbb8b718c55c385d60c2c0495c464f1c81f7e9b16831e02288f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.ReadyFormValidationScopeTest.xml",
+      "sha256": "812e1ff88e2e411178152e642d8c971aae8e86de4874fe076c7f16f8f960a6a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "a213adcd2c1ce958caf63c44f6f6304e50180a87920e9fec94053b7e449150fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.RotationReferenceMappingTest.xml",
+      "sha256": "dac4c0d0b3010154cecadb9d905d324c5e83733bb24df75feb701ea25ccfddb4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "724c01f1a12f1e85a29dcf10c54fcab24ac4c23347c7a973790af9410bc49f1d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "c599a51a7910c0494fab39f6cfbb2ff2888a07cdde152c34adfa1e7ec19eb669"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.UiprmdCentralTorsoProjectionTest.xml",
+      "sha256": "912d4eb66b2b069e2653b16101c5dfe9ba41dc51d15758f1d1bde6aa6d694f1c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "b67cc3b7cf22a97c45c965730b7fd62852080bd4ebbd52db3d7ef1f5329b177b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "f796bdf88097744826e52339e09f53e515e37496e991bffe36abe03ee293276b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "b5613e2b9d50e16e7c69faa05c056e2e893ca9649e4489d9f53e72fb496859b5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/baseline-replay.json",
+      "sha256": "c65e65c3049c13878f3a79bbbcb0a8c594c28878adb120e1f742c5f8ecfd22a3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/central_torso-replay.json",
+      "sha256": "cbf60af8ac1ee061479aac6bf107e015fb397ab0819187a30f5fa1146c849100"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/comparison.json",
+      "sha256": "27045c7338ad9f251a4b513e4b2f43208e75273c55366b2583a53f277bd13442"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m01-s01-correct.json",
+      "sha256": "940e90b7bbe68c4de9e4d7ff5a757f0dee1a846f559e8df3bfb825c6998a469c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m01-s01-incorrect.json",
+      "sha256": "c667baf9ef7c17c8a2354f52889c5ecce5a1bd0fb962fd5f3e7c90506f9bd493"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m01-s02-correct.json",
+      "sha256": "1fa34af888e0f7dacc8b14e6ae816703f70fcd8dcd2e3ddc6fcff447b8544ed4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m01-s02-incorrect.json",
+      "sha256": "cff0c64f26b1104759e6f05b541d7386a775ee3e410366bf5b9f8aec8cad7298"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m01-s03-correct.json",
+      "sha256": "ad9f1973900764bed10fd22f23eedc60f0cc44b9a904848612c74609d2758eb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m01-s03-incorrect.json",
+      "sha256": "55a21cac57ed4c128e96698fcaae42becdcb92053d123ec9e9f66d2bada179cb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m01-s04-correct.json",
+      "sha256": "f4ae4a908ccf62c81e69dd59c86f54ccaa60e1358a568b9cdab753e6efd7b388"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m01-s04-incorrect.json",
+      "sha256": "205a9e3674e58c0e5be1d188b367f1545d577ef5be13f1655e2d5136e681ebbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m07-s01-correct.json",
+      "sha256": "5a8cb0f04cb3f694959de04ac0acd8ed95a18b85959679c9ab34ccbbec3311b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m07-s01-incorrect.json",
+      "sha256": "8865297a248323b74d89129eab306aceb607091ef04346e349c9d6c0ec357ba0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m07-s02-correct.json",
+      "sha256": "7ae881e90c1905bc348c763a15b29637e72299efdcf2899046b7ca533c5a1e90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m07-s02-incorrect.json",
+      "sha256": "03cdd79ac1207b6797f47cd3b974ca1429610a4ca57bd7e79beca0b2ea6fac8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m07-s03-correct.json",
+      "sha256": "c05b587157316255fbe27d8554929efc7c9f8ba656a19eba5eabea17346b42af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m07-s03-incorrect.json",
+      "sha256": "c519b34e22de43507be6dd8f27b4a7c0ddc1ce2fc9287a2bc8f7c74400860b7b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m07-s04-correct.json",
+      "sha256": "6fa38cc11e96825ea9978ea1b342b1e795c263a1c469a9fb011cd2e24d1092a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/m07-s04-incorrect.json",
+      "sha256": "e77c2fc50081511558665569c4cfdb724f5fb24002c0782575edb9d80b69c0ee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/development/manifest.json",
+      "sha256": "b8aa834345df71dda7bf4d459d5a7320403d3b6431ef75b28eb7e4a0b0e353c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/m07-s01-correct-original-review.png",
+      "sha256": "ff54e2d5bb471e0185f88a8787f23846d57f72ba050f8c41c68200823e1537ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/m07-s02-incorrect-original-review.png",
+      "sha256": "56b905c968438f3553f4a973c428a376f4ea4072bc74d1badb56b23eb5699d21"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/m07-s04-correct-original-review.png",
+      "sha256": "12e6dccbea90f41fa0ad6481599d4474b55642cab2cce759dd5c77195c41652e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/original-marker-review.json",
+      "sha256": "c7ca706d41dfa1b2353ed3ca10dc9cdd81050b6f6c7064feeb9e5c35e69a1936"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/results/readiness.json",
+      "sha256": "eec400f79d0755f11220cb8eee0ef58d0ea85c832a3582bc6cef425f4d8593ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-evaluation.log",
+      "sha256": "7ff6642ae35b5740e7c246a0a569424c9416280e917ca1ebfce6b2777db38c68"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-preflight-jvm.log",
+      "sha256": "0409b10c69d6ddcae4f30e8631b2e9e235d6fff57bb74d9f37f1b0f1270b488d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-preflight-python.log",
+      "sha256": "e1ff640f94b0547b224113e63cc39876b35ea445438970443d752eb4449ee41b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-preflight-python2.log",
+      "sha256": "30899985bb2d4fd7debba04746bf8894cf4fe588571886c3d9b6a072da7c3a68"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-prepare.log",
+      "sha256": "c9c4daa559dc4b87f6af90eb01ae2772ae1a0154781cc9f35da6b538b7083135"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-python.log",
+      "sha256": "e226afd0aa6be8764368ae8a16c002fb20673c227b543e9e3066facc1484ca60"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-readiness.log",
+      "sha256": "eec400f79d0755f11220cb8eee0ef58d0ea85c832a3582bc6cef425f4d8593ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-replay-jvm.log",
+      "sha256": "95761ce740bcfced3825304aa9d266caa1ea65efddba10f36c76a70b34ff2646"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/logs/central-torso-review.log",
+      "sha256": "29996b056b1e6240d12f7c937e3dcbf44947ebd00e1a72ee0367d07c31806738"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/work/freeze-central-torso-results.py",
+      "sha256": "b0e8ee08ebc970d8b96db15bef9c11b245fbd45404a34c528de7ee60e7d86991"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/work/freeze-central-torso-protocol.py",
+      "sha256": "c0311049605fad78b3fcfa1e00cd0bdcf491db18ca9374f95a032d257bdeacce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/central-torso-driver-checkpoint-77f5fc1/report/CENTRAL_TORSO_DRIVER_RESULTS.md",
+      "sha256": "c2f3aa7a7d34485a2786a388e3dd2055bb699b13c354536a727989829db15fee"
+    }
+  ]
+}
