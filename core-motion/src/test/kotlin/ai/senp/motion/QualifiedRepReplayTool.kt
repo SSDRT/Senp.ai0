@@ -31,7 +31,7 @@ object QualifiedRepReplayTool {
         fun readVideo(file: File, role: VideoRole): Video {
             val payload = GZIPInputStream(file.inputStream()).bufferedReader().use { Json.parseToJsonElement(it.readText()).jsonObject }
             require(payload.getValue("sample_period_ms").jsonPrimitive.int == 66)
-            val frames = payload.getValue("frames").jsonArray.map { row -> observation(row.jsonObject) }
+            val frames = payload.getValue("frames").jsonArray.map { row -> QualifiedMp33Evidence.inImage(observation(row.jsonObject)) }
             val sequence = CanonicalObservationSequence(role,DurationMs(frames.last().timestamp.value+1),ObservationSampling(analysisFramesPerSecond = 15.0),frames)
             return Video(payload.getValue("video").jsonPrimitive.content,payload,spatial.analyzeSequence(sequence))
         }

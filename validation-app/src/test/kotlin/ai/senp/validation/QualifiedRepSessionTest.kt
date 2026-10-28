@@ -103,6 +103,35 @@ class QualifiedRepSessionTest {
         assertEquals(1,output?.qualifiedReps?.counts?.unassessable)
     }
 
+    @Test fun highConfidenceWorldWristOutsideImageCannotCertifyTheCriticalTurnaround() {
+        val ref=reference()
+        val processor=session().newLiveProcessor(ref.profile,30.0,qualifiedRepReference=ref,repEvidenceFingerprint=fingerprint)
+        val generic=session().newLiveProcessor(ref.profile,30.0)
+        var output: LiveReferenceActionOutput?=null
+        for(time in 0L..2000L step 33) {
+            val p=pose(time,progress(time))
+            val raw=if(progress(time)>=.85) p.copy(landmarks=p.landmarks.map { if(it.id==PoseLandmarkId.LEFT_WRIST) it.copy(image=it.image.copy(x=1.01)) else it }) else p
+            val before=raw.copy()
+            output=processor.update(p,640,480,fingerprint.poseModelSha256,raw)
+            val baseline=generic.update(p,640,480,fingerprint.poseModelSha256,raw)
+            assertEquals(baseline.estimate,output.estimate);assertEquals(baseline.precision,output.precision);assertEquals(before,raw)
+        }
+        assertEquals(0,output?.qualifiedReps?.counts?.qualified)
+        assertTrue(requireNotNull(output?.qualifiedReps).counts.unassessable>0)
+    }
+
+    @Test fun clippedCriticalReferenceCannotCompileAndAllOutsideSourceCannotUseImageFallback() {
+        val input=extraction()
+        val clipped=input.copy(poses=input.poses.copy(frames=input.poses.frames.map { p -> p.copy(landmarks=p.landmarks.map { if(it.id==PoseLandmarkId.LEFT_WRIST) it.copy(image=it.image.copy(y=-.01)) else it }) }))
+        assertIs<QualifiedRepCompilation.Unavailable>(compileQualifiedRepFromExtraction(clipped,"biceps_curl",fingerprint,QualifiedRepConfig()))
+        val ref=reference();val processor=session().newLiveProcessor(ref.profile,30.0,qualifiedRepReference=ref,repEvidenceFingerprint=fingerprint)
+        for(time in 0L..2000L step 33) {
+            val p=pose(time,progress(time));val outside=p.copy(landmarks=p.landmarks.map { it.copy(image=it.image.copy(x=it.image.x+2)) })
+            val result=requireNotNull(processor.update(p,640,480,fingerprint.poseModelSha256,outside).qualifiedReps)
+            assertEquals(RepReason.MISSING_CRITICAL_EVIDENCE,result.unavailableReason);assertEquals(0,result.counts.qualified)
+        }
+    }
+
     @Test fun rawEndpointJumpsCannotBypassTheObservedPathRequirement() {
         val samples = listOf(0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0)
         for (requirePath in listOf(false,true)) {

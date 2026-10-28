@@ -1,0 +1,34 @@
+gradle.projectsEvaluated {
+    def motion=gradle.rootProject.project(':core-motion')
+    def root=gradle.rootProject.projectDir
+    [qualifiedRepBenchmark:'mechanism.json',qualifiedRepPathBenchmark:'path.json',
+     qualifiedRepDepartureBenchmark:'departure.json',qualifiedRepEvidenceBenchmark:'evidence.json'].each { name,fileName ->
+        motion.tasks.named(name,JavaExec).configure {
+            def output=new File(root,'test-artifacts/exercise-knowledge/viewport-admission-controls/'+fileName)
+            setArgs([output.absolutePath])
+            doFirst { if(output.exists()) throw new GradleException('Preserve control receipt');output.parentFile.mkdirs() }
+        }
+    }
+    motion.tasks.register('viewportDevelopmentReplay',JavaExec) {
+        dependsOn(motion.tasks.named('testClasses'));classpath=motion.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.UiprmdDevelopmentReplay'
+        def output=new File(root,'test-artifacts/exercise-knowledge/uiprmd/viewport-admission-development-replay.json')
+        doFirst { if(output.exists()) throw new GradleException('Preserve development replay') }
+        args(new File(root,'test-artifacts/exercise-knowledge/uiprmd/development-vicon').absolutePath,output.absolutePath)
+        maxHeapSize='1200m'
+    }
+    motion.tasks.register('viewportValidationReplay',JavaExec) {
+        dependsOn(motion.tasks.named('testClasses'));classpath=motion.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.UiprmdReadyFormValidationReplay'
+        def output=new File(root,'test-artifacts/exercise-knowledge/uiprmd/viewport-admission-validation-replay.json')
+        doFirst { if(output.exists()) throw new GradleException('Preserve validation replay') }
+        args(new File(root,'test-artifacts/exercise-knowledge/uiprmd/validation-vicon').absolutePath,output.absolutePath,
+            new File(root,'test-artifacts/exercise-knowledge/uiprmd/development-vicon').absolutePath,
+            new File(root,'models/viewport-admission-validation-protocol.json').absolutePath)
+        maxHeapSize='1200m'
+    }
+    motion.tasks.register('viewportMmfitAudit',JavaExec) {
+        dependsOn(motion.tasks.named('testClasses'));classpath=motion.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.ViewportMmfitAudit';args(root.absolutePath);maxHeapSize='1200m'
+    }
+}

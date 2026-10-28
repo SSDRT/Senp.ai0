@@ -46,6 +46,7 @@ import ai.senp.motion.QualifiedRepCompiler
 import ai.senp.motion.QualifiedRepCompilation
 import ai.senp.motion.QualifiedRepConfig
 import ai.senp.motion.RepEvidenceFingerprint
+import ai.senp.motion.QualifiedMp33Evidence
 import ai.senp.sync.v2.PoseObservationAdapter
 import ai.senp.sync.v2.SynchronizationPoseCache
 import ai.senp.sync.v2.SynchronizationPoseCacheKey
@@ -303,16 +304,22 @@ internal class LiveReferenceActionProcessor(
             SamplePoseClassification(SamplePoseStatus.INVALID_INPUT)
         } else SamplePoseClassifier.builtIn.classify(pose, imageWidth, imageHeight)
         // Training uses raw Full landmarks. Do not silently score smoothed/repaired coordinates.
+        val rawObservation = if (qualityEngine != null || repEngine != null)
+            qualityRawPose?.let { observationAdapter.adaptFrame(it.copy(validity = pose.validity)) } else null
         val rawSpatialFrame = if (qualityEngine != null || repEngine != null) {
-            if (qualityRawPose == null) spatialFrame.copy(evidenceKind = SpatialEvidenceKind.UNAVAILABLE) else {
-                val rawObservation = observationAdapter.adaptFrame(qualityRawPose.copy(validity = pose.validity))
+            if (rawObservation == null) spatialFrame.copy(evidenceKind = SpatialEvidenceKind.UNAVAILABLE) else {
                 spatialEngine.analyzeSequence(sequence.copy(observations = listOf(rawObservation))).frames.single()
             }
         } else null
         val learnedQuality = qualityEngine?.evaluate(requireNotNull(rawSpatialFrame),poseModelSha256)
         val repSpatialFrame = rawSpatialFrame?.let { frame ->
+            val admitted = if (repEngine != null && rawObservation != null) {
+                val qualifiedObservation = QualifiedMp33Evidence.inImage(rawObservation)
+                if (qualifiedObservation == rawObservation) frame else
+                    spatialEngine.analyzeSequence(sequence.copy(observations = listOf(qualifiedObservation))).frames.single()
+            } else frame
             if (qualityRawPose?.validity?.status == ai.senp.core.contracts.FrameValidityStatus.REPAIRED || pose.validity.status == ai.senp.core.contracts.FrameValidityStatus.REPAIRED)
-                frame.copy(evidenceKind = SpatialEvidenceKind.UNAVAILABLE) else frame
+                admitted.copy(evidenceKind = SpatialEvidenceKind.UNAVAILABLE) else admitted
         }
         val qualifiedReps = repEngine?.evaluate(requireNotNull(repSpatialFrame),poseModelSha256,repPreprocessingId,
             if (imageWidth != null && imageHeight != null) "$imageWidth:$imageHeight" else null)
@@ -381,7 +388,8 @@ internal fun compileQualifiedRepFromExtraction(extraction: VideoPoseExtraction, 
         if (frame.validity.status == ai.senp.core.contracts.FrameValidityStatus.REPAIRED) frame.copy(validity = ai.senp.core.contracts.FrameValidity(
             ai.senp.core.contracts.FrameValidityStatus.BLIND,0.0,setOf(ai.senp.core.contracts.FrameValidityReason.SHORT_GAP_INTERPOLATION))) else frame
     }))
-    val sequence = PoseObservationAdapter().adapt(observedOnly,15.0)
+    val rawSequence = PoseObservationAdapter().adapt(observedOnly,15.0)
+    val sequence = rawSequence.copy(observations = rawSequence.observations.map(QualifiedMp33Evidence::inImage))
     val spatial = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true)).analyzeSequence(sequence)
     return QualifiedRepCompiler.compile(spatial,exerciseId,fingerprint,config)
 }

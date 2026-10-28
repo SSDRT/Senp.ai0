@@ -37,6 +37,24 @@ class QualifiedRepInstrumentedTest {
     @Test fun robustFitRecoversTheCompleteReferenceAfterBothEstablishedModelFitsFail() {
         replay("qualified-rep-robust-native.json.gz","robust-fit-native-parity.json","robust")
     }
+    @Test fun clippedRawCriticalWristCannotUseWorldPredictionsToQualifyOnAndroid() {
+        val fixture=GZIPInputStream(requireNotNull(javaClass.classLoader?.getResourceAsStream("qualified-rep-native.json.gz")))
+            .bufferedReader().use { JSONObject(it.readText()) }
+        val videos=fixture.getJSONObject("videos");val reference=videos.getJSONObject("reference");val source=videos.getJSONObject("source")
+        val referenceFrames=frames(reference.getJSONArray("frames"))
+        val extraction=VideoPoseExtraction(VideoRole.REFERENCE,DurationMs(referenceFrames.last().timestamp.value+1),PoseSequence(VideoRole.REFERENCE,referenceFrames),
+            VideoPoseDiagnostics(referenceFrames.size,referenceFrames.size,referenceFrames.size,0,0,0,0,1,1))
+        val identity=RepEvidenceFingerprint(reference.getString("source_video_sha256"),reference.getString("model_sha256"))
+        val compiled=compileQualifiedRepFromExtraction(extraction,fixture.getString("exercise_id"),identity,QualifiedRepConfig())
+        assertTrue(compiled.toString(),compiled is QualifiedRepCompilation.Ready)
+        val rep=(compiled as QualifiedRepCompilation.Ready).reference
+        val processor=LiveReferenceActionProcessor(rep.profile,15.0,qualifiedRepReference=rep,repEvidenceFingerprint=identity)
+        for(pose in frames(source.getJSONArray("frames"))) {
+            val raw=pose.copy(landmarks=pose.landmarks.map { if(it.id==PoseLandmarkId.LEFT_WRIST) it.copy(image=it.image.copy(x=1.01)) else it })
+            val before=raw.copy();val result=processor.update(pose,640,480,identity.poseModelSha256,raw).qualifiedReps
+            assertNotNull(result);assertEquals(0,requireNotNull(result).counts.qualified);assertEquals(before,raw)
+        }
+    }
     @Test fun liveReferenceCameraUsesTheSelectedHeavyModelAcrossPauseAndResume() {
         val instrumentation = InstrumentationRegistry.getInstrumentation()
         val context = instrumentation.targetContext
