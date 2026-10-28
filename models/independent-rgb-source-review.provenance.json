@@ -1,0 +1,136 @@
+{
+  "schema": "independent-rgb-source-review-provenance/1",
+  "decision": "NO_ELIGIBLE_CAMERA_REP_EVALUATION_FROM_THIS_BOUNDED_REVIEW",
+  "observed_utc": "2026-10-28T00:50:12.760869+00:00",
+  "implementation_commit": "7f4779fa4f5a6f5e3ab0682540474bf4af2edc13",
+  "verified_engine_commit": "6d1386b4cefe8a9a6b3b5a6aefcc19389c322c71",
+  "publisher_review": {
+    "schema": "independent-rgb-source-intake/1",
+    "sources": [
+      {
+        "source": "Fitness-AQA",
+        "rights_status": "RESTRICTED_NOT_OPEN_APPLICATION_DATA",
+        "metadata_sha256": "9e34280206ac141b1ff18a0a34d3a6ed18e208368230b54bfe6c229afdd48ebe"
+      },
+      {
+        "source": "MyoMechanix",
+        "rights_status": "RESTRICTED_NOT_OPEN_APPLICATION_DATA",
+        "metadata_sha256": "d5067a393cf359dfd5502ffc1b7a705acd8e9d9a1899c5297e90fe6565410f39"
+      },
+      {
+        "source": "EgoExo-Fitness",
+        "rights_status": "SEPARATE_DATA_AGREEMENT_UNRESOLVED",
+        "metadata_sha256": "f091376f8024f285c05bf484d82a9cda1a9b6773dbd7b2e6dd7498db8ed1567e"
+      },
+      {
+        "source": "FitAQA",
+        "rights_status": "ANNOTATIONS_ONLY_VERIFY_EACH_ORIGINAL_MEDIA_GRANT",
+        "metadata_sha256": "0d123a333bb92d2b92ed129e3ff5f674c2f451eb71ba0bf29a3427d8075ecbf1"
+      }
+    ],
+    "FitAQA_multiple_choice_scope": "ASPECT_QUESTION_NOT_COMPLETE_REP_CORRECTNESS",
+    "FitAQA_grounding_scope": "ERROR_INTERVALS_NOT_EXHAUSTIVE_REP_CORRECTNESS",
+    "source_repetition_count": null,
+    "subject_disjoint_test_roster": null,
+    "media_license_from_annotation_license": false,
+    "correct_reps_inferred_from_error_absence": false,
+    "per_rep_form_labels_inferred_from_aspect_answers": false,
+    "eligible_independent_evaluations": 0,
+    "raw_video_downloaded": false,
+    "benchmark_parquet_labels_opened": false,
+    "final_uiprmd_subjects_opened": false,
+    "new_human_labels": 0,
+    "production_changed": false,
+    "readiness_points_earned": 0,
+    "human_live_rep_precision": null
+  },
+  "additional_QEVD_scope": "Publisher research data terms checked in original agreement sections 1-3; no media or model training ingestion.",
+  "production_changed": false,
+  "app_changed": false,
+  "new_apk": false,
+  "python_tests": 131,
+  "new_source_scope_tests": 7,
+  "earlier_JVM_native_control_proofs_preserved_not_rerun": true,
+  "scored_evidence_receipts_verified": 1796,
+  "readiness_score": 50.0,
+  "rubric_changed": false,
+  "network_weights_changed": false,
+  "raw_MP33_changed": false,
+  "raw_videos_downloaded": false,
+  "benchmark_parquet_labels_opened": false,
+  "new_human_labels": 0,
+  "final_subjects_opened": false,
+  "human_live_rep_precision": null,
+  "source_review_is_not_exhaustive": true,
+  "checkpoint": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/additional-license-receipts.json",
+      "sha256": "13249f480fce4af7fc0987acfce0de87378b08b45788e9100055d86fbc5df387"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/EgoExo-Data-Agreement.pdf",
+      "sha256": "364976944b286a1a878640c5efb86eda7de6f03e1f7b35b4066f0a93660e3a9b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/EgoExo-Fitness-README.md",
+      "sha256": "f091376f8024f285c05bf484d82a9cda1a9b6773dbd7b2e6dd7498db8ed1567e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/FitAQA-LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/FitAQA-README.md",
+      "sha256": "0d123a333bb92d2b92ed129e3ff5f674c2f451eb71ba0bf29a3427d8075ecbf1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/Fitness-AQA-README.md",
+      "sha256": "9e34280206ac141b1ff18a0a34d3a6ed18e208368230b54bfe6c229afdd48ebe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/independent-source-eligibility.json",
+      "sha256": "0d8163ed7acf862feb2a1f0ca031b3d9b0b793c83a0b29074a3ddcf8bb077533"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/metadata-receipts.json",
+      "sha256": "8d5b4f1c79cc344ee4ebfc21687277810f69cc45da928027e480354b93d7511f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/MyoMechanix-README.md",
+      "sha256": "d5067a393cf359dfd5502ffc1b7a705acd8e9d9a1899c5297e90fe6565410f39"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/QEVD-Research-License.pdf",
+      "sha256": "3cc44cb07d2638a4c568443a740fdc15c46d9cd9c1358c9d35c5999a95eb35ba"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/Qualcomm-QEVD.html",
+      "sha256": "e8e130449cd28e9a6f1a6ea58241403179cab344cc6ce20f0e741d15c805c2fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/metadata/readiness-recheck.json",
+      "sha256": "56add45b15d05a9be71c900be22eb15ff773f0709bba1fbc6461061024c79785"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/source/scripts/audit_independent_rgb_sources.py",
+      "sha256": "c02d2aab0668a75068f84f7be2bd7d859bee2304dd8b3b8c89ed45875231a4d7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/source/scripts/audit_open_reference_sources.py",
+      "sha256": "062230e3df44b4f165dd047729040efbf363ce12f25b83e0bd46e15c16380e85"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/source/scripts/tests/test_independent_rgb_sources.py",
+      "sha256": "5bad12774e6606f20227cdad5d12e3d7fac84221c11ce9729a3bd6c6bddace4a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/source/docs/INDEPENDENT_RGB_SOURCE_REVIEW_20261028.md",
+      "sha256": "ac311e64c07a3be8803ce6342eea00b318a1052f39c6d55072bed96abaffdd47"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/independent-rgb-source-checkpoint-7f4779f/python.log",
+      "sha256": "d65950a2522f80e6a631717d552f10375bb081f94a1cb4c082ebad54cac6356c"
+    }
+  ]
+}
