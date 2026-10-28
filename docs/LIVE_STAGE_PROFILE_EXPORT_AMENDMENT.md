@@ -1,0 +1,5 @@
+# Preserve profiler exports before uninstall
+
+The frozen `af566c7` native profiler passed its single declared instrumentation test on API35. The Gradle connected-test lifecycle then removed the target app/data before the external profile directory could be pulled. Preserve the passing XML, instrumentation log and failed pull receipt. No stage measurements were recovered from this run; test elapsed time cannot substitute for them.
+
+The export-only retry installs the same frozen app and test APKs and invokes the same class with Android's instrumentation command, then copies original outputs before stopping the owned emulator. Image cases, model, reference, warmup, sample count, stage code and all measurement gates remain unchanged. Bind the new runner and original failed-export receipts before the retry. Keep the actual instrumentation transcript and verify its result; do not manufacture a replacement JUnit report or select favourable timing samples. This corrects artifact collection only, not inference or performance, and earns no readiness points.

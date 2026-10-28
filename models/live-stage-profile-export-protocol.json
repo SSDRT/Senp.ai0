@@ -1,0 +1,81 @@
+{
+  "schema": "senpai-live-stage-profile-export-protocol/1",
+  "frozen_utc": "2026-10-28T11:05:35.033955+00:00",
+  "export_only": true,
+  "original_native_test_passed": true,
+  "original_export_failed": true,
+  "original_stage_measurements_not_recovered": true,
+  "source_images_model_parameters_and_APKs_unchanged": true,
+  "apk_receipts": [
+    {
+      "path": "validation-app/build/outputs/apk/debug/validation-app-debug.apk",
+      "sha256": "57a4d201d61a7466869d8ddf9e4ff8d6ef2a83650176c780af467cc33b874a58"
+    },
+    {
+      "path": "validation-app/build/outputs/apk/androidTest/debug/validation-app-debug-androidTest.apk",
+      "sha256": "b084a667d7406cb6149f0667c51915152840d34f6df602d2d0e0e5002e18a1cf"
+    }
+  ],
+  "runner_receipt": {
+    "path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\work\\live-stage-profile-native-export2.ps1",
+    "sha256": "442b295fffda58b884eb66dd32a9effedcee2ba8de4584744ecefb2937ae0794"
+  },
+  "receipts": [
+    {
+      "path": "models/live-stage-profile-protocol.json",
+      "sha256": "8a23c3da5e8142f23b4d675cf32c5ad9040010f10c765c623b3981019cc8c93a"
+    },
+    {
+      "path": "docs/LIVE_STAGE_PROFILE_EXPORT_AMENDMENT.md",
+      "sha256": "2ba17f9d10c55e3efbc5b506a4240dad6e25762822a6efe64d327ceee1203240"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/emulator-stdout.log",
+      "sha256": "b42d2a6161e40303f5559bd818f71cd3f9bb31c13775584938e8db3a85b51bbe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/failure.json",
+      "sha256": "00be9d9068eedb3494b069d88be245b94bc3218636266f874f02f9fa4a0f26ff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/logcat.txt",
+      "sha256": "30a8fb963768a8bdb6268b3a1416a6918b4ce62d4bff0f39098360090ec92e64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/native-command.json",
+      "sha256": "0b7b6233fe9b7cb1b94e39856a329d116dd904eda18407933459b5ca050cac88"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/owned-process.json",
+      "sha256": "e1b8266f4fb659ee0ec1c2bad62c7cdcfea6f111a6511621761e836a01ee46db"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/pull.log",
+      "sha256": "18f1fea63307be6572f025d82bffa3df3c0e1ef7e3620d340229f00f1ac21f3e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/runtime.json",
+      "sha256": "6f1c135b8d34faec01e6c457dcc708d45a98d90a36d43622cbbfc6b2c0f73840"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/stop.log",
+      "sha256": "483d31d727a891b284fe65f3b042180f0dcf884ee845c457e261de7a6e891804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/stopped.json",
+      "sha256": "ff3f5a5b4ac47302b4994042daa01e53d72bea2e14b05aae66b7f0b958deb265"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-stage-profile-20261028/runtime-api35/native/TEST-Senpai_API_35(AVD) - 15-_validation-app-.xml",
+      "sha256": "cfa383dfee5a75a9c48fd5aeeb35273c96f29a7b1c56cfa9102595f25ed78d09"
+    }
+  ],
+  "allow_final_test_access": false,
+  "production_changed": false,
+  "readiness_points_earned": 0,
+  "human_rep_precision": null
+}
