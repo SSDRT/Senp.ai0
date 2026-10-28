@@ -21,8 +21,8 @@ object InImageSourceAudit {
         put("first_evidence_ms",f.firstEvidenceMs);put("confirmed_ms",f.confirmedMs);put("deviation_degrees",f.deviationDegrees?.let(::JsonPrimitive) ?: JsonNull)
     }
     @JvmStatic fun main(args: Array<String>) {
-        val root=File(args[0]);val protocol=File(root,"models/in-image-source-protocol-v2.json");val spec=Json.parseToJsonElement(protocol.readText()).jsonObject
-        require(spec.getValue("schema").jsonPrimitive.content=="senpai-in-image-source-protocol/2")
+        val root=File(args[0]);val protocol=File(root,"models/in-image-source-protocol-v3.json");val spec=Json.parseToJsonElement(protocol.readText()).jsonObject
+        require(spec.getValue("schema").jsonPrimitive.content=="senpai-in-image-source-protocol/3")
         require(spec.getValue("allow_source_replay").jsonPrimitive.boolean && !spec.getValue("allow_validation_access").jsonPrimitive.boolean && !spec.getValue("allow_final_test_access").jsonPrimitive.boolean)
         require(spec.getValue("compiler").jsonPrimitive.content==QualifiedRepCompiler.VERSION)
         for(item in spec.getValue("receipts").jsonArray) { val r=item.jsonObject;val norm="sha256_lf" in r;require(sha(File(root,r.getValue("path").jsonPrimitive.content),norm)==r.getValue(if(norm) "sha256_lf" else "sha256").jsonPrimitive.content) { r.toString() } }
@@ -65,7 +65,9 @@ object InImageSourceAudit {
                 }
                 val seq=sequence(srcPath,variant,VideoRole.SOURCE);val engine=reference.newEngine();val attempts=mutableListOf<JsonObject>();val faults=mutableListOf<JsonObject>();val trace=mutableListOf<JsonObject>()
                 for(frame in seq.frames) {
-                    val result=engine.evaluate(frame,modelSha,captureContext=view);attempts+=result.finalizedAttempts.map(::attempt);faults+=result.newFaults.map(::fault)
+                    val result=engine.evaluate(frame,modelSha,preprocessingId=reference.fingerprint.preprocessingId,captureContext=view)
+                    require(result.unavailableReason!=RepReason.PREPROCESSING_MISMATCH) { "Research source pipeline not paired with its compiled reference" }
+                    attempts+=result.finalizedAttempts.map(::attempt);faults+=result.newFaults.map(::fault)
                     trace+=buildJsonObject { put("timestamp_ms",frame.timestamp.value);put("stage",result.stage.name);put("progress",result.progress?.let(::JsonPrimitive) ?: JsonNull);put("active_disqualified",result.activeDisqualified);put("qualified_count",result.counts.qualified);put("unavailable_reason",result.unavailableReason?.name?.let(::JsonPrimitive) ?: JsonNull) }
                 }
                 val result=engine.finish(seq.duration.value);attempts+=result.finalizedAttempts.map(::attempt)
@@ -86,7 +88,7 @@ object InImageSourceAudit {
         }
         val replayed=rows.count { it.getValue("status").jsonPrimitive.content=="REPLAYED" };require(replayed==76 && rows.size==134)
         require(spec.getValue("expected_variant_replays").jsonPrimitive.int==replayed && spec.getValue("reference_qualified_source_sides").jsonPrimitive.int==38)
-        val summary=buildJsonObject { put("schema","senpai-in-image-source-audit/2");put("protocol_sha256",sha(protocol));put("fixed_source_side_total",96);put("reference_qualified_source_side_runs",38);put("variant_replays",76);put("original_baseline_events_counts_and_trace_verified",true);put("source_model_selection","frozen-reference-only");put("production_changed",false);put("human_rep_precision",JsonNull);put("rows",JsonArray(rows)) }
+        val summary=buildJsonObject { put("schema","senpai-in-image-source-audit/3");put("protocol_sha256",sha(protocol));put("fixed_source_side_total",96);put("reference_qualified_source_side_runs",38);put("variant_replays",76);put("explicit_source_reference_pipeline_pairing",true);put("original_baseline_events_counts_and_trace_verified",true);put("source_model_selection","frozen-reference-only");put("production_changed",false);put("human_rep_precision",JsonNull);put("rows",JsonArray(rows)) }
         File(output,"summary.json").writeText(Json { prettyPrint=true }.encodeToString(JsonObject.serializer(),summary));println("Selected-reference source audit: $replayed variant replays, 96 fixed source sides; original event/trace parity exact")
     }
 }
