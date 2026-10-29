@@ -1,0 +1,467 @@
+{
+  "schema": "senpai-frozen-detect-stages-provenance/1",
+  "experiment_freeze_commit": "f6a46ea",
+  "reviewed_results_commit": "905859ed9390ad713ceada86cc3fe57a9b769a47",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "compiler": "qualified-rep-compiler/9",
+  "runtime": "Android/sdk_phone64_x86_64/emu64x:15/AE3A.240806.019/12368160:userdebug/test-keys",
+  "api": 35,
+  "page_bytes": 4096,
+  "main_APK_byte_identical_to_delivery": true,
+  "all_rows": 256,
+  "measured_rows": 192,
+  "generated_model_timestamps": true,
+  "model_input_is_actual_camera_frame": false,
+  "raw_native_snapshots_inspected": 8,
+  "separate_original_camera_sources_inspected": 4,
+  "full_snapshot_pose_arrays_exactly_equal_per_input": true,
+  "comparisons": [
+    {
+      "case_id": "original-room",
+      "active_to_quiet_mean_ratio": {
+        "owned_copy_ns": 51.431766250037285,
+        "mpimage_build_ns": 75.15277241379309,
+        "native_task_call_ns": 17.84066926876567,
+        "mpimage_close_ns": 45.504022281153645,
+        "explicit_recycle_ns": 87.38446215139442,
+        "partitioned_body_ns": 19.92053382668317
+      }
+    },
+    {
+      "case_id": "upstream-positive",
+      "active_to_quiet_mean_ratio": {
+        "owned_copy_ns": 40.32994565532713,
+        "mpimage_build_ns": 4.030807402046935,
+        "native_task_call_ns": 16.20000404925781,
+        "mpimage_close_ns": 39.278253258581124,
+        "explicit_recycle_ns": 9.41178451178451,
+        "partitioned_body_ns": 17.282591818127024
+      }
+    }
+  ],
+  "native_API_is_not_operator_only": true,
+  "owner_CPU_excludes_workers": true,
+  "process_CPU_includes_other_application_work": true,
+  "native_case_passed": true,
+  "native_inventory": [
+    [
+      "ai.senp.validation.FrozenDetectStagesInstrumentedTest",
+      "partitionOwnedCopyBuildNativeAndCloseUnderCameraContention"
+    ]
+  ],
+  "native_duration_seconds": 117.216,
+  "initial_compile_classpath_failure_retained": true,
+  "successful_compile_uses_existing_0_10_32_test_API_only": true,
+  "emulator_bluetooth_SIGABRTs_retained": 2,
+  "system_crash_dump_noise_not_removed": true,
+  "owned_emulator_stopped": true,
+  "gradle_daemon_stopped": true,
+  "python_tests": 225,
+  "normal_native_or_JVM_suites_rerun": false,
+  "new_independent_labels_or_holdout_access": false,
+  "new_human_labels": 0,
+  "trained_model": false,
+  "production_changed": false,
+  "new_delivery_APK": false,
+  "capture_to_result_latency": null,
+  "live_delivered_fps": null,
+  "human_rep_precision": null,
+  "production_readiness_receipts_revalidated": 2889,
+  "readiness": 50,
+  "readiness_points_earned": 0,
+  "checkpoint": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/analysis.json",
+      "sha256": "99dfe1b0906e74682e8db869815016da771cb179c3efe4da36377697a46210bd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/snapshot-consistency-and-system-noise.json",
+      "sha256": "4fe284e9c1a179ad0c85477673d68d0365de132c247230c6652d06780ca22f0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/emulator-stdout.log",
+      "sha256": "f4237f4e158df6849e8b9b0fe7c743aa38c971ea3bd2fa27e72c3f58e23aab95"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/logcat.txt",
+      "sha256": "cdefb3be2d802db2b3379e7c58f470bef43e568ff233d081150481dd02596a00"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/native-command.json",
+      "sha256": "e6ce2cf8dad029687a8846c78e42d2f96e1f216b9ec783b8561a435ec523aa99"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/native-verification.json",
+      "sha256": "6cfdbbef65dce74b2124b4f704d0a6cb4db1473a045c269d04c6fc0122df41ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/owned-app-clear.log",
+      "sha256": "df5f678c3e897e8db27b8c5de5ae1938a25aa084aeee89a1a44958f104316b3d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/owned-process.json",
+      "sha256": "28c8391cc876991a0822f938bba2397d5d4f047f235349288a2185823e756371"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/pull.log",
+      "sha256": "90bdbe3389c8727937e78d7f0beed3d6ff1ed3fea76506558c2d856704d9f6d5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/runtime.json",
+      "sha256": "401cd7813016ddb0887f7375d63d499f91a3c1be9629b18020a96145e914d87f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/stop.log",
+      "sha256": "483d31d727a891b284fe65f3b042180f0dcf884ee845c457e261de7a6e891804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/stopped.json",
+      "sha256": "e6b52ad287a6896bd9d97aab4890e23cbb31d26a54df4cc72c75b8e3a3ba2fbf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/validation-app-debug-androidTest.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/validation-app-debug.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/summary.json",
+      "sha256": "3f9d2107cc33e830c47a2e19457207019ea22a5127e07660ee21140fb353d1ad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/native/instrumentation.txt",
+      "sha256": "d893fcfaca892fdce401aa92a9cdefabca28d82aee0db785620d83a9daeea5e7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block1/camera-startup.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block1/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block1/model-input.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block1/raw-model-prediction.json",
+      "sha256": "30f6cd1d1e96520d112cba804adb97cd251bbbfb398038dc0a0f7364a6b16185"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block1/rows.json",
+      "sha256": "d3d18c617ebe4bc21d2b629ce6f57fd798c4985bc67bd855de76a0add14cbf9a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block2/actual-camera-source-not-model-input.png",
+      "sha256": "534c9244e02c43eeb65e58fb5cdf7abf648fc169ef23e0f825704b189b23ce0e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block2/camera-startup.json",
+      "sha256": "4dba67e53ec0b1c135f01e38fcd7ce7ea11f047d5833225c44cd44058554fb3b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block2/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block2/model-input.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block2/raw-model-prediction.json",
+      "sha256": "30f6cd1d1e96520d112cba804adb97cd251bbbfb398038dc0a0f7364a6b16185"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block2/rows.json",
+      "sha256": "cc6763b5551fd44f660e52c662633dd2b19416c95e9991aa4ac418590c98ca36"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block3/actual-camera-source-not-model-input.png",
+      "sha256": "b8e9f912721ccdfda7cf26d0079043c62356c9365c9e39209d703ae088f65fd9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block3/camera-startup.json",
+      "sha256": "fbc1e39617e1efd4549f780e7debc364f6da478b9bbd2c954d08c9b3a4d5f9b4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block3/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block3/model-input.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block3/raw-model-prediction.json",
+      "sha256": "30f6cd1d1e96520d112cba804adb97cd251bbbfb398038dc0a0f7364a6b16185"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block3/rows.json",
+      "sha256": "3f2daa2f4fde2c9eed4e6bb8e1032d8f4dd4c81f1d199bc65f19539bf8d37a5f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block4/camera-startup.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block4/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block4/model-input.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block4/raw-model-prediction.json",
+      "sha256": "30f6cd1d1e96520d112cba804adb97cd251bbbfb398038dc0a0f7364a6b16185"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/original-room-block4/rows.json",
+      "sha256": "00869eb30e13d37fd7979776ad655f8e2cf820e632f2ab93624dbc844b57a36e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/qa/frozen-model-inputs-raw.png",
+      "sha256": "ff85f8720c3f654fc86ee3d331c35beee964e0491d5acfdf79d35846e50a4325"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/qa/receipts.json",
+      "sha256": "189187c9546736955abb9c6bad3a79921dbd0037b6f15516214bde5c5c63cf9a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/qa/separate-original-camera-sources.png",
+      "sha256": "4f4e6015c15e6b6b72674414708ca9dc0f8ab6182c1fb83982e9a9070ebce1a0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block1/camera-startup.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block1/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block1/model-input.png",
+      "sha256": "87da24424925881c19532f1d7fa058ea4f384b3e2c357733e36c1271ffc530b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block1/raw-model-prediction.json",
+      "sha256": "dabd5f3008fe04ca49dd4bfe0ccd629214cb94bd462f8bf7b28856315723e62a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block1/rows.json",
+      "sha256": "92cb0f70d90611b9481785a6dec0cb851b4dbf0adfc30ec674e99d140e2240f4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block2/actual-camera-source-not-model-input.png",
+      "sha256": "9f36a724269eae7a02fb7a050bb5a8a7f121efef350975d924e96245663fe4aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block2/camera-startup.json",
+      "sha256": "19b361be791cfbd7c2fc7754f77240d4186cafcb2ef473f960f8a80ddf1828e7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block2/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block2/model-input.png",
+      "sha256": "87da24424925881c19532f1d7fa058ea4f384b3e2c357733e36c1271ffc530b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block2/raw-model-prediction.json",
+      "sha256": "dabd5f3008fe04ca49dd4bfe0ccd629214cb94bd462f8bf7b28856315723e62a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block2/rows.json",
+      "sha256": "65f4d0af64a7fdeb7bf5d9c72edd97338117334c38058a6c542e12d7b6d038c6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block3/actual-camera-source-not-model-input.png",
+      "sha256": "2d4580f719ffb0f3e06ac17d1d50cade279e5e3ab0c3632b8c154e1e4cd65f54"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block3/camera-startup.json",
+      "sha256": "c1ff93b33051335283d914fc38cdad757466564efdc45c219a7f2610a58ec36a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block3/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block3/model-input.png",
+      "sha256": "87da24424925881c19532f1d7fa058ea4f384b3e2c357733e36c1271ffc530b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block3/raw-model-prediction.json",
+      "sha256": "dabd5f3008fe04ca49dd4bfe0ccd629214cb94bd462f8bf7b28856315723e62a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block3/rows.json",
+      "sha256": "f48a32f8edf8c9091bb8db8c52fcd2d30fc08877989f99c7a2809cce49a01522"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block4/camera-startup.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block4/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block4/model-input.png",
+      "sha256": "87da24424925881c19532f1d7fa058ea4f384b3e2c357733e36c1271ffc530b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block4/raw-model-prediction.json",
+      "sha256": "dabd5f3008fe04ca49dd4bfe0ccd629214cb94bd462f8bf7b28856315723e62a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-detect-stages-20261029/runtime-api35/evidence/upstream-positive-block4/rows.json",
+      "sha256": "714684dd6bfa1fffcac235c20b55f1b8b99c169da7c2731f1a79bc4094d17f04"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/FrozenDetectStagesInstrumentedTest.kt",
+      "sha256": "015123cfc1b5f076440055a1334e5897756bd1efb02dc57395da219a1eda5c7a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/scripts/frozen-detect-stages.init.gradle",
+      "sha256": "b1b1b1790f4f2b60e3fd76b4b8a0dc86cb6654565a61da53e891d29479708202"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/scripts/analyze_frozen_detect_stages.py",
+      "sha256": "60abb618344ca7aef470f9974bf047eb6e2e7094486d3f2b0bc7abf15316a2d6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/scripts/tests/test_frozen_detect_stages.py",
+      "sha256": "0e53bc9a277a70864196921b65f28842bf0733f7b1aa747d04c1c813aca37cfd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveMediaPipePoseEstimator.kt",
+      "sha256": "d9df842f0aa81fed7a71d563e6de0accd00956a7f71a4addbaa5006c8ba9c1fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/validation-app/src/main/kotlin/ai/senp/validation/LiveReferenceActionActivity.kt",
+      "sha256": "9cc466a8a55e5143163e71a3651eb8d188190c70d59840994ef4c6ca463297e6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/validation-app/src/main/kotlin/ai/senp/validation/LiveCameraFrame.kt",
+      "sha256": "77208cc9146fed0c4691cefb603eac54fa1957eddda6956fd25652ef4406daac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/manifest.json",
+      "sha256": "ef51d5904848e48d6283cf816611e42ff375505e930bba05b505b6b61eedf06a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/original-room.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/upstream-positive.jpg",
+      "sha256": "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/validation-app/build/outputs/apk/debug/validation-app-debug.apk",
+      "sha256": "888025d7c0b958704b1bfef37b4def36eb170324468058c1f6135592c30083d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/validation-app/build/outputs/apk/androidTest/debug/validation-app-debug-androidTest.apk",
+      "sha256": "e084cd3c1156087ab705629ffd5519db85849dd5162895b4301009f351a57154"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/models/frozen-detect-stages-protocol.json",
+      "sha256": "011396f783ad42f23e08bcffb48e48b12690300f675b173e6149959f5ab8ff65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/scripts/plot_frozen_detect_stages.py",
+      "sha256": "f2ea9e2079a10c9eaf2c796346dbce6595f34b93a736258502f5f37620ca37db"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/docs/FROZEN_DETECT_STAGES_RESULTS.md",
+      "sha256": "a57b1af8e7db69bf791cf77ea3437429763484654ab1ec436a43d4a5f6e9c7c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/docs/READINESS_70_PLAN.md",
+      "sha256": "17f3a688b9e14580ba838af3333380f87ce15d4bf8b9240b7ae7b35982b0763e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/gradle/libs.versions.toml",
+      "sha256": "81f5a7fb7ca4c5f20b0582d8c66b4ed59796dd53ea86887d8c0b1c0da34fded6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LivePoseModel.kt",
+      "sha256": "b152c69e80fd4c9b187b4ef992a22091052a1b2135d35fa5e1ec8412f1bebeab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/scripts/verify_native_transcript.py",
+      "sha256": "f6e3153e507589adef37c44724561fb7077383fc5a49cb1aa0ac8ce1c0bb4e25"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/scripts/profile_live_processing_stages.py",
+      "sha256": "2c4df4b73170de450aaf418a084e2ea0152e5c327147ba63cf54a9cc08ca34e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/scripts/score_readiness.py",
+      "sha256": "697d87dd1956d3b8c8be104d6881ae53486af6f75b3c80817c39646eee962cfd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/models/preview-preference-readiness.evidence.json",
+      "sha256": "78d4663932203f3d8a0eae5a7ba5ab6de4a683dd715653efbb00dbac9514af8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/create-frozen-detect-stage-probe.py",
+      "sha256": "5413da77034f48aa49f81a18ec57398d7d9a7f3b083af44d61fd00d505b720a0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-native.ps1",
+      "sha256": "6e0e5e2c95c4f99e8368c18a0ea366dc178f671edd36cf39a571af1ee07932c7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-build.log",
+      "sha256": "e47e7c6739c4ddf3e63b680be3877bf25ad551e28413563b94b2c9ebf8967fad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-build2.log",
+      "sha256": "1762dca612dee4707735478e56c86b2dd93826893c15b62c87cd429f0f140eca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-python-preflight.log",
+      "sha256": "98c2dfbc1e0722479257efe33a2c4897e9da0e19fbd79a7758a006ab2bc9022e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-runner.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-analysis.log",
+      "sha256": "f24308f8ab539cb05bd85bedd0394df01d31359c01df1d25c943ff200508beb5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-qa.log",
+      "sha256": "ed05b33309c8e8940dff1f37508e17c8a921ac18d616d18bacf4f16fd2c80258"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-readiness.log",
+      "sha256": "e97ebd3d1c9ce5624140364301d5fea87ec7746e6c771b43546722be2272567a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/frozen-detect-stages-gradle-stop.log",
+      "sha256": "63b3b053d39a00d0131788861236a840924e2034075e93e2733cd8bf4cf52003"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-detect-stages-checkpoint-f6a46ea/work/freeze-frozen-detect-stages-results.py",
+      "sha256": "686db48c3001660766cf11ed3226c6db3730800abed8d38ed44d702fc8503531"
+    }
+  ]
+}
