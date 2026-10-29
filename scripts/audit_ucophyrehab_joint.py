@@ -17,12 +17,12 @@ DATA = ROOT/'test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029'
 PROTOCOL = ROOT/'models/ucophyrehab-joint-intake-protocol.json'
 
 
-def subject_or_exercise(value):
-    if type(value) is int and value > 0:
+def subject_or_exercise(value, minimum=1):
+    if type(value) is int and value >= minimum:
         return value
-    if isinstance(value, str) and value.isascii() and value.isdecimal() and int(value) > 0:
+    if isinstance(value, str) and value.isascii() and value.isdecimal() and int(value) >= minimum:
         return int(value)
-    raise ValueError('Original positive numeric identity required; do not guess folder mapping')
+    raise ValueError('Original numeric identity required; do not guess folder mapping')
 
 
 def select_joint_frames(stream):
@@ -42,7 +42,7 @@ def select_joint_frames(stream):
         if prefix in {'data.item.folder', 'data.item.exercise'}:
             key = prefix.rsplit('.', 1)[1]
             if key in headers: raise ValueError('Duplicate recording identity')
-            headers[key] = subject_or_exercise(value)
+            headers[key] = subject_or_exercise(value, minimum=0 if key == 'folder' else 1)
         if (prefix, event) == ('data.item.frames', 'start_array'):
             if headers is None or set(headers) != {'folder', 'exercise'}:
                 raise ValueError('Identity must precede frame access; no fallback or reordering')

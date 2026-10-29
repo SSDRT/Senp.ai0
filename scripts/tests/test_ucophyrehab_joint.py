@@ -13,7 +13,7 @@ class JointIntakeTests(unittest.TestCase):
         return dict(folder=folder, exercise=exercise, frames=[dict(id=0, joints={'angle': 0, 'points': [None, 0, -1.2]})])
 
     def test_only_frozen_subject_exercise_frames_are_constructed(self):
-        records = [self.record(22), self.record(1, 5), self.record('01','01'), self.record(27)]
+        records = [self.record('00'), self.record(1, 5), self.record('01','01'), self.record(27)]
         for r in [records[0],records[1],records[3]]:r['frames']=[{'secret_trajectory': 'sealed'}]
         result = self.read({'data': records})
         self.assertEqual(2, result['selected_record_index'])

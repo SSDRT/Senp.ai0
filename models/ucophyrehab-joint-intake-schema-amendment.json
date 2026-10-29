@@ -1,0 +1,15 @@
+{
+  "schema": "ucophyrehab-joint-intake-schema-amendment/1",
+  "frozen_before_trajectory_selection": true,
+  "parent_protocol_commit": "c07e563",
+  "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13365497/",
+  "source_basis": "Data Records identifies subject_id example 00; Table4 identifies exercise01 as left seated unsupported knee bending; annotated frames already begin at ID5",
+  "identity_grammar_correction": "Accept nonnegative numeric folder IDs in metadata; exercise IDs remain positive. Subject0 is a valid sealed subject, not a missing measurement or an alternate development subject.",
+  "selected_subject_unchanged": 1,
+  "selected_exercise_unchanged": 1,
+  "frame_limit_clarification": "Do not drop the first five supplied frames a second time. Preserve actual recorded IDs and separately report the absent acquisition prefix.",
+  "no_new_data_scope": true,
+  "ratings_not_opened": true,
+  "production_unchanged": true,
+  "readiness_points_earned": 0
+}
