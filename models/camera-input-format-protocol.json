@@ -1,0 +1,92 @@
+{
+  "schema": "senpai-camera-input-format-protocol/1",
+  "frozen_utc": "2026-10-29T15:41:45.635718+00:00",
+  "baseline_metadata_commit": "edaa1d1eb53deb0bea17b2830206b9659d7d41ef",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "compiler": "qualified-rep-compiler/9",
+  "target_api": 35,
+  "abi": "x86_64",
+  "avd_id": "Senpai_API_35",
+  "runtime_fingerprint": "Android/sdk_phone64_x86_64/emu64x:15/AE3A.240806.019/12368160:userdebug/test-keys",
+  "hypothesis": "Public YUV toBitmap can bypass the separate CameraX RGBA ImageReader route while retaining identical measured prepared pixels; test actual delivered rate, not static capacity.",
+  "prior_pixel_gate": "test-artifacts/exercise-knowledge/camerax-conversion-parity-20261029/analysis.json",
+  "prior_pixel_gate_sha256": "1eaea009aea1596551079b7d428c72cb68f34cf2d397f84785577f31213be98a",
+  "prior_pixel_gate_pairs": 6,
+  "block_order": [
+    "RGBA",
+    "YUV",
+    "YUV",
+    "RGBA"
+  ],
+  "warmup_ms": 15000,
+  "measurement_ms": 45000,
+  "snapshot_offset_ms": 20000,
+  "visible_screen_offset_ms": 25000,
+  "memory_sample_period_ms": 5000,
+  "actual_private_production_analyzer_used": true,
+  "model_and_thresholds": "same reference-selected Full factory, confidence, processor, gate, source timestamps and bounded KEEP_ONLY_LATEST queue",
+  "preview_implementation": "unchanged production PERFORMANCE preference, observe same actual child view at both endpoints of all blocks including fallback",
+  "tested_pixel_scope": "source640x480, rotation90, prepared480x640, full crop, one-pixel-shift disabled by actual device defaults; YUV strides(640,1)/(320,1)/(320,1); RGBA one plane(2560,4)",
+  "per_frame_format_metadata_bound_by_capture_timestamp": true,
+  "native_graph_or_smoothing_policy_changed": false,
+  "source_images_across_blocks_identical": false,
+  "generated_replay_timestamps": false,
+  "real_camera_capture_measured": true,
+  "unknown_capture_clocks_not_relabelled": true,
+  "all_callbacks_export_costs_and_outliers_retained": true,
+  "ten_minute_credit_permitted": false,
+  "human_label_or_holdout_access": false,
+  "production_changed": false,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "native_test_inventory": [
+    [
+      "ai.senp.validation.LiveCameraInputFormatInstrumentedTest",
+      "compareRgbaAndYuvWithUnchangedLiveEngineAndVerifiedPixelScope"
+    ]
+  ],
+  "runner_receipt": {
+    "path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\work\\camera-input-format-native.ps1",
+    "sha256": "17d3872ba0f1e8ff99552e30a4760eab800c96ecdd74f8a50f3959381f5d592b"
+  },
+  "apk_receipts": [
+    {
+      "path": "test-artifacts/exercise-knowledge/camera-input-format-20261029/apks/validation-app-debug.apk",
+      "sha256": "888025d7c0b958704b1bfef37b4def36eb170324468058c1f6135592c30083d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camera-input-format-20261029/apks/validation-app-debug-androidTest.apk",
+      "sha256": "8876df1ca98fc4dde4037b70187b626ea158ff86972cc1d1b3cdd6a3c0c39ee1"
+    }
+  ],
+  "source_receipts": [
+    {
+      "path": "validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/LiveCameraInputFormatInstrumentedTest.kt",
+      "sha256": "7f0a589e08ffa7ca3e41ea42998ec98db9d51491ceb8f3663c39f2db7ae27bf0"
+    },
+    {
+      "path": "scripts/analyze_camera_input_format.py",
+      "sha256": "ea8e6724ae047c4cae8df4e61113fc408cba8bf39e64afd121da86a48651751e"
+    },
+    {
+      "path": "scripts/tests/test_camera_input_format.py",
+      "sha256": "38502eb4213940dfab43095edbe98d8894a744d455c3f6459dbff259ede733eb"
+    },
+    {
+      "path": "scripts/frozen-detect-stages.init.gradle",
+      "sha256": "b1b1b1790f4f2b60e3fd76b4b8a0dc86cb6654565a61da53e891d29479708202"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LiveReferenceActionActivity.kt",
+      "sha256": "9cc466a8a55e5143163e71a3651eb8d188190c70d59840994ef4c6ca463297e6"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LiveCameraFrame.kt",
+      "sha256": "77208cc9146fed0c4691cefb603eac54fa1957eddda6956fd25652ef4406daac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-parity-20261029/analysis.json",
+      "sha256": "1eaea009aea1596551079b7d428c72cb68f34cf2d397f84785577f31213be98a"
+    }
+  ]
+}
