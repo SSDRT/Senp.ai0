@@ -1,0 +1,11 @@
+gradle.projectsEvaluated {
+    def project=gradle.rootProject.project(':core-motion')
+    project.tasks.register('uiprmdFrontalAudit',JavaExec) {
+        dependsOn project.tasks.named('testClasses')
+        classpath=project.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.UiprmdFrontalAudit'
+        args gradle.rootProject.projectDir.absolutePath
+        maxHeapSize='1500m'
+        outputs.upToDateWhen { false }
+    }
+}
