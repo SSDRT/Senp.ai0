@@ -32,10 +32,12 @@ class LiveCameraInstrumentedTest {
                 return count
             }
             val first = waitForFrames(0)
+            recordCameraPreview(scenario,"pushup-launch")
             scenario.moveToState(Lifecycle.State.CREATED)
             Thread.sleep(750)
             scenario.moveToState(Lifecycle.State.RESUMED)
             waitForFrames(first)
+            recordCameraPreview(scenario,"pushup-resumed")
         }
         instrumentation.waitForIdleSync()
     }

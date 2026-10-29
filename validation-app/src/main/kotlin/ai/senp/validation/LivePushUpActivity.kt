@@ -96,7 +96,8 @@ class LivePushUpActivity : ComponentActivity() {
             setBackgroundColor(Color.rgb(8, 10, 14))
         }
         previewView = PreviewView(this).apply {
-            implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+            // Prefer CameraX's lower-overhead surface; it retains its device/rotation fallback.
+            implementationMode = PreviewView.ImplementationMode.PERFORMANCE
             scaleType = PreviewView.ScaleType.FIT_CENTER
             setBackgroundColor(Color.BLACK)
         }

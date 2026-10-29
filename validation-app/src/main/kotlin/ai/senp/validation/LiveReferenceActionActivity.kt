@@ -198,7 +198,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
     private fun buildUi(): View {
         val root = FrameLayout(this).apply { setBackgroundColor(Color.rgb(8, 9, 12)) }
         previewView = PreviewView(this).apply {
-            implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+            // Prefer CameraX's lower-overhead surface; it retains its device/rotation fallback.
+            implementationMode = PreviewView.ImplementationMode.PERFORMANCE
             scaleType = PreviewView.ScaleType.FIT_CENTER
             setBackgroundColor(Color.BLACK)
         }

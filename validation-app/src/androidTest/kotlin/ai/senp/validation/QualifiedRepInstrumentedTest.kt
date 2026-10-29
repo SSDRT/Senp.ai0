@@ -89,10 +89,12 @@ class QualifiedRepInstrumentedTest {
                     return count
                 }
                 val first = waitForFrames(0)
+                recordCameraPreview(scenario,"reference-heavy-launch")
                 scenario.moveToState(Lifecycle.State.CREATED)
                 Thread.sleep(750)
                 scenario.moveToState(Lifecycle.State.RESUMED)
                 val resumed = waitForFrames(first)
+                recordCameraPreview(scenario,"reference-heavy-resumed")
                 val directory = java.io.File(context.getExternalFilesDir(null),"qualified-rep-evidence").apply { mkdirs() }
                 java.io.File(directory,"heavy-camera-binding.json").writeText(JSONObject().put("kind","virtual-camera-model-binding-not-form-accuracy")
                     .put("model_sha256",identity.poseModelSha256).put("frames_before_pause",first).put("frames_after_resume",resumed).toString(2))
