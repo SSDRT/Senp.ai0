@@ -1,6 +1,6 @@
 # Live pose implementation and validation — 2026-10-22
 
-Latest verified engine checkpoint (28 October 2026): compiler `/8`, implementation `6d1386b`, adds the confirmed-clear preparation guard. All 292 scoped JVM and the same 30 native cases on each of APIs 35/36 pass, alongside 124 Python checks, 2,688 controls and 124 corruptions. Existing references and qualified camera attempts remain intact. Readiness is 50/100; this is not a measured human-rep accuracy increase. See `PREPARATION_FAULT_RESEARCH.md` and `models/preparation-fault-readiness.evidence.json`; earlier dated sections retain their original results.
+Latest verified checkpoint (29 October2026): implementation `b03e340`, compiler `/9`, prefers CameraX PERFORMANCE with automatic fallback in both existing live activities.305 scoped JVM and the same31 native cases on each of APIs35/36 pass, with175 Python checks,2,688 controls and124 corruptions. Eight original launch/resume display snapshots show visible previews; both network assets and all pose/extraction/comparison code are unchanged. Readiness remains50/100 with no measured human precision or sustained-performance credit. See `PREVIEW_PREFERENCE_RESULTS.md` and `models/preview-preference-readiness.evidence.json`. Earlier dated sections retain their original results.
 
 The project is set up in `D:\projects\senpai` on `codex/live-pose-accuracy`, based on production commit `74aa4d5`. Changes are local to this branch. No remote branch was pushed and no PR was opened.
 

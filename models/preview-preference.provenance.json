@@ -1,0 +1,1564 @@
+{
+  "schema": "senpai-preview-preference-provenance/1",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "compiler": "qualified-rep-compiler/9",
+  "candidate_protocol_commit": "c2f60c1a2b1e8162581925a19ae67cf52d2390b3",
+  "boot_harness_amendment_commit": "804893f6c4b14216f1a8b583a670b1c73f72e8b0",
+  "decision": "PROMOTED_RENDERING_PREFERENCE_ONLY",
+  "render_only_production_changes": [
+    "validation-app/src/main/kotlin/ai/senp/validation/LivePushUpActivity.kt",
+    "validation-app/src/main/kotlin/ai/senp/validation/LiveReferenceActionActivity.kt"
+  ],
+  "all_other_production_sources_unchanged": true,
+  "weights_changed": false,
+  "thresholds_changed": false,
+  "raw_MP33_changed": false,
+  "reference_only_backend_selection_preserved": true,
+  "model_assets": [
+    {
+      "path": "assets/pose_landmarker_full.task",
+      "sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "unchanged": true
+    },
+    {
+      "path": "assets/pose_landmarker_heavy.task",
+      "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+      "unchanged": true
+    }
+  ],
+  "scoped_jvm_tests": {
+    "core-motion": 255,
+    "android-pose-mediapipe": 14,
+    "validation-app": 36
+  },
+  "python_tests": 175,
+  "frozen_controls": 2688,
+  "controlled_corruptions": 124,
+  "native_runtime_results": [
+    {
+      "schema": "senpai-preview-preference-native-verification/1",
+      "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+      "api": 35,
+      "emulator": true,
+      "page_bytes": 4096,
+      "all_tests_pass": true,
+      "native_counts": {
+        "android-pose-mediapipe": 12,
+        "validation-app": 19
+      },
+      "native_total": 31,
+      "performance_measured": false,
+      "human_rep_precision": null,
+      "protocol_sha256": "ffc9b4a13b5babfdc3e32e9998439be73f4a4a4cb472b0b0a0396ca4f2d270b4"
+    },
+    {
+      "schema": "senpai-preview-preference-native-verification/1",
+      "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+      "api": 36,
+      "emulator": true,
+      "page_bytes": 4096,
+      "all_tests_pass": true,
+      "native_counts": {
+        "android-pose-mediapipe": 12,
+        "validation-app": 19
+      },
+      "native_total": 31,
+      "performance_measured": false,
+      "human_rep_precision": null,
+      "protocol_sha256": "da6f153245b679d9bc3811b8da6ecf8763d4a5c24277935c3d981cb7b7fcb60f"
+    }
+  ],
+  "actual_display_snapshots_inspected": 8,
+  "actual_surfaces_observed": [
+    {
+      "api": 35,
+      "name": "pushup-launch",
+      "surface": "android.view.SurfaceView"
+    },
+    {
+      "api": 35,
+      "name": "pushup-resumed",
+      "surface": "android.view.SurfaceView"
+    },
+    {
+      "api": 35,
+      "name": "reference-heavy-launch",
+      "surface": "android.view.SurfaceView"
+    },
+    {
+      "api": 35,
+      "name": "reference-heavy-resumed",
+      "surface": "android.view.SurfaceView"
+    },
+    {
+      "api": 36,
+      "name": "pushup-launch",
+      "surface": "android.view.SurfaceView"
+    },
+    {
+      "api": 36,
+      "name": "pushup-resumed",
+      "surface": "android.view.SurfaceView"
+    },
+    {
+      "api": 36,
+      "name": "reference-heavy-launch",
+      "surface": "android.view.SurfaceView"
+    },
+    {
+      "api": 36,
+      "name": "reference-heavy-resumed",
+      "surface": "android.view.SurfaceView"
+    }
+  ],
+  "upstream_static_replay_contact_sheets_inspected": 2,
+  "upstream_static_replay_is_human_precision": false,
+  "initial_pre_test_boot_harness_failures": 1,
+  "initial_failure_preserved": true,
+  "native_case_failures": 0,
+  "final_holdouts_opened": false,
+  "new_human_labels": 0,
+  "human_rep_precision": null,
+  "accuracy_gain_measured": false,
+  "performance_gain_of_promoted_APK_measured": false,
+  "prior_controlled_mode_comparison_mean_fps_gain_percent": 23.5617057112777,
+  "prior_mode_result_is_not_APK_performance_qualification": true,
+  "sustained_live_performance_points": 0,
+  "readiness": 50,
+  "reference_usable": 12,
+  "reference_total": 32,
+  "reference_replay_inherited_from_unchanged_engine": true,
+  "independent_label_results_inherited_without_rerun": true,
+  "previous_readiness_receipts_revalidated": 2531,
+  "checkpoint": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-codex/src/main/AndroidManifest.xml",
+      "sha256": "eefa900f10279cdd1355eebed493982cb90b8f5d666787815a9537a7f6fb748b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-codex/src/main/kotlin/ai/senp/codex/AndroidCodexTransport.kt",
+      "sha256": "bc73cb2dbb8dc9f2bc5166cb0cb6d52baa97f73606fa7361b9ce8bf5593a0553"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-codex/src/main/kotlin/ai/senp/codex/CodexAuth.kt",
+      "sha256": "6ff6a1d1f7f9bb264decb6efecaef6e85187d8f983969ed4fce195b0c9fcda5d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-codex/src/main/kotlin/ai/senp/codex/ReviewFrames.kt",
+      "sha256": "a12c153313b74c35ddf024d6b633e3bf252e749354985d602633ec98af9e2ceb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/androidTest/kotlin/ai/senp/pose/mediapipe/LivePoseInstrumentedTest.kt",
+      "sha256": "7c345ee113dade599dd9ccbe44c5339fe750ea11a524a459b67fdfef1a27c903"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/androidTest/kotlin/ai/senp/pose/mediapipe/LivePoseModelBenchmarkTest.kt",
+      "sha256": "0ce390f3dcb55ea095e6c7645f754de16023e36c2478bb73743de6a187e7af49"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/androidTest/kotlin/ai/senp/pose/mediapipe/MediaPipePoseEstimatorInstrumentedTest.kt",
+      "sha256": "707ed3d9eede1dd4e62283f202b2c37d8f4f73319b6a5d0d935532081ede5093"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/main/AndroidManifest.xml",
+      "sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveFrameGate.kt",
+      "sha256": "3813a9428604f4fc09b354ec8754cfa6c3b48f79f8efc13f229e5cbb4b852ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveMediaPipePoseEstimator.kt",
+      "sha256": "d9df842f0aa81fed7a71d563e6de0accd00956a7f71a4addbaa5006c8ba9c1fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LivePoseModel.kt",
+      "sha256": "b152c69e80fd4c9b187b4ef992a22091052a1b2135d35fa5e1ec8412f1bebeab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveTrackerResetPolicy.kt",
+      "sha256": "26bb21c031dc5b6084121b0256109a0b41e52b3e39147c4e20058a6821c78b06"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/MediaPipePoseEstimator.kt",
+      "sha256": "dad7fc6ce97afc7d43b3a1e94b682616c28a83ce4f1ef2c3f2a48de800863801"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/VerifiedPoseModelBuffer.kt",
+      "sha256": "c6e623ff3ae9f58b32ecf3a9ed371460838034b0a6623476aeacedf5b8d1bdf9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-video/src/androidTest/kotlin/ai/senp/video/VideoDecoderInstrumentedTest.kt",
+      "sha256": "392590a15fbf2445be35ed16277eaffe0d172eca8a9e87cfb74ba1b47e5f2bb7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-video/src/main/AndroidManifest.xml",
+      "sha256": "a39f2408db4c26b383b69e5b705580e63a70567317b166f4663078ab0912ad0c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-video/src/main/kotlin/ai/senp/video/TimestampSampler.kt",
+      "sha256": "b2be6f9e7fe9a45914d5629db98cc2360b3752bd26d636c3ebea4f3c6be1a011"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-video/src/main/kotlin/ai/senp/video/VideoContracts.kt",
+      "sha256": "de0e1f07b02a3c581f7e749228e7dcabb7497cec39e6ff2d9a9a7ab6e643dd5a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-video/src/main/kotlin/ai/senp/video/VideoDecoder.kt",
+      "sha256": "362976832d992a5ad94b16cacc454d4d9b922952c48bba809dadc1b27d76d71e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/android-video/src/main/kotlin/ai/senp/video/Yuv420FrameTransformer.kt",
+      "sha256": "9266980e842a5c08ef4144a16b14f38019d2ecdbea01d01b7c84faf70e2479b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/AlignmentEngine.kt",
+      "sha256": "d333793a97f98b23ce3b451e02e18df2a0d70d47c1ac803c0f5d174adf99b1b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/CanonicalMicrobenchmark.kt",
+      "sha256": "25ff9f3418d5596a27975d359916ccd18fbabd49ac5f9e7b31b3f2346160aaab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/CanonicalTrace.kt",
+      "sha256": "84cbd931fc9735ce00051f042d6998ae55f2c84821e2f16f6d0c8201a1d91be4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/Dtw.kt",
+      "sha256": "412ceeb44a2c49aa9d338e3ae4542652e7e4f121625bfeb387bfac97c6f1ee0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/Math.kt",
+      "sha256": "9f46b5008c2d8b0200fc7a474c4beedd247f3718ce2a2791f05d7795850ebb5d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/Microbenchmark.kt",
+      "sha256": "026a20cf25cbf792f2e33dae3236a26cd35e99580ae44afa61e15015d20029e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/Model.kt",
+      "sha256": "a3fbf27f68a4491a1ca75cefe60831356e4732f21af95e18b6b1abf0a7dd973c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/PhaseDetector.kt",
+      "sha256": "6d17eba4772e49320ffbd2fee839e5ce282ad6777e966c939472b22060422f22"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/Trace.kt",
+      "sha256": "22c28bd75d5705377b6fc79f0390d1d7158479c1262e29151c9d6bcf22b4b0c4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/WindowEngine.kt",
+      "sha256": "c34cc5cd9ffdab2a135c21051614077311b6104087184ec83ee8a56fe3360f12"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/temporal/CanonicalTemporalSignalAdapter.kt",
+      "sha256": "2c4d4329eb475ed5f0c3f1bc5927737fb4dc985f74c971b4af06db972e04af64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/temporal/TemporalCorrespondence.kt",
+      "sha256": "4d4f147284a4eab2526b19c5a3203b38ab355489ad89d3bd61a3337db2a8cc8e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/temporal/TemporalDescriptors.kt",
+      "sha256": "e3cb23d4003d8f9465ea962c62b3ea3b6ea2ee0ac70e15d403b627dbf42df711"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/temporal/TemporalModel.kt",
+      "sha256": "9cd166174a73bb313fcec3f910a7fe2cc95a353b30fdcc552fbae1709ca42797"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/temporal/TemporalStructureDetector.kt",
+      "sha256": "f23f04a07ac37abced65d98be37d2e55bf1d1b2835bb7473409c94d5620ca2b2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/alignment/temporal/TemporalSynchronizationEngine.kt",
+      "sha256": "60806870e866180058d7fdb312c42cd8599f32ee574b4b4b7922da9416761991"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/core/pipeline/CanonicalAlignmentAdapters.kt",
+      "sha256": "6e4817f3cd7db7e2d7fb52e516fb6d86e47dd71e9eb74522bf74a82279d2cda4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-alignment/src/main/kotlin/ai/senp/core/pipeline/CanonicalAlignmentArtifacts.kt",
+      "sha256": "9766a278122140ad6352e81d86f4d69b6b38e1bfa32ad6b1908f8b4bf1e6af54"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-cache/src/main/kotlin/ai/senp/core/cache/InMemoryAnalysisCache.kt",
+      "sha256": "4c1d01c5c28ee38745b7e3e9f79899a294a13a1f131da3ef7ce561bf3c08d4fe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256": "6d0bd9187ee76088f5970f87caf2445796ea00ca63b14cb447d694ac05235a4d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256": "2741b77720e04b16d1ef401f3be1c4e438b3e6be4bb07632528871804f973067"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256": "911c4c0ec768449d5726b5ee09f9c51776feb218b298b74f357ffbcc39d8733b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256": "ec5710404b5f73e2a0deb19773b6dd3707a91406dafb8dc78bc02ffe51f92d3b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256": "fb252adf230078cd82e2a5618deaff186960674a69169130053ce13477460767"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256": "f723a887e9a971eafc88a4bea4c67538df4a9ea0e4a04f7319acad4159645c29"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256": "006924630273018401748957e5efe61339423f6bcc8794d8fdee95326e801ca2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256": "a12fb4e7cb0d30b887441578254d8ef2ccbc35ef7d8941761a68ddb60bda10f9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256": "8d2bbc59a717e9eee35d58136423ffdc9ef6f5054c35e3e15dc1e7afb3ab0d41"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256": "37cef2f446639849ee3b5179d0b710129389be18ac129e2de05cfa9258e2c245"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256": "9920e352cb2c7847ad64ba133fe581095c7f5b324caa9159eb64cb8504feb8be"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a44068fb09a3a6ae09da93f6f9eef226116dc632d310751fb305544b23cb81da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "60554d157dd7ebd61224aaa4794557f8e9eb3cd2adbcbe053ae2fc01548b71a6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "edf9c969c2c043731778cf329fa0e7879212fa6f5b078c26411f821092a8144b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "e68a90f71299c3d10eac552a432abc8831ef6bad7c4e250b4c3061f5a4e78e7c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "25d35d3ad35a2dbff64cfcfebc09d964670cb2cc8c30e5a57c23548afed0968b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "9da5be96c1ba3cb4c0dfb04a7998029c1c2d913632b4c4d13da1a676d4a9ff6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "bd69e3083af5f631587deea3dec567278d29046f9e57fa5087e60e60c3d47a12"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "086e71e22369c6cab7d45cd5f467cc4f41f320cf9acfc246533d000b40a89195"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "13c5cb4fc64acb6c78753c05854f88b047878d27eb1a877b88dca7cb2bd39743"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "c3b044cfc33837beb13bee1ecd26a7dc9516a2986cb017873830d51cdaf6e22e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9905db8d8d4960c6fa30747f9268ce1dc814dc05c101496c1cd49fec45f6119f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "8a5f65015f8789fdea658599e7473a919dbbe7f10fcbc5429fc6eb930048c5b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedMp33Evidence.kt",
+      "sha256": "fb78d2e889273b0f9366502ed7204cb0e4ba1d68d3be956b2ae9a9a1a44dceac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "efeb1e8868be55664c4aba056ed84e320f504709dcbb0a1e61641fc2068af101"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "b5a4b1a635fc78e8eeaeced49239851e4abff760d563a1dc11e09c58d7716b77"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "a5ce487a7abfb8c0adb6ffef201dd91f681c7e64b0e7d7342d0c3bef3603c50d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "5844604923d7187c2656881238d83fff388bfb7ce16e1f7f80c35120a53ff1fc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "a5d8b7cfa4bfeae9eb6f993a181afe65fd9fcf8dfd824ccde08aaac444db7630"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "4c111d92440eed762aa6fe1b8dde8f1d2d20fa5e4ec57feb0736d33ed73aee87"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "66ea11a2c0ce2e717911d11ebcd3257c6728b4ae1ba81b16e0ed195d458d6062"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "42ed784df3bdbf52e17f7e74c9ce64de2f6d3fb949a342c6b64ed8d4ca489981"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "3f64fc9b1202d244719f9dc33628808bd08be0973686f177a845df4f1fe7555c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "9a3781f969dfac1008c8996d8676142d5c8d4f6fb516a60a8bbfd093ef7a27e2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "8a76135f06ef70423fd2f9af2e0d7c7c8fb862eb55a2fb4df41ae4fd1a3ddaa4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/resources/ai/senp/motion/LICENSE-mendeley-quality-CC-BY-4.0.txt",
+      "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/resources/ai/senp/motion/NOTICE-mendeley-quality.txt",
+      "sha256": "08a89eb88ad4c69ffc9627ef18ec497758a3bee7d7079c549fa759ba027d1b8f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/resources/ai/senp/motion/exercise-techniques.json",
+      "sha256": "1825e1ce4334d0d3b748b3a32c31e3623106ec20e5abd13d340951b1fbf3b0a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/resources/ai/senp/motion/learned-exercise-quality.json",
+      "sha256": "ae7d6814bee989c58096aee4c0a1a5afa1e8c5d24bbdb928249b3047eafc3dd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/resources/ai/senp/motion/sample-classifier-LICENSE.txt",
+      "sha256": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/resources/ai/senp/motion/sample-classifier-NOTICE.txt",
+      "sha256": "26e59e30240357cc60ebf0e2e9e937c922c77d0fb2ca44ed138f78d986c50b10"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-motion/src/main/resources/ai/senp/motion/sample-pose-classifier.json",
+      "sha256": "6cec0f2b0af1d220df06ed8b9b5572f5c2563f9bc778e2626e8db01e4f4a40b4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/AnalysisPipeline.kt",
+      "sha256": "3277c2ec157f7a8fe1abeb69739cf6d8b382c5ec8c23ff6a0617727be0a8a2b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/Ports.kt",
+      "sha256": "5fc86174c1938b897e8fa587c9deba5a21123e45972273a7caed6b6e16fcc7a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-review/src/main/kotlin/ai/senp/review/Codex.kt",
+      "sha256": "1a3532ff89d2bdc495d1bb929cbc1898f4a00168a9a5efee7221ff01d6c02a64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/core-review/src/main/kotlin/ai/senp/review/Review.kt",
+      "sha256": "def5fca2719305dc7154a71e2fcd0da1db7a69d85e8978e17f7e74e110a20b98"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/docs/PREVIEW_PREFERENCE_PROMOTION.md",
+      "sha256": "7005a698e7837885d79d1e76a6f20bbeef8ebbfeea655ed4e51214b8fb01ed83"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/headless-runner/src/main/kotlin/ai/senp/headless/Fakes.kt",
+      "sha256": "888cfcca8f7ad143d656396c7f527ea5e7e522f4da4fa26c5d66bc7d9e8b4724"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/headless-runner/src/main/kotlin/ai/senp/headless/Main.kt",
+      "sha256": "2cbddb56c849f0a9910cba235f2e524a9b314db7a23eed0847f7b1bdcb496e46"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/models/camera-preview-mode.provenance.json",
+      "sha256": "a54ca12dc1479e3e5c1e77f8f2a53d18cba9a4a1e57f10764d547ea680436306"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/qa/android-smoke/app/src/androidTest/java/com/senp/qa/smoke/test/SmokeInstrumentation.java",
+      "sha256": "021bbaa5ad47745f8dbb956e5f6479e98fd8f0331f97b78ed1cf1c8099295a78"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/qa/android-smoke/app/src/main/AndroidManifest.xml",
+      "sha256": "4eaf88aefba9c447f58f56fb0afe834774d6770b92c7cc95efa0d86a501cfc20"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/scripts/tests/test_native_transcript.py",
+      "sha256": "9b3c5dac0fc00742fc3ca52057df9f060a343cc99593e2fe934ba8666e294f45"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/scripts/verify_native_transcript.py",
+      "sha256": "f6e3153e507589adef37c44724561fb7077383fc5a49cb1aa0ac8ce1c0bb4e25"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/sync-v2-integration/src/main/kotlin/ai/senp/sync/v2/PoseObservationAdapter.kt",
+      "sha256": "d1aa9f73754b891134d41e59190b53f60b7182c0aa56f17928d6d803f456491c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/sync-v2-integration/src/main/kotlin/ai/senp/sync/v2/SynchronizationKernelV2.kt",
+      "sha256": "d2ce5ef8b4bdc7262fc05de2a3de23eb08b3d7ef37feed42baa80a2a47ee0688"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/sync-v2-integration/src/main/kotlin/ai/senp/sync/v2/VideoSynchronizationPipelineV2.kt",
+      "sha256": "da30a4ff5c063f92b2c1eb6cfc5860690dfb7c778595c8f46ef660c9aa2577a0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/sync-v2-validation/src/main/kotlin/ai/senp/sync/validation/InvariantValidator.kt",
+      "sha256": "337c5af19780843246703e5ad5deeb513561e1d6ffd2f3eb44154249904d816d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/sync-v2-validation/src/main/kotlin/ai/senp/sync/validation/Main.kt",
+      "sha256": "5f4d8f81f53138336adb2c5739fb954c2f33cb8e89c8e6312e9f427adab3d161"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/sync-v2-validation/src/main/kotlin/ai/senp/sync/validation/ProductionAdapters.kt",
+      "sha256": "0ee992dbbd8208dd4ccaab1bcedf5b55147e26b6174963a65d9ac424a27d239a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/sync-v2-validation/src/main/kotlin/ai/senp/sync/validation/SyntheticScenarios.kt",
+      "sha256": "f14379ec5687321ba04601fc253a5f012093f38f353a6e1bd0690531acf97ce2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/sync-v2-validation/src/main/kotlin/ai/senp/sync/validation/ValidationModels.kt",
+      "sha256": "589ecc49b7faca6cc9c279a39d6474aeea587cc9dcda45b1d93684876931e476"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/kotlin/ai/senp/validation/CameraPreviewEvidence.kt",
+      "sha256": "9a60053fead0c59c57839c4933a0082f19f63bb57bea37eb97138bd709c0cead"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/kotlin/ai/senp/validation/LiveCameraInstrumentedTest.kt",
+      "sha256": "75a86dae04efa16910e446374dc988d50bab6edd5003c21c8014ce18c5d895f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/kotlin/ai/senp/validation/LiveCameraSoakInstrumentedTest.kt",
+      "sha256": "99d7a1a093e66f9c6d13422c5a91433f1a6a506952dc00f68ce12ec37e6f9755"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/kotlin/ai/senp/validation/QualifiedRepEvidenceInstrumentedTest.kt",
+      "sha256": "3818d09b4a658f4601c5812d9a03d38947be92b126e7fca6312113a0736161ad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/kotlin/ai/senp/validation/QualifiedRepInstrumentedTest.kt",
+      "sha256": "4515bd9533678ba3202e0d408809d610bfc23bdc01fe7aeaa714fa1873ff8dd1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/kotlin/ai/senp/validation/WorkoutPrecisionInstrumentedTest.kt",
+      "sha256": "8660c9baaf4c4f253308d90fee7d1aaad088fc25c9d568eedf8e38a1ccc360b9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/resources/qualified-rep-envelope-expectations.json",
+      "sha256": "f7b76d1511d15a40418b3165fef3f2457ab76ddb5cf924afd978a0c47d379bd2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/resources/qualified-rep-heavy-native.json.gz",
+      "sha256": "1af50b1b88410605d74897e9dd018d01381211d3664c1b96d3fe1f58a03c24fc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/resources/qualified-rep-native.json.gz",
+      "sha256": "26a28034a15f3616cb4908d26e918b745e4e6f9b556bf3c85cba1500b2162e64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/resources/qualified-rep-robust-native.json.gz",
+      "sha256": "1d7c77409e3ad67c6f689986c33fb66849a2081f46b259791972db89a566ccc7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/resources/qualified-rep-v5-parity.json",
+      "sha256": "35d62f7ae0d7c5f876dc868baf74df4b252975573f0c37a59baad4bb585b1a90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/resources/qualified-rep-v8-parity.json",
+      "sha256": "c6ade4d0fbe60d1a6355a8d65ecceee62d923f4970da589f62c39ce718098888"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/androidTest/resources/qualified-rep-v9-parity.json",
+      "sha256": "ae526f61c3a6b4337eacda3fa4c6eb0dc09d9309ec4b0042ec9fd20d6937398b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/AndroidManifest.xml",
+      "sha256": "73d6ac5e5bc9519d1b63bb2e09b74e5a356e284958c6b0ed5b1d9806705ea4a4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/assets/analysis_loader.json",
+      "sha256": "21348fc78cec9bb731ed5b2eb2de5d51b3918c61d175c8a26119ad68cfbee64a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/EngineComposition.kt",
+      "sha256": "d3c29751e6ac91dea8a5d1bdb33a33f4a0f6eb8f4a68da1fee1b9a00a05aeac5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/FrameReviewIntegration.kt",
+      "sha256": "92da8248ba7801ca6b02e0ee57dc38eda7a6cd1f9c2a615a7c60ddf80d074fe8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/LiveCameraDiagnostics.kt",
+      "sha256": "a4612fdc226cbf684469224f6696138a1d7b45e62e67903a8f06522dc401e1ae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/LiveCameraFrame.kt",
+      "sha256": "77208cc9146fed0c4691cefb603eac54fa1957eddda6956fd25652ef4406daac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/LivePushUpActivity.kt",
+      "sha256": "2293025a5b6d1b6937e70656db04d8795e5e3181f1916d600769dc6cd0799dd1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/LiveReferenceActionActivity.kt",
+      "sha256": "9cc466a8a55e5143163e71a3651eb8d188190c70d59840994ef4c6ca463297e6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/QualifiedReferenceBackend.kt",
+      "sha256": "fed0d3906da7f4c5e5470a2c7edcedcc2dc8a0bc6350b2b7e61e8e02325c8b05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/RecordedComparisonAssembly.kt",
+      "sha256": "892b879580df3158a95ef0da1338404f7df1b4fb8000d7d832ee4f73aa304668"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ReferenceActionSession.kt",
+      "sha256": "c6ec149ff77876e2db1337e729a5606de7e152d7099c64792a6ad9b18b842d90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ValidationActivity.kt",
+      "sha256": "416f1141d2b1d4a4b8330c2877487524a43ec4180480b442b9f38eca9fefa87c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/SenpApp.kt",
+      "sha256": "0a454911bc491a9529aea8452795dbef73fef3b3c0ce8d4e86aed4dfe592eccd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/SenpEngineViewModel.kt",
+      "sha256": "a97c6741c5465964bfc351fa06aebe054efc4ace12be72436fb98a0cdff88fbd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/components/DiagnosticsBottomSheet.kt",
+      "sha256": "a32a929791418cfd2e5510c96fb63fa08a353ff67ca38eb3407085474a85ca2f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/components/PoseLandmarkOverlay.kt",
+      "sha256": "60ee4e2ad5f4a9bfc8da22752f2d6170c78abca179f9731ad6a34da82ff73fd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/AnalysisPlayerScreen.kt",
+      "sha256": "f8d0711036f0be32b3007f0d8e0edb565d6fc940d2409ef5b6930ae576c21a52"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/AnalysisProgressScreen.kt",
+      "sha256": "97dbf3471a84f31a722e1a77dd4df27eebe9806369bd1ea9870af207627e601c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/ConfigurationScreen.kt",
+      "sha256": "4aafaa460dad936f1956565bb338097037129ae08bd60f0df19d6576909d1755"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/PlaybackMapping.kt",
+      "sha256": "a40801752db8babdc9ba7ce63812c78e7f37e35f7f24eb728c35daff25b6549d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/screens/VideoEditorScreen.kt",
+      "sha256": "da72356030867a8bc04849b177d186fd3f138a9f046985c91536ae9871ad9ee8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/state/SenpEngineState.kt",
+      "sha256": "e4c5fadc40e5dfa7194a948c143d434667beb254f6e51b210ebf1471a12abe7e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/theme/Glassmorphism.kt",
+      "sha256": "d4a8bf58e72395f29a5dd48b06daeb62c95b3ac7f4888e58619fc598507b51b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/kotlin/ai/senp/validation/ui/theme/Theme.kt",
+      "sha256": "19c73f68d95b98d2b1bba59c3a243e0816626a981399e0b8d848fa0ef19695c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/res/layout/player_view_texture.xml",
+      "sha256": "84f5f327d2e4cec76685098a6b0ae6eb5b20aa416589cd0cff90d41d19bd30e4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/res/values/styles.xml",
+      "sha256": "06b5de7356a7213e61724cc76154e14791727863feba5c628d1496d31f3a73dc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/source/validation-app/src/main/res/xml/file_paths.xml",
+      "sha256": "ceb676b44fb24edd7601958c3b328ffda893d4c30098dbac45bae13356d414dd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-20261029/apks/android-pose-mediapipe-debug-androidTest.apk",
+      "sha256": "bb5399b83e47e4f9c4d651d5021dfbc2578c71f01b7721b50cc0c8c9f3f796c2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-20261029/apks/validation-app-debug-androidTest.apk",
+      "sha256": "1ed8376b4fb5a61c3819de3e28ec02ab32a46e66a8ce9fd0f417e21f37b98ba5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-20261029/apks/validation-app-debug.apk",
+      "sha256": "888025d7c0b958704b1bfef37b4def36eb170324468058c1f6135592c30083d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/protocols/api35.json",
+      "sha256": "ffc9b4a13b5babfdc3e32e9998439be73f4a4a4cb472b0b0a0396ca4f2d270b4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/protocols/api36.json",
+      "sha256": "da6f153245b679d9bc3811b8da6ecf8763d4a5c24277935c3d981cb7b7fcb60f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.ClaheReferenceEvidenceTest.xml",
+      "sha256": "121b486e4bc0040b33418a41626e92d1e442455bb9107dd3747c2106ef94b381"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "dc092589a08cf7941add8d1e3cc84467d9f9c9a4749e1707f9de17317e2deb3b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "c41cc87d8635f6c6b264ec2dc2e47a75c512e2e4b2e2a69a373b84ee5d188dae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "db23d7e4314f700b764b7f0c68aa3ca9b24ebdf2d82c54d75bdac3a154a6c186"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.FixedReferenceWindowResearchTest.xml",
+      "sha256": "472f9d8aa278f6291cda05f18a30bfc80d46b676ab3c3730814436a30de4f600"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "7b6103524c3a6a85d5d73a90a9a1d25b15b5ae41e64fcdcd95afc65418cf15b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.InImageMp33EvidenceTest.xml",
+      "sha256": "626254e600c48145494c9709b3353343c523f49143b0588888b7dc0a456f71bf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "04bde30f996181d2851659d954541cd88d2569d889c74ed55141243fded42a28"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.LiteReferenceEvidenceTest.xml",
+      "sha256": "cbdf7116e7da7ad61bcdb98d992947d67a0ea522fa04ebf0a87dd5835118960a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "77cf5e585012ef2037cfafe5a3ba71c4b3af5c901ae561c8a7015546923a607b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "39c5c0b87fb97269e42074a00deb3fe8bf9012df82494561ad1cac6baab92a27"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.MmfitRawEvidenceTest.xml",
+      "sha256": "586b6bdd37eb9ab0e6dfea5f7f9495d32c0811fc97e2c1ad9fe68670cd7f2596"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "8ec216f9368ac288c25fdf336ec1889b5a238838faa55f09a2f326fe9b53d27d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "20af655f8cd819af846e3c50754309c353a8d2402bba1cc7d5dcbf6059e0e7b6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "2918037f24a9a265a043dd50c9d81169e4528d8634135f22e0e904b37c4daed2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedMp33EvidenceTest.xml",
+      "sha256": "66896d8590dc00d2d77b5d860003f0f75abdd16a80b0f94dfeed3de085ed36c5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "a643fe7c0f3c9677f2ba66dbf9a62761097307994e52839f44a4e20858de4250"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepClearReadyTest.xml",
+      "sha256": "8720701e9b8f1ff1c1dfac731bb108dcec1cfc100fa1bdb085d6e7f0ee755378"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "347ff6f10644b31236c09660f1e3039b3fc4b4ef04956ff7ff19940d5cbb75e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "9e431fcf41d61054cb25b516a427cba1caa2c65f539b64a2d452ab141060bf33"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "5f24fd4b64e0e50225903b969f66f349a4ea49ab3a52f41c2d27b71507c88a10"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "9402e50acc2f266bb48cac3e4acf3ab1843426c522481e165074ad0d8fd48846"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "104556723f92f3a927d4ca5b74ae57f6583cfb56a24a9855c8efef04b5a9b9d4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepPreparationFaultTest.xml",
+      "sha256": "220c4d30876bdbf210500fd97f4a1d45026f1a7bd450c4da12560b70aed7f4be"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "4615f85415153cc47406ac245f20415b55716f12ff7407e7c418b6a529b791f6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "87335c1681bad9ca6e10c9f4dd3e82d7dae4f3e87d88d0b633792c2e89eb63a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "13916aa922b8e73ed5c659e910171144d80e3d39694d03df69b0304402aa9ecd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "958bc0a07d84218635001d6e182c2c0a2a74291144da8508ff56670a90c7656e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.ReadyFormValidationScopeTest.xml",
+      "sha256": "2c92a59a4cd40b7c2e8ee90eda5c4d3b930d9ac39fbbc1f7b5745793d462fa0a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "0e7ecc65728aa2e2a539d5da7214c5e16e6024acca64ba66d7a4a0a1bcdd68f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.RotationReferenceMappingTest.xml",
+      "sha256": "419f6f03e210d9015061362c3effc7c0e4d603e22ee67f41f3bed87f57109c75"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "16d6e41e9750dc1998a7b82a032019b6c25d0390e109b60e27c9608494d60d0b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "b5d5911ac17a9a279b15ed9d7299b66e73abc021248fdc5ef272fc5f8c0ad293"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.UiprmdCentralTorsoProjectionTest.xml",
+      "sha256": "4e4c9b559ade718c6a8d8e0ae81f219b770c56568d7e1c0fce95c9ace4394ff5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "0c8d790edc4b3188f31d3ad2a44f88b2bfe657f5ccb52a82287528173dbadd06"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "b604045c5c2b01ccc126f45315d6fa7cb59f0ecc325878a2f792b9e0693a2bfd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/core-motion/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "eec1c84df4a3641d09b40b9e0191a4309db96ef7faa452a38e1e236e0a8c6bb1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.ConfigTest.xml",
+      "sha256": "5e110bb2fa69eec919b93f3cb47f7d00128f4ca805a8672ef1073e452e0abe86"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.LiveFrameGateTest.xml",
+      "sha256": "2f24eeb17879beac2c1ddc78af83ff50c1a5aa4be77e9dc5604310528b2fa677"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.LiveTrackerResetPolicyTest.xml",
+      "sha256": "a8b5633e6d83a41f72b381d243261bcb1a746ce1d524985b480239b70201384a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/validation-app/TEST-ai.senp.validation.FrameReviewIntegrationTest.xml",
+      "sha256": "9a1e9fffbcea3bcca4d213788489ca1e321fd1c3df72fefaec6a6d7a115fed31"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/validation-app/TEST-ai.senp.validation.LearnedQualityGeometryTest.xml",
+      "sha256": "0b734401931e45a3a16dfcd8875aa476dfc2103059555fc9e3668fb15138c6e4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/validation-app/TEST-ai.senp.validation.QualifiedReferenceBackendReplayTest.xml",
+      "sha256": "e06029ffd66a3a168caa8d1b80bd5522b3133fc20cc03b4b85640ab8d402016a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/validation-app/TEST-ai.senp.validation.QualifiedRepSessionTest.xml",
+      "sha256": "687da5eaaab2e9fd65f37f059c75e416ad42a4ed2943e1bac53a531ce5aceec8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/validation-app/TEST-ai.senp.validation.RecordedComparisonAssemblyTest.xml",
+      "sha256": "7230109b305ec577b412da0730278857f9b5557ad6f95b65b3944278994901b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/validation-app/TEST-ai.senp.validation.ReferenceActionSessionTest.xml",
+      "sha256": "e02092ea2f76522a0d1ee9f1da0d5df2a6ae8e1c395fbfdbef68f6f66fc16f26"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/jvm/validation-app/TEST-ai.senp.validation.ui.screens.PlaybackMappingTest.xml",
+      "sha256": "f73ed03fb5c7b9a6df4753efe37ec056bbe84ed0b55505601b6e8bf9e8cc5808"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/apk-compatibility.json",
+      "sha256": "d05a0261f7a8b9d21b85c828a1a148db25b770e92f06dec732781a0d1b213265"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/controls/corruptions.json",
+      "sha256": "cbaaa2f9e71df2c7ba0799dff2e1b151ca1d6e1cabe18c2595275cbd281c3213"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/controls/QualifiedRepBenchmark.json",
+      "sha256": "37ee8c0049587b44787887a520bfc1de1a7fc47753f1a358148e3edd1a189186"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/controls/QualifiedRepDepartureBenchmark.json",
+      "sha256": "c7f67da41269b9804c21a509eb452984d2e450b408c9e979650687eeadd64e82"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/controls/QualifiedRepEvidenceBenchmark.json",
+      "sha256": "20d186267e3d524bcae733519d3bf717debb0170e5af4b6a9e89bdb85760e1ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/controls/QualifiedRepPathBenchmark.json",
+      "sha256": "2d2ace83782197f3b9235ca6f2317d16bd04e11ac74907df4ca92274bfdfab0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/preview-display-review.json",
+      "sha256": "06869f2a1519e6adeb436c589ea61d2f17f7ade871d934bf3f5fef0d7e338a8e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/preview-display-review.png",
+      "sha256": "98272f2de3cbcf523fe37977f859d50cb1a8f57890f8af51e0e0c52df0c434a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35/emulator-stdout.log",
+      "sha256": "018b4f88e145ff8456bf9beb10b52975746409704e9b6d40c8282141cbc30781"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35/failure.json",
+      "sha256": "4b0c5a46ee38e3b9780187ab9c0f24b5a6d3604a5536868da12da314c30081b9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35/initial-protocol.json",
+      "sha256": "73bbef71a1889d02f3ee4a4efb2e7d47ad5bb791543b4fa50869d51865b9d473"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35/owned-process.json",
+      "sha256": "c509704df914db6cd3d8020b4ea8d8481018b35c033683a4fc19156308ba2072"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35/stop.log",
+      "sha256": "e0168bd495e324385f6efc47718d6dc5521710d7e97088dc23d930944830d18f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35/stopped.json",
+      "sha256": "fac695670253328e97e99848da3d02a532e324c7981efa2619d7b4a69fb5e429"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/contact-sheet.jpg",
+      "sha256": "6b256fd3f48cc3a090f735aeae4d9aeebd62c6319bf9513ce1b33234213f4c1c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-0.jpg",
+      "sha256": "571c00c04624630d71f37b6edbef15af1b82c73176d5eb175ae1575ef67ead00"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-1072.jpg",
+      "sha256": "bd6b50dfaa53d76fb149ed57ea207b0ec71fa826d91a7b370b3979c8625e344f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-1206.jpg",
+      "sha256": "d9d583006d8c0c1ed33ec68e8c54209afc3047f30d0417e9cbc9c0410322a302"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-134.jpg",
+      "sha256": "a957e640ec16d6edb1b57453da111b9baef1e319e4c9368ced206ce71b9962e6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-1340.jpg",
+      "sha256": "2f46d995f52b175d40800386336aa64a456609da11b271f05028ed606aa16f1f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-1474.jpg",
+      "sha256": "2ad3982276f1ffc68e19ddca1282da4959260802a1845aa7c7db0f7a91aec9d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-268.jpg",
+      "sha256": "f24c230e6d3a6f1b8bf920bf8dae307246aa18ee3c4b01e3afd43b88f213f60f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-402.jpg",
+      "sha256": "16fc4f21afb5be45a773103b82bec51aff3bf4440a9d55960a69dbe9015b1c1d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-536.jpg",
+      "sha256": "44285b2bf1d7d619f33317d7b3b18cc7cfcb9835aa8cabd63c26e94381c53326"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-670.jpg",
+      "sha256": "f53fd924ecda4a2765f889875eed4e76e868ccc54115a107a6a8d24a8e8454d9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-804.jpg",
+      "sha256": "cceb37127f246bcfdc548450e6ea7f36bb360b89bec9c28d0600a452d06fac1a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-938.jpg",
+      "sha256": "58965f2e47776766adf29fa9e25464043ca05eac32be669ea1a797026c9b706c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/live-pose-evidence/replay.json",
+      "sha256": "a76ac6d281557506e4ac9b8b2d5d7f7449a837bb3ed20ebcb5a208a75b4680ab"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test/workout-precision-evidence/model-comparison.json",
+      "sha256": "d7006c1cf9b4fa82f934dc99c7cd1fbe0fc28b8003d2fbdd0898031833666439"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test.clear.log",
+      "sha256": "df5f678c3e897e8db27b8c5de5ae1938a25aa084aeee89a1a44958f104316b3d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.pose.mediapipe.test.pull.log",
+      "sha256": "f3b60cf3fc1a16b6dfbe7ba410c54865a82a7edb9a6fe2673ed4d1b6c11f1138"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/preview-preference-evidence/pushup-launch.json",
+      "sha256": "468bd637f6ab6fe7bf3df36cbfcc3c1e68c68034b1b0ad03e84687bd727e79f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/preview-preference-evidence/pushup-launch.png",
+      "sha256": "7b9398bda8344baaa8a3a5d8a1f6efbc2e7d1deed5118ad545f5cab4d123e9e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/preview-preference-evidence/pushup-resumed.json",
+      "sha256": "8c746a20b3f62b07d64f0cfbb21095cff094ea531d5f0cb9e6648d154f0ad9d8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/preview-preference-evidence/pushup-resumed.png",
+      "sha256": "cccdef283194463c3ee1a3e1b7d4af2b56a821303a19f1032c05632879d20b3f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/preview-preference-evidence/reference-heavy-launch.json",
+      "sha256": "2b657af448089fb34a20d95edb82040a754b0251cd74fd4009e93d57c8ba2d1b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/preview-preference-evidence/reference-heavy-launch.png",
+      "sha256": "154725aa3df31b3adfb23f35882d00bb63d3995255fe6ffc545c1b6a1946883e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/preview-preference-evidence/reference-heavy-resumed.json",
+      "sha256": "93335878cceb6f4de3d7133b58767c0e070cc5bc62c117e13e94099aaf528975"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/preview-preference-evidence/reference-heavy-resumed.png",
+      "sha256": "84c1d2448d551f7833a86ef62d83906574cace291651bc6f6616b4dd4412339c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/compatible-path-controls.json",
+      "sha256": "16856e5ed394e755d9ea2ba66ed4c4f4a5cf97456b093ccbd43c26d60e62b2d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/grey-transient-ready-controls.json",
+      "sha256": "270709954c7720ad03e485b2d2b9b3ab9e4e16e5932e95747ec4facded6d261d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/heavy-camera-binding.json",
+      "sha256": "cc342a7cef5d30c8ca2eb5fb61aafb99d88fc588478108df1e6b2c24737b9421"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/heavy-native-parity.json",
+      "sha256": "31b34cf71213f8ad7db2dbfa8dbff039272ef8730aee3d6076a40c921349a99a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/measurement-pipeline-guard.json",
+      "sha256": "c7cce28ee669f2f53af46af7bdce64f01c6e7b71689348e1638780617a19da87"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/mirror-reference-self-check.json",
+      "sha256": "718631d2cce8004d22da2b4bc47bc906eb86ac31f76516ae16eb28b358fe76a2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/native-parity.json",
+      "sha256": "571fb14b4a7bf8b66b3b8de7a8163a2b8eb8159501942e51d5e40d344dcd21ee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/persistent-clear-ready-controls.json",
+      "sha256": "270709954c7720ad03e485b2d2b9b3ab9e4e16e5932e95747ec4facded6d261d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/preparation-clear-fault-controls.json",
+      "sha256": "8412fbc042b23003753cdf2f0f307ea8648d06e0746b29d22ea50b0606e5e5de"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/range-recovery-native-parity.json",
+      "sha256": "52808500f675c84c1440cd04bc29da286335ffc15dfa162677f6180134f739aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/reference-continuity-guard.json",
+      "sha256": "8c8556c81dd358f6ff137316b4e0fccc97ead7f704e19c3d4a9b03cecb700edc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/reference-subject-guard.json",
+      "sha256": "ecbe18387c3fddc3d7b853613b2d1a7878d7e178fda9c3be393ce1a7454e726e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/return-branch-controls.json",
+      "sha256": "16856e5ed394e755d9ea2ba66ed4c4f4a5cf97456b093ccbd43c26d60e62b2d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/robust-fit-native-parity.json",
+      "sha256": "1bb7ac8b4739c9caf4769240f9a0f9656fb929f66b88891223093a31eb63d938"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/source-limb-early-reversal-controls.json",
+      "sha256": "e81cd30627ac2ccab938842b1c6d44cbe3730e8db39db1f49b5ee177155672a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/qualified-rep-evidence/unidentified-source-controls.json",
+      "sha256": "4ab1c2a232208b1ba98453802b0e95424f6f706884cd71ecc17ffe28a64ebeb9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation/workout-precision-evidence/native-reference-feedback.json",
+      "sha256": "1237034a8206e98ca138ff8af873650ca05e8cc3349828f75f2aba8e242716e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation.clear.log",
+      "sha256": "df5f678c3e897e8db27b8c5de5ae1938a25aa084aeee89a1a44958f104316b3d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/ai.senp.validation.pull.log",
+      "sha256": "1be1a0032b7c519dc0e21fb1ed6829e09572f51d6b3679d28cbc36c22bd59f88"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/android-pose-mediapipe-debug-androidTest.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/emulator-stdout.log",
+      "sha256": "9a602a6f8e7157f5dcb96da98402bae8eb52876a205b2413958dc43215cdfaae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/logcat.txt",
+      "sha256": "86f23589c5170412512758941a3ef172a315f6fb6e93addd94da441cda3b9202"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/native/android-pose-mediapipe.command.json",
+      "sha256": "2314c515290e79abbbf6117f554accb512dc9d26eed73db5b9166a072b4e17e2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/native/android-pose-mediapipe.txt",
+      "sha256": "145dcb6b0607aff87135dda5285a7b60467c117c1f4d4a0f446773011cc112b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/native/validation-app.command.json",
+      "sha256": "87ef0aa09bad8f683faa54b9094d70757ffd336df60886a1ad97b53de4c48a41"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/native/validation-app.txt",
+      "sha256": "7fb1c030d1e7079e2b92c0047d2a54eb761cb8c23abf04cfd2e4179638b2039b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/owned-process.json",
+      "sha256": "0fb9721ff32c8e374cc5579193b1c57c9ee7b637d8dc80d505c4adee67bed2a6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/runtime.json",
+      "sha256": "46590bfc527523e6a191745bcd795c37cfab0a557f8c003acdf7f9727e18a8c6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/stop.log",
+      "sha256": "483d31d727a891b284fe65f3b042180f0dcf884ee845c457e261de7a6e891804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/stopped.json",
+      "sha256": "30b0999c436349f51f272fbf5234cce004d091056c1aa3e39cc11431fc309bf9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/validation-app-debug-androidTest.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/validation-app-debug.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api35-retry1/verification.json",
+      "sha256": "07ba4bd19a08de63326ac3a58abd0b300ac1da988eed3745539b55c85c316a32"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/contact-sheet.jpg",
+      "sha256": "d356f095ae0c1818fb11a4607b62cb84395c95248b927b4749df6c738eaf6ad4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-0.jpg",
+      "sha256": "9b44626925d1d2512ce63d308fe7de7c3380cf9682a561f10624a9aa38aa981c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-1072.jpg",
+      "sha256": "9d6b11b100b56ea871eb9e1efcec7a2b1760b7ca95f700dd1ec1838fab5ca8a3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-1206.jpg",
+      "sha256": "fbe5e96ca361e19a269fb9dbea94b50a024e2d3c347011735295976498eabc6b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-134.jpg",
+      "sha256": "6326bf674b27dcfe08df7e55ab766a18a79dcf5c5e9e2ad5ace1bc1925c82778"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-1340.jpg",
+      "sha256": "e8f1fc7643fc482eceb33d868a8c8a311a4e1d7267b93cbc199203d38f2478d8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-1474.jpg",
+      "sha256": "a6f61a11271156efaa0cdeac57b38f73819bba2b96ae6f649230783109f781ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-268.jpg",
+      "sha256": "5e3e070b8e67a7b19611eeb396f8ea94288abe7f6567ebfaead49ef1c73d349a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-402.jpg",
+      "sha256": "eeb3df7ca31fb5781c6007db6ba1083c725dd1da286badb273d79ec1510f55c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-536.jpg",
+      "sha256": "46586733c766e24a0d24700a29b987d0c3c4831694b10e6994925ea76ddf55b9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-670.jpg",
+      "sha256": "65879ad3a171695239ea7f6d5d01ef7dd6b24eda45726c3c05e20ca9670ee716"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-804.jpg",
+      "sha256": "0f35594f97108fd5dda71e0cf8415eae6c5abb37c92064fbe1a57031299f5a4d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/frame-938.jpg",
+      "sha256": "6cb0304024535ad655f1a50a1e98b7152e91256480eb0a2275091372b7ca50e6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/live-pose-evidence/replay.json",
+      "sha256": "a1cb5595ae27718e0961c1331f78315fd73ffd13b0abed8d12881a3002f81691"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test/workout-precision-evidence/model-comparison.json",
+      "sha256": "9029f8921ae0e29351a262ce38535fb845ce5a56bfe1c9617bba0f117f8822e2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test.clear.log",
+      "sha256": "df5f678c3e897e8db27b8c5de5ae1938a25aa084aeee89a1a44958f104316b3d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.pose.mediapipe.test.pull.log",
+      "sha256": "3cbf4a0102b5b7cdddb27cd280fb580c9482364e460964f917b5379292be9868"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/preview-preference-evidence/pushup-launch.json",
+      "sha256": "d71bec658525a69b534c608b60e9e3cf8f1b19b01c5376a5566a846988f4b54c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/preview-preference-evidence/pushup-launch.png",
+      "sha256": "8ecb9133dc686027c8962583e49df7636a80f714a482c7060041ff1ae2f0f709"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/preview-preference-evidence/pushup-resumed.json",
+      "sha256": "dc900fabcfa3239891f4bf7206392ecd115202ef13630498d4703baa54a9c2f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/preview-preference-evidence/pushup-resumed.png",
+      "sha256": "ff3735d96e64b1dbafb8fc69c7a910f3bc40b75a6ebc1aadcc21b418b98be3b5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/preview-preference-evidence/reference-heavy-launch.json",
+      "sha256": "3e2fb2959a0e415972413b29b8f7768db35bb36f337789bd1ce6a29276a07721"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/preview-preference-evidence/reference-heavy-launch.png",
+      "sha256": "3b6bc1646562550ecae42a55bb33b076f30202d57d719d970fab275a7cc1392a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/preview-preference-evidence/reference-heavy-resumed.json",
+      "sha256": "eec55d288dbda7b5b761226c6f2b0a787ce1a73b6ff2b4e7cb5fa7b90f4c5f88"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/preview-preference-evidence/reference-heavy-resumed.png",
+      "sha256": "a907550a655400b86e8fe9068fd8724f3cdcbe4fdadc71fb2b274b3ce854984a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/compatible-path-controls.json",
+      "sha256": "16856e5ed394e755d9ea2ba66ed4c4f4a5cf97456b093ccbd43c26d60e62b2d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/grey-transient-ready-controls.json",
+      "sha256": "270709954c7720ad03e485b2d2b9b3ab9e4e16e5932e95747ec4facded6d261d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/heavy-camera-binding.json",
+      "sha256": "2334aa72a587c628443f29d6b1c0e8ad028da7e17895f3277f16d80620bfb588"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/heavy-native-parity.json",
+      "sha256": "31b34cf71213f8ad7db2dbfa8dbff039272ef8730aee3d6076a40c921349a99a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/measurement-pipeline-guard.json",
+      "sha256": "c7cce28ee669f2f53af46af7bdce64f01c6e7b71689348e1638780617a19da87"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/mirror-reference-self-check.json",
+      "sha256": "718631d2cce8004d22da2b4bc47bc906eb86ac31f76516ae16eb28b358fe76a2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/native-parity.json",
+      "sha256": "571fb14b4a7bf8b66b3b8de7a8163a2b8eb8159501942e51d5e40d344dcd21ee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/persistent-clear-ready-controls.json",
+      "sha256": "270709954c7720ad03e485b2d2b9b3ab9e4e16e5932e95747ec4facded6d261d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/preparation-clear-fault-controls.json",
+      "sha256": "8412fbc042b23003753cdf2f0f307ea8648d06e0746b29d22ea50b0606e5e5de"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/range-recovery-native-parity.json",
+      "sha256": "52808500f675c84c1440cd04bc29da286335ffc15dfa162677f6180134f739aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/reference-continuity-guard.json",
+      "sha256": "8c8556c81dd358f6ff137316b4e0fccc97ead7f704e19c3d4a9b03cecb700edc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/reference-subject-guard.json",
+      "sha256": "ecbe18387c3fddc3d7b853613b2d1a7878d7e178fda9c3be393ce1a7454e726e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/return-branch-controls.json",
+      "sha256": "16856e5ed394e755d9ea2ba66ed4c4f4a5cf97456b093ccbd43c26d60e62b2d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/robust-fit-native-parity.json",
+      "sha256": "1bb7ac8b4739c9caf4769240f9a0f9656fb929f66b88891223093a31eb63d938"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/source-limb-early-reversal-controls.json",
+      "sha256": "e81cd30627ac2ccab938842b1c6d44cbe3730e8db39db1f49b5ee177155672a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/qualified-rep-evidence/unidentified-source-controls.json",
+      "sha256": "4ab1c2a232208b1ba98453802b0e95424f6f706884cd71ecc17ffe28a64ebeb9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation/workout-precision-evidence/native-reference-feedback.json",
+      "sha256": "1237034a8206e98ca138ff8af873650ca05e8cc3349828f75f2aba8e242716e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation.clear.log",
+      "sha256": "df5f678c3e897e8db27b8c5de5ae1938a25aa084aeee89a1a44958f104316b3d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/ai.senp.validation.pull.log",
+      "sha256": "89d59099b945aacc8e9059dda5770ba727fd72f03d87acd0fb57223cf44e9557"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/android-pose-mediapipe-debug-androidTest.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/emulator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/emulator-stdout.log",
+      "sha256": "0ffb32341906fe82dc6404efafc0a668e1f32bb66aaaaa7137e59d26581d2ba6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/logcat.txt",
+      "sha256": "e5b51a87c6aa27bfefa482f1c4edde151fda9bf03cc263fd9cdbf80f1248a993"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/native/android-pose-mediapipe.command.json",
+      "sha256": "d4f3eb255a1ad457507f1422f11acba3f145d8fbd4d771aa9c04bc319b70a5df"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/native/android-pose-mediapipe.txt",
+      "sha256": "0b752fbe731f4cb5539e0082f408db9afd9f703b30caf5567bff203ae5ca5f09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/native/validation-app.command.json",
+      "sha256": "9f049e37232b13076e033d38c50b142b46507913b282a3f297cacf67441d7aa5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/native/validation-app.txt",
+      "sha256": "1b4f0071808c8de00e96f898540f2f80e65beebce81ea0afb389210c1ea94bbd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/owned-process.json",
+      "sha256": "ce38c542d1e3bea064de495fb5c236a85f81e2e13cf1b3764af2e7c8509a72ca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/runtime.json",
+      "sha256": "e0b955cb9cfcaea78dfa5d1bdf196a89c6da9b066bb37165872e6c41f0f61c4d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/stop.log",
+      "sha256": "483d31d727a891b284fe65f3b042180f0dcf884ee845c457e261de7a6e891804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/stopped.json",
+      "sha256": "c4032005ee59fcca5daa378c4195ba5fde42cc5738760c2cabed029eb3d99879"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/validation-app-debug-androidTest.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/validation-app-debug.apk.install.log",
+      "sha256": "c4aa470acafcf8576c15b0f0b5ae7e852d1ec5413372d0e6a9272e788e1306d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/results/runtime-api36/verification.json",
+      "sha256": "bade413686aaa7974a0e26eb76e99c297374adabd263320f9f10284004d01cf0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-api35-retry1-runner.log",
+      "sha256": "12bbbd94e3c277291cc68029682e1da2f2d80dc1514ad13120f87190e5a882a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-api35-runner.log",
+      "sha256": "03f50ff010fa4212b6a7f3a2fff6d2800485b43623d30a91ee5ee18c0e0cdf8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-api36-runner.log",
+      "sha256": "486e30290454c1f499232d892cc09544c7c6349a4bd6d90bcca992ab6f74b4ca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-build.log",
+      "sha256": "ef3fc50ba78a31c5ed8df8fed5eaff3780f9626f361fa4b7f471651b907b151e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-checks.log",
+      "sha256": "de7f14eb458c633abc1d8c9760238eb94dd8772fdc9830a89aff3fac81d889ef"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-freeze-final.log",
+      "sha256": "9cdbf5e6ee5a931ed2250f0766d2c3362f8542b81c6fdc59314c75134699e81d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-freeze-verified.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-gradle-stop.log",
+      "sha256": "63b3b053d39a00d0131788861236a840924e2034075e93e2733cd8bf4cf52003"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-python.log",
+      "sha256": "f571f024625df1a07b1759c883922bb3aa49cb914145cb9f649e3cf0ff6846b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-signature.log",
+      "sha256": "768ec2f81715d5c878a506edfc74ec70a52499f13fba6dc76cddeb54cffe83a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-zipalign-verbose.log",
+      "sha256": "b36483b17af14dcd8ae166c40e4fc142b2fb223972ff356b08e247cf8ec33e9b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/logs/preview-preference-zipalign.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/work/preview-preference-native.ps1",
+      "sha256": "9c75cdf8092b1e088242c3c4e4d345eeb34c96652b9ea7a020717d49ea17a5d6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/work/preview-preference-checks.init.gradle",
+      "sha256": "6d7ce4af7152e004fe190b1a7e323230ca93e41991e80f44f46ba7e4194bfd48"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/work/freeze-preview-preference.py",
+      "sha256": "257b56be2168de1cd8c357133d80a77ee73168885f1a37c145d6f1fc756f27da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/work/review-preview-preference.py",
+      "sha256": "147a286f88adf281a2e30a1f1c2e3245d11a967aac104bb565f01afce2da3237"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/work/freeze-preview-preference-results.py",
+      "sha256": "50e6903fafce03e07a9da68172c54ea5925c7707e5940bcf9753da867848982a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-verified/report/PREVIEW_PREFERENCE_RESULTS.md",
+      "sha256": "e8dd69ff958f216215869af2ffcdd69d9b2827a5362d3d85fdff02f4af983de9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340/failed-freezer.py",
+      "sha256": "fd024f4e660b383ec4ba1efc0606dfd487398f4a0a75f197d09c060bdd9b0d89"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340/export-failure.json",
+      "sha256": "bb63e0a78c07312437c3d3c81ac6f7dd9039d06e6aac89f36ebc4a534f966352"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-final/failed-freezer.py",
+      "sha256": "68f2eba0ce7087b79f045a0a46d7a6d0494a9ead9b2067bce0e597a5ae5f1f89"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preview-preference-checkpoint-b03e340-final/export-failure.log",
+      "sha256": "9cdbf5e6ee5a931ed2250f0766d2c3362f8542b81c6fdc59314c75134699e81d"
+    }
+  ]
+}
