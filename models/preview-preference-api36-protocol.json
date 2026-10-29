@@ -172,7 +172,7 @@
   "readiness_points_earned": 0,
   "runner_receipt": {
     "path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\work\\preview-preference-native.ps1",
-    "sha256": "5c8343550c8498079ff1a997b7be3c0a4795eac8055caa9ef89b628a29a113ab"
+    "sha256": "9c75cdf8092b1e088242c3c4e4d345eeb34c96652b9ea7a020717d49ea17a5d6"
   },
   "apk_receipts": [
     {
@@ -789,5 +789,6 @@
       "path": "validation-app/src/main/res/xml/file_paths.xml",
       "sha256_lf": "0b3c0dddf4c83ad230b22f34e5f78836981a4d87cf79196b97726cf6d5bb5203"
     }
-  ]
+  ],
+  "boot_harness_amendment": "Check adb connection before getprop; original 240-second deadline unchanged. Preserve API35 pre-test Windows PowerShell error and retry in fresh directory."
 }
