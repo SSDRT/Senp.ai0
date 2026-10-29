@@ -1,0 +1,3 @@
+# Offline joint-schema audit only; no Android/runtime dependency change.
+-r requirements-exercise-quality.txt
+ijson==3.6.0
