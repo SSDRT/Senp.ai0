@@ -1,0 +1,121 @@
+{
+  "schema": "ucophyrehab-source-review-provenance/1",
+  "implementation_commit": "5b4acaad8de369b8304da6504d5e5251585e92c5",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "source_repository_commit": "ed132ffaeb2e667720ce65df224785f0ec394f45",
+  "dataset_version": 17935737,
+  "dataset_concept": 17935736,
+  "version_HTTP": 200,
+  "concept_HTTP": 410,
+  "version_data_license": "CC-BY-4.0",
+  "inventoried_files": 8,
+  "descriptor_scope_not_payload_audit": true,
+  "annotations_or_trajectories_opened": false,
+  "public_video_payloads_opened": false,
+  "new_human_labels": 0,
+  "final_uiprmd_subjects_opened": false,
+  "ordinal_scores_converted_to_binary": false,
+  "anatomical_or_MP33_truth_invented": false,
+  "trained_model": false,
+  "production_changed": false,
+  "new_APK": false,
+  "python_tests": 199,
+  "scoped_JVM_or_native_tests_rerun": false,
+  "production_readiness_receipts_revalidated": 2889,
+  "readiness": 50,
+  "readiness_points_earned": 0,
+  "human_live_rep_precision": null,
+  "source_claims_are_not_accuracy_results": true,
+  "initial_parent_unbound_report_and_README_copy_mismatch_preserved": true,
+  "checkpoint": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/github-metadata-receipt.json",
+      "sha256": "1b8ff1fe6e6384dccaa7e4097836e372853cf990e01c8ea13764db8aae6f7cc6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/http-receipts.json",
+      "sha256": "a6de34c1a69bdc8bbc1766da198b13daa020e71508f57608d0f044a911e6f037"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/publisher-audit.log",
+      "sha256": "fd89af1fcc8690724b9eb49c7403b049c7efc137a18ab1b53c7c5f4c66829cd5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/publisher-intake-verified.json",
+      "sha256": "a92d98f1830c564d727a6a31399fe9f65a180c9499a11aad78c711e08642a7e6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/publisher-intake.json",
+      "sha256": "a92d98f1830c564d727a6a31399fe9f65a180c9499a11aad78c711e08642a7e6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/publisher-README-exact.md",
+      "sha256": "1a81a26f0c513e9d029240c8652fc8899d17558827f9ffb62842e97b4bb473a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/publisher-README.md",
+      "sha256": "7464058b4bbd08109c1af3e60e0ccefe50d704059b5ed9f71f27ea666012839f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/python-tests.log",
+      "sha256": "c8f9c365be0811f511b2f29e5df778371ecbf744f0078410bc7e9cfaa54680d5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/readiness.log",
+      "sha256": "e97ebd3d1c9ce5624140364301d5fea87ec7746e6c771b43546722be2272567a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/readme-copy-verification.json",
+      "sha256": "fe7cf48a11720a2261b640f7e7b8f18e25633100b32c75629e8a6adef5e273b4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/version-http-receipt.json",
+      "sha256": "2953831f82b5c1c5c38ed932194a80682cf6c67c592980177a2754a9ccdda218"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/zenodo-record.json",
+      "sha256": "0051bb0e89d2aa4488da8308c7ccb46a814f146bbe6b5bd6aec80cfacb01e9a4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/zenodo-version-record.json",
+      "sha256": "38db40c9e052c08e7c57b2b0153b8841f91da486d752b8941948031f5d8e106b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/scripts/audit_ucophyrehab_source.py",
+      "sha256": "6d8aa3963cd47ada48783e16cdbda48de049852625175528c70aa3ca42889e7a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/scripts/tests/test_ucophyrehab_source.py",
+      "sha256": "e7e383517ffd975c78a131bf4fb75bac35046ce898f9d1007dcb3f2575009343"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/docs/UCOPHYREHAB_SOURCE_REVIEW.md",
+      "sha256": "d760f3d75fa4a3d8794f945f3424f4379ec31da48a63ea2c0edf1bc4ea983d79"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/docs/READINESS_70_PLAN.md",
+      "sha256": "73adc70387c82f88af9809ec6f8bdf6ea12a553c7744cb84cf7c06484e83dd1d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/scripts/evaluate_uiprmd_development.py",
+      "sha256": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/scripts/score_readiness.py",
+      "sha256": "697d87dd1956d3b8c8be104d6881ae53486af6f75b3c80817c39646eee962cfd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/models/preview-preference-readiness.evidence.json",
+      "sha256": "78d4663932203f3d8a0eae5a7ba5ab6de4a683dd715653efbb00dbac9514af8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-source-checkpoint-5b4acaa/work/freeze-ucophyrehab-source-review.py",
+      "sha256": "8278bb34a4d5dd93e0fb154c89f80bb0a2368fa202d1f7cfb54197d0c1e5c858"
+    }
+  ]
+}
