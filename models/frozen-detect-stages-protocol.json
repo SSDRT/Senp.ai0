@@ -1,0 +1,112 @@
+{
+  "schema": "senpai-frozen-detect-stages-protocol/1",
+  "frozen_utc": "2026-10-29T13:24:20.669530+00:00",
+  "baseline_metadata_commit": "6417b8ac0353fff24034c3b0ddae47a9d52d418b",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "compiler": "qualified-rep-compiler/9",
+  "hypothesis": "The previous wide native interval includes bitmap copy, MPImage construction, native task call and close; partition the exact body to distinguish memory/container work from task-call scheduling under actual CameraX contention. This is not an optimization or a rerun credited as speed improvement.",
+  "target_api": 35,
+  "abi": "x86_64",
+  "avd_id": "Senpai_API_35",
+  "runtime_fingerprint": "Android/sdk_phone64_x86_64/emu64x:15/AE3A.240806.019/12368160:userdebug/test-keys",
+  "main_APK_identical_to_verified_delivery": true,
+  "cases": [
+    "original-room",
+    "upstream-positive"
+  ],
+  "camera_active_order_per_input": [
+    false,
+    true,
+    true,
+    false
+  ],
+  "warmup": 8,
+  "measured": 24,
+  "blocks": 8,
+  "all_rows": 256,
+  "measured_rows": 192,
+  "generated_model_timestamp_step_ms": 67,
+  "owner_priority": -2,
+  "model_selection": "unchanged reference-selected Full asset/factory/options; no source-result selection",
+  "native_body_stages": [
+    "owned_copy_ns",
+    "mpimage_build_ns",
+    "native_task_call_ns",
+    "mpimage_close_ns",
+    "explicit_recycle_ns"
+  ],
+  "timing_clock": "System.nanoTime with exact telescoping sum; owner/process CPU kept separate from native workers",
+  "native_graph": "Fresh production-factory estimator per block, native graph accessed on owner; only direct task calls then estimator closes on owner; exactly one graph infers after controller closure",
+  "model_input_is_actual_camera_frame": false,
+  "generated_model_timestamps": true,
+  "capture_to_result_latency_permitted": false,
+  "live_FPS_claim_permitted": false,
+  "native_call_is_operator_only": false,
+  "production_changed": false,
+  "weights_or_thresholds_changed": false,
+  "allow_independent_or_holdout_data_access": false,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "native_test_inventory": [
+    [
+      "ai.senp.validation.FrozenDetectStagesInstrumentedTest",
+      "partitionOwnedCopyBuildNativeAndCloseUnderCameraContention"
+    ]
+  ],
+  "runner_receipt": {
+    "path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\work\\frozen-detect-stages-native.ps1",
+    "sha256": "6e0e5e2c95c4f99e8368c18a0ea366dc178f671edd36cf39a571af1ee07932c7"
+  },
+  "apk_receipts": [
+    {
+      "path": "validation-app/build/outputs/apk/debug/validation-app-debug.apk",
+      "sha256": "888025d7c0b958704b1bfef37b4def36eb170324468058c1f6135592c30083d2"
+    },
+    {
+      "path": "validation-app/build/outputs/apk/androidTest/debug/validation-app-debug-androidTest.apk",
+      "sha256": "e084cd3c1156087ab705629ffd5519db85849dd5162895b4301009f351a57154"
+    }
+  ],
+  "source_receipts": [
+    {
+      "path": "validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/FrozenDetectStagesInstrumentedTest.kt",
+      "sha256": "015123cfc1b5f076440055a1334e5897756bd1efb02dc57395da219a1eda5c7a"
+    },
+    {
+      "path": "scripts/frozen-detect-stages.init.gradle",
+      "sha256": "b1b1b1790f4f2b60e3fd76b4b8a0dc86cb6654565a61da53e891d29479708202"
+    },
+    {
+      "path": "scripts/analyze_frozen_detect_stages.py",
+      "sha256": "60abb618344ca7aef470f9974bf047eb6e2e7094486d3f2b0bc7abf15316a2d6"
+    },
+    {
+      "path": "scripts/tests/test_frozen_detect_stages.py",
+      "sha256": "0e53bc9a277a70864196921b65f28842bf0733f7b1aa747d04c1c813aca37cfd"
+    },
+    {
+      "path": "android-pose-mediapipe/src/main/kotlin/ai/senp/pose/mediapipe/LiveMediaPipePoseEstimator.kt",
+      "sha256": "d9df842f0aa81fed7a71d563e6de0accd00956a7f71a4addbaa5006c8ba9c1fd"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LiveReferenceActionActivity.kt",
+      "sha256": "9cc466a8a55e5143163e71a3651eb8d188190c70d59840994ef4c6ca463297e6"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LiveCameraFrame.kt",
+      "sha256": "77208cc9146fed0c4691cefb603eac54fa1957eddda6956fd25652ef4406daac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/manifest.json",
+      "sha256": "ef51d5904848e48d6283cf816611e42ff375505e930bba05b505b6b61eedf06a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/original-room.png",
+      "sha256": "5aadf878c0d5e47dd9a9b8705ea519e7dd27c92c030a8b3abaa03a3a2c5c80c1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets/frozen-pixel/upstream-positive.jpg",
+      "sha256": "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b"
+    }
+  ]
+}

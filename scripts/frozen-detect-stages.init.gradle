@@ -1,0 +1,11 @@
+// Research instrumentation only: expose the existing runtime's exact native API
+// on the test compile classpath. No main dependency, asset or implementation change.
+gradle.beforeProject { project ->
+    project.plugins.withId('com.android.application') {
+        if (project.path == ':validation-app') {
+            project.android.sourceSets.getByName('androidTest').java.srcDir('src/researchAndroidTest/kotlin')
+            project.android.sourceSets.getByName('androidTest').assets.srcDir(new File(project.rootDir,'test-artifacts/exercise-knowledge/frozen-pixel-camera-20261029/assets'))
+            project.dependencies.add('androidTestImplementation','com.google.mediapipe:tasks-vision:0.10.32')
+        }
+    }
+}
