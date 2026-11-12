@@ -18,7 +18,7 @@ These are engine/integration changes, not a frontend redesign. Some features req
 
 ## APK and build
 
-Published artifacts, when available, appear on [GitHub Releases](https://github.com/SSDRT/Senp.ai0/releases). Experimental APKs should be prereleases. The latest archived verified APK is the **29 October 2026 preview-preference debug build**, associated with engine commit `b03e340769fb03c7460365f6592263c0376dc2f5`. Later branch commits also contain research/diagnostics; use each artifact's source/hash receipts to identify its tested implementation.
+The **29 October 2026 preview-preference debug build** is available from the [experimental release on the contributor fork](https://github.com/keptbeetle/Senp.ai0/releases/tag/live-pose-preview-20261029): [download the APK](https://github.com/keptbeetle/Senp.ai0/releases/download/live-pose-preview-20261029/Senpai-preview-preference-debug.apk). It is associated with verified engine commit `b03e340769fb03c7460365f6592263c0376dc2f5`. The contributor has no organization-release permission, so the fork hosts the artifact while the code PR targets `SSDRT/Senp.ai0:production`. Later branch commits also contain research/diagnostics; use each artifact's source/hash receipts to identify its tested implementation.
 
 That archived APK is debug-signed for direct installation, includes pinned Full and Heavy models, and has SHA-256:
 
