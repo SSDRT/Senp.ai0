@@ -46,7 +46,7 @@ import kotlinx.coroutines.withContext
 
 class AndroidVideoPoseExtractor(
     context: Context,
-    private val modelAssetPath: String = DEFAULT_MODEL_ASSET,
+    private val modelAssetPath: String? = null,
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) : VideoPoseExtractor {
     private val appContext = context.applicationContext
@@ -116,7 +116,9 @@ class AndroidVideoPoseExtractor(
             val estimator = try {
                 MediaPipePoseEstimator.create(
                     context = appContext,
-                    modelAssetPath = modelAssetPath,
+                    modelAssetPath = modelAssetPath ?: LivePoseModel.entries.singleOrNull {
+                        it.sha256 == model.modelSha256.value
+                    }?.assetPath ?: throw MediaPipeAdapterException.ModelLoad("Unknown pinned pose model SHA-256"),
                     expectedModelSha256 = model.modelSha256.value,
                     config = MediaPipePoseEstimator.Config(
                         detectionConfidence = model.thresholds.minimumDetectionConfidence.toFloat(),
@@ -309,6 +311,8 @@ internal class ExtractionCollector(private val role: VideoRole) {
 
 internal class MediaPipePoseEstimator private constructor(
     private val landmarker: PoseLandmarker,
+    // Keep direct model bytes alive while native inference holds pointers into them.
+    @Suppress("unused") private val modelBuffer: java.nio.ByteBuffer,
     private val mapper: PoseResultMapper,
 ) : AutoCloseable {
     private var previousTimestampMs: Long? = null
@@ -392,13 +396,8 @@ internal class MediaPipePoseEstimator private constructor(
             config: Config = Config(),
         ): MediaPipePoseEstimator {
             try {
-                val actualSha = context.assets.open(modelAssetPath).use(::sha256)
-                if (actualSha != expectedModelSha256) {
-                    throw MediaPipeAdapterException.ModelLoad(
-                        "Pose model SHA-256 mismatch: expected " + expectedModelSha256 + ", got " + actualSha,
-                    )
-                }
-                val baseOptions = BaseOptions.builder().setModelAssetPath(modelAssetPath).build()
+                val modelBuffer = verifiedPoseModelBuffer(context, modelAssetPath, expectedModelSha256)
+                val baseOptions = BaseOptions.builder().setModelAssetBuffer(modelBuffer.duplicate()).build()
                 val options = PoseLandmarker.PoseLandmarkerOptions.builder()
                     .setBaseOptions(baseOptions)
                     .setRunningMode(RunningMode.VIDEO)
@@ -411,6 +410,7 @@ internal class MediaPipePoseEstimator private constructor(
                 val landmarker = PoseLandmarker.createFromOptions(context.applicationContext, options)
                 return MediaPipePoseEstimator(
                     landmarker,
+                    modelBuffer,
                     PoseResultMapper(config.minimumUsableLandmarks, config.usableVisibility, config.usablePresence),
                 )
             } catch (error: MediaPipeAdapterException.ModelLoad) {
@@ -563,15 +563,4 @@ private fun sha256(file: File, coroutineContext: CoroutineContext): String = fil
         digest.update(buffer, 0, read)
     }
     digest.digest().joinToString("") { byte -> "%02x".format(byte) }
-}
-
-private fun sha256(input: java.io.InputStream): String {
-    val digest = MessageDigest.getInstance("SHA-256")
-    val buffer = ByteArray(64 * 1024)
-    while (true) {
-        val read = input.read(buffer)
-        if (read < 0) break
-        digest.update(buffer, 0, read)
-    }
-    return digest.digest().joinToString("") { byte -> "%02x".format(byte) }
 }

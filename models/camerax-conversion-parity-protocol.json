@@ -1,0 +1,135 @@
+{
+  "schema": "senpai-camerax-conversion-parity-protocol/1",
+  "frozen_utc": "2026-10-29T15:26:58.997494+00:00",
+  "baseline_metadata_commit": "75d1ed91da5436fd7e612b371eb4205df20973ff",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "compiler": "qualified-rep-compiler/9",
+  "camerax_version": "1.5.2",
+  "hypothesis": "Pinned public YUV toBitmap is a direct native bitmap conversion without JPEG; compare its same-frame prepared pixels with the library RGBA ImageReader route before considering a format/performance experiment. Nonblocking conversion applies to posted frames, not every dropped incoming frame.",
+  "target_api": 35,
+  "abi": "x86_64",
+  "avd_id": "Senpai_API_35",
+  "runtime_fingerprint": "Android/sdk_phone64_x86_64/emu64x:15/AE3A.240806.019/12368160:userdebug/test-keys",
+  "pairs": 6,
+  "source_resolution": [
+    640,
+    480
+  ],
+  "rotation_degrees": 90,
+  "prepared_resolution": [
+    480,
+    640
+  ],
+  "selection": "First six delivered YUV frames after fresh binding; no outcome-based removal",
+  "oracle": "Pinned library ImageProcessingUtil.convertYUVToRGB with native rotation0 and no additional pixel shift; forward the original ImageInfo for the unchanged upright helper. Internal API used only in research.",
+  "source_quirk_rule": "Record actual CameraX one-pixel-shift flag; do not disable quirks. Only measured unshifted/full-crop scope can pass this first gate.",
+  "gate": "All six complete prepared ARGB arrays bit-for-bit equal, original YUV planes unchanged, matching original timestamps/geometry and verified raw-plane/PNG hashes. Any mismatch stops before performance/promotion; capture all six, not just favourable pairs.",
+  "source_planes": "Preserve three original buffers plus row/pixel stride and buffer position/limit; no YUV repacking or guessed missing bytes",
+  "model_selection": "Existing frozen reference fixture only for activity startup; close controller graph on owner before conversion pairs",
+  "pose_inference_during_pairs": false,
+  "human_labels_or_holdouts_opened": false,
+  "live_FPS_claim_permitted": false,
+  "capture_clock_verified": false,
+  "production_changed": false,
+  "model_or_threshold_changed": false,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "native_test_inventory": [
+    [
+      "ai.senp.validation.CameraConversionParityInstrumentedTest",
+      "retainSixOriginalFrameConversionPairsBeforeAnyPerformanceDecision"
+    ]
+  ],
+  "runner_receipt": {
+    "path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\work\\camerax-conversion-parity-native.ps1",
+    "sha256": "8477f31a0f11f4dfd349f70abfe1b323330c6b2d84ed85e94fa3562cd174d458"
+  },
+  "apk_receipts": [
+    {
+      "path": "validation-app/build/outputs/apk/debug/validation-app-debug.apk",
+      "sha256": "888025d7c0b958704b1bfef37b4def36eb170324468058c1f6135592c30083d2"
+    },
+    {
+      "path": "validation-app/build/outputs/apk/androidTest/debug/validation-app-debug-androidTest.apk",
+      "sha256": "cc9f7fc1ad3cc29f05813c2e20d0d1c7a46784a8e3a8f4e2a239ab46ffea76a4"
+    }
+  ],
+  "source_receipts": [
+    {
+      "path": "validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/CameraConversionParityInstrumentedTest.kt",
+      "sha256": "8d2eb0a9e2b6e904ad892b40ea35a5011e995a9c7bf1dcc046230025cfb73c4a"
+    },
+    {
+      "path": "scripts/analyze_camera_conversion_parity.py",
+      "sha256": "30e4997e44415a30bec3c2e7408c0549c14247ed8483d5a309afa1ec6c00a12d"
+    },
+    {
+      "path": "scripts/tests/test_camera_conversion_parity.py",
+      "sha256": "c1ddcfc81e749b2ff7a040199b2caf468cfe644d537660e195016dbdf78cbf08"
+    },
+    {
+      "path": "scripts/frozen-detect-stages.init.gradle",
+      "sha256": "b1b1b1790f4f2b60e3fd76b4b8a0dc86cb6654565a61da53e891d29479708202"
+    },
+    {
+      "path": "validation-app/src/main/kotlin/ai/senp/validation/LiveCameraFrame.kt",
+      "sha256": "77208cc9146fed0c4691cefb603eac54fa1957eddda6956fd25652ef4406daac"
+    },
+    {
+      "path": "gradle/libs.versions.toml",
+      "sha256": "81f5a7fb7ca4c5f20b0582d8c66b4ed59796dd53ea86887d8c0b1c0da34fded6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/camera-core-1.5.2-sources.jar",
+      "sha256": "477f524f76a08526505dd3e80a97134cefc5fff1b96c0308dea86f4d71325b70"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/http-receipts.json",
+      "sha256": "3c8f27a5e2b3f3600c32d9196b866d4cb5415090dd6319739c912666b21ac71a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/ImageReaderProxys.java",
+      "sha256": "62c3036a54b6b00af6a211587a1a8447d07d2e48bb2914a1810309c249e58291"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/pinned-source-findings.json",
+      "sha256": "e46c2d3bd33b84f59a7d34870efe86ebfa32487ab3ee209b2d516cd2b972afa0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/publisher-aar.sha1",
+      "sha256": "d50bf3233645e6ed730d8e4e710204eb091432164fb0136d13885ab6e8c8d40d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/publisher-sources.sha1",
+      "sha256": "79a45332b641d9715cbbf47f48ccd6ff8c784d41fcce2f6c4e895bc18c688a9e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/androidx/camera/core/AndroidImageReaderProxy.java",
+      "sha256": "48ed6d945dec5913e2dfe60611c4475f43c7ead42c44e16fab8f22823a63eded"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/androidx/camera/core/ImageAnalysis.java",
+      "sha256": "f1fb29d47dff538918472f99bfc3acea62227757a06d5bda84ef5b23019aea89"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/androidx/camera/core/ImageAnalysisAbstractAnalyzer.java",
+      "sha256": "6bc4bb9ba79c51b8972bd48ef299314f179e6b2cfa077c5530d5b76bc63a8287"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/androidx/camera/core/ImageAnalysisNonBlockingAnalyzer.java",
+      "sha256": "2d1b35e55e5cd0bfc369cae15cecb5bae2c6486960eb5ac9ba07df1e199b43b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/androidx/camera/core/ImageProcessingUtil.java",
+      "sha256": "7fa1018767bedc7b6ca4a1dd95023986d6b0b64ef109aa0bd33ebd10afc7f6b0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/androidx/camera/core/ImageProxy.java",
+      "sha256": "64ef89734a55185d4fa5cd270591da09934e5aad4fb777bca72bc70743b1fbe8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-audit-20261029/androidx/camera/core/internal/utils/ImageUtil.java",
+      "sha256": "27f9368e5f0397181b93cea501afbe3286ae788daef9d7a1ed139466fa7e2d64"
+    }
+  ]
+}

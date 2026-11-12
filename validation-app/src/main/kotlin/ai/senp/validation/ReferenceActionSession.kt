@@ -15,15 +15,38 @@ import ai.senp.motion.ActionProfile
 import ai.senp.motion.ActionRecognitionResult
 import ai.senp.motion.ActionStateEstimate
 import ai.senp.motion.ActionStateRecognizer
+import ai.senp.motion.ActionStateRecognizerConfig
 import ai.senp.motion.ActionTrackingStatus
 import ai.senp.motion.CoachingObservation
 import ai.senp.motion.LiveFeedbackStabilizer
+import ai.senp.motion.LiveFeedbackConfig
 import ai.senp.motion.ReferenceActionCompilation
 import ai.senp.motion.ReferenceActionCompiler
+import ai.senp.motion.ReferenceActionCompilerConfig
 import ai.senp.motion.ReferenceDeviationEvaluator
 import ai.senp.motion.ReferenceDeviationMeasurement
 import ai.senp.motion.SpatialSynchronizationEngine
+import ai.senp.motion.SpatialSynchronizationConfig
 import ai.senp.motion.StableLiveFeedback
+import ai.senp.motion.WorkoutPrecisionCoach
+import ai.senp.motion.WorkoutPrecisionConfig
+import ai.senp.motion.WorkoutPrecisionResult
+import ai.senp.motion.SpatialIntrinsicDescriptor
+import ai.senp.motion.SpatialEvidenceKind
+import ai.senp.motion.ExerciseTechniqueCoach
+import ai.senp.motion.ExerciseTechniqueResult
+import ai.senp.motion.SamplePoseClassifier
+import ai.senp.motion.SamplePoseClassification
+import ai.senp.motion.SamplePoseStatus
+import ai.senp.motion.LearnedExerciseQualityModel
+import ai.senp.motion.LearnedQualityResult
+import ai.senp.motion.QualifiedRepReference
+import ai.senp.motion.QualifiedRepOutput
+import ai.senp.motion.QualifiedRepCompiler
+import ai.senp.motion.QualifiedRepCompilation
+import ai.senp.motion.QualifiedRepConfig
+import ai.senp.motion.RepEvidenceFingerprint
+import ai.senp.motion.QualifiedMp33Evidence
 import ai.senp.sync.v2.PoseObservationAdapter
 import ai.senp.sync.v2.SynchronizationPoseCache
 import ai.senp.sync.v2.SynchronizationPoseCacheKey
@@ -33,6 +56,7 @@ internal sealed interface ReferencePreparationOutcome {
     data class Ready(
         val profile: ActionProfile,
         val extraction: VideoPoseExtraction,
+        val repEvidenceFingerprint: RepEvidenceFingerprint? = null,
     ) : ReferencePreparationOutcome
 
     data class Rejected(
@@ -51,6 +75,11 @@ internal data class LiveReferenceActionOutput(
     val estimate: ActionStateEstimate,
     val feedback: StableLiveFeedback,
     val poseConfidence: Double,
+    val precision: WorkoutPrecisionResult? = null,
+    val technique: ExerciseTechniqueResult? = null,
+    val sampleClassification: SamplePoseClassification? = null,
+    val learnedQuality: LearnedQualityResult? = null,
+    val qualifiedReps: QualifiedRepOutput? = null,
 )
 
 /** Android-side composition seam for reference-action compilation and recognition. */
@@ -58,8 +87,10 @@ internal class ReferenceActionSessionEngine(
     private val videoPoseExtractor: VideoPoseExtractor,
     private val poseCache: SynchronizationPoseCache,
     private val observationAdapter: PoseObservationAdapter = PoseObservationAdapter(),
-    private val spatialEngine: SpatialSynchronizationEngine = SpatialSynchronizationEngine(),
-    private val compiler: ReferenceActionCompiler = ReferenceActionCompiler(),
+    private val spatialEngine: SpatialSynchronizationEngine = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true)),
+    private val compiler: ReferenceActionCompiler = ReferenceActionCompiler(ReferenceActionCompilerConfig(
+        targetStateCount = 12, minimumSamplesPerState = 5, proportionsAreContextOnly = true,
+    )),
 ) {
     suspend fun prepareReference(
         source: VideoSource,
@@ -70,7 +101,8 @@ internal class ReferenceActionSessionEngine(
             is StageResult.Success -> result.value
             is StageResult.Failure -> return ReferencePreparationOutcome.Rejected(result.failure.message)
         }
-        return compileReference(extraction, sampling.targetFramesPerSecond.toDouble())
+        return compileReference(extraction, sampling.targetFramesPerSecond.toDouble(),
+            RepEvidenceFingerprint(source.sha256.value,model.modelSha256.value))
     }
 
     suspend fun extractPose(
@@ -110,11 +142,12 @@ internal class ReferenceActionSessionEngine(
     fun compileReference(
         extraction: VideoPoseExtraction,
         analysisFramesPerSecond: Double,
+        repEvidenceFingerprint: RepEvidenceFingerprint? = null,
     ): ReferencePreparationOutcome {
         require(extraction.role == VideoRole.REFERENCE)
         val observations = observationAdapter.adapt(extraction, analysisFramesPerSecond)
-        return when (val result = compiler.compile(observations)) {
-            is ReferenceActionCompilation.Success -> ReferencePreparationOutcome.Ready(result.profile, extraction)
+        return when (val result = compiler.compile(spatialEngine.analyzeSequence(observations))) {
+            is ReferenceActionCompilation.Success -> ReferencePreparationOutcome.Ready(result.profile, extraction,repEvidenceFingerprint)
             is ReferenceActionCompilation.Failure -> ReferencePreparationOutcome.Rejected(result.message, extraction)
         }
     }
@@ -145,12 +178,31 @@ internal class ReferenceActionSessionEngine(
     fun newLiveProcessor(
         profile: ActionProfile,
         analysisFramesPerSecond: Double,
+        precisionConfig: WorkoutPrecisionConfig = WorkoutPrecisionConfig(),
+        exerciseId: String? = null,
+        enableSampleClassifier: Boolean = false,
+        enableLearnedQuality: Boolean = false,
+        qualifiedRepReference: QualifiedRepReference? = null,
+        repEvidenceFingerprint: RepEvidenceFingerprint? = null,
     ): LiveReferenceActionProcessor = LiveReferenceActionProcessor(
         profile = profile,
         analysisFramesPerSecond = analysisFramesPerSecond,
         observationAdapter = observationAdapter,
         spatialEngine = spatialEngine,
+        precisionConfig = precisionConfig,
+        exerciseId = exerciseId,
+        enableSampleClassifier = enableSampleClassifier,
+        enableLearnedQuality = enableLearnedQuality,
+        qualifiedRepReference = qualifiedRepReference,
+        repEvidenceFingerprint = repEvidenceFingerprint,
     )
+
+    fun compileQualifiedReference(prepared: ReferencePreparationOutcome.Ready, exerciseId: String,
+        config: QualifiedRepConfig = QualifiedRepConfig()): QualifiedRepCompilation {
+        val identity = prepared.repEvidenceFingerprint ?: return QualifiedRepCompilation.Unavailable(
+            ai.senp.motion.RepReferenceFailure.MISSING_PROVENANCE,"Qualified counting needs verified reference video/model provenance")
+        return compileQualifiedRepFromExtraction(prepared.extraction,exerciseId,identity,config)
+    }
 
     private fun poseCacheKey(
         role: VideoRole,
@@ -191,22 +243,45 @@ internal class LiveReferenceActionProcessor(
     private val profile: ActionProfile,
     private val analysisFramesPerSecond: Double,
     private val observationAdapter: PoseObservationAdapter = PoseObservationAdapter(),
-    private val spatialEngine: SpatialSynchronizationEngine = SpatialSynchronizationEngine(),
-    private val recognizer: ActionStateRecognizer = ActionStateRecognizer(profile),
-    private val deviationEvaluator: ReferenceDeviationEvaluator = ReferenceDeviationEvaluator(profile),
-    private val stabilizer: LiveFeedbackStabilizer = LiveFeedbackStabilizer(),
+    private val spatialEngine: SpatialSynchronizationEngine = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true)),
+    private val recognizer: ActionStateRecognizer = ActionStateRecognizer(profile, ActionStateRecognizerConfig(maximumRetainedEstimates = 0)),
+    private val precisionConfig: WorkoutPrecisionConfig = WorkoutPrecisionConfig(),
+    private val precisionCoach: WorkoutPrecisionCoach = WorkoutPrecisionCoach(profile, precisionConfig),
+    private val stabilizer: LiveFeedbackStabilizer = LiveFeedbackStabilizer(LiveFeedbackConfig(
+        minimumCandidateConfidence = 0.65, minimumTrackingConfidence = 0.55,
+        confirmationMs = 0, releaseGraceMs = 0, trackingLossHoldMs = 0, maximumEvidenceGapMs = 250,
+    )),
+    exerciseId: String? = null,
+    private val enableSampleClassifier: Boolean = false,
+    enableLearnedQuality: Boolean = false,
+    private val qualifiedRepReference: QualifiedRepReference? = null,
+    repEvidenceFingerprint: RepEvidenceFingerprint? = null,
 ) {
+    private val techniqueCoach = exerciseId?.let { ExerciseTechniqueCoach(profile, it, precisionConfig) }
+    private val qualityEngine = if (enableLearnedQuality) LearnedExerciseQualityModel.builtIn.newEngine(
+        requireNotNull(techniqueCoach?.exercise?.id) { "Learned quality diagnostics require an explicit exercise selection" },
+    ) else null
+    private val repEngine = qualifiedRepReference?.newEngine()
     init {
         require(analysisFramesPerSecond.isFinite() && analysisFramesPerSecond > 0.0)
+        require(qualifiedRepReference == null || qualifiedRepReference.fingerprint == repEvidenceFingerprint) { "Qualified-rep provenance must match the uploaded reference" }
+        require(qualifiedRepReference == null || techniqueCoach == null || qualifiedRepReference.exerciseId == techniqueCoach.exercise.id) { "Selected exercise and rep policy differ" }
     }
 
-    fun reset() {
+    @Synchronized fun reset() {
         recognizer.reset()
-        deviationEvaluator.reset()
+        precisionCoach.reset()
+        techniqueCoach?.reset()
+        qualityEngine?.reset()
+        repEngine?.reset()
         stabilizer.reset()
     }
 
-    fun update(pose: PoseFrame): LiveReferenceActionOutput {
+    @Synchronized fun finishQualifiedReps(timestampMs: Long): QualifiedRepOutput? = repEngine?.finish(timestampMs)
+
+    @Synchronized fun update(pose: PoseFrame, imageWidth: Int? = null, imageHeight: Int? = null, poseModelSha256: String? = null,
+        qualityRawPose: PoseFrame? = null, repPreprocessingId: String = RepEvidenceFingerprint.RAW_WORLD_PIPELINE): LiveReferenceActionOutput {
+        require(qualityRawPose == null || qualityRawPose.timestamp == pose.timestamp) { "Quality evidence must use the same source timestamp" }
         val observation = observationAdapter.adaptFrame(pose)
         val sequence = CanonicalObservationSequence(
             role = VideoRole.SOURCE,
@@ -215,16 +290,51 @@ internal class LiveReferenceActionProcessor(
             observations = listOf(observation),
         )
         val spatialFrame = spatialEngine.analyzeSequence(sequence).frames.single()
-        val estimate = recognizer.accept(spatialFrame)
-        val deviations = deviationEvaluator.evaluate(spatialFrame, estimate)
+        val descriptor = spatialFrame.intrinsicDescriptor
+        val reliableValues = descriptor.values.filterKeys { (descriptor.featureConfidences[it] ?: 0.0) >= precisionConfig.minimumFeatureConfidence }
+        val reliableFrame = spatialFrame.copy(intrinsicDescriptor = SpatialIntrinsicDescriptor(
+            reliableValues, descriptor.confidence, descriptor.featureConfidences.filterKeys { it in reliableValues },
+        ))
+        val estimate = recognizer.accept(reliableFrame)
+        val genericPrecision = precisionCoach.evaluate(spatialFrame, estimate)
+        val technique = techniqueCoach?.evaluate(spatialFrame, estimate)
+        val precision = if (qualifiedRepReference?.config?.mode == ai.senp.motion.RepPolicyMode.REFERENCE_MATCH) genericPrecision
+            else technique?.precision ?: genericPrecision
+        val classification = if (!enableSampleClassifier) null else if (imageWidth == null || imageHeight == null) {
+            SamplePoseClassification(SamplePoseStatus.INVALID_INPUT)
+        } else SamplePoseClassifier.builtIn.classify(pose, imageWidth, imageHeight)
+        // Training uses raw Full landmarks. Do not silently score smoothed/repaired coordinates.
+        val rawObservation = if (qualityEngine != null || repEngine != null)
+            qualityRawPose?.let { observationAdapter.adaptFrame(it.copy(validity = pose.validity)) } else null
+        val rawSpatialFrame = if (qualityEngine != null || repEngine != null) {
+            if (rawObservation == null) spatialFrame.copy(evidenceKind = SpatialEvidenceKind.UNAVAILABLE) else {
+                spatialEngine.analyzeSequence(sequence.copy(observations = listOf(rawObservation))).frames.single()
+            }
+        } else null
+        val learnedQuality = qualityEngine?.evaluate(requireNotNull(rawSpatialFrame),poseModelSha256)
+        val repSpatialFrame = rawSpatialFrame?.let { frame ->
+            val admitted = if (repEngine != null && rawObservation != null) {
+                val qualifiedObservation = QualifiedMp33Evidence.inImage(rawObservation)
+                if (qualifiedObservation == rawObservation) frame else
+                    spatialEngine.analyzeSequence(sequence.copy(observations = listOf(qualifiedObservation))).frames.single()
+            } else frame
+            if (qualityRawPose?.validity?.status == ai.senp.core.contracts.FrameValidityStatus.REPAIRED || pose.validity.status == ai.senp.core.contracts.FrameValidityStatus.REPAIRED)
+                admitted.copy(evidenceKind = SpatialEvidenceKind.UNAVAILABLE) else admitted
+        }
+        val qualifiedReps = repEngine?.evaluate(requireNotNull(repSpatialFrame),poseModelSha256,repPreprocessingId,
+            if (imageWidth != null && imageHeight != null) "$imageWidth:$imageHeight" else null)
         val actionTracking = estimate.status == ActionTrackingStatus.TRACKING ||
             estimate.status == ActionTrackingStatus.COMPLETED
         val coachingCandidates = if (actionTracking) {
-            deviations
-                .asSequence()
-                .filter { measurement -> measurement.feature.startsWith("angle.") }
-                .map { measurement -> measurement.toCoachingObservation(profile) }
-                .toList()
+            precision.activeSuggestions.map { suggestion ->
+                val measurement = suggestion.measurement
+                CoachingObservation(
+                    stableKey = suggestion.key, label = suggestion.label,
+                    confidence = measurement.confidence,
+                    severity = (kotlin.math.abs(measurement.signedOutsideRange ?: 0.0) / (measurement.enterThreshold ?: 1.0) / 3.0).coerceIn(0.0, 1.0),
+                    timestampMs = pose.timestamp.value,
+                )
+            }
         } else {
             emptyList()
         }
@@ -241,6 +351,11 @@ internal class LiveReferenceActionProcessor(
                 trackingConfidence = trackingConfidence,
             ),
             poseConfidence = pose.validity.confidence,
+            precision = precision,
+            technique = technique,
+            sampleClassification = classification,
+            learnedQuality = learnedQuality,
+            qualifiedReps = qualifiedReps,
         )
     }
 }
@@ -249,7 +364,35 @@ internal data class PreparedReferenceAction(
     val profile: ActionProfile,
     val referenceSha256: String,
     val analysisFramesPerSecond: Double,
-)
+    val precisionConfig: WorkoutPrecisionConfig = WorkoutPrecisionConfig(),
+    val exerciseId: String? = null,
+    val enableSampleClassifier: Boolean = false,
+    val enableLearnedQuality: Boolean = false,
+    val repEvidenceFingerprint: RepEvidenceFingerprint? = null,
+    val qualifiedRepReference: QualifiedRepReference? = null,
+    val repSource: VideoPoseExtraction? = null,
+    val repPreparationRequest: ReferenceExtractionRequest? = null,
+) {
+    init {
+        require(repEvidenceFingerprint == null || repEvidenceFingerprint.referenceVideoSha256 == referenceSha256)
+        require(qualifiedRepReference == null || qualifiedRepReference.fingerprint == repEvidenceFingerprint)
+        require(repPreparationRequest == null || (repPreparationRequest.source.sha256.value == referenceSha256 &&
+            repPreparationRequest.model.modelSha256.value == repEvidenceFingerprint?.poseModelSha256))
+    }
+}
+
+internal fun compileQualifiedRepFromExtraction(extraction: VideoPoseExtraction, exerciseId: String,
+    fingerprint: RepEvidenceFingerprint, config: QualifiedRepConfig): QualifiedRepCompilation {
+    require(extraction.role == VideoRole.REFERENCE)
+    val observedOnly = extraction.copy(poses = extraction.poses.copy(frames = extraction.poses.frames.map { frame ->
+        if (frame.validity.status == ai.senp.core.contracts.FrameValidityStatus.REPAIRED) frame.copy(validity = ai.senp.core.contracts.FrameValidity(
+            ai.senp.core.contracts.FrameValidityStatus.BLIND,0.0,setOf(ai.senp.core.contracts.FrameValidityReason.SHORT_GAP_INTERPOLATION))) else frame
+    }))
+    val rawSequence = PoseObservationAdapter().adapt(observedOnly,15.0)
+    val sequence = rawSequence.copy(observations = rawSequence.observations.map(QualifiedMp33Evidence::inImage))
+    val spatial = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true)).analyzeSequence(sequence)
+    return QualifiedRepCompiler.compile(spatial,exerciseId,fingerprint,config)
+}
 
 internal object ReferenceActionProfileStore {
     @Volatile
@@ -296,18 +439,4 @@ internal fun ReferenceDeviationMeasurement.toReferenceCueLabel(): String {
     }
     val subject = feature.substringAfter('.', feature).replace('_', ' ')
     return "Adjust $subject toward the reference"
-}
-
-private fun ReferenceDeviationMeasurement.toCoachingObservation(profile: ActionProfile): CoachingObservation {
-    val state = profile.states.firstOrNull { it.id == stateId }
-    val importance = state?.features?.firstOrNull { it.name == feature }?.importance ?: 0.0
-    val direction = if (signedDeltaOutsideRange < 0.0) "below" else "above"
-    return CoachingObservation(
-        stableKey = feature + "|" + direction,
-        label = toReferenceCueLabel(),
-        confidence = confidence,
-        severity = (normalizedDeviation / 2.0).coerceIn(0.0, 1.0),
-        timestampMs = timestamp.value,
-        priority = (importance * 100.0).roundToInt().coerceAtLeast(0),
-    )
 }

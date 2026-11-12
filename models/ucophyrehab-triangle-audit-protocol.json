@@ -1,0 +1,23 @@
+{
+  "schema": "ucophyrehab-triangle-audit-protocol/1",
+  "frozen_before_numeric_interpretation": true,
+  "parent_intake_commit": "c07e563",
+  "identity_amendment_commit": "0beb531",
+  "geometry_commit": "fe0f640",
+  "selected_schema_sha256": "90beedcce51294a8050ca0e62c6bffe2051cbc0bc978762665da887543b25762",
+  "selected_subject": 1,
+  "selected_exercise": 1,
+  "observed_schema_only": "940 frames; XYZ strings at l_hip/l_knee/l_ankle; recorded angle numeric; frame ID numeric; no timestamp field",
+  "source_scope": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13365497/",
+  "coordinate_parser": "Strict finite ASCII decimal/scientific number strings with optional surrounding whitespace; preserve raw file and record every supplied frame",
+  "comparison": "Compute all three 3D triangle angles in original hip/knee/ankle order and as-is absolute differences from the recorded degree angle. Report all vertices, no best-vertex, complement, fit, range tuning, calibration or quality decision. Agreement is a circular arithmetic conformance check, not independent model accuracy.",
+  "prefix_rule": "Retain every supplied frame. Never discard another first-five prefix; no invented IDs, interpolation or inferred milliseconds.",
+  "snapshots": "First, middle ordinal len//2, last original supplied frame; original three-point coordinates only, no RGB/MP33 reconstruction",
+  "zero_rule": "Zero components and a point at origin are not fabricated or silently removed; coincident points/missing fields do not produce angles; no tracking-confidence inference",
+  "other_subjects": "Only metadata roster projected during syntax streaming; no other trajectory objects or outcomes",
+  "human_live_rep_precision": null,
+  "readiness_points_earned": 0,
+  "new_human_labels": 0,
+  "model_trained": false,
+  "production_changed": false
+}

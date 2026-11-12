@@ -29,6 +29,24 @@ import kotlin.test.assertTrue
 class SpatialSynchronizationEngineTest {
     private val engine = SpatialSynchronizationEngine()
 
+    @Test fun `workout measurements retain weakest joint and normalization anchor confidence`() {
+        val reference = sequence(VideoRole.REFERENCE)
+        val weak = reference.copy(observations = reference.observations.map { frame ->
+            frame.copy(channels = frame.channels.map { channel -> channel.copy(values = channel.values.map { point ->
+                point.copy(confidence = when (point.key) { "left_elbow" -> 0.31; "left_hip" -> 0.32; else -> point.confidence })
+            }) })
+        })
+        val output = SpatialSynchronizationEngine(SpatialSynchronizationConfig(includeWorkoutFeatures = true)).analyzeSequence(weak).frames.first().intrinsicDescriptor
+        assertEquals(0.31, requireNotNull(output.featureConfidences["angle.left_elbow"]), 1e-9)
+        assertEquals(0.95, requireNotNull(output.featureConfidences["angle.right_elbow"]), 1e-9)
+        assertTrue(requireNotNull(output.featureConfidences["distance.hand_separation"]) <= 0.32)
+        assertTrue("angle.right_body_line" in output.values)
+        assertTrue("distance.foot_separation" in output.values)
+        assertTrue("distance.left_elbow_to_hip" in output.values)
+        assertTrue(requireNotNull(output.featureConfidences["relation.hand_width_over_shoulders"]) <= 0.32)
+        assertTrue("relation.knee_width_over_feet" in output.values)
+    }
+
     @Test
     fun `single sequence canonicalization seam matches paired source analysis without a fake reference`() {
         val source = sequence(
@@ -59,7 +77,8 @@ class SpatialSynchronizationEngineTest {
 
         assertTrue(compilation is ReferenceActionCompilation.Success, compilation.toString())
         val profile = (compilation as ReferenceActionCompilation.Success).profile
-        assertTrue(profile.states.size >= 3)
+        assertTrue(profile.staticHold, "the fixture repeats one stationary pose")
+        assertEquals(1, profile.states.size)
         assertEquals(reference.observations.size, engine.analyzeSequence(reference).frames.size)
     }
 

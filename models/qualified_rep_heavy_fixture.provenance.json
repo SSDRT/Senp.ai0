@@ -1,0 +1,29 @@
+{
+  "kind": "native-numerical-parity-not-expert-rep-accuracy",
+  "dataset_doi": "10.17632/kgbb3yn47p.3",
+  "license": "CC BY 4.0",
+  "source_videos": {
+    "reference": {
+      "video": "subject_001_shoulder_good_front.mp4",
+      "source_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "model_sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+      "sample_period_ms": 66
+    },
+    "source": {
+      "video": "subject_018_shoulder_good_front.mp4",
+      "source_video_sha256": "137824b720ed9eb0ea56c6f77a9d524126586bcfeeb81626298e34a8a37a2840",
+      "model_sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+      "sample_period_ms": 66
+    },
+    "primary_reference": {
+      "video": "subject_001_shoulder_good_front.mp4",
+      "source_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "sample_period_ms": 66
+    }
+  },
+  "fixture_sha256": "1af50b1b88410605d74897e9dd018d01381211d3664c1b96d3fe1f58a03c24fc",
+  "expected_results_source_sha256": "a23d1a7ba2a8b6a82d14e17dc18489ec2698a36650d1164777c4886c61420906",
+  "attribution": "Duddela Sai Prashanth et al. (2026), Mendeley Data V3, DOI 10.17632/kgbb3yn47p.3. See core-motion NOTICE-mendeley-quality.txt and CC BY 4.0 license.",
+  "changes": "Selected two clips; extracted pinned model MP33 image/world landmarks/confidences at original source PTS; optionally included the primary reference for backend fallback. Retained no video pixels. Expected engine results are parity targets, not human annotations."
+}

@@ -1,0 +1,15 @@
+gradle.projectsEvaluated {
+    def motion=gradle.rootProject.project(':core-motion')
+    def root=gradle.rootProject.projectDir
+    motion.tasks.register('preparationFaultValidationReplay',JavaExec) {
+        dependsOn(motion.tasks.named('testClasses'))
+        classpath=motion.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.UiprmdReadyFormValidationReplay'
+        def output=new File(root,'test-artifacts/exercise-knowledge/uiprmd/preparation-fault-validation-replay.json')
+        doFirst { if(output.exists()) throw new GradleException('Preserve candidate validation replay') }
+        args(new File(root,'test-artifacts/exercise-knowledge/uiprmd/validation-vicon').absolutePath,output.absolutePath,
+            new File(root,'test-artifacts/exercise-knowledge/uiprmd/development-vicon').absolutePath,
+            new File(root,'models/preparation-fault-validation-protocol.json').absolutePath)
+        maxHeapSize='1200m'
+    }
+}

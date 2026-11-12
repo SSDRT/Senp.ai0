@@ -42,7 +42,7 @@ class PoseObservationAdapter {
     private fun imageChannel(frame: PoseFrame): ObservationChannel {
         val usable = frame.validity.status !in HARD_MISSING_STATUSES
         val values = frame.landmarks.map { landmark ->
-            val confidence = landmarkConfidence(frame, landmark)
+            val confidence = landmarkConfidence(landmark)
             ObservationValue(
                 key = landmark.id.name.lowercase(),
                 values = if (usable) {
@@ -84,7 +84,7 @@ class PoseObservationAdapter {
                     listOf(null, null, null)
                 },
                 mask = List(3) { present },
-                confidence = if (present) landmarkConfidence(frame, landmark) else 0.0,
+                confidence = if (present) landmarkConfidence(landmark) else 0.0,
             )
         }
         val presentComponents = values.sumOf { value -> value.mask.count { it } }
@@ -114,11 +114,8 @@ class PoseObservationAdapter {
         )
     }
 
-    private fun landmarkConfidence(frame: PoseFrame, landmark: PoseLandmark): Double {
-        return listOfNotNull(landmark.visibility, landmark.presence)
-            .minOrNull()
-            ?.coerceIn(0.0, 1.0)
-            ?: frame.validity.confidence
+    private fun landmarkConfidence(landmark: PoseLandmark): Double {
+        return minOf(landmark.visibility ?: 0.0, landmark.presence ?: 0.0)
     }
 
     private companion object {

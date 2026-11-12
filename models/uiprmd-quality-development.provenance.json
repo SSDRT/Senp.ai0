@@ -1,0 +1,1334 @@
+{
+  "schema": "uiprmd-quality-head-development/1",
+  "kind": "development-only-completed-attempt-veto-research-not-live-camera-accuracy",
+  "measurement_domain": "skeletal",
+  "feature_schema": "uiprmd-vicon39-rep-quality/1",
+  "features": 64,
+  "model_parameters_recorded_before_this_fit": {
+    "logistic": {
+      "C": 1,
+      "class_weight": "balanced",
+      "max_iter": 2000
+    },
+    "logistic_C0_1": {
+      "C": 0.1,
+      "class_weight": "balanced",
+      "max_iter": 2000
+    },
+    "forest": {
+      "trees": 256,
+      "minimum_leaf": 4,
+      "max_features": "sqrt",
+      "class_weight": "balanced"
+    },
+    "seed": 17,
+    "threshold": 0.5
+  },
+  "sklearn_version": "1.9.0",
+  "numpy_version": "2.4.6",
+  "existing_independent_rep_labels": true,
+  "subjects_opened": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
+  "validation_trajectories_opened": false,
+  "final_test_trajectories_opened": false,
+  "network_weights_trained": false,
+  "experimental_quality_heads_fitted": true,
+  "production_changed": false,
+  "promotion_approved": false,
+  "readiness_points_earned": 0,
+  "source_replay_sha256": "f4c8e010153cd0bae3f016b1e6065c20243985f5372f8212658f81b681496acd",
+  "source_code_sha256": {
+    "scripts/train_uiprmd_quality_heads.py": "2729507a8b7655f6312c11350b5c530c95dc02af13276d55a962bc010fb6be9b",
+    "scripts/uiprmd_quality_features.py": "d5f9d79a7a7c990c946facc090c8fa66414fe5abfd5dabd7a73bdced23f3e1dc",
+    "scripts/uiprmd_vicon.py": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1",
+    "scripts/evaluate_uiprmd_development.py": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+  },
+  "protocol_sha256": "cec24dad3d99e353817e6039c4ba2798aee8238837d9d29e72d567db1e0bbd81",
+  "baseline": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "false_negative": 49,
+      "verdict_UNASSESSABLE": 70,
+      "true_positive": 31,
+      "assessable_reps": 81,
+      "verdict_ACCEPTABLE": 55,
+      "verdict_NO_EVENT": 9,
+      "incorrect_reps": 80,
+      "verdict_REJECTED": 23,
+      "false_positive": 27,
+      "verdict_CORRECT": 3
+    },
+    "precision": 0.5344827586206896,
+    "good_rep_recall": 0.3875,
+    "assessable_coverage": 0.50625
+  },
+  "limitations": [
+    "Development folds are not the final subject-disjoint test.",
+    "Publisher labels describe whole repetitions, not joint fault onsets; scoring occurs only after causal attempt completion.",
+    "No score creates a count or bypasses reference, confidence, visibility, range, provenance or path checks.",
+    "Marker proxies and binary observability are not RGB-to-MediaPipe accuracy.",
+    "Unmatched or missing reps remain in the original denominators; missing feature aggregates are imputed on training subjects only."
+  ],
+  "result_path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development.json",
+  "result_sha256": "e1ee584c6cc91c85af5e2e7c1911ac3e917284e7d51d786be65b15987147e558",
+  "reads_count": 16,
+  "baseline_engine_commit": "01b83e46f4fd6c5c53f12372f568e557b6e8774b",
+  "verification": {
+    "python_tests": 39,
+    "passed": true,
+    "log_sha256": "e58b47f4faf3192523a1d6c3743ab03a877de91eda243cfafe9bcef24d158320"
+  },
+  "candidates": {
+    "logistic": {
+      "fixed_bad_score_veto_threshold": 0.5,
+      "out_of_fold_classification_accuracy": 0.7483443708609272,
+      "completed_attempts_scored": 151,
+      "folds": [
+        {
+          "movement": "m01",
+          "test_subject": "01",
+          "train_subjects": [
+            "02",
+            "03",
+            "04"
+          ],
+          "train_attempts": 59,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m01",
+          "test_subject": "02",
+          "train_subjects": [
+            "01",
+            "03",
+            "04"
+          ],
+          "train_attempts": 59,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m01",
+          "test_subject": "03",
+          "train_subjects": [
+            "01",
+            "02",
+            "04"
+          ],
+          "train_attempts": 58,
+          "test_attempts": 20
+        },
+        {
+          "movement": "m01",
+          "test_subject": "04",
+          "train_subjects": [
+            "01",
+            "02",
+            "03"
+          ],
+          "train_attempts": 58,
+          "test_attempts": 20
+        },
+        {
+          "movement": "m07",
+          "test_subject": "01",
+          "train_subjects": [
+            "02",
+            "03",
+            "04"
+          ],
+          "train_attempts": 54,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m07",
+          "test_subject": "02",
+          "train_subjects": [
+            "01",
+            "03",
+            "04"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        },
+        {
+          "movement": "m07",
+          "test_subject": "03",
+          "train_subjects": [
+            "01",
+            "02",
+            "04"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        },
+        {
+          "movement": "m07",
+          "test_subject": "04",
+          "train_subjects": [
+            "01",
+            "02",
+            "03"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        }
+      ],
+      "veto_only_continuous_rep_metrics": {
+        "counts": {
+          "correct_reps": 80,
+          "total_reps": 160,
+          "false_negative": 60,
+          "verdict_UNASSESSABLE": 70,
+          "true_positive": 20,
+          "assessable_reps": 81,
+          "verdict_ACCEPTABLE": 23,
+          "verdict_REJECTED": 56,
+          "verdict_NO_EVENT": 9,
+          "incorrect_reps": 80,
+          "false_positive": 5,
+          "verdict_CORRECT": 2
+        },
+        "precision": 0.8,
+        "good_rep_recall": 0.25,
+        "assessable_coverage": 0.50625,
+        "per_movement": {
+          "m01": {
+            "counts": {
+              "correct_reps": 40,
+              "total_reps": 80,
+              "false_negative": 25,
+              "verdict_UNASSESSABLE": 26,
+              "true_positive": 15,
+              "assessable_reps": 52,
+              "verdict_ACCEPTABLE": 17,
+              "verdict_REJECTED": 34,
+              "verdict_NO_EVENT": 2,
+              "incorrect_reps": 40,
+              "false_positive": 3,
+              "verdict_CORRECT": 1
+            },
+            "precision": 0.8333333333333334,
+            "good_rep_recall": 0.375,
+            "assessable_coverage": 0.65
+          },
+          "m07": {
+            "counts": {
+              "correct_reps": 40,
+              "total_reps": 80,
+              "false_negative": 35,
+              "verdict_NO_EVENT": 7,
+              "verdict_UNASSESSABLE": 44,
+              "true_positive": 5,
+              "assessable_reps": 29,
+              "verdict_ACCEPTABLE": 6,
+              "incorrect_reps": 40,
+              "verdict_REJECTED": 22,
+              "false_positive": 2,
+              "verdict_CORRECT": 1
+            },
+            "precision": 0.7142857142857143,
+            "good_rep_recall": 0.125,
+            "assessable_coverage": 0.3625
+          }
+        }
+      },
+      "development_threshold_tradeoffs": {
+        "0.5": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 60,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 20,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 23,
+            "verdict_REJECTED": 56,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "false_positive": 5,
+            "verdict_CORRECT": 2
+          },
+          "precision": 0.8,
+          "good_rep_recall": 0.25,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 25,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 15,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 17,
+                "verdict_REJECTED": 34,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "false_positive": 3,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.8333333333333334,
+              "good_rep_recall": 0.375,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 6,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 22,
+                "false_positive": 2,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.7142857142857143,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.75": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 50,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 30,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 36,
+            "verdict_REJECTED": 43,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "false_positive": 8,
+            "verdict_CORRECT": 2
+          },
+          "precision": 0.7894736842105263,
+          "good_rep_recall": 0.375,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 15,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 25,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 29,
+                "verdict_REJECTED": 22,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "false_positive": 5,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.8333333333333334,
+              "good_rep_recall": 0.625,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 7,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 21,
+                "false_positive": 3,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.625,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.9": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 49,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 31,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 42,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "verdict_REJECTED": 36,
+            "false_positive": 14,
+            "verdict_CORRECT": 3
+          },
+          "precision": 0.6888888888888889,
+          "good_rep_recall": 0.3875,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 14,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 26,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 32,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 18,
+                "false_positive": 8,
+                "verdict_CORRECT": 2
+              },
+              "precision": 0.7647058823529411,
+              "good_rep_recall": 0.65,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 10,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 18,
+                "false_positive": 6,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.45454545454545453,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.95": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 49,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 31,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 42,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "verdict_REJECTED": 36,
+            "false_positive": 14,
+            "verdict_CORRECT": 3
+          },
+          "precision": 0.6888888888888889,
+          "good_rep_recall": 0.3875,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 14,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 26,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 32,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 18,
+                "false_positive": 8,
+                "verdict_CORRECT": 2
+              },
+              "precision": 0.7647058823529411,
+              "good_rep_recall": 0.65,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 10,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 18,
+                "false_positive": 6,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.45454545454545453,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        }
+      },
+      "all_development_fits_not_used_for_reported_scores": [
+        {
+          "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development-models/m01-logistic.joblib",
+          "sha256": "670c0fb1040d2efadbc01bfcdfe0e033dc55a289d5868eb5fcd3e562e76421f7",
+          "training_subjects": [
+            "01",
+            "02",
+            "03",
+            "04"
+          ],
+          "training_attempts": 78,
+          "release_approved": false
+        },
+        {
+          "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development-models/m07-logistic.joblib",
+          "sha256": "754155e936e3f35f4e66c36ad9e03b5a85e6b3f6e7e31a3dce689be815c4fa4b",
+          "training_subjects": [
+            "01",
+            "02",
+            "03",
+            "04"
+          ],
+          "training_attempts": 73,
+          "release_approved": false
+        }
+      ]
+    },
+    "logistic_C0_1": {
+      "fixed_bad_score_veto_threshold": 0.5,
+      "out_of_fold_classification_accuracy": 0.7218543046357616,
+      "completed_attempts_scored": 151,
+      "folds": [
+        {
+          "movement": "m01",
+          "test_subject": "01",
+          "train_subjects": [
+            "02",
+            "03",
+            "04"
+          ],
+          "train_attempts": 59,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m01",
+          "test_subject": "02",
+          "train_subjects": [
+            "01",
+            "03",
+            "04"
+          ],
+          "train_attempts": 59,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m01",
+          "test_subject": "03",
+          "train_subjects": [
+            "01",
+            "02",
+            "04"
+          ],
+          "train_attempts": 58,
+          "test_attempts": 20
+        },
+        {
+          "movement": "m01",
+          "test_subject": "04",
+          "train_subjects": [
+            "01",
+            "02",
+            "03"
+          ],
+          "train_attempts": 58,
+          "test_attempts": 20
+        },
+        {
+          "movement": "m07",
+          "test_subject": "01",
+          "train_subjects": [
+            "02",
+            "03",
+            "04"
+          ],
+          "train_attempts": 54,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m07",
+          "test_subject": "02",
+          "train_subjects": [
+            "01",
+            "03",
+            "04"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        },
+        {
+          "movement": "m07",
+          "test_subject": "03",
+          "train_subjects": [
+            "01",
+            "02",
+            "04"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        },
+        {
+          "movement": "m07",
+          "test_subject": "04",
+          "train_subjects": [
+            "01",
+            "02",
+            "03"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        }
+      ],
+      "veto_only_continuous_rep_metrics": {
+        "counts": {
+          "correct_reps": 80,
+          "total_reps": 160,
+          "false_negative": 62,
+          "verdict_UNASSESSABLE": 70,
+          "true_positive": 18,
+          "assessable_reps": 81,
+          "verdict_ACCEPTABLE": 21,
+          "verdict_REJECTED": 58,
+          "verdict_NO_EVENT": 9,
+          "incorrect_reps": 80,
+          "false_positive": 5,
+          "verdict_CORRECT": 2
+        },
+        "precision": 0.782608695652174,
+        "good_rep_recall": 0.225,
+        "assessable_coverage": 0.50625,
+        "per_movement": {
+          "m01": {
+            "counts": {
+              "correct_reps": 40,
+              "total_reps": 80,
+              "false_negative": 27,
+              "verdict_UNASSESSABLE": 26,
+              "true_positive": 13,
+              "assessable_reps": 52,
+              "verdict_ACCEPTABLE": 15,
+              "verdict_REJECTED": 36,
+              "verdict_NO_EVENT": 2,
+              "incorrect_reps": 40,
+              "false_positive": 3,
+              "verdict_CORRECT": 1
+            },
+            "precision": 0.8125,
+            "good_rep_recall": 0.325,
+            "assessable_coverage": 0.65
+          },
+          "m07": {
+            "counts": {
+              "correct_reps": 40,
+              "total_reps": 80,
+              "false_negative": 35,
+              "verdict_NO_EVENT": 7,
+              "verdict_UNASSESSABLE": 44,
+              "true_positive": 5,
+              "assessable_reps": 29,
+              "verdict_ACCEPTABLE": 6,
+              "incorrect_reps": 40,
+              "verdict_REJECTED": 22,
+              "false_positive": 2,
+              "verdict_CORRECT": 1
+            },
+            "precision": 0.7142857142857143,
+            "good_rep_recall": 0.125,
+            "assessable_coverage": 0.3625
+          }
+        }
+      },
+      "development_threshold_tradeoffs": {
+        "0.5": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 62,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 18,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 21,
+            "verdict_REJECTED": 58,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "false_positive": 5,
+            "verdict_CORRECT": 2
+          },
+          "precision": 0.782608695652174,
+          "good_rep_recall": 0.225,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 27,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 13,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 15,
+                "verdict_REJECTED": 36,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "false_positive": 3,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.8125,
+              "good_rep_recall": 0.325,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 6,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 22,
+                "false_positive": 2,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.7142857142857143,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.75": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 49,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 31,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 42,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "verdict_REJECTED": 36,
+            "false_positive": 14,
+            "verdict_CORRECT": 3
+          },
+          "precision": 0.6888888888888889,
+          "good_rep_recall": 0.3875,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 14,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 26,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 32,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 18,
+                "false_positive": 8,
+                "verdict_CORRECT": 2
+              },
+              "precision": 0.7647058823529411,
+              "good_rep_recall": 0.65,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 10,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 18,
+                "false_positive": 6,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.45454545454545453,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.9": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 49,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 31,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 45,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "verdict_REJECTED": 33,
+            "false_positive": 17,
+            "verdict_CORRECT": 3
+          },
+          "precision": 0.6458333333333334,
+          "good_rep_recall": 0.3875,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 14,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 26,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 32,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 18,
+                "false_positive": 8,
+                "verdict_CORRECT": 2
+              },
+              "precision": 0.7647058823529411,
+              "good_rep_recall": 0.65,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 13,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 15,
+                "false_positive": 9,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.35714285714285715,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.95": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 49,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 31,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 47,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "verdict_REJECTED": 31,
+            "false_positive": 19,
+            "verdict_CORRECT": 3
+          },
+          "precision": 0.62,
+          "good_rep_recall": 0.3875,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 14,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 26,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 33,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 17,
+                "false_positive": 9,
+                "verdict_CORRECT": 2
+              },
+              "precision": 0.7428571428571429,
+              "good_rep_recall": 0.65,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 14,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 14,
+                "false_positive": 10,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.3333333333333333,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        }
+      },
+      "all_development_fits_not_used_for_reported_scores": [
+        {
+          "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development-models/m01-logistic_C0_1.joblib",
+          "sha256": "b7751332b1ea4564b4709d6f2619e1c3ae7d375befdce2d616f7217168167caf",
+          "training_subjects": [
+            "01",
+            "02",
+            "03",
+            "04"
+          ],
+          "training_attempts": 78,
+          "release_approved": false
+        },
+        {
+          "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development-models/m07-logistic_C0_1.joblib",
+          "sha256": "c1f9ebb7f22fc2425b693f6b51cfb72821fc5cd26a93ed72bc4d491b198a8555",
+          "training_subjects": [
+            "01",
+            "02",
+            "03",
+            "04"
+          ],
+          "training_attempts": 73,
+          "release_approved": false
+        }
+      ]
+    },
+    "forest": {
+      "fixed_bad_score_veto_threshold": 0.5,
+      "out_of_fold_classification_accuracy": 0.6423841059602649,
+      "completed_attempts_scored": 151,
+      "folds": [
+        {
+          "movement": "m01",
+          "test_subject": "01",
+          "train_subjects": [
+            "02",
+            "03",
+            "04"
+          ],
+          "train_attempts": 59,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m01",
+          "test_subject": "02",
+          "train_subjects": [
+            "01",
+            "03",
+            "04"
+          ],
+          "train_attempts": 59,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m01",
+          "test_subject": "03",
+          "train_subjects": [
+            "01",
+            "02",
+            "04"
+          ],
+          "train_attempts": 58,
+          "test_attempts": 20
+        },
+        {
+          "movement": "m01",
+          "test_subject": "04",
+          "train_subjects": [
+            "01",
+            "02",
+            "03"
+          ],
+          "train_attempts": 58,
+          "test_attempts": 20
+        },
+        {
+          "movement": "m07",
+          "test_subject": "01",
+          "train_subjects": [
+            "02",
+            "03",
+            "04"
+          ],
+          "train_attempts": 54,
+          "test_attempts": 19
+        },
+        {
+          "movement": "m07",
+          "test_subject": "02",
+          "train_subjects": [
+            "01",
+            "03",
+            "04"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        },
+        {
+          "movement": "m07",
+          "test_subject": "03",
+          "train_subjects": [
+            "01",
+            "02",
+            "04"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        },
+        {
+          "movement": "m07",
+          "test_subject": "04",
+          "train_subjects": [
+            "01",
+            "02",
+            "03"
+          ],
+          "train_attempts": 55,
+          "test_attempts": 18
+        }
+      ],
+      "veto_only_continuous_rep_metrics": {
+        "counts": {
+          "correct_reps": 80,
+          "total_reps": 160,
+          "false_negative": 64,
+          "verdict_UNASSESSABLE": 70,
+          "true_positive": 16,
+          "assessable_reps": 81,
+          "verdict_ACCEPTABLE": 20,
+          "verdict_REJECTED": 60,
+          "verdict_NO_EVENT": 9,
+          "incorrect_reps": 80,
+          "false_positive": 5,
+          "verdict_CORRECT": 1
+        },
+        "precision": 0.7619047619047619,
+        "good_rep_recall": 0.2,
+        "assessable_coverage": 0.50625,
+        "per_movement": {
+          "m01": {
+            "counts": {
+              "correct_reps": 40,
+              "total_reps": 80,
+              "false_negative": 24,
+              "verdict_UNASSESSABLE": 26,
+              "true_positive": 16,
+              "assessable_reps": 52,
+              "verdict_ACCEPTABLE": 20,
+              "verdict_REJECTED": 31,
+              "verdict_NO_EVENT": 2,
+              "incorrect_reps": 40,
+              "false_positive": 5,
+              "verdict_CORRECT": 1
+            },
+            "precision": 0.7619047619047619,
+            "good_rep_recall": 0.4,
+            "assessable_coverage": 0.65
+          },
+          "m07": {
+            "counts": {
+              "correct_reps": 40,
+              "total_reps": 80,
+              "false_negative": 40,
+              "verdict_NO_EVENT": 7,
+              "verdict_UNASSESSABLE": 44,
+              "assessable_reps": 29,
+              "verdict_REJECTED": 29,
+              "incorrect_reps": 40
+            },
+            "precision": null,
+            "good_rep_recall": 0.0,
+            "assessable_coverage": 0.3625
+          }
+        }
+      },
+      "development_threshold_tradeoffs": {
+        "0.5": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 64,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 16,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 20,
+            "verdict_REJECTED": 60,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "false_positive": 5,
+            "verdict_CORRECT": 1
+          },
+          "precision": 0.7619047619047619,
+          "good_rep_recall": 0.2,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 24,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 16,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 20,
+                "verdict_REJECTED": 31,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "false_positive": 5,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.7619047619047619,
+              "good_rep_recall": 0.4,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 40,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "assessable_reps": 29,
+                "verdict_REJECTED": 29,
+                "incorrect_reps": 40
+              },
+              "precision": null,
+              "good_rep_recall": 0.0,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.75": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 57,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 23,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 37,
+            "verdict_NO_EVENT": 9,
+            "verdict_REJECTED": 41,
+            "incorrect_reps": 80,
+            "false_positive": 17,
+            "verdict_CORRECT": 3
+          },
+          "precision": 0.575,
+          "good_rep_recall": 0.2875,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 22,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 18,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 25,
+                "verdict_NO_EVENT": 2,
+                "verdict_REJECTED": 25,
+                "incorrect_reps": 40,
+                "false_positive": 9,
+                "verdict_CORRECT": 2
+              },
+              "precision": 0.6666666666666666,
+              "good_rep_recall": 0.45,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 12,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 16,
+                "false_positive": 8,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.38461538461538464,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.9": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 49,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 31,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 53,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "verdict_REJECTED": 25,
+            "false_positive": 25,
+            "verdict_CORRECT": 3
+          },
+          "precision": 0.5535714285714286,
+          "good_rep_recall": 0.3875,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 14,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 26,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 33,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 17,
+                "false_positive": 9,
+                "verdict_CORRECT": 2
+              },
+              "precision": 0.7428571428571429,
+              "good_rep_recall": 0.65,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 20,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 8,
+                "false_positive": 16,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.23809523809523808,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        },
+        "0.95": {
+          "counts": {
+            "correct_reps": 80,
+            "total_reps": 160,
+            "false_negative": 49,
+            "verdict_UNASSESSABLE": 70,
+            "true_positive": 31,
+            "assessable_reps": 81,
+            "verdict_ACCEPTABLE": 55,
+            "verdict_NO_EVENT": 9,
+            "incorrect_reps": 80,
+            "verdict_REJECTED": 23,
+            "false_positive": 27,
+            "verdict_CORRECT": 3
+          },
+          "precision": 0.5344827586206896,
+          "good_rep_recall": 0.3875,
+          "assessable_coverage": 0.50625,
+          "per_movement": {
+            "m01": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 14,
+                "verdict_UNASSESSABLE": 26,
+                "true_positive": 26,
+                "assessable_reps": 52,
+                "verdict_ACCEPTABLE": 33,
+                "verdict_NO_EVENT": 2,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 17,
+                "false_positive": 9,
+                "verdict_CORRECT": 2
+              },
+              "precision": 0.7428571428571429,
+              "good_rep_recall": 0.65,
+              "assessable_coverage": 0.65
+            },
+            "m07": {
+              "counts": {
+                "correct_reps": 40,
+                "total_reps": 80,
+                "false_negative": 35,
+                "verdict_NO_EVENT": 7,
+                "verdict_UNASSESSABLE": 44,
+                "true_positive": 5,
+                "assessable_reps": 29,
+                "verdict_ACCEPTABLE": 22,
+                "incorrect_reps": 40,
+                "verdict_REJECTED": 6,
+                "false_positive": 18,
+                "verdict_CORRECT": 1
+              },
+              "precision": 0.21739130434782608,
+              "good_rep_recall": 0.125,
+              "assessable_coverage": 0.3625
+            }
+          }
+        }
+      },
+      "all_development_fits_not_used_for_reported_scores": [
+        {
+          "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development-models/m01-forest.joblib",
+          "sha256": "3fbd8aa6b9e40f89c2d95aa021c079beaffa75a01cb98d87539b1d6f33c31c40",
+          "training_subjects": [
+            "01",
+            "02",
+            "03",
+            "04"
+          ],
+          "training_attempts": 78,
+          "release_approved": false
+        },
+        {
+          "path": "test-artifacts/exercise-knowledge/uiprmd/quality-head-development-models/m07-forest.joblib",
+          "sha256": "b5986370e617974ce7508542d90d617c0aa2f60f94605a7bc5652093f2cf6d25",
+          "training_subjects": [
+            "01",
+            "02",
+            "03",
+            "04"
+          ],
+          "training_attempts": 73,
+          "release_approved": false
+        }
+      ]
+    }
+  }
+}

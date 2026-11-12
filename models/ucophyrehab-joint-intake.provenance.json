@@ -1,0 +1,271 @@
+{
+  "schema": "ucophyrehab-joint-intake-provenance/1",
+  "implementation_commit": "04efae9a1cfef51c2a9baac5ee0365af6f021720",
+  "acquisition_freeze_commit": "c07e563",
+  "preselection_identity_amendment_commit": "0beb531",
+  "geometry_freeze_commit": "fe0f640",
+  "numerical_interpretation_freeze_commit": "8148abb",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "dataset_version": 17935737,
+  "data_license": "CC-BY-4.0",
+  "raw_file_preserved_without_modification": true,
+  "raw_file_bytes": 230334280,
+  "raw_file_md5": "73026a0b44ada0603a6de63dd70f9fd4",
+  "raw_file_sha256": "2bcb0d216b16c51c499acac885ac6bc2626ba58eff057ad4b984ec1481e12bc7",
+  "selected_subject": 1,
+  "selected_exercise": 1,
+  "selected_frames": 940,
+  "original_frame_IDs": [
+    5,
+    944
+  ],
+  "metadata_only_record_headers": 432,
+  "metadata_only_subjects": 27,
+  "other_subject_JSON_tokens_consumed": true,
+  "other_subject_trajectory_objects_constructed": false,
+  "ordinal_rating_file_opened": false,
+  "uiprmd_final_subjects_opened": false,
+  "initial_five_acquisition_frames_not_filled": true,
+  "supplied_frames_discarded": 0,
+  "explicit_timestamp_in_selected_frame_schema": false,
+  "clock_or_video_alignment_verified": false,
+  "all_three_vertices_retained": {
+    "l_hip": {
+      "compared_frames": 940,
+      "mean_absolute_difference_degrees": 121.01240092578945,
+      "maximum_absolute_difference_degrees": 175.74813514350848,
+      "p95_absolute_difference_degrees": 174.6443646764202
+    },
+    "l_knee": {
+      "compared_frames": 940,
+      "mean_absolute_difference_degrees": 2.0076611767859853e-14,
+      "maximum_absolute_difference_degrees": 2.8421709430404007e-13,
+      "p95_absolute_difference_degrees": 1.1368683772161603e-13
+    },
+    "l_ankle": {
+      "compared_frames": 940,
+      "mean_absolute_difference_degrees": 116.34331575225326,
+      "maximum_absolute_difference_degrees": 175.48217853716307,
+      "p95_absolute_difference_degrees": 174.29919271825244
+    }
+  },
+  "result_domain": "circular_coordinate_angle_conformance_not_independent_physical_or_model_accuracy",
+  "snapshot_frame_IDs": [
+    5,
+    475,
+    944
+  ],
+  "original_triplet_frames_inspected": 3,
+  "full_all_vertex_trace_inspected": true,
+  "initial_crowded_plot_preserved": true,
+  "layout_review_snapshot_records_identical": true,
+  "new_human_labels": 0,
+  "trained_model": false,
+  "production_changed": false,
+  "new_APK": false,
+  "python_tests": 220,
+  "JVM_or_native_tests_rerun": false,
+  "production_readiness_receipts_revalidated": 2889,
+  "readiness": 50,
+  "readiness_points_earned": 0,
+  "human_live_rep_precision": null,
+  "checkpoint": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/dataset_3d_with_angles.json",
+      "sha256": "2bcb0d216b16c51c499acac885ac6bc2626ba58eff057ad4b984ec1481e12bc7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/acquisition-receipt.json",
+      "sha256": "def41e58e8838ac18b35df70fac05ef31bc8a04879adf8f20947b3f203b3e230"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/acquisition.log",
+      "sha256": "787549746ca1a32748eac26a3419462299148b2c1777167aeafec84d480dd02f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/all-vertex-trace.png",
+      "sha256": "b7b86ec60fe22d32153f4f7a4ce1fe6874ca17201f6049c435fcd522c42f8c95"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/geometry-preflight.log",
+      "sha256": "114e5723ee76f26408ed1b2c27894a59f279315681f32945950d56f9662e9dcc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/intake-preflight.log",
+      "sha256": "8fa2cd28391f7b92def0f2b6eb5a63bf5c67a81e5d50058d329661d1b79bcccf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/layout-review-receipt.json",
+      "sha256": "257a97497506de6a04e9bd65c61462955046b765f48e3c9b40b58df932a40b10"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/layout-review.log",
+      "sha256": "26369da9d29c9ef1e0474e07a6de32d927f2165de4abc9bac23ee00ec1ac1289"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/original-frame-receipts.json",
+      "sha256": "44434845ea196864660e5bfc42c5c1c7d2899371e360d6575b920353712d8e2c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/original-triplets-layout-reviewed.png",
+      "sha256": "42847ab79b01f4ef230c66fcc99f434a8e9ce940aaa3aea5ceaef775a4b64acf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/original-triplets.png",
+      "sha256": "db7b0a5f299d928f57da1f53515d16af4e10188663cc67231f194947c3ceb3f0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/python-final.log",
+      "sha256": "77403c6237f7a6a409c9c7a1480e4e2503b50e40cf854c2edffb78548c261e18"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/python-geometry-freeze.log",
+      "sha256": "d47a74ad8bba31957f3b57c7b5f5d102f1d0f5fe32b6352a9464d3e29d262aae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/python-preselection.log",
+      "sha256": "d853bc09b61d266ff537e0fed07ef564dfc8af7189c1fde818a2fc0db446788a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/readiness.log",
+      "sha256": "e97ebd3d1c9ce5624140364301d5fea87ec7746e6c771b43546722be2272567a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/schema-amendment-preflight.log",
+      "sha256": "e2322612b1b2d2a952d193e4d9600a0dd626b095c6c431d673facb9c7d37f1e9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/schema-selection.log",
+      "sha256": "960e79dbefb6de3ea51d3ce7834239d7fafdac4a9cdf533bae5080ae492d7489"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/selected-joint-schema.json",
+      "sha256": "90beedcce51294a8050ca0e62c6bffe2051cbc0bc978762665da887543b25762"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/triangle-audit.log",
+      "sha256": "567584b1ac4f1b6b06349c2802d656a92e69b77db4f8dd1397818b9ab7fd39bf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/triangle-conformance.csv",
+      "sha256": "2daa6bfead5ea27b2474b75ddfca9461afd7e60717cd5f89bc373721b493d45e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/triangle-conformance.json",
+      "sha256": "7a4a46fe026fa6007eca7d9d760e2a2d2a7b3c7cfeb3bff3269a8e9d0be1ea55"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/triangle-preflight.log",
+      "sha256": "8ec46506913fc67f7188f13828bf10bf2c6fb77cb3ce07b1c3dc13c736645f68"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/upstream-schema-observations.json",
+      "sha256": "62116972b8018f7ab4f82ea7c50ce8b108dd3b846232ca5db6b19857191c6bff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/dependencies/download.log",
+      "sha256": "56e5c715ce9d054e38f3fd11806a36de744959abdd10977eb06b3d05a8477f12"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/dependencies/ijson-3.6.0-cp313-cp313-win_amd64.whl",
+      "sha256": "cf855a688dd80570e6daaa67afc84a950acf9c6ba9c3526096957614d21db1bd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/dependencies/install.log",
+      "sha256": "3f9cf8d15544008f5c9d762be3f12d44ce2372a97143faf3da7adf9e9dd1cab5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/dependencies/LICENSE.txt",
+      "sha256": "cb8ba2b01e4f031cc25572d83aa4fca399c92f83f73aaa3627d381a7e9d7adca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-joint-audit-20261029/dependencies/pypi-ijson-3.6.0.json",
+      "sha256": "717f21917bc2d73238b54476d187e5cb29ffe1fffd785d308abe8ce5f5cb858a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/audit_ucophyrehab_joint.py",
+      "sha256": "7e16caf498290997d98a5667dc534f870789dbe9448d76d6ed66dc8441b99205"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/audit_ucophyrehab_triangle.py",
+      "sha256": "d71a7f11ba2c58bca2c4d301e4cba0c5346e1067e53a6538e016f6dc760d4a87"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/measured_triangle.py",
+      "sha256": "7d56388571d84041ebef3bd0fd34b4ce4af1b1ef0a92221eedf5c0a7b02d4b2b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/plot_ucophyrehab_triplet_review.py",
+      "sha256": "c0c2cb5772aea2755169c1fe7735b5bb367a35f4c01a36ac2c390ab4d506d666"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/audit_ucophyrehab_source.py",
+      "sha256": "6d8aa3963cd47ada48783e16cdbda48de049852625175528c70aa3ca42889e7a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/tests/test_ucophyrehab_joint.py",
+      "sha256": "8ef221e3113b0f239693029877765efb8f9291c59245972d235f63eb547e99a3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/tests/test_ucophyrehab_triangle.py",
+      "sha256": "bf2a76d1f66b39dbb77721bf937fadf4fa4e11a07172ab9a1d8cbb12852769ad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/tests/test_measured_triangle.py",
+      "sha256": "edd15cec15e5434e02846a7b7897fdda2219482deab804e55c81220ede58d796"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/requirements-joint-audit.txt",
+      "sha256": "a04f3e855d6ea3618ec166b4984aadb877a17ff5e6e1477c1fd2405fc220f47e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/requirements-exercise-quality.txt",
+      "sha256": "6e81246e9a2eff4ce1346d0377d287a31352ad72e2f4fd21f4416f319082f98b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/models/ucophyrehab-joint-intake-protocol.json",
+      "sha256": "d300691dd998097025fa055d674933572df32e13befe8676c14ce1e7958eb930"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/models/ucophyrehab-joint-intake-schema-amendment.json",
+      "sha256": "831283b414914b4da413e0744ffe5fd23a04bad19db7111bf7fa808305cd27d4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/models/ucophyrehab-triangle-audit-protocol.json",
+      "sha256": "e4c6005f6d6ce05b6077540fd97beec5b95f96f74ebc0610a126011ca3bf2f06"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/docs/UCOPHYREHAB_JOINT_INTAKE_RESULTS.md",
+      "sha256": "8c7c281fc69d162d9d8b65617ef1f4de96e0ebca907bd4c09a165d7239cfb8a2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/docs/READINESS_70_PLAN.md",
+      "sha256": "0939ee129fd386cf201313d4abd0d0303ad2c54a02700c10d68358512d488dd3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/scripts/score_readiness.py",
+      "sha256": "697d87dd1956d3b8c8be104d6881ae53486af6f75b3c80817c39646eee962cfd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/models/preview-preference-readiness.evidence.json",
+      "sha256": "78d4663932203f3d8a0eae5a7ba5ab6de4a683dd715653efbb00dbac9514af8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/zenodo-version-record.json",
+      "sha256": "38db40c9e052c08e7c57b2b0153b8841f91da486d752b8941948031f5d8e106b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/version-http-receipt.json",
+      "sha256": "2953831f82b5c1c5c38ed932194a80682cf6c67c592980177a2754a9ccdda218"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/ucophyrehab-joint-checkpoint-04efae9/work/freeze-ucophyrehab-joint-intake.py",
+      "sha256": "57c9fdcd08f8e0be1e408271c5ede0762bc65a5595ef0fd4acb7deb560045eb4"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+# Remaining projected-driver losses are chiefly target-range disagreements
+
+29 October2026. Frozen passive audit `a84ddb7`, layout-only review amendment `2f78b11`. This explains the failed frontal-projection development screen; it does not promote that measurement, train a head or improve a count. Production stays `b03e340`, compiler `/9`, readiness **50/100**. Human live-rep precision remains unknown.
+
+All16 continuous development recordings and160 publisher episodes are retained. The diagnostic and ordinary causal engines match at every input and finish, and every prior serialized attempt field/reference key is identical to the frozen projection replay. Counts remain52/80 publisher-correct and28 incorrect qualified outputs,65% counted-output precision,65% good-rep recall and63.75% assessable coverage. These are development skeletal results, not RGB/live accuracy. The audit reads no validation05-07 or final08-10 trajectory.
+
+The28 publisher-correct repetitions that remain uncounted fall into these nonoverlapping descriptive groups:
+
+| Observed group | Reps | Evidence |
+|---|---:|---|
+| Driver beyond the demonstrated far-side acceptable range |19|Ten squats and nine shoulder attempts have active-attempt driver observations past the far-side envelope and finalize AMBIGUOUS_FORM. Their supported maximum progress exceeds1.0.|
+| Insufficient demonstrated range |3|Supported maxima0.8233-0.8375 remain below the unchanged0.85 completion requirement.|
+| Quality-only disagreement |1|The final s01 shoulder attempt has40/231 elbow observations outside its acceptable phase band, without driver-band disagreement.|
+| No matched event |5|One squat and four shoulder first episodes reach the far-side input before the first actual READY output in their full recording.|
+
+These categories describe reference disagreement, not newly diagnosed clinical errors. They retain the existing labels and uncertain verdicts. Counts of samples outside a band are not duration-weighted engine ambiguity or confirmed faults. Ten withheld squats have knee-driver disagreement but no hip observations outside their acceptable band; one of the nine shoulder overshoot attempts also has a small number of elbow disagreement samples. The driver group is not asserted to be each attempt's exclusive cause.
+
+The missing-event cases demonstrate why adding artificial ready dwell would misrepresent the evidence. For example s02 squat first reaches an observed far input at470ms but its first actual READY occurs at2110ms; s01 shoulder reaches far at680ms and READY at2200ms. All five missing cases have their first READY after that first far input. A later observed return can arm the next repetition; it cannot retroactively establish the first outbound path. The original episode and full-recording boundaries are unchanged.
+
+The main remaining development loss is therefore not simply absent feature values or an elbow classifier problem. Most withheld good attempts travel farther than the selected demonstration under this marker measurement. Publisher-correct clinical execution and close matching to a particular uploaded trajectory remain different statements. The audit neither proves anatomical accuracy of the marker proxies nor justifies removing the reference-range safeguard. A veto cannot restore those missing good counts, and threshold widening would hide the measured target disagreement.
+
+Three fixed episode2 actual-band/progress traces and nine original timestamped marker snapshots were inspected for shoulder s01/s03 and squat s04. Raw source hashes, timestamps, masks and original marker coordinates remain unchanged. The first plots emitted a mixed-grid layout warning and overlapped labels. Their original images/receipt/log are preserved; a separately frozen six-column constrained layout produces new review files. Both review receipts contain exactly identical source/episode/frame/value metadata. No observation or result changed during that correction.
+
+Verification passes **186 Python tests and257 core-motion JVM cases** without failures/errors/skips, including scope/identity, missing/duplicate cohort, original grid/boundary and nonbridging observed-span checks. Both ordinary/diagnostic full replays retain every original outcome. Main production sources match `b03e340`; no confidence, raw MP33, model weight, reference selection, range/fault threshold, native inventory, label or delivery APK changes. Earlier native/control/runtime results remain scoped to their original runs. All2,889 production readiness receipts revalidate at50/100; no new readiness points are earned.
+
+Keep this completed diagnostic and the rejected projection. The next candidate must distinguish marker/model measurement differences from genuinely different demonstrated ranges using defensible geometry/provenance and source-independent evidence. Preserve the measured out-of-plane component and causal start/path checks. Do not fit another completed-attempt veto as a solution to these19 range disagreements, add endpoint padding, normalize progress to a source peak or open final subjects to choose a tolerance. Any new measurement/generalization method needs its own prospective freeze and all unchanged development/validation gates.

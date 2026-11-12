@@ -20,6 +20,10 @@
             android:name=".LiveReferenceActionActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".LivePushUpActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

@@ -144,6 +144,17 @@ class SynchronizationKernelV2Test {
         assertTrue(spatial.reference.frames.any { it.evidenceKind == SpatialEvidenceKind.THREE_D && it.transformConfidence > 0.0 })
     }
 
+    @Test fun `adapter does not invent missing visibility or presence from frame confidence`() {
+        val baseline = poseExtraction(VideoRole.SOURCE)
+        val frame = baseline.poses.frames.first().let { p -> p.copy(landmarks = p.landmarks.mapIndexed { index, landmark ->
+            when (index) { 11 -> landmark.copy(presence = null); 12 -> landmark.copy(visibility = null); 13 -> landmark.copy(presence = null, visibility = null); else -> landmark }
+        }) }
+        val observation = PoseObservationAdapter().adaptFrame(frame)
+        observation.channels.forEach { channel ->
+            assertTrue(channel.values.filter { it.key in setOf("left_shoulder", "right_shoulder", "left_elbow") }.all { it.confidence == 0.0 })
+        }
+    }
+
     @Test
     fun `video seam preserves typed extractor failure`() = runBlocking {
         val failure = AnalysisFailure.VideoPose(

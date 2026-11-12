@@ -1,0 +1,29 @@
+{
+  "kind":"reference-subject-provenance-guard-not-accuracy-estimate",
+  "date":"2026-10-24",
+  "baseline_commit":"4d899899628e08c0db77fddcdad022cb7f081edf",
+  "compiler_policy":"qualified-rep-compiler/2",
+  "reference_runtime_schema":"qualified-reference-reps/5",
+  "selection_policy":"qualified-reference-selection/2",
+  "change":"Reference observations with selected-side critical evidence must have one nonblank tracked subject identity. Multiple identities fail closed and are fatal to automatic fit/backend recovery.",
+  "failure":"AMBIGUOUS_REFERENCE_SUBJECT",
+  "reference_keys_intentionally_invalidated":true,
+  "live_rep_state_machine_changed":false,
+  "preset_thresholds_changed":false,
+  "landmark_network_weights_retrained":false,
+  "raw_landmark_or_source_timestamp_changes":false,
+  "real_video_outcome_changes":0,
+  "capped_usable_before_and_after":30,
+  "complete_usable_before_and_after":38,
+  "runs_per_overlapping_cohort":96,
+  "new_manual_labels":0,
+  "live_rep_precision":null,
+  "release_qualified":false,
+  "limits":[
+    "Tracked IDs are provenance, not biometric identities. Reusing one ID for different actual people is not detected by this guard.",
+    "Different segments with the same tracked identity are not automatically treated as different people.",
+    "The trusted ActionProfile overload cannot recover missing subject information from an already compiled profile; the production upload path uses sequence compilation.",
+    "The existing camera adapter supplies one person; this check also protects typed/alternative observation providers.",
+    "No new independent precision result or readiness point is earned merely by adding this guard."
+  ]
+}

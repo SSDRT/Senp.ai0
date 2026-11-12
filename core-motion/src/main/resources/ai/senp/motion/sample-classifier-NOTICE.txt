@@ -1,0 +1,9 @@
+Senpai sample-pose-classifier/1 contains numeric prototypes fitted from the
+fitness_pose_samples.csv asset in Google's ML Kit quickstart repository.
+Copyright Google LLC. Upstream repository: Apache License, Version 2.0.
+Source: https://github.com/googlesamples/mlkit/tree/master/android/vision-quickstart
+Pinned source blob: 136d951100d04926975f5eff4eab7091a409a002
+Modifications: extracted geometric features, image-grouped split, normalized
+features, fitted 48 class prototypes and conservative distance/margin rejection.
+The accompanying sample-classifier-LICENSE.txt contains the upstream license.
+No source photographs or videos are included.

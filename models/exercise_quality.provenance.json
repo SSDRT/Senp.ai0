@@ -1,0 +1,111 @@
+{
+  "artifact": "learned-exercise-quality.json",
+  "artifact_sha256": "ae7d6814bee989c58096aee4c0a1a5afa1e8c5d24bbdb928249b3047eafc3dd6",
+  "kind": "optional weak-clip-label quality diagnostics; not landmark network weights",
+  "source_title": "A Multi-View Raw Video Dataset of Seven Fitness Exercises with Good/Bad Form Labels",
+  "source_url": "https://data.mendeley.com/datasets/kgbb3yn47p/3",
+  "doi": "10.17632/kgbb3yn47p.3",
+  "authors": [
+    "Duddela Sai Prashanth",
+    "Priya Kamath",
+    "Rakshith Bhandary",
+    "S Ashlesh Pai",
+    "Pratham PN",
+    "Advith P",
+    "Abhishek Mashetty"
+  ],
+  "license": "CC BY 4.0",
+  "retrieved": "2026-10-22",
+  "archive_file_id": "a31fa913-6f29-4c31-b1a6-414a718eebf4",
+  "archive_bytes": 3113452092,
+  "publisher_declared_archive_sha256": "6d927246dbd2ed8a314b41201c94ebdcbd1b4abec0851d1ca39f82afda8a5eed",
+  "full_archive_sha256_verified": false,
+  "local_integrity": "1042 video ZIP members CRC checked; per-video SHA-256 recorded; downloaded as HTTPS ranges",
+  "video_manifest_sha256": "0331ed8cc9341c18eaf6f71894b80bb86a2a1ad713869deb35da92477b8cf35f",
+  "video_count": 1042,
+  "uncompressed_video_bytes": 3116315639,
+  "pose_model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+  "pose_runtime": "MediaPipe 0.10.32 Full CPU VIDEO",
+  "python": "3.13.5",
+  "research_runtime_patch": {
+    "mediapipe": "0.10.32",
+    "change": "Omit four optional drawing exports; inference modules/weights unchanged",
+    "original_sha256": "75bf16c20b70c39f4f7fa6b5702204c47a1036b5b7da310e914c7ad12e76c63b",
+    "modified_sha256": "202b2b34afa02f6d3bde6502fb2f74023e9bc19eb5c5b5aa83b9bc5d25263a5f",
+    "removed_lines": [
+      "import mediapipe.tasks.python.vision.drawing_styles",
+      "import mediapipe.tasks.python.vision.drawing_utils",
+      "drawing_styles = drawing_styles",
+      "drawing_utils = drawing_utils"
+    ]
+  },
+  "runtime_versions": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "mediapipe": "0.10.32",
+    "Pillow": "12.3.0"
+  },
+  "ffmpeg": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "feature_schema": "mp33-world-technique-features/1",
+  "frame_count": 44985,
+  "maximum_sampled_duration_ms": 24000,
+  "sample_period_ms": 500,
+  "split_seed": 20261022,
+  "train_subjects": [
+    "001",
+    "002",
+    "004",
+    "005",
+    "006",
+    "008",
+    "010",
+    "011",
+    "012",
+    "014",
+    "016",
+    "017",
+    "019",
+    "020",
+    "022",
+    "024"
+  ],
+  "validation_subjects": [
+    "007",
+    "009",
+    "013",
+    "021",
+    "023"
+  ],
+  "test_subjects": [
+    "003",
+    "015",
+    "018",
+    "025",
+    "026"
+  ],
+  "fitted_exercise_ids": [
+    "standing_side_bend",
+    "bent_over_row",
+    "biceps_curl",
+    "overhead_press",
+    "bodyweight_squat",
+    "overhead_triceps_extension"
+  ],
+  "unsupported_exercise_ids": [
+    "push_up"
+  ],
+  "release_approved": false,
+  "production_review_flags_enabled": false,
+  "training_script": "scripts/train_exercise_quality_model.py",
+  "limits": [
+    "Labels are whole-clip good/bad, not time-resolved expert fault annotations.",
+    "Pose landmarks are model outputs, not independent keypoint ground truth.",
+    "Overlapping windows are correlated; do not treat them as independent people.",
+    "Scores are uncalibrated and must not be described as form probabilities.",
+    "Thresholds are chosen on validation subjects only; no phone or clinical qualification.",
+    "Runtime modality/input resolution and false detections need independent validation.",
+    "Held-out results do not qualify these models for production corrections. Runtime needsReview remains false while release_approved is false.",
+    "Push-ups have zero reliable validation windows at unchanged confidence/coverage gates; no quality model is fitted for them.",
+    "Input videos retain source geometry. No frame-level expert annotations, force data, clinical validation or physical-phone validation were obtained."
+  ]
+}

@@ -1,0 +1,626 @@
+{
+  "schema": "senpai-readiness-evidence/1",
+  "kind": "current-committed-engine-functional-evidence-with-failed-performance-gates",
+  "rubric_sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e",
+  "metrics": {
+    "verified_engine_commit": "84f8aacdfe1e828ae1710222cd056ce5ec9e890e",
+    "reference_total": 32,
+    "reference_usable": 12,
+    "camera_exercise_ids": [
+      "biceps_curl",
+      "bodyweight_squat",
+      "overhead_press",
+      "push_up"
+    ],
+    "mechanism_and_scoped_tests_pass": true,
+    "android_runtimes": [
+      {
+        "api": 36,
+        "emulator": true,
+        "all_tests_pass": true
+      }
+    ],
+    "undocumented_reference_losses": 0,
+    "independent_skeleton": null,
+    "independent_camera": null,
+    "live_soak": {
+      "schema": "senpai-live-soak-audit/1",
+      "kind": "device-specific-camera-performance-not-form-accuracy",
+      "duration_ms": 600002.7945,
+      "delivered_frames": 793,
+      "delivered_fps": 1.3216605110328368,
+      "clock_comparable": false,
+      "p95_capture_to_result_ms": null,
+      "p95_analyzer_to_result_ms": 1295.4934,
+      "p95_native_detect_ms": 691.6814,
+      "tracker_reset_increase": 612,
+      "native_recreation_increase": 0,
+      "ordered_nonoverlapping_analysis": true,
+      "maximum_queue": 1,
+      "queue_bound_basis": "CameraX KEEP_ONLY_LATEST contract, checked with nonoverlapping analyzer samples",
+      "model_mismatch_count": 0,
+      "analyzer_error_count": 0,
+      "crash_or_anr_count": 0,
+      "maximum_pss_mib": 273.55078125,
+      "first_window_pss_mib": 263.43002717391306,
+      "last_window_pss_mib": 260.9038899739583,
+      "pss_windows_supported": true,
+      "post_warmup_windows_ms": 120000,
+      "performance_pass": false,
+      "memory_pass": false,
+      "readiness_points_earned": 0,
+      "device": "google/sdk_gphone64_x86_64/emu64xa:16/BE4B.251210.005/14574095:user/release-keys",
+      "api": 36,
+      "emulator": true,
+      "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "compiler": "qualified-rep-compiler/5",
+      "fatal_log_lines": [],
+      "limits": [
+        "Virtual-scene camera input does not measure human-form accuracy.",
+        "An UNKNOWN sensor timestamp source cannot establish absolute capture-to-result latency.",
+        "Native detect time excludes tracker recreation; analyzer-to-result includes that cost."
+      ],
+      "input_sha256": {
+        "test-artifacts\\exercise-knowledge\\empty-graph-camera-soak-after\\live-camera-soak\\summary.json": "ffcfbcf4708d00606a4a4a2f0a089c07e845838540f8e4b1469f8b1843c41521",
+        "test-artifacts\\exercise-knowledge\\empty-graph-camera-soak-after\\live-camera-soak\\frames.csv": "b7dfd3c08c22a799c86709a2818052a341f3b727f7cbc94828202df5a76ff023",
+        "test-artifacts\\exercise-knowledge\\empty-graph-camera-soak-after\\live-camera-soak\\memory.json": "509e1c9d3659e0f7267b9317f2cf81c0371ebc213019e0196772146aa156f1b7",
+        "test-artifacts\\exercise-knowledge\\empty-graph-camera-soak-after\\live-camera-soak\\errors.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\work\\empty-graph-camera-soak-after-logcat.log": "d0e3797d2164b7586206cbb97998cf126378d143642cab59a9d41ad6a76cbe8a"
+      }
+    }
+  },
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/android-pose-mediapipe/build/outputs/androidTest-results/connected/debug/TEST-Medium_Phone_API_36.1(AVD) - 16-_android-pose-mediapipe-.xml",
+      "sha256": "380c58474c4475cc64d98834411e794468e456a0f55970dd9c832c33dbafb2be"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/android-pose-mediapipe/build/test-results/testDebugUnitTest/TEST-ai.senp.pose.mediapipe.ConfigTest.xml",
+      "sha256": "c4687ee12a24e71ba8f5a2b26e4f306b5d86577eacb4a6446b565d8f1c69acfb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/android-pose-mediapipe/build/test-results/testDebugUnitTest/TEST-ai.senp.pose.mediapipe.LiveFrameGateTest.xml",
+      "sha256": "be3092ef427b807372f87c656375f9734dac099b1b6545e7164f9f718d9ff5ae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/android-pose-mediapipe/build/test-results/testDebugUnitTest/TEST-ai.senp.pose.mediapipe.LiveTrackerResetPolicyTest.xml",
+      "sha256": "1d891dec60417ccded5691a841caf47ba90dcf647a8d7bff9846fcc17560154a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/reports/qualified-reps/mechanism-sweep.json",
+      "sha256": "37ee8c0049587b44787887a520bfc1de1a7fc47753f1a358148e3edd1a189186"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "99fc388c74872b9429ded8fa45bfc9a689a32d2d468d87645639c4d30e9bd9ef"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "e18235b5bbbff6e61b943e342b8153efe2b4c68b247bfe7ca769c2180df99085"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "7f27a92fcf2172b56783121cf521087fc9a09ba5c3c958f646d5a2a811f7d6fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "48220894ba93590d6f913396977ade656e61f680682eb763a34f9699d4ff660b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "26d9f375ead8705d075e6e75e5a0663932caa2402fe90d4fe69b5c578dc2269f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "6547d0d914b3291c838d28c719234566327ab82f40f72fa564d5d40a9fda187b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "a00ce0fc4d93f39a0f5f19fdad8f4b814626b8253a217791b8e07ff24605d768"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "43980057fb3e058fac368768841f124b34357778b52711faf0451842eaf783c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "da0599507e7e32b96276561f0c530a7e67509af2ec51f7464f9624286dccaaad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "40ab3b4d987b1882b4543e3cbb18abd6006d4b4f9efcf93caf2a5944cf089ef9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "4bb6f9db828afec2a18b3bfcf7450ad8acf024ff6a4ffd4c715c7f2699342c07"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "97c3de7bb42927251926f69e3d807b17288a53bbaf7e59eed38123d30a3b7469"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "5e756c42ef2f1f95aaeff9c310aa75754f4f3d12c82a58bc2a16843d5799da73"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "0da37da6c864aa284e8b8ab5edd9070fef62558e6fab2c342978dbe665a424c4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "7535c1a9c1c6d877f97618840d35f3fa4792382b8959b90fcdd05b598df72032"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "23af526348a8ba3aeea81960e01f588d81725a3521fd953b9a1a0c10db8a7f65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "5fa61ef15b2a9bccb21bb9331106cbe6af508a23e1f7333e6178deffd2721f19"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "27d8ebd36c3202bc17f08308d8655958449cfb44ca4b2c7cb980d87424b5779f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "6111c63fae7b2d12e47811f7ac505eb77af61b2a6d43d5476d23d08e1f1c608a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "b27b88624a1e415c19cb923b1b1880a18fa5936366f4115afe46df73f789c818"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/core-motion/build/test-results/test/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "4cc99315155e9a8ad051723cc2a1cf12230d83d5bcee37a5cb84f7abcc175484"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/audit.json",
+      "sha256": "209f63ee23fd79a72cf913c1eb38395d594916589f8fd786074c18da5114a5ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-13947119613100.jpg",
+      "sha256": "8af787258ad2b3deace0bb6159bef58c52e193bac16f86b9678e9796ebfecf0e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-13947119613100.json",
+      "sha256": "e732e8e778842a29bc83c0fa22a5b29ed81d7caae27f5e5c3dae7b91d878ba94"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-14247068659600.jpg",
+      "sha256": "f3d4dac12b1bfd8c266a90c4b8c8133605d384afb86c7060e714ab23acaea834"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-14247068659600.json",
+      "sha256": "6a1e77e81c28ba63afe05d36cd167dc3883a656edc0c10c94257241210beecbc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-14546713570200.jpg",
+      "sha256": "d2a453efeab9d0d569458d9e019770e73b4830f5d4e288e91046365a78a2be90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/capture-14546713570200.json",
+      "sha256": "1fa53fce8a6efb0fe57d3eca611cc5185ef028a28090d16c054da0664e361801"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/frames.csv",
+      "sha256": "b7dfd3c08c22a799c86709a2818052a341f3b727f7cbc94828202df5a76ff023"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/memory.json",
+      "sha256": "509e1c9d3659e0f7267b9317f2cf81c0371ebc213019e0196772146aa156f1b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/progress.json",
+      "sha256": "b9f964f786645e5594e630e79c8e830ff4a8387e855b66364f400c3a67ba0575"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/empty-graph-camera-soak-after/live-camera-soak/summary.json",
+      "sha256": "ffcfbcf4708d00606a4a4a2f0a089c07e845838540f8e4b1469f8b1843c41521"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/fine-curve-complete-full-robust/summary.json",
+      "sha256": "cbf0a1cf7db58c818f67f1a9fad991f92c3bb1c56815c29af26b144a1269de01"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/fine-curve-complete-full-standard/summary.json",
+      "sha256": "8b3260d231b8cfcc7da4ef7c9a40d6d36a1a66929adf2fb01f6f24a38ddb53d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/fine-curve-complete-heavy-robust/summary.json",
+      "sha256": "543fb8a343ac08c710add411514b1bbee65a1251f454ca5465d1064f42fb454d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/fine-curve-complete-heavy-standard/summary.json",
+      "sha256": "ed6fbdde53e93700d69542b9f0360c3786615ec38069729fcc0fbb7c4ebc345c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/fine-reference-curve-summary/summary.json",
+      "sha256": "3f0e4b5c27ab0e8c010e0cd8f5eb11a9424ea43107f98dd0e56b1bc754131591"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/live-tuning-native/compatible-path-controls.json",
+      "sha256": "16856e5ed394e755d9ea2ba66ed4c4f4a5cf97456b093ccbd43c26d60e62b2d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/live-tuning-native/measurement-pipeline-guard.json",
+      "sha256": "9068263276ec17b0d2fc59dedb5793bb0becf9aeb815a59ff3482f0ed488ff4f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/live-tuning-native/mirror-reference-self-check.json",
+      "sha256": "718631d2cce8004d22da2b4bc47bc906eb86ac31f76516ae16eb28b358fe76a2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/live-tuning-native/reference-continuity-guard.json",
+      "sha256": "7834c91a0c1f6669a256c2e36ea5bbb9b93cffdd2585f9c204a7c8cbf745bccc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/live-tuning-native/reference-subject-guard.json",
+      "sha256": "2dc619b40f7afa8a17473d711af60bdf534b714f25da64bc4f27bb772b71d94e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/live-tuning-native/return-branch-controls.json",
+      "sha256": "16856e5ed394e755d9ea2ba66ed4c4f4a5cf97456b093ccbd43c26d60e62b2d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-capped-full-robust/summary.json",
+      "sha256": "a2c978916f79a4d9222ce5ed4decb331b5c4c8e82597c772bd3d9465c300b35b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-capped-full-standard/summary.json",
+      "sha256": "eedfc6e893f385f74441197814462b3229bc74e94ac7ef2413368ba4950c24b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-capped-heavy-robust/summary.json",
+      "sha256": "b8c96082e633217aeffd1cfb36f5abe4f9aba7d0e32221f944b89c6d7c90bda8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-capped-heavy-standard/summary.json",
+      "sha256": "cfa170e08f7ead68a70179ce435192106799dd1c409028569218b267c1455ddb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-complete-full-robust/summary.json",
+      "sha256": "01edf2dceb4b33eb85736f964d1601244e1166e58e52567d9570cb477548a90e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-complete-full-standard/summary.json",
+      "sha256": "a4bec9324f43d6b14010e5b92aed59028af3774c095857658692a975f9d17ff2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-complete-heavy-robust/summary.json",
+      "sha256": "3193790dcce6ca3c4b0e5ffd0737fabef373ef0450b84bd545a981ee1ae64c40"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-complete-heavy-standard/summary.json",
+      "sha256": "1e56477547c9f748cfcd8718a5d23bb8958439fdac3fcff39c4e740e7337f17f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-counterfactuals.json",
+      "sha256": "db5f30aa4e96f3db04b96d11b54d8cd3606546f3ed7c4941062fe1d1eafd5b7a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-departure-controls.json",
+      "sha256": "c7f67da41269b9804c21a509eb452984d2e450b408c9e979650687eeadd64e82"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-evidence-controls.json",
+      "sha256": "20d186267e3d524bcae733519d3bf717debb0170e5af4b6a9e89bdb85760e1ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-summary/capped-reference-backend-selection.json",
+      "sha256": "ca0fb29bbc7454ed2941346dad8f1a1b9ef7ff854f74c114625aa9f8589ba3a0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-summary/complete-reference-backend-selection.json",
+      "sha256": "6d89eca190edac04986b820274fbc097bc7e26c8391576f0c1eabf5f6af58bc2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-calibration-summary/summary.json",
+      "sha256": "9bbd6bc3b2a5ea94836e4b1b08fdf0a5451e15edaec1f4cebe856660c3aa1045"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/audit.json",
+      "sha256": "850cd8b6ba2d4cbda11c5da885c819066f8a59b975e59e5288a64a154533b248"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/capture-12979921752800.jpg",
+      "sha256": "335ce6f06d032641befd014f08cf8162b372c9660838ca9bb5959668ddedd19b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/capture-12979921752800.json",
+      "sha256": "540a329c57f5a7695c3b542e20ec9d82d5925119e94ba970c40a293c767830eb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/capture-13276565331900.jpg",
+      "sha256": "dd3b5cb42788e3a92791a9c62816eefad496652be654b57e4f9f354d27ae0018"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/capture-13276565331900.json",
+      "sha256": "5e852b9d4eef5e338806506dcda3f3a255ce8336028d5f0cde4deb240bf57a0c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/capture-13578676168800.jpg",
+      "sha256": "f67fa3a47f6c635b393330fd694c6130a7c89d6b597303538720b5bfe898246c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/capture-13578676168800.json",
+      "sha256": "cb5aeccb247ff55b290382c48b0bff3f5f5f1571f470b18bacaad100fffa42b2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/frames.csv",
+      "sha256": "5c0d8fd01b620aafe9fcc928bf8837c005827a287b18a54f93e7a73332c6bb2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/memory.json",
+      "sha256": "18fecc378ffd7d566f75f72b68a8279e640794ad005fc90cad5202a3c9826409"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/progress.json",
+      "sha256": "676f38f4f544ff43945bf0d02a72676d7d3d27a9402a4811c52224b25e99c794"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-before/live-camera-soak/summary.json",
+      "sha256": "5a40fe7ffc8daba7fe9a2406289ce769a1fff7166137ec67ee323ed67b72c3d5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-failed-warmup/live-camera-soak/errors.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-failed-warmup/live-camera-soak/frames.csv",
+      "sha256": "e4c97f994a4613240d07d19cf86e27d1bf9516d61463a715226ec53aa46c7a6e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/mirror-camera-soak-failed-warmup/live-camera-soak/memory.json",
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/observed-path-mechanism.json",
+      "sha256": "2d2ace83782197f3b9235ca6f2317d16bd04e11ac74907df4ca92274bfdfab0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/qualified-calibration-visuals/provenance.json",
+      "sha256": "0a468abf06503d905933fbdf006399620910745efa5635094d8267a38bea1a3a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/qualified-calibration-visuals/reference-failure-source-frames.jpg",
+      "sha256": "2a59ef296ee08a24881dd1873140108870bc170fef91d05ab77e8eef7909e66a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/reference-fit-audit/original-reference-frames.jpg",
+      "sha256": "6357280474a69740af28c0f06093c8d6e8961a1283ab0bdb28a6fef2725daabd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/reference-fit-audit/provenance.json",
+      "sha256": "bad93a23ebd5201af59ba8eb6cec5795ca58c7b01243b7ccdd1b4437affc1603"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/uiprmd/mirror-calibration-development-metrics.json",
+      "sha256": "1220b9218f4b1c4f6906db5156f1570e52c5e0680b9ecf063c7443081d4efc3b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/test-artifacts/exercise-knowledge/uiprmd/mirror-calibration-development-replay.json",
+      "sha256": "7d408a2f76efdec70c95093aed0a6c1bd3d21308f44b95df05f6bc020207ddca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/validation-app/build/outputs/androidTest-results/connected/debug/TEST-Medium_Phone_API_36.1(AVD) - 16-_validation-app-.xml",
+      "sha256": "828ea13338d6ed690514be39226edc2c15d70eb9fa5c30307ff72cf47f3f83d6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/validation-app/build/test-results/testDebugUnitTest/TEST-ai.senp.validation.FrameReviewIntegrationTest.xml",
+      "sha256": "4a67d46473b8175674328433bb30e8497543afa2690a0defe66646ccb590a212"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/validation-app/build/test-results/testDebugUnitTest/TEST-ai.senp.validation.LearnedQualityGeometryTest.xml",
+      "sha256": "3f599dc62bba7e692702c28a02bc695764b8121110b74bfc07d53532a433c092"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/validation-app/build/test-results/testDebugUnitTest/TEST-ai.senp.validation.QualifiedReferenceBackendReplayTest.xml",
+      "sha256": "30e928ddf8bf5dc3d64ed9d225b80f2925985d4b12b25a9be32502e0c241d53b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/validation-app/build/test-results/testDebugUnitTest/TEST-ai.senp.validation.QualifiedRepSessionTest.xml",
+      "sha256": "de9462d3a999563f9e90e361e2ea7f8947005df0d7fd4ed51976d62df1614a8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/validation-app/build/test-results/testDebugUnitTest/TEST-ai.senp.validation.RecordedComparisonAssemblyTest.xml",
+      "sha256": "3644788b25f2cd3be6eaeb70a90eb7cf755282d4cad90bd1fed7e4e359d8e551"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/validation-app/build/test-results/testDebugUnitTest/TEST-ai.senp.validation.ReferenceActionSessionTest.xml",
+      "sha256": "0ff87f86c64a2900ed927219535e38b087a1b4da00c9b6281315a0717fe01f75"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/artifacts/validation-app/build/test-results/testDebugUnitTest/TEST-ai.senp.validation.ui.screens.PlaybackMappingTest.xml",
+      "sha256": "7275e1d28ed681a317f906db2749a4047bcce376ae86bdac5c05d4c62a51731f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/empty-graph-build.log",
+      "sha256": "43bfe754e8022f05d7650f109333d598d13bafd4a8fb9a766a4dd76c88962243"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/empty-graph-camera-soak-after-audit.log",
+      "sha256": "209f63ee23fd79a72cf913c1eb38395d594916589f8fd786074c18da5114a5ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/empty-graph-camera-soak-after-logcat.log",
+      "sha256": "d0e3797d2164b7586206cbb97998cf126378d143642cab59a9d41ad6a76cbe8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/empty-graph-camera-soak.log",
+      "sha256": "e9988569b2f9eac54c2badbaafbf453ea592b34d751d8ff659dfd794ace7458d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/empty-graph-emulator-error.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/empty-graph-emulator.log",
+      "sha256": "8943e5cb7d1efd08744408e59d1ccb5cdf0343f340406588929ce9e944e6f4c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/empty-graph-gradle-stop.log",
+      "sha256": "63b3b053d39a00d0131788861236a840924e2034075e93e2733cd8bf4cf52003"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/empty-graph-native.log",
+      "sha256": "531722be7f31c4fd002abc0cd03645c6a79f82dfeab5152bb57f63e499b17308"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/fine-curve-complete-full-robust.log",
+      "sha256": "c27b2316c015c36fa52c7dcba5dd6b1575ed954b8a0dcf572f501b35c001e637"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/fine-curve-complete-full-standard.log",
+      "sha256": "1776e16856dc436a9fb179b31cdf026fe63316def7a0d5042576725505405605"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/fine-curve-complete-heavy-robust.log",
+      "sha256": "3348180c679bb22e1ffb774cf3d13a3bb0158b13dcea0c498c88c446df910ca9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/fine-curve-complete-heavy-standard.log",
+      "sha256": "aa86e6c0605ce4015a262d4c4db61af7def8e00b9f575fc9a8fbb9d3dfe0e89a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/fine-reference-curve-summary.log",
+      "sha256": "9c3a5c80eef9a6f6ab3712f8808ac11d2d101f90b5b004b0d50d6768f421faa9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/fine-reference-selection-unit-tests.log",
+      "sha256": "da561b73dd49afe6b4f1a360a1fca5a20ab0a932ff50a434f31dcbb95fd7652b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/live-soak-audit-unit-tests.log",
+      "sha256": "8ca4b4610e19c5285a65170528a061ad2beca6604d89a52fe4daed5d6d549c4d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/live-tuning-apksigner.log",
+      "sha256": "768ec2f81715d5c878a506edfc74ec70a52499f13fba6dc76cddeb54cffe83a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/live-tuning-final-python-tests.log",
+      "sha256": "7e4a80a7f91166c56464212a8dd3f8df74524712d089f13aad5eb81cab261717"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/live-tuning-final-verification.log",
+      "sha256": "347bc90a15acb2efe7023c2954b49870fdba31d068148d557dcbf4e0b811063c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/live-tuning-native-evidence-export.log",
+      "sha256": "c5ae173bdc8c4ba15759492b7c971c1911ca610ceda00da5b4631442fb211f76"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/live-tuning-zipalign.log",
+      "sha256": "90f855133719c34a6127a54d97bae339b245e864922a62307dda89040aa07cb8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-after.log",
+      "sha256": "53c7bfe31b53779638abd82c6c8a5c954c4fd21c0c89bcf1c070e15e10a0f804"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-before.log",
+      "sha256": "32ee7e47edce1f69936320cbe9272be30c67574091dd2fb70afffc3dd42ad91f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-build.log",
+      "sha256": "8c6b32a770c435a4514d439d81dff373481b7ce16e5b6daf46f410a81bb05f71"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-capped-full-robust.log",
+      "sha256": "abeae812570f1f8021b1a8c19a7160a3b38f39433f6b13faf8a9fb87bbe4242b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-capped-full-standard.log",
+      "sha256": "372fd830a5f90a4f238e575688a8dbef44a6917e9b0cf4bbcce37ef449eafd9a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-capped-heavy-robust.log",
+      "sha256": "351c605fe9d32168c62131fb5cb6eb145bd2ae964ffed5d7d96f6eff4b7387d3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-capped-heavy-standard.log",
+      "sha256": "10b811fcbdf14310f841ea9e4d3e4fbc2d101ac4e00a8e26a8ebb798329d0b52"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-comparison.log",
+      "sha256": "9c5c038942603689339ec3585080721f6f6c355c9f4896fb39f8a54bbf511ee6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-complete-full-robust.log",
+      "sha256": "83cbbafea3564d664af20a6d6eb2a5daa44509395313930dbad16d973f53f7af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-complete-full-standard.log",
+      "sha256": "79c852472264878d39bc064948caed716d80ee5c31ebf0e52aa0d9a8b8cf9a09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-complete-heavy-robust.log",
+      "sha256": "aec6c9b958577918a64bb21433719174dbb8bba1a7354d4ca97aaa2ad3285c18"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-complete-heavy-standard.log",
+      "sha256": "a7f443a74231376c4884c64acd9ef925dc9892bbe793d6dc344b02ccb57c00ee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-emulator-error.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-emulator.log",
+      "sha256": "ede510bf2dc66f959ccdae4e61861339fb57914f0f9b6b79e132ffb8176f276f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-initial-test-fixture.log",
+      "sha256": "334d9d10a64ff99b7a27988fde72e9720a74b5fc5f7945eb6258d517d69d5a1d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-jvm-verification.log",
+      "sha256": "8c8a3904e519e3247a0ec20a822d90b336637d5702a6cc8e5f18e7f6ad6f885b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-calibration-native.log",
+      "sha256": "6937dbcf279c73d939a68906e29935946aeb86165a9443d3a35a1b57553382ea"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-camera-soak-before-audit.log",
+      "sha256": "850cd8b6ba2d4cbda11c5da885c819066f8a59b975e59e5288a64a154533b248"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-camera-soak-before-logcat.log",
+      "sha256": "377164511845b291e32a1180da5bbed4bcc41c17da5fe3257cec396c56d16e7f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-camera-soak-failed-warmup-logcat.log",
+      "sha256": "7916ae9e1f0019540801a1f6979c8eb30d1c061c5665023b724b4765958ddf85"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-camera-soak-failed-warmup.log",
+      "sha256": "b90f2c270d2bec3bf2011013b235d95d82e7274c8baf4f53174ccb48f9722c77"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-camera-soak-gradle-stop.log",
+      "sha256": "63b3b053d39a00d0131788861236a840924e2034075e93e2733cd8bf4cf52003"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-camera-soak-harness-build.log",
+      "sha256": "ecdeeb8d36fcf92cd71d5689792d3df1c32264fd0628fc82dbd66db4ffa1bb99"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/logs/mirror-camera-soak.log",
+      "sha256": "1b5bfa12056d6c87b65662e1544eb5b03d6baed327e420c4816fb2d32d859a8c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/live-pose-tuning-checkpoint-84f8aacd/confirmed-mirror-regression-before.xml",
+      "sha256": "59da50ae0b2ee40e25d883e47ea55ac0d6527d01ae0cd51c30d95898dc51deff"
+    }
+  ]
+}

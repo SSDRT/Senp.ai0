@@ -1,0 +1,11 @@
+gradle.projectsEvaluated {
+    def project=gradle.rootProject.project(':core-motion')
+    project.tasks.register('uiprmdFrontalArmResearch',JavaExec) {
+        dependsOn project.tasks.named('testClasses')
+        classpath=project.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.UiprmdFrontalArmReplay'
+        args gradle.rootProject.projectDir.absolutePath
+        maxHeapSize='1500m'
+        outputs.upToDateWhen { false }
+    }
+}

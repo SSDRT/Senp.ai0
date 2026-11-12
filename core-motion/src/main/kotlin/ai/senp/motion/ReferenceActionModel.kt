@@ -3,7 +3,7 @@ package ai.senp.motion
 import ai.senp.core.contracts.TimestampMs
 
 object ReferenceActionVersions {
-    const val PROFILE: String = "reference-action/1"
+    const val PROFILE: String = "reference-action/2"
 }
 
 enum class ActionFeatureKind {
@@ -112,12 +112,15 @@ data class ActionProfile(
     val featureScales: Map<String, Double>,
     val confidence: Double,
     val validation: ActionProfileValidation,
+    val staticHold: Boolean = false,
+    val referenceEvidenceKinds: Set<SpatialEvidenceKind> = emptySet(),
 ) {
     init {
         require(version.isNotBlank())
         requireActionProbability(cyclicityConfidence)
         require(referenceRepetitions >= 1)
-        require(states.size >= 2)
+        require(states.size >= if (staticHold) 1 else 2)
+        require(!staticHold || !cyclic)
         require(states.mapIndexed { index, state -> state.index == index }.all { it })
         require(states.zipWithNext().all { (left, right) -> left.phaseEndExclusive <= right.phaseStart })
         require(states.first().phaseStart == 0.0)

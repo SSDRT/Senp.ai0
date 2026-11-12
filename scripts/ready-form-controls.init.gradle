@@ -1,0 +1,28 @@
+// Keep the frozen generator implementations and their expected outcomes unchanged.
+// Only redirect receipts away from earlier immutable control results.
+gradle.projectsEvaluated {
+    def motion = gradle.rootProject.project(':core-motion')
+    [qualifiedRepBenchmark: 'mechanism.json', qualifiedRepPathBenchmark: 'path.json',
+     qualifiedRepDepartureBenchmark: 'departure.json', qualifiedRepEvidenceBenchmark: 'evidence.json'].each { taskName, name ->
+        motion.tasks.named(taskName, JavaExec).configure {
+            def destination = new File(gradle.rootProject.projectDir, 'test-artifacts/exercise-knowledge/ready-form-controls/' + name)
+            setArgs([destination.absolutePath])
+            doFirst {
+                if (destination.exists()) throw new GradleException('Preserve prior control receipt: ' + destination)
+                destination.parentFile.mkdirs()
+            }
+        }
+    }
+    motion.tasks.register('readyFormValidationReplay', JavaExec) {
+        dependsOn(motion.tasks.named('testClasses'))
+        classpath = motion.sourceSets.test.runtimeClasspath
+        mainClass.set('ai.senp.motion.UiprmdReadyFormValidationReplay')
+        def root = gradle.rootProject.projectDir
+        def output = new File(root,'test-artifacts/exercise-knowledge/uiprmd/ready-form-validation-replay.json')
+        args(new File(root,'test-artifacts/exercise-knowledge/uiprmd/validation-vicon').absolutePath,output.absolutePath,
+             new File(root,'test-artifacts/exercise-knowledge/uiprmd/development-vicon').absolutePath,
+             new File(root,'models/ready-form-validation-protocol.json').absolutePath)
+        maxHeapSize = '1500m'
+        doFirst { if (output.exists()) throw new GradleException('Preserve prior validation output') }
+    }
+}

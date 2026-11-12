@@ -1,0 +1,196 @@
+{
+  "kind": "native-engine-parity-expectations-not-expert-labels",
+  "side": "LEFT",
+  "reference_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+  "source_video_sha256": "137824b720ed9eb0ea56c6f77a9d524126586bcfeeb81626298e34a8a37a2840",
+  "expected_reference_cycles": 5,
+  "expected_driver_envelope": {
+    "lower": 79.89328699615119,
+    "upper": 171.19408281563096,
+    "observed_cycles": 5,
+    "lower_endpoint_mad": 3.641809275608992,
+    "upper_endpoint_mad": 0.7562884907911211,
+    "baseline_accepted_self_cycles": 3
+  },
+  "expected_counts": {
+    "qualified": 1,
+    "correct": 0,
+    "acceptable": 1,
+    "rejected": 0,
+    "unassessable": 10
+  },
+  "expected_verdicts": [
+    "UNASSESSABLE",
+    "UNASSESSABLE",
+    "UNASSESSABLE",
+    "UNASSESSABLE",
+    "UNASSESSABLE",
+    "ACCEPTABLE",
+    "UNASSESSABLE",
+    "UNASSESSABLE",
+    "UNASSESSABLE",
+    "UNASSESSABLE",
+    "UNASSESSABLE"
+  ],
+  "expected_attempts": [
+    {
+      "attempt_id": 1,
+      "started_ms": 1133,
+      "completed_ms": 2533,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.881431317333233,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.14285714285714285,
+      "outbound_path_observed": true,
+      "return_path_observed": true
+    },
+    {
+      "attempt_id": 2,
+      "started_ms": 3067,
+      "completed_ms": 3600,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "MISSING_CRITICAL_EVIDENCE",
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.8387261718854304,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.2854077253218884,
+      "outbound_path_observed": true,
+      "return_path_observed": false
+    },
+    {
+      "attempt_id": 3,
+      "started_ms": 5133,
+      "completed_ms": 6800,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.8743528615269891,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.16016796640671865,
+      "outbound_path_observed": true,
+      "return_path_observed": true
+    },
+    {
+      "attempt_id": 4,
+      "started_ms": 7333,
+      "completed_ms": 8933,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "INSUFFICIENT_RANGE",
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.8382761274096956,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.29125,
+      "outbound_path_observed": false,
+      "return_path_observed": false
+    },
+    {
+      "attempt_id": 5,
+      "started_ms": 9600,
+      "completed_ms": 10333,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "MISSING_CRITICAL_EVIDENCE",
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.8282048249093494,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.7001499250374813,
+      "outbound_path_observed": true,
+      "return_path_observed": false
+    },
+    {
+      "attempt_id": 6,
+      "started_ms": 11733,
+      "completed_ms": 13400,
+      "verdict": "ACCEPTABLE",
+      "reasons": [],
+      "maximum_progress": 0.8668208230420766,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.0,
+      "outbound_path_observed": true,
+      "return_path_observed": true
+    },
+    {
+      "attempt_id": 7,
+      "started_ms": 13867,
+      "completed_ms": 15533,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "INSUFFICIENT_RANGE",
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.7932679599501986,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.24009603841536614,
+      "outbound_path_observed": false,
+      "return_path_observed": false
+    },
+    {
+      "attempt_id": 8,
+      "started_ms": 16267,
+      "completed_ms": 16933,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "MISSING_CRITICAL_EVIDENCE",
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.8538398542356479,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.3333333333333333,
+      "outbound_path_observed": true,
+      "return_path_observed": false
+    },
+    {
+      "attempt_id": 9,
+      "started_ms": 18467,
+      "completed_ms": 20000,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "INSUFFICIENT_RANGE"
+      ],
+      "maximum_progress": 0.8361758706153978,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.0867579908675799,
+      "outbound_path_observed": false,
+      "return_path_observed": false
+    },
+    {
+      "attempt_id": 10,
+      "started_ms": 20733,
+      "completed_ms": 22333,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "INSUFFICIENT_RANGE",
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.8213054753656999,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.33375,
+      "outbound_path_observed": false,
+      "return_path_observed": false
+    },
+    {
+      "attempt_id": 11,
+      "started_ms": 23067,
+      "completed_ms": 23934,
+      "verdict": "UNASSESSABLE",
+      "reasons": [
+        "INTERRUPTED",
+        "AMBIGUOUS_FORM"
+      ],
+      "maximum_progress": 0.7835894628073058,
+      "visible_fraction": 1.0,
+      "ambiguous_fraction": 0.5381062355658198,
+      "outbound_path_observed": true,
+      "return_path_observed": false
+    }
+  ]
+}

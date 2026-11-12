@@ -1,0 +1,510 @@
+{
+  "schema": "uiprmd-phase-quality-provenance/1",
+  "decision": "REJECTED_AFTER_DEVELOPMENT",
+  "experiment_freeze_commit": "07da3f9c001dad85b383aa2be4c47d014109636a",
+  "verified_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+  "baseline": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "false_negative": 49,
+      "verdict_UNASSESSABLE": 70,
+      "true_positive": 31,
+      "assessable_reps": 81,
+      "verdict_ACCEPTABLE": 55,
+      "verdict_NO_EVENT": 9,
+      "incorrect_reps": 80,
+      "verdict_REJECTED": 23,
+      "false_positive": 27,
+      "verdict_CORRECT": 3
+    },
+    "precision": 0.5344827586206896,
+    "good_rep_recall": 0.3875,
+    "assessable_coverage": 0.50625
+  },
+  "candidate": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "false_negative": 49,
+      "verdict_UNASSESSABLE": 70,
+      "true_positive": 31,
+      "assessable_reps": 81,
+      "verdict_ACCEPTABLE": 41,
+      "verdict_NO_EVENT": 9,
+      "incorrect_reps": 80,
+      "verdict_REJECTED": 37,
+      "false_positive": 13,
+      "verdict_CORRECT": 3
+    },
+    "precision": 0.7045454545454546,
+    "good_rep_recall": 0.3875,
+    "assessable_coverage": 0.50625
+  },
+  "feature_count": 192,
+  "folds": 8,
+  "emitted_attempts_scored": 151,
+  "incorrect_counts_removed": 14,
+  "previously_counted_correct_lost": 0,
+  "core_jvm_tests": 234,
+  "python_tests": 115,
+  "source_reads": 16,
+  "original_marker_views": 6,
+  "original_marker_QA_inspected": true,
+  "validation_access": false,
+  "final_test_access": false,
+  "production_changed": false,
+  "network_weights_changed": false,
+  "app_apk_changed": false,
+  "native_suites_rerun": false,
+  "human_live_rep_precision": null,
+  "readiness_points_earned": 0,
+  "limitation": "Development skeletal veto preserves current good counts but cannot raise recall or coverage; no independent milestone gate passes.",
+  "checkpoint": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "a59716fdb7eb7759ff09aa43dc572a9b5bb6cfb4310edf65bf31eb6a66f8082f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "0398ac2c5970909e22e706f4fc9dae0846e399a85480f644d9ff410976b283a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdDevelopmentReplay.kt",
+      "sha256": "a99336995ed9dda6fbb8368760c70a31618632233a893d1f78701653302be12a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdEvidenceAudit.kt",
+      "sha256": "7a9d4276791b88a296630917fcfe26dbab3f7556113aa06434d4275cc87a973b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/evaluate_uiprmd_development.py",
+      "sha256": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/inspect_uiprmd_development.py",
+      "sha256": "51afc5271098326e0ef56def3a0e174f90644e1ef9a1e6b9fc4adc26c4c777c8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/phase-quality-research.init.gradle",
+      "sha256": "3e168a1485c18f7f527b2f99bf9599c702c9c867b5b3e7d69c900075753aa105"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/tests/test_uiprmd_phase_quality.py",
+      "sha256": "e0fb7a96df00f9ddc2e5ded1a1ba5801a8d95b01dfdbc07aa038a42943a09055"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/train_uiprmd_phase_quality.py",
+      "sha256": "d45a3770106b8ccc85668b75e2370d59bf791d1c3f78384c743a35f85620987f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/train_uiprmd_quality_heads.py",
+      "sha256": "2729507a8b7655f6312c11350b5c530c95dc02af13276d55a962bc010fb6be9b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/uiprmd_phase_quality.py",
+      "sha256": "f97f203befd03a97886a0b20b2bf2452ce2c362355a2e69b615e92f93a6715ad"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/uiprmd_quality_features.py",
+      "sha256": "d5f9d79a7a7c990c946facc090c8fa66414fe5abfd5dabd7a73bdced23f3e1dc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/source/scripts/uiprmd_vicon.py",
+      "sha256": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/inputs/models/uiprmd-evaluation-protocol.json",
+      "sha256": "cec24dad3d99e353817e6039c4ba2798aee8238837d9d29e72d567db1e0bbd81"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/inputs/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/inputs/test-artifacts/exercise-knowledge/uiprmd/acquisition.json",
+      "sha256": "47dde1ad2dfc6fb04ee820f1ad526a27157e099e82c944d8ddd4576abb741c09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/inputs/test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/inputs/test-artifacts/exercise-knowledge/uiprmd/clear-ready-development-replay.json",
+      "sha256": "17b21e933e5000209bfc79e4db42b9baf3b55b2ab5d5cf20a34722e619ac166a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/protocol.json",
+      "sha256": "7c072bdf26aab4a4ba0f2785ca0271f698262eadd41b856e9de7ec0210041760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/qa-tools/plot_uiprmd_phase_quality.py",
+      "sha256": "d8465638229d6296d8a7b5a17b053c9640946b7556e2eade62685a1a21e4623c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-held-01.joblib",
+      "sha256": "fcfe34fbcecdb70ddad0a02316c7528b5817d9291bc4057a97d10dc9473ebf83"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-held-02.joblib",
+      "sha256": "1dc5bf7d2245476e0b15d84a17c2941e7563357e8e03c8713eb77603228c53b9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-held-03.joblib",
+      "sha256": "0687b1e8475412726c19326f3a2f32c3c77643d7266a82eb23a25bd4a0ef564d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-held-04.joblib",
+      "sha256": "772b7c25863068bcc3f038a38c5a2eac28147d2b5f7b30e91048a7ce1a67d12b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-s01-correct.json.gz",
+      "sha256": "eecfa7cf7bb22d459da3bd2717c833aee3450a71e07d3a00bbe2973ef0e54a42"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-s01-incorrect.json.gz",
+      "sha256": "5291e602384cb26e7653933e5b905e7df5a762955370fee17a8f1874d7a36288"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-s02-correct.json.gz",
+      "sha256": "a8213282bd3843c4c31d7aa091f37401d1986eaf2705942409be49a94a7b0a43"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-s02-incorrect.json.gz",
+      "sha256": "dbe1c95800149b21d9485fcab9d409e66859a2245d3baea7d9a53f335abce60e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-s03-correct.json.gz",
+      "sha256": "b89ac04a21e8a03a367e42f6ed43e7bec0788c877fbe6c8937dbd76000219de2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-s03-incorrect.json.gz",
+      "sha256": "878a6d5359fa40df4781fbbe57fbddddaba2ab56e81202beb7880762d84ed2a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-s04-correct.json.gz",
+      "sha256": "9c394b66d96e26dd1c4cbb4bf3d9e10bcf9752c335ab231db74784cee235190a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m01-s04-incorrect.json.gz",
+      "sha256": "1fa88b8db3304cf5202929d027c7ef3e6ad8d88c7101a3dfd8596d60c9367006"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-held-01.joblib",
+      "sha256": "b24d206dd3303b45d995f46bf09d1451e7661ba67b517d6586c585123574724a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-held-02.joblib",
+      "sha256": "5bd17b610f536bf88b7fce588de3951697cb4032b53a0c85102c2c6d5b054708"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-held-03.joblib",
+      "sha256": "50e6df7588c9031c75975e61aee5368a847b6b229b0b299c976dd1bd726781fe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-held-04.joblib",
+      "sha256": "5d77f952abb91ee9a52f96aad225a43cafc15b5cf02993bdbbad27bca0446c4b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-s01-correct.json.gz",
+      "sha256": "1d4b30af55a4442a5ee4dc68fe1465b797ad7831e15592078a470d7ed74d8668"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-s01-incorrect.json.gz",
+      "sha256": "cf61dace719afb72875b05d4a3c16ff9f2e8ccb657198aa0edfbd4cf7c88e279"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-s02-correct.json.gz",
+      "sha256": "72539e7fa57189b6885fa4892b5664857e0465fd9f66903e905c2b18b1e8ee76"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-s02-incorrect.json.gz",
+      "sha256": "b15c8a74d2cb660a76d936c41f15c4d49bf8bb2f3e9e4949dfe102f866f96b1a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-s03-correct.json.gz",
+      "sha256": "9df29072bbea1eb2e58afcaf92138a53946d91b4e542e0995052e9045e9edae2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-s03-incorrect.json.gz",
+      "sha256": "7b56b9180aaaf684115da39b967672c141d2d3176d6d576b2130c156e6e5bd65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-s04-correct.json.gz",
+      "sha256": "f5ab3f054a91c1d02983b17b2f97d4de9d7f6e53336424afcdc6613fe9f32ade"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/m07-s04-incorrect.json.gz",
+      "sha256": "2d44070dda1671210735317c1db0748205770fc2e3892d1d40bda924e89faa6e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/manifest.json",
+      "sha256": "ce884031875b05fa2c10090438535fe1bb543011444402bc1e837725417bcbcd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/original-marker-qa.json",
+      "sha256": "1cfb2bce7cf97795ddab2440b0d31cabc007f83ee3bb22273123507e5bce88c8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/original-markers.png",
+      "sha256": "b91698a9a77850c8a9006baf7ca3970db9ae6ae9255af94016b3d9b72b652798"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/results/result.json",
+      "sha256": "1f93cf5af49746ff50c3d1dccfb9bca500a388bfb47017bb5809fe35d982cffc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/logs/phase-quality-jvm.log",
+      "sha256": "f455440ee2407f2d43c1fc21ce367df0e11be97a2605fade3260dee4cf29e62b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/logs/phase-quality-training.log",
+      "sha256": "71d369b396f8e08c16b10d14d8bf699ede114b5553f305e5379a39cba5c9aade"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/logs/phase-quality-python.log",
+      "sha256": "fc45d907fd14c69fd75f6b1c131c75e6b14ed06b05a525c8c290d21a298f112d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "a30192cc5312fc2b5315e6db9adeb15dc4d14cfbef53b9d589f5e3c4106d1336"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "bc97a9ff89dc8bcfa9a81d0167331bfe0fbf1a43dac418919c781dc2d6dd7ac0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "8893182c8f36579f1d43bdcfa179adb2095bcfa2f490bb53a549242d3c3a4516"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.FixedReferenceWindowResearchTest.xml",
+      "sha256": "2683cc5415b15656753434bb3615f2817bfa8cc1ed5dc48ca887fbb15876a5af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "201ba2f9c1adeb060d87ccd844be9256c81abc6374fa4bc2e2662912e136d2e6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "ced02dd5e96ca0f773708edcc4593c9cfef21c7a5f4770fc0f2c726b6db3824a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "61ba8bb627777cff44de4bd3128f679bcb92d72e52ad2553d430b56224b9d1d8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "3a7e233f5d47d279750006035960e3191de4019e8d10615afcdd7d8dff2161c9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.MmfitRawEvidenceTest.xml",
+      "sha256": "401ddea04830a63c60728293640217ca3a62114cfa55939a220bb876ab62db03"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "2e28ebfbfe8eb2e9eaeb3c74493a8865c3e8bf586d55cbb9660824d9e28b97b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "035f8f240b918292e1e850b629b7461ac8432d8347583439d96c1c6355ee0ed7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "8d7ced3040be9fce08321e983b9cab148d7a133305356e2dcb2b51bcf7b75f5d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "00806dc6733f666f7f329ff9778e3f4340e44cdc6fa8471ea3948234ec7e3b40"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepClearReadyTest.xml",
+      "sha256": "f5c0dc838000050c3af1cdb0a766478b7c028f46bd95c8859b48798eb788464e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "773d4859930186d218098b851f72c71f18df70bf4c47636394d019f35fd40e8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "7c9cb7e32d78e05d44e0b4da5e8969c693358b033f8f4daee964190ff49b12cb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "264df9b3ef204e3c491c7ad03e7708d78ce75031369cfcc1e0c3f7a60dcdad44"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "ed951b1a2129fe60312316fcf038e7f293b3e4a5fa901289697d4224aa343af6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "e4833caf86a81dff7c4e3d935534e2dd240865f5dcb1b28c5ca01a620c92c511"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "da81ea40bebbedca5fcb23ed1831f76ad1e0d73cd6a7bbe70783f80ec54ca6e2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "e76a599890ae74d75cf22b40c010934dd9132e4e10323ad0e49eccc2c40bcb0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "698a3e060d9b9a56da835c2d53b36cc26f2aa499c29dc6af2d75453fa2857a66"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "de573932ab374cf85da63c31b4e6fd29e4e44737009f6465582d9d97a19e0e9f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.ReadyFormValidationScopeTest.xml",
+      "sha256": "05a80dc9eb3aba2b72bf57150d88c8152974e684ec989359d5f605dd10227141"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "9c0adf571c594f58a5f898080257aa878f7b3984df8218f333517a5b681e9f78"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "f11f1ed0f077321528098ca5fd9f91822c8d20fff55938e732818c439de832f3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "60e4dec12381cd25e2b92ae02a6964ce067b5197d17271171b7013fdf84035fb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "f13fd9654f45dbb53ed3a0853a9510416fdc2b075bb1387beda5155f1dc23ede"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "25050b78a0c78dc4949b5409fc4e5595ee15f1facfdc8d5dd6387e6df615bbf1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "faaa34e02b425acae59ce1dd7b9af0b3ff5797442010c3517e6646c79051d12b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/phase-quality-checkpoint-07da3f9/reproduction-tools/freeze-phase-quality-results.py",
+      "sha256": "406d35209905457646d09d81ce23386c92a5378d7f1015fa459ef36dc924c811"
+    }
+  ]
+}

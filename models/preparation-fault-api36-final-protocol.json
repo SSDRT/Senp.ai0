@@ -1,0 +1,172 @@
+{
+  "schema": "senpai-second-runtime-protocol/1",
+  "frozen_utc": "2026-10-27T23:00:25.317618+00:00",
+  "target_api": 36,
+  "existing_api": 35,
+  "abi": "x86_64",
+  "verified_engine_commit": "6d1386b4cefe8a9a6b3b5a6aefcc19389c322c71",
+  "test_source_commit": "778e6a5588ba4b4b3639f467de6c57d4be7d756f",
+  "compiler": "qualified-rep-compiler/8",
+  "modules": {
+    "android-pose-mediapipe": {
+      "test_ids": [
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "blankFramesHaveNoPersonTimestampAndCloseRulesAreEnforced"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "geometryAndLongGapResetNativeTrackingAndSignalContinuityBreak"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "modelMismatchAndMissingAssetsAreTyped"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "neverTrackedEmptyGraphRetainsNoPoseHistoryButEveryGapStillBreaksContinuity"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "optionalGpuInitializesOrFallsBackToCpuWithDiagnostics"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "overlappingModelCreationDoesNotRewriteAnActiveGraphModel"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "positivePoseMatchesUpstreamRegressionAndKeepsRawWorldAndConfidence"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseInstrumentedTest",
+          "timestampedNativeReplayWritesRawFilteredOverlaysAndLatencyEvidence"
+        ],
+        [
+          "ai.senp.pose.mediapipe.LivePoseModelBenchmarkTest",
+          "fullAndHeavyRetainTheSameContractAndReportMeasuredLatency"
+        ],
+        [
+          "ai.senp.pose.mediapipe.MediaPipePoseEstimatorInstrumentedTest",
+          "blankFrameProducesNoPersonAndRejectsDuplicateTimestamp"
+        ],
+        [
+          "ai.senp.pose.mediapipe.MediaPipePoseEstimatorInstrumentedTest",
+          "missingOrMismatchedModelIsTypedInternally"
+        ],
+        [
+          "ai.senp.pose.mediapipe.MediaPipePoseEstimatorInstrumentedTest",
+          "packagedModelMatchesPinnedArtifact"
+        ]
+      ]
+    },
+    "validation-app": {
+      "test_ids": [
+        [
+          "ai.senp.validation.LiveCameraInstrumentedTest",
+          "cameraProducesFramesAfterLaunchAndPauseResumeAndClosesOnAnalyzerThread"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "asymmetricReturnCurveIsUsedWithoutConfirmingAReversalEarly"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "calibrationCannotPoolCyclesFromDifferentTrackedPeople"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "confidentMotionWithoutATrackedSubjectCannotArmOrCount"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "customMeasurementPipelineSelfCheckPreservesRuntimeMismatchRejection"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "earlyReversalFaultNamesTheActualSourceLimbInDirectAndMirroredMode"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "greyAndTransientStartDifferencesDoNotBecomeClearFaults"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "incompatibleIntermediateEvidenceIsWithheldWithoutAnInventedSevereFault"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "persistentClearStartDisagreementRevokesArmingAndFreshCycleRecovers"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "referenceCycleSelectionCannotBorrowContinuityOrArmingAcrossMissingEvidence"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "unilateralReferenceSelfCheckUsesDirectEvidenceAndLiveSourceStillUsesMirroredFeatures"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "correctReturnBranchKeepsTheRecoveredLeftReferenceWithoutWideningItsRange"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "liveReferenceCameraUsesTheSelectedHeavyModelAcrossPauseAndResume"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "originalSourceVideoLandmarksReproduceTheJvmAcceptedRepResultsOnAndroid"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "realHeavyOnlyReferenceSelectsFallbackAndReproducesThreeAcceptedOutputs"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepInstrumentedTest",
+          "robustFitRecoversTheCompleteReferenceAfterBothEstablishedModelFitsFail"
+        ],
+        [
+          "ai.senp.validation.WorkoutPrecisionInstrumentedTest",
+          "nativePoseReferenceCompilationStaticRecognitionAndThresholdFeedbackAreConnected"
+        ],
+        [
+          "ai.senp.validation.QualifiedRepEvidenceInstrumentedTest",
+          "persistentPreparationFaultRequiresFreshReadyDwell"
+        ]
+      ]
+    }
+  },
+  "apk_receipts": [
+    {
+      "path": "android-pose-mediapipe/build/outputs/apk/androidTest/debug/android-pose-mediapipe-debug-androidTest.apk",
+      "sha256": "c9e767d0f053951cbe42415bcf369585da8dd3e2a573145e3e0f8725abfc9512",
+      "bytes": 90759577
+    },
+    {
+      "path": "validation-app/build/outputs/apk/androidTest/debug/validation-app-debug-androidTest.apk",
+      "sha256": "9d0c61c61643310ef0e9cf9b1ef59e771bd6270fca3c064c000060499adec36f",
+      "bytes": 7709807
+    },
+    {
+      "path": "validation-app/build/outputs/apk/debug/validation-app-debug.apk",
+      "sha256": "171c0fbcdf594a87fcf390320d769982ae8b597263460a0eb7166714809f3e94",
+      "bytes": 104233722
+    }
+  ],
+  "excluded_test_classes": [
+    "ai.senp.validation.LiveCameraSoakInstrumentedTest"
+  ],
+  "expected_native_total": 30,
+  "avd_id": "Senpai_Preparation_API_36",
+  "thresholds_changed": false,
+  "final_subjects_opened": false,
+  "human_live_rep_precision": null,
+  "runner_receipt": {
+    "path": "C:/Users/sk/Documents/Codex/2026-10-22/d/work/preparation-fault-native-final.ps1",
+    "sha256": "dca145ed2225974288158ff9f12130d0ba9f021df36c887088c965a5a9d201a3"
+  },
+  "qualification": "Exact frozen native identities, no failed/error/skipped cases; actual API/ABI/pages recorded; no handset/performance/accuracy claim.",
+  "initial_failed_run_preserved": "test-artifacts/exercise-knowledge/preparation-fault-runtime/api35",
+  "fixture_correction_provenance": "models/preparation-fault-native-parity.provenance.json"
+}

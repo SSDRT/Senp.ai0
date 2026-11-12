@@ -1,0 +1,42 @@
+{
+  "kind": "causal-reference-comparator-observation-path-tuning-not-landmark-CNN-training",
+  "baseline_commit": "8ccfb0bbeb7655109a940d7151d5a8102802b251",
+  "date": "2026-10-23",
+  "reference_policy_schema": "qualified-reference-reps/2",
+  "default": "One directly observed intermediate pose outbound and returning, all required features meeting the existing confidence gate. Retain armed pre-departure evidence; discard abandoned/context-incompatible evidence.",
+  "new_reason": "INSUFFICIENT_PATH_EVIDENCE is uncertainty, not a proven human form fault",
+  "geometry_pipeline": "mp33-raw-world-workout/1",
+  "default_curve_nodes": 6,
+  "experimental_curve_nodes": 10,
+  "angle_range_confidence_dwell_defaults_changed": false,
+  "new_human_annotations": 0,
+  "landmark_CNN_weights_retrained": false,
+  "models": {
+    "full": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+    "heavy": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+  },
+  "generated_observation_controls": {
+    "incomplete_controls": 288,
+    "endpoint_only_counts": 288,
+    "final_policy_counts": 0,
+    "complete_controls": 288,
+    "complete_accepted_before": 288,
+    "complete_accepted_after": 288
+  },
+  "development_source_videos": 48,
+  "source_timestamps_per_backend": 16633,
+  "replayed_configurations_per_backend": 96,
+  "selected_reference_sides": "9/32 unchanged",
+  "selected_replay_configurations": "26/96 unchanged",
+  "new_data_sources_imported": [],
+  "existing_data_license": "CC BY 4.0; Mendeley DOI 10.17632/kgbb3yn47p.3",
+  "live_rep_precision": null,
+  "release_qualified": false,
+  "limits": [
+    "Generated observation controls are not human technique labels or an independent precision percentage.",
+    "All existing development counts and event verdicts are unchanged; no demonstrated real-video precision gain.",
+    "One already-unassessable attempt receives an additional path-evidence reason.",
+    "High-confidence intermediate pose errors and camera/view/person ambiguity remain unresolved.",
+    "Qualified counting remains explicitly configured, experimental and limited to the existing six policies."
+  ]
+}

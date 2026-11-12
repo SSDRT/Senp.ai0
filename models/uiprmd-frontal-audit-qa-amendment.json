@@ -1,0 +1,18 @@
+{
+  "schema": "uiprmd-frontal-audit-qa-amendment/1",
+  "audit_freeze_commit": "a84ddb7",
+  "reason": "Mixed 2-column and3-column subplot grids produce a tight_layout warning and overlapping progress/frame labels. Preserve first images/receipt/log; use one6-column constrained grid in new outputs.",
+  "layout_only": true,
+  "measurement_or_analysis_changed": false,
+  "original_plot_sha256_lf": "15f20b9480530ec59a3eefada5824b44cd92d15155c079afe0675357718ec64c",
+  "corrected_plot_sha256_lf": "e33c049f1dff54aa253e4e1895166dba9cffe1ff98e6d69e492a243c97624a7c",
+  "corrected_receipt": "original-frame-review-corrected.json",
+  "original_receipt": "original-frame-review.json",
+  "required_identical_fields": [
+    "records"
+  ],
+  "validation_accessed": false,
+  "final_test_accessed": false,
+  "production_changed": false,
+  "new_annotations": 0
+}

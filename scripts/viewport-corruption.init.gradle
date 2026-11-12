@@ -1,0 +1,12 @@
+gradle.projectsEvaluated {
+    def core=gradle.rootProject.project(':core-motion')
+    def root=gradle.rootProject.projectDir
+    core.tasks.register('viewportCounterfactualBenchmark',JavaExec) {
+        dependsOn(core.tasks.named('testClasses'));classpath=core.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.ViewportCounterfactualBenchmark'
+        def output=new File(root,'test-artifacts/exercise-knowledge/viewport-admission-counterfactuals.json')
+        doFirst { if(output.exists()) throw new GradleException('Preserve corruption results') }
+        args(new File(root,'test-artifacts/exercise-knowledge').absolutePath,output.absolutePath,'viewport-admission-summary','viewport-admission')
+        maxHeapSize='1500m'
+    }
+}

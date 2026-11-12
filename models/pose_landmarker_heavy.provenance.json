@@ -1,0 +1,14 @@
+{
+  "artifact": "pose_landmarker_heavy.task",
+  "model_name": "MediaPipe Pose Landmarker Heavy",
+  "model_variant": "float16",
+  "model_version": "1",
+  "download_url": "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_heavy/float16/1/pose_landmarker_heavy.task",
+  "downloaded_content_length_bytes": 30664242,
+  "sha256": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b",
+  "retrieved_date": "2026-10-22",
+  "runtime_dependency": "com.google.mediapipe:tasks-vision:0.10.32",
+  "license": "Apache-2.0",
+  "license_source": "https://github.com/google-ai-edge/mediapipe/blob/master/LICENSE",
+  "repository_policy": "Binary excluded from Git. Native tests fetch a verified copy; application packaging is opt-in with -PincludeHeavyPoseModel=true. Calibrate reference and live inference with the same model. No local human-labelled accuracy claim."
+}

@@ -1,0 +1,10 @@
+gradle.projectsEvaluated {
+    def motion=gradle.rootProject.project(':core-motion')
+    motion.tasks.register('fixedReferenceWindowAudit',JavaExec) {
+        dependsOn(motion.tasks.named('testClasses'))
+        classpath=motion.sourceSets.test.runtimeClasspath
+        mainClass.set('ai.senp.motion.FixedReferenceWindowAudit')
+        args(gradle.rootProject.projectDir.absolutePath)
+        maxHeapSize='1500m'
+    }
+}

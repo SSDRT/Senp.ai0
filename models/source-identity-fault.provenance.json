@@ -1,0 +1,1560 @@
+{
+  "schema": "senpai-source-identity-fault-provenance/1",
+  "captured_utc": "2026-10-25T11:13:13.033352+00:00",
+  "verified_engine_commit": "c6107062b8e0fffd2171fbdae8e51ccefd8df1c0",
+  "baseline_production_commit": "c3b6b4fad30b1acfb17cd727e40bf8e85f6df5c8",
+  "kind": "source-provenance-and-fault-location-correction-not-human-accuracy-improvement",
+  "compiler": "qualified-rep-compiler/5",
+  "readiness_score": 42.5,
+  "readiness_points_earned": 0,
+  "readiness_rubric_sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e",
+  "actual_live_human_rep_precision": null,
+  "raw_mp33_rewritten": false,
+  "network_weights_changed": false,
+  "motion_thresholds_changed": false,
+  "reference_targets_changed": false,
+  "validation_trajectories_replayed": false,
+  "final_test_subjects_opened": false,
+  "rejected_research_promoted": false,
+  "camera_extraction_changed": false,
+  "runtime_performance_improvement_claimed": false,
+  "jvm": {
+    "core-motion": {
+      "tests": 220,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "android-pose-mediapipe": {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "validation-app": {
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "python": {
+    "tests": 64,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "native": {
+    "android-pose-mediapipe": {
+      "tests": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "validation-app": {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "native_host": {
+    "avd": "Medium_Phone_API_36.1",
+    "api": 36,
+    "abi": "x86_64",
+    "page_bytes": 4096,
+    "physical_phone": false
+  },
+  "native_custom_json_export_available": false,
+  "native_custom_json_export_note": "Gradle UTP removed the target package/external files after the suite; retained XML and console logs prove the 27 executed functional tests. No JSON exports are claimed.",
+  "before_regressions": {
+    "jvm_methods": 3,
+    "expected_failures": 3
+  },
+  "new_constructed_controls": {
+    "unidentified_stream_combinations": 24,
+    "identity_recovery_streams": 4,
+    "asymmetric_shallow_limb_combinations": 96,
+    "not_human_labels": true
+  },
+  "frozen_controls": [
+    {
+      "name": "mechanism-sweep.json",
+      "count": 1152,
+      "failures": 0
+    },
+    {
+      "name": "observed-path-mechanism.json",
+      "count": 576,
+      "failures": 0
+    },
+    {
+      "name": "departure-peak-controls.json",
+      "count": 384,
+      "failures": 0
+    },
+    {
+      "name": "evidence-controls.json",
+      "count": 576,
+      "failures": 0
+    }
+  ],
+  "controlled_corruptions": {
+    "count": 124,
+    "failures": 0
+  },
+  "all_eight_camera_summaries_equal": true,
+  "equal_camera_source_traces": 192,
+  "reference_coverage": {
+    "complete": {
+      "usable": 12,
+      "denominator": 32
+    },
+    "capped": {
+      "usable": 10,
+      "denominator": 32
+    }
+  },
+  "development_replay_exactly_equal": true,
+  "development_counts": {
+    "correct_labelled_counted": 31,
+    "incorrect_labelled_counted": 27
+  },
+  "apk_model_sha256": {
+    "assets/pose_landmarker_full.task": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+    "assets/pose_landmarker_heavy.task": "64437af838a65d18e5ba7a0d39b465540069bc8aae8308de3e318aad31fcbc7b"
+  },
+  "debug_signed": true,
+  "release_qualified": false,
+  "new_debug_apk_verified": true,
+  "prior_immutable_receipts_verified": 299,
+  "current_immutable_proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/comparison.json",
+      "sha256": "837c2d8d3e757de029d410a226d6d9e4f8dbea010b15e10c1aa58618e3848916",
+      "bytes": 3589
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "e5746b1951a24e7b88ce57ddfa3ce618a5d90d88e87b0af1fd79b702bcd9029e",
+      "bytes": 364383
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "883cb61faf9f59cb1ee51d00254ed57fc01af25e8c15fd00510d631da5010562",
+      "bytes": 359295
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_001_shoulder_bad_front-left.json",
+      "sha256": "edb5269000b70501d85532259a8f66f24127c9e0ca0c08f1819edff6b97a41ba",
+      "bytes": 359224
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "dd5c06c32996b3795bed3db6404e97cfed75a067caa08359f4d45b1141228c85",
+      "bytes": 361793
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_001_shoulder_good_front-left.json",
+      "sha256": "47332ccae9c286a4d8e62ec8aec7f762dbb79601f85d60f55e292cff049aa5ef",
+      "bytes": 358690
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "544be981d033424753352411f2318625ffd064f33b68e5c287ed257d0f135b7e",
+      "bytes": 359941
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "156ac34746321922d4e41b601e1a60f067895c8aabea04180e652a5284530eaa",
+      "bytes": 355128
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_001_squat_good_side-left.json",
+      "sha256": "99df332e29f1cab521a158b8a626536af6464cbc7e7d9631891bf168213d77e2",
+      "bytes": 351243
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "26a3dafbfd6ba452915303440f69c88914615e56447f5d32381cde76942f4f71",
+      "bytes": 347886
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "f7ad71373b2d6a22266a95b7533b53da5641e08a226354bdc67dedc2fdd6bc46",
+      "bytes": 355362
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "f64ba4c0c2489d32b54e7939d65b4ed4930250cfa0673cbaddde19755ea17e70",
+      "bytes": 351605
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "0a8374e88dde18d3ec34297d7c43ca7b78c184f645d9136a1de23cd8b61f20cb",
+      "bytes": 351288
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_005_squat_good_front-left.json",
+      "sha256": "cf788a0fa8c7cb50db591c37bca8fcafaef294d54233df1f1d47f0c1d651541c",
+      "bytes": 352086
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_005_squat_good_front-right.json",
+      "sha256": "b7f01ab4ac6794b55033b768a98e670e30307f56dd8be4e95e5b94e505bceca8",
+      "bytes": 353541
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "1c051ac30da06446ee3d8ffee2f99c43fee946a73b931072adda2269a06cce49",
+      "bytes": 355961
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "0066bca7add7fa388bf714e9f1a1e803d7dba03b531f02fa323de44e2a6ab070",
+      "bytes": 354621
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "777b5d74ed3f65c5c2f398df7547f250d1470bb2c9a04ecfea92ebaa6ab56548",
+      "bytes": 351468
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "abd15ff3e00520fd52ff645f5dfb2a500b31ee3748af599130a571dff42afff7",
+      "bytes": 353816
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_018_squat_good_front-left.json",
+      "sha256": "88c9293308843f3531ee6cd8a91f1f4f51cff305e882e80522dfe73b552f9049",
+      "bytes": 353085
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/subject_018_squat_good_front-right.json",
+      "sha256": "050735eb1a5c0d1f4529b7c0d235e95b5d73947afab6a60dc6acd9420afa0242",
+      "bytes": 354400
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-standard/summary.json",
+      "sha256": "eedfc6e893f385f74441197814462b3229bc74e94ac7ef2413368ba4950c24b1",
+      "bytes": 204562
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_001_push_up_bad_side-left.json",
+      "sha256": "7571bab0b67fa6ae986471d883621154e8f61bb319888a58f0b4b5d4659434ef",
+      "bytes": 364314
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_001_push_up_good_side-left.json",
+      "sha256": "97743499e588a48389295e012bfe5fd41b8f50624cf7b11ef000b5cd439e13e2",
+      "bytes": 359295
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_001_shoulder_bad_front-left.json",
+      "sha256": "dbd25350666919c454d6558c85c8f6ccb9b888581a8f954959a285c18d2d4cb1",
+      "bytes": 358758
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_001_shoulder_bad_front-right.json",
+      "sha256": "8095e7fb37d7736df414f58cde7791a3e87b749954747304c57306801eec8044",
+      "bytes": 361575
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_001_shoulder_good_front-left.json",
+      "sha256": "36b128e7ef5d49c0bb8b9b55294ed771485c606637d829331b26cb58e9600446",
+      "bytes": 358208
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_001_shoulder_good_front-right.json",
+      "sha256": "4fab47237635fe3ce9d73262ab3d1b8f573c63d56b185de1e274546bcf18f190",
+      "bytes": 359706
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_001_squat_bad_side-left.json",
+      "sha256": "f366d624c5aa37dfd1bc491125d9a162b15dbf91614865147c0c9e6c47c3e626",
+      "bytes": 354537
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_001_squat_good_side-left.json",
+      "sha256": "8a5f34f9df7344f25e7d131fbceaf3072049156516ad65baa0670286a5c47557",
+      "bytes": 350995
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "567353299b8eeb1cd8f85037faa4e1276948f2bd4a9bac3781df13ae8b9593a0",
+      "bytes": 348580
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "e2323e7870b9e37fa1b1289ccbc59b69295f6246d79627a75e390f701d9d2ab3",
+      "bytes": 355776
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_005_squat_bad_front-left.json",
+      "sha256": "0f9eb6447ba440d6419351b017765de6a783b0f75ed0d1b66e582e2739d00526",
+      "bytes": 351467
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_005_squat_bad_front-right.json",
+      "sha256": "4aa739409a0f1758735f44f43112945258dc9de804068bbd3273ea58c23aac58",
+      "bytes": 351584
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_005_squat_good_front-left.json",
+      "sha256": "c1ef724fda46433d1391bff343e28b0a62c5c17d3f378f8a89029d9fbf284367",
+      "bytes": 351987
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_005_squat_good_front-right.json",
+      "sha256": "32fafb0ebdb839ea57bdd387bbe2bbfd53d784478c32dda1cc83a45a2d4fdf42",
+      "bytes": 353767
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "335524de04abad737450d49f558d436317714d587412cb6b5fad709319690fba",
+      "bytes": 356369
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "66fb197c063c2b7389d776a9d6cfdbf4dd3bcf943843548a19d3203b4ffea564",
+      "bytes": 354882
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_018_squat_bad_front-left.json",
+      "sha256": "e737abb5901fbd561e3cad6e42554818cd4a52620ed4f169fa8903f9c16c5227",
+      "bytes": 351494
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_018_squat_bad_front-right.json",
+      "sha256": "9eef35a99484949b8d26607b3603e71e20530e856f75d26c5ebf63460d7254f3",
+      "bytes": 353886
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_018_squat_good_front-left.json",
+      "sha256": "d68ae18d449be2b4cae8b4f37c9efb9d6b985f43736c363d06b10e0abbecf880",
+      "bytes": 352990
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/subject_018_squat_good_front-right.json",
+      "sha256": "6478303183c3aa1b58aa7245d5885d6f577f25a2343daf3eff62082c32291572",
+      "bytes": 354444
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-full-robust/summary.json",
+      "sha256": "a2c978916f79a4d9222ce5ed4decb331b5c4c8e82597c772bd3d9465c300b35b",
+      "bytes": 204746
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "3e8969c0eb21d5a4cf13c915bfc782d9b08a5078662bb7b32a5cab24c325f71a",
+      "bytes": 349809
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "95d31681456a3ce02113b9cd1aaeebae5bb997e57a12fb79c1af817a4cd05a47",
+      "bytes": 354266
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "d20b1a07b342524d879af8b020b5ccf0dc9d74ecc06f714be1ab05c17acd7b28",
+      "bytes": 363502
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "b7f4278460474f184f5ce8b3ea7053572323e46af1d3f1d0ff24661c09bdc114",
+      "bytes": 352786
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "2288a5308d9fd4fd031cc4b86dae0a8d249a4fd023c1084e69626b37a772b23f",
+      "bytes": 356346
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "311e13ef1fe2ff54fa89a39fc7e8cda4dff64b3b351a99695403572bd5d0bbce",
+      "bytes": 356731
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "4d13fc492a87797b77caa93632a39dc8acbc87a03e790dc4c251d2f6617136aa",
+      "bytes": 342209
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_001_squat_good_side-left.json",
+      "sha256": "65df734174b94a7f98a62a11193e0ab1117cc818944149a141f8a7aa3cb6ad11",
+      "bytes": 342073
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_005_shoulder_bad_front-left.json",
+      "sha256": "0faa174397c4edb10944986a960516bdd031b54546f19613a4f10e7519e11afe",
+      "bytes": 355953
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_005_shoulder_bad_front-right.json",
+      "sha256": "79666670839053188e116f8ba9eb7ffe01b87f995662b8d052066d8657aad992",
+      "bytes": 355051
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_005_shoulder_good_front-left.json",
+      "sha256": "b7d439dcc4b2663d158768038dd3a2760faafc998ec8035cabccb26e89cfa8d0",
+      "bytes": 357715
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_005_shoulder_good_front-right.json",
+      "sha256": "c29e8b736c754610e6727ae487e371a071858a5580bb0652d9ea2b6db7737b53",
+      "bytes": 355851
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "5802adcd15c19de0efacfc3104611dd186be5c8f099f246077c86cfc61b759dc",
+      "bytes": 349467
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "93504d5fbb75ba20831b55f0df5a4771f101a8a74543473dba75e66d9decd105",
+      "bytes": 345726
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_005_squat_good_front-left.json",
+      "sha256": "20047e4e579e83d6109fb7285c33ee98eb4c26aef34c176d0f75ef217737714d",
+      "bytes": 345493
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_005_squat_good_front-right.json",
+      "sha256": "f5a57a035b2889afe285b6af546af730d8421e9d688ac8f89052f025e28ef6d8",
+      "bytes": 344648
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_018_shoulder_bad_front-left.json",
+      "sha256": "69c4907e917987510dca402f4babc954f65ad8dc38104aeebe722eca747754b3",
+      "bytes": 363294
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_018_shoulder_bad_front-right.json",
+      "sha256": "3799cbd99821d42bf23f783491c4f77264734100b5db95f0e4ce9b15f1862ad3",
+      "bytes": 361078
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_018_shoulder_good_front-left.json",
+      "sha256": "029351ab10c0e0deb4db8889a8920257ef40ff1a00132d0449de26cc1eed21c8",
+      "bytes": 361995
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_018_shoulder_good_front-right.json",
+      "sha256": "b64ab0f20eae673facd3d7a1c87ed610f36ab6035057e97582bd2a4d9715fbca",
+      "bytes": 360190
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "73e53320a626545d139292b5fb76a38226bf67c91501b25129f3b4931872495a",
+      "bytes": 350722
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "51f002b8aa6240b85e6f40fdcd92b29a98b4555cb6a0a37c5cfd890605a7e8ea",
+      "bytes": 351539
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_018_squat_good_front-left.json",
+      "sha256": "6756f28a036bc4bb3ee85007b71f9e50e3a857cbf683fd62760af5c72a691979",
+      "bytes": 353570
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/subject_018_squat_good_front-right.json",
+      "sha256": "92327b5e4bd547ddb1740e8e8ed3cd44ef7ac88b672a4c3fc6cdf1d1fad4ad9c",
+      "bytes": 353887
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-standard/summary.json",
+      "sha256": "cfa170e08f7ead68a70179ce435192106799dd1c409028569218b267c1455ddb",
+      "bytes": 187936
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "b7b40282c65971072b11b2efd8d06fdb7902e1bf1dbff7f13f2aa322059e900c",
+      "bytes": 349807
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "c03c44c92346b5090eedeeaa60ba22b851976cb340e514ee76275f3c5f964ba1",
+      "bytes": 354251
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_push_up_bad_side-left.json",
+      "sha256": "16becb94e8ce957b8412431a68ab6b54f09f011430be81981f70f2824ff00354",
+      "bytes": 363521
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_push_up_good_side-left.json",
+      "sha256": "f75652d1a6b29ac519406021694bbf9defb9ddc84749c798097ee2ea3781974e",
+      "bytes": 352788
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_shoulder_bad_front-left.json",
+      "sha256": "c9b32caeeced475061c4bda428daf7653d892d5ac4ce50253966b5ace49bfce0",
+      "bytes": 355560
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_shoulder_bad_front-right.json",
+      "sha256": "6e603382db82d77fce941d59cb09e6a55333a45b8e92756887266f4f9d55080b",
+      "bytes": 356488
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_shoulder_good_front-left.json",
+      "sha256": "5a0a42e7f729fcfb8cf507bffda740193c1317e06bb7976dd9f3058cde62b0fc",
+      "bytes": 356036
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_shoulder_good_front-right.json",
+      "sha256": "02f92f1eb8a3baed57628d83f0bbd1c8b5bc1a584ee3ee455e38e4ce2b6cdd3b",
+      "bytes": 356928
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_squat_bad_side-left.json",
+      "sha256": "f2693b15177355775f91903f801c4196561e4dd75fb4417b139734a650bb8365",
+      "bytes": 341861
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_001_squat_good_side-left.json",
+      "sha256": "7cea36df0dea1598fbb8b23330427f1b0f03a1447c419dde0980eaeed33ec622",
+      "bytes": 341745
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_005_shoulder_bad_front-left.json",
+      "sha256": "e398791eb06a51be5ccff0f91648518ca62357754ad8f083e8783ff9e3b90d57",
+      "bytes": 355223
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_005_shoulder_bad_front-right.json",
+      "sha256": "8437ea85d2761b917fb8fa41724d076e2cfb55eb33af596adef9e2174b5fe664",
+      "bytes": 353243
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_005_shoulder_good_front-left.json",
+      "sha256": "75aee0dbf3b33a0e106fc4308ab950b64c695a046ef607552400c04a53c41c6c",
+      "bytes": 354667
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_005_shoulder_good_front-right.json",
+      "sha256": "b416f7672de32a27b0e77b3b630c18659d7b396787cbaf3355ff1255cf8cae9b",
+      "bytes": 353741
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_005_squat_bad_front-left.json",
+      "sha256": "7eb0e6e1838906f23941a53a4f3d65b5efb5b89ca4a32c15cf6d883cdb1acd36",
+      "bytes": 349753
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_005_squat_bad_front-right.json",
+      "sha256": "1151e2479d64b96fc2b067a585e350d2aeaed7cfffbe7e989b1db4544b6e3ef8",
+      "bytes": 346026
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_005_squat_good_front-left.json",
+      "sha256": "93ed410ca5cf9887fcf0291fc681846d4e6d8b086d227882a725f5b275d00cb1",
+      "bytes": 345669
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_005_squat_good_front-right.json",
+      "sha256": "4a23884126ed5e4e41ae788c96d66e1bc12c179c042dd0eb3775e8546a5c7eea",
+      "bytes": 344974
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_018_shoulder_bad_front-left.json",
+      "sha256": "d77cf3cd90d9fa64640d5bed729a7d84fe1c79e232452754bb85a11900d31a3a",
+      "bytes": 356899
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_018_shoulder_bad_front-right.json",
+      "sha256": "e7a6f12ca7e5e8291a04c926f98ee59d3b9de9deb8e25454d5f94e593fbd9fe4",
+      "bytes": 357459
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_018_shoulder_good_front-left.json",
+      "sha256": "c6a47385b50b8a16dd7e07ceab5285edf4862e497a0c0e0deb30c9617bfdbd88",
+      "bytes": 357250
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_018_shoulder_good_front-right.json",
+      "sha256": "e02ad2312d5edbaee1f533d2501279ff07e5790f6b2ba03176b5090201e4290b",
+      "bytes": 356713
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_018_squat_bad_front-left.json",
+      "sha256": "b460def64ad606f71371ff778383e5406f056aa10fe06448744fdb142c272fda",
+      "bytes": 350923
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_018_squat_bad_front-right.json",
+      "sha256": "a643a9c9e4d01b401be2211e159ce050272da3e586c504b1903370c1a0a1db4a",
+      "bytes": 351698
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_018_squat_good_front-left.json",
+      "sha256": "ad1e929093fb075ab300b6614bd4815574e105e46a39943e491f1b6d8d159c99",
+      "bytes": 353411
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/subject_018_squat_good_front-right.json",
+      "sha256": "1e90590888052e1e9a73228f978bfd2d4e56b6507faecba9db2f082eeef166ee",
+      "bytes": 353916
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/capped-heavy-robust/summary.json",
+      "sha256": "b8c96082e633217aeffd1cfb36f5abe4f9aba7d0e32221f944b89c6d7c90bda8",
+      "bytes": 199334
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "e5746b1951a24e7b88ce57ddfa3ce618a5d90d88e87b0af1fd79b702bcd9029e",
+      "bytes": 364383
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "883cb61faf9f59cb1ee51d00254ed57fc01af25e8c15fd00510d631da5010562",
+      "bytes": 359295
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "ed029ecf19fe4f250e4a57f312688af7a13167d7ba8ed44900dabf51796688d2",
+      "bytes": 363315
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "f5e9fcbbf5c3cac84eb7e880300cf46dd8994fdb93aa81fe0c729e8a890d8fa6",
+      "bytes": 360981
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "7b7d6df68c4cfc7d7c970ab2c5398f6a74c8ed55a43bdc45e408364d77e322f9",
+      "bytes": 353790
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_001_squat_good_side-left.json",
+      "sha256": "13ab3b7615ecaba0a4ce226c6ed6c8521e8429357e028a79aecd537c6c596f61",
+      "bytes": 350775
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_bicep_curl_bad_front-left.json",
+      "sha256": "b01c9852f256c25b69afe6efc74bc4f98574d7bc106576e11dbf5b1916852c00",
+      "bytes": 352925
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "000d8ed563818229bed94764b5f70d30df4e0f51dbe6d7ccc2b0a3d3e89fbd2f",
+      "bytes": 348232
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_bicep_curl_good_front-left.json",
+      "sha256": "f8a0b908d2bc70ee9dbdf01929d322aaa0cb98a6e6ecf3c63e6f24cd0c8ce4d4",
+      "bytes": 358672
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "134399d3435681fba24d7d05325d8f5d882495cd66f1157e8e00278b26159113",
+      "bytes": 355582
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_push_up_bad_side-left.json",
+      "sha256": "4594a2d382493700586cf4341bb8d904ec8adcaca248dbd2c92f61e0d15d4e3e",
+      "bytes": 288330
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_push_up_good_side-left.json",
+      "sha256": "9b165598ed5c3c369d5b320b1ae6a45dd55528fe627aa72d36f8def73444d273",
+      "bytes": 288866
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "fceac9549fcdf6fd802daa53ced9a19b0cdb7b0c2d0d21ac1b4ac5c6d2717992",
+      "bytes": 351597
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "adb4cd8f668699a1e785d32cb61293f36d87cd80f817057d418086d375d73684",
+      "bytes": 351296
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_squat_good_front-left.json",
+      "sha256": "2ba05b4e36a3771c7296caf6757b92ca434d4c5d5261ef506bb4bded2dfccc5d",
+      "bytes": 352025
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_005_squat_good_front-right.json",
+      "sha256": "50f2f57a6953a35512221d46910f896e729156c57c598f4660e4db9f0d03ab0d",
+      "bytes": 353244
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_bicep_curl_bad_front-left.json",
+      "sha256": "d9c2d585f4aaed359b296fec5d965b3cd8d05841092b9bba508a6cac700c1eaf",
+      "bytes": 359075
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "669362fe1f4836605c4dd8c6d276b198b57042c718bac0c3bc4de1c6128467a2",
+      "bytes": 356167
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_bicep_curl_good_front-left.json",
+      "sha256": "d1e6081e18a4ebde74024bfaff4848d966192690d1350698d3c8189d53dd4410",
+      "bytes": 356217
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "88a5966d6662d74bd13a699d57e271a98e515d5259d1640b61e4c8e887561ba0",
+      "bytes": 354743
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_push_up_bad_side-left.json",
+      "sha256": "1e7b6ccfdc59212bbe6d0a290708998ca196b27150cb6ecb9c32b5ee6dcf408c",
+      "bytes": 232099
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_push_up_good_side-left.json",
+      "sha256": "fd22d380c1bdb86b52ea5d3f85dd96c1cc018c8ae84e55a7e7ce9f0898f539ba",
+      "bytes": 248075
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "d4170b123ec2ac78a7ef44429db4aeca5e0892815ac69f60170833bb217fd49a",
+      "bytes": 351480
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "79e53d109f5c94df429b8655d0af931ae1e880cf2c5bd9df45b3fe2cd1213ff8",
+      "bytes": 353835
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_squat_good_front-left.json",
+      "sha256": "146f222fa37e9ec55f039267c38b692c2138b2e9dd7ed7a746ccd78e3118cb37",
+      "bytes": 353007
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/subject_018_squat_good_front-right.json",
+      "sha256": "dc2bedd5755b390ccf8f480d5fa56ab72879a5d60b2b4fcb9b5cae0e426d0e70",
+      "bytes": 354382
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-standard/summary.json",
+      "sha256": "a4bec9324f43d6b14010e5b92aed59028af3774c095857658692a975f9d17ff2",
+      "bytes": 232293
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_001_push_up_bad_side-left.json",
+      "sha256": "7571bab0b67fa6ae986471d883621154e8f61bb319888a58f0b4b5d4659434ef",
+      "bytes": 364314
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_001_push_up_good_side-left.json",
+      "sha256": "97743499e588a48389295e012bfe5fd41b8f50624cf7b11ef000b5cd439e13e2",
+      "bytes": 359295
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_001_shoulder_bad_front-right.json",
+      "sha256": "39eaf7731e5d6774a4db31e35a9096475c31fa8321f8dad80d7a2c7a0595ec91",
+      "bytes": 363346
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_001_shoulder_good_front-right.json",
+      "sha256": "a0df5efec184631c62ce9898c52cdabf7de9ede5861507a80ea6177520e0d27e",
+      "bytes": 361086
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_001_squat_bad_side-left.json",
+      "sha256": "924a91fba1b190c08cf24e8d199f9f5b5ed496640699ae732c1351c078d143d3",
+      "bytes": 353878
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_001_squat_good_side-left.json",
+      "sha256": "d41a4a11a2eaf90281aed9050f2d7b5afffd61777ca58368aeb4b9f78be342d1",
+      "bytes": 350821
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_bicep_curl_bad_front-left.json",
+      "sha256": "fbc5ae26cfddcb64c4f7e9fd64327313f5b141f57dad33556df1a745706005c5",
+      "bytes": 353157
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_bicep_curl_bad_front-right.json",
+      "sha256": "25dcaa988a505ee894fe9d2ebc6e0d09224e4813a8adeb48fc9328e0ddf4b47a",
+      "bytes": 348224
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_bicep_curl_good_front-left.json",
+      "sha256": "42dd7050c731c00355b0e567479d144c3840272403471aa5817ad72a41ce5faf",
+      "bytes": 358799
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_bicep_curl_good_front-right.json",
+      "sha256": "7b84d84d92105d5dda11f08730d32e64886667bbffdebd59603b2b8ed3ca3c22",
+      "bytes": 355573
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_push_up_bad_side-left.json",
+      "sha256": "0fb9434694b5978fd92f10e0e899271bec95ec69049a1156c986d13045d500f1",
+      "bytes": 287746
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_push_up_good_side-left.json",
+      "sha256": "0f57cf86c86d0f22ce8faea450941511aee84e0cf4dd42c9aff56181ada63d4c",
+      "bytes": 288720
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_squat_bad_front-left.json",
+      "sha256": "bda4cff5b248cf245b5e4472959edbd59e12ebf0677af1c3cb2e69d1d53dfe79",
+      "bytes": 351328
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_squat_bad_front-right.json",
+      "sha256": "a9bd7a5fd81ad78b32967b167b4ab1ea9d3ba99aaec5bd3e643b0826541d0507",
+      "bytes": 351084
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_squat_good_front-left.json",
+      "sha256": "c5122964151ff2b52581d2bb8e7659c816f79ef1ddbcca4138b5c7cc5dad3f8d",
+      "bytes": 351744
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_005_squat_good_front-right.json",
+      "sha256": "c7ed3940abc191e9f66dd44c666000faf7a6687928f241a0fd0eaea2fb6afe37",
+      "bytes": 353030
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_bicep_curl_bad_front-left.json",
+      "sha256": "44ddb2a32c4fa10199d7b7fc1f803e86d396264ea257117270c7ceb5b68954ea",
+      "bytes": 359145
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_bicep_curl_bad_front-right.json",
+      "sha256": "d99cb1a128a4bb8ae06a6c031597ad939d215a882debfa0443da6905129c5e8b",
+      "bytes": 356158
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_bicep_curl_good_front-left.json",
+      "sha256": "24a414ebe1f94de8386d6fc4c885e5d877cff40dff260e1599658999be58248a",
+      "bytes": 356330
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_bicep_curl_good_front-right.json",
+      "sha256": "8941f4aea9acaad36c028ceefa8f5cf41707b186fe7f11a2057d3604c0ce681f",
+      "bytes": 354755
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_push_up_bad_side-left.json",
+      "sha256": "b34c2c44c3fa71171be13a2ac3bb714765a62af2923a0f9f21baa57bd60f7557",
+      "bytes": 231930
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_push_up_good_side-left.json",
+      "sha256": "354ee09d6ca1f84202ebc8fe68d1869a6d8f90e23cecf91cc6e6d16c3ff3243e",
+      "bytes": 247931
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_squat_bad_front-left.json",
+      "sha256": "00fab4b6d49c9ed2331843306e00297c45fa8d25fe2f1dccb01a79b6efb76327",
+      "bytes": 351418
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_squat_bad_front-right.json",
+      "sha256": "987f1f9188bb62b08f546c4d528e2036e37850bfe1f13c9c1c8138041538b82b",
+      "bytes": 353796
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_squat_good_front-left.json",
+      "sha256": "87b8201bdf487a752eab51dcd16df678cf672365ccd50453a813847241aa2e4b",
+      "bytes": 352807
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/subject_018_squat_good_front-right.json",
+      "sha256": "0e72ac700ef9291c84d9578fb18971afc5bc6fff140ef4fa482f417282531b56",
+      "bytes": 354299
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-full-robust/summary.json",
+      "sha256": "01edf2dceb4b33eb85736f964d1601244e1166e58e52567d9570cb477548a90e",
+      "bytes": 232661
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "ba01a1fa4a142c7a102b28557630491508abf8a71b6e7ac6b84f75fb0fa2a042",
+      "bytes": 350130
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "004791c91228e456c8f7853cc6c41770d324fb39d45564dc5ae85677e9671860",
+      "bytes": 354816
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_001_push_up_bad_side-left.json",
+      "sha256": "d20b1a07b342524d879af8b020b5ccf0dc9d74ecc06f714be1ab05c17acd7b28",
+      "bytes": 363502
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_001_push_up_good_side-left.json",
+      "sha256": "b7f4278460474f184f5ce8b3ea7053572323e46af1d3f1d0ff24661c09bdc114",
+      "bytes": 352786
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_001_shoulder_bad_front-right.json",
+      "sha256": "c179908933f20b2868a8a0a6883c54b386bb091fb7fe1ed05af09fdaff63940a",
+      "bytes": 356291
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_001_shoulder_good_front-right.json",
+      "sha256": "792928ebf7c523dac4dd75aa5a348074e7121f1c10d5550403661def1a57e851",
+      "bytes": 356733
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_001_squat_bad_side-left.json",
+      "sha256": "6b2496212988c870d36355f7e1c232f9e8d75a702bdce586d6272f4e55a0586c",
+      "bytes": 342565
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_001_squat_good_side-left.json",
+      "sha256": "b03e47474c3aaabf55501ba21446efac225ccf035f07a392911dd8d9072041aa",
+      "bytes": 342435
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_005_shoulder_bad_front-left.json",
+      "sha256": "03fd8fc3a830b0c6b13139d000b8f3bf6aef331841a511aa4e3eb23fd7b9f4e9",
+      "bytes": 355778
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_005_shoulder_bad_front-right.json",
+      "sha256": "2285e5eee60e8553f035e19004c5e1a09dc40a394fac4c29555cf3ed8a441509",
+      "bytes": 355446
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_005_shoulder_good_front-left.json",
+      "sha256": "9d76a72acd5041cce20f9f1c382083e635eecb9add5468e5601729dd85b3ee41",
+      "bytes": 357570
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_005_shoulder_good_front-right.json",
+      "sha256": "196c38fef7849a2a28630658cd0c0b338242ec752c9ef87baec27e6993bee356",
+      "bytes": 356165
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_005_squat_bad_front-left.json",
+      "sha256": "19f3da2883731fa7d552f4385d9fdd8108a04efacb72fd4dfcfe94ec1821d676",
+      "bytes": 348945
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_005_squat_bad_front-right.json",
+      "sha256": "46b763f2f85daa8a929528d4a5a0431a6983aba54ab9b948d8622dc90596d151",
+      "bytes": 346025
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_005_squat_good_front-left.json",
+      "sha256": "cb1aef2980dfd82e0f2a95ad827c788fcd29f1deadcc5bb4d0bf19966e662c71",
+      "bytes": 344953
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_005_squat_good_front-right.json",
+      "sha256": "2b909e73c4147d00eb72f35b00b15370dc9ed91b7254a3ca27188a510cac2064",
+      "bytes": 345002
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_018_shoulder_bad_front-left.json",
+      "sha256": "cef90125a4a2183aa31529878a48b440560f508ed2288c80a052c4301e487bc6",
+      "bytes": 363079
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_018_shoulder_bad_front-right.json",
+      "sha256": "393a99704f7ef2a6bec702507fb3fe7bdc294ea54dc6b684d5cda50a0418cef7",
+      "bytes": 359355
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_018_shoulder_good_front-left.json",
+      "sha256": "3a43c6b949610a9799d3e2ce60f3acae53b1ea34ce8739af40dc78fe82bfef7e",
+      "bytes": 362008
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_018_shoulder_good_front-right.json",
+      "sha256": "a562475db108f066064345dabd01b2cbccb451d821a79ec6590e61358bb65ea1",
+      "bytes": 358323
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_018_squat_bad_front-left.json",
+      "sha256": "35c7430c6ed1fb379b9be59f371c70a7b4e15050e50808a33efbe8d0551b2e8e",
+      "bytes": 350157
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_018_squat_bad_front-right.json",
+      "sha256": "efd8dda5a0761bbc0e700ce4d83097cf4ce9a4ab5f46f3ba1226c3d079557d25",
+      "bytes": 351762
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_018_squat_good_front-left.json",
+      "sha256": "2dceab2acfdbba6846045581d4a7bf67e4bb15c5fab3a1a9ca4748677bef4152",
+      "bytes": 352515
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/subject_018_squat_good_front-right.json",
+      "sha256": "9dac89f9e347ba3963e3ab111d6debc312028d24b70e6ef2646268a3b19addf0",
+      "bytes": 353926
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-standard/summary.json",
+      "sha256": "1e56477547c9f748cfcd8718a5d23bb8958439fdac3fcff39c4e740e7337f17f",
+      "bytes": 187991
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_bicep_curl_bad_side-left.json",
+      "sha256": "020fbbf51266f53de60b1304ea65b907105a7d50cb56da6d00c6c81c555e35f6",
+      "bytes": 350355
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_bicep_curl_good_side-left.json",
+      "sha256": "1bfdce393e8f2ffe4ce0ea113316a03f1aa848549c2524dc1fdc315d803c2358",
+      "bytes": 354980
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_push_up_bad_side-left.json",
+      "sha256": "16becb94e8ce957b8412431a68ab6b54f09f011430be81981f70f2824ff00354",
+      "bytes": 363521
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_push_up_good_side-left.json",
+      "sha256": "f75652d1a6b29ac519406021694bbf9defb9ddc84749c798097ee2ea3781974e",
+      "bytes": 352788
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_shoulder_bad_front-left.json",
+      "sha256": "a39b5b6ff86ce5140664c3f9765bfc78b26d5bdf1b7b0fe7cc97936b9b9f704e",
+      "bytes": 356252
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_shoulder_bad_front-right.json",
+      "sha256": "92506d2b956fd8f354d9a290f5c72e5561dcc0be1e8332074068a1867fe25ab9",
+      "bytes": 356270
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_shoulder_good_front-left.json",
+      "sha256": "9abbb80a50c835d90b23176ef65030ce2f6f2b1e754d0246ddd156c144063b4f",
+      "bytes": 356786
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_shoulder_good_front-right.json",
+      "sha256": "259891c4638f9397d24d9770ade81e5846f11de5aebee0d42ea0bb9bd77af5e4",
+      "bytes": 356740
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_squat_bad_side-left.json",
+      "sha256": "6027d2fa206b11f75f9d4f290dfbdaf7e70b0315811e3b80464f2d1affaa7825",
+      "bytes": 342566
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_001_squat_good_side-left.json",
+      "sha256": "042ab4104995448f36424f2fd283cd91d9f34d8f1137f8ce3e484c0bcf8e4f2c",
+      "bytes": 342436
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_005_shoulder_bad_front-left.json",
+      "sha256": "72a5f6f1e93d213bac0535f16c960b3914ff05cf357a330d0bef23a820e5f732",
+      "bytes": 354614
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_005_shoulder_bad_front-right.json",
+      "sha256": "9bc4a00a5c68533bb2943f43bb54efd9a90db6070051641f24a26fa3eaedf899",
+      "bytes": 355564
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_005_shoulder_good_front-left.json",
+      "sha256": "cec499dcdad0f99ce78f3a6c9fcb5e386cc5f8c4fe53fdecb4a1cd7ee98ad2ad",
+      "bytes": 354058
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_005_shoulder_good_front-right.json",
+      "sha256": "1373eb0e46beed880874ef6b684efe689afa35d4ca28d5a058aebe59f5d4eb49",
+      "bytes": 356206
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_005_squat_bad_front-left.json",
+      "sha256": "06672bf98baaa7c04e5f7d9242704a1b6769458dd7cedd76aa9b285f9a1323de",
+      "bytes": 349039
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_005_squat_bad_front-right.json",
+      "sha256": "86b44584a586471d46dfe4dfd6c7bd5ec320bc2eda9a18a4415e58162542ffcb",
+      "bytes": 345719
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_005_squat_good_front-left.json",
+      "sha256": "385021b1fcc2d486096e614de536fb2936f94d5454661b263e8fba9ab26a1edf",
+      "bytes": 344959
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_005_squat_good_front-right.json",
+      "sha256": "b09d440fa608d5ecc6e79581b5dc0a441fb097ab8a4fbd8305b08d171d865a0f",
+      "bytes": 344674
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_018_shoulder_bad_front-left.json",
+      "sha256": "6d6d7b29e59f187d41a2d55f1a470e16b4a4f0cf9e3ca9f39064d4c11f89732e",
+      "bytes": 356470
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_018_shoulder_bad_front-right.json",
+      "sha256": "5403adf439cac5814eb2dfc6ba3a152e96260834704d5bf709b2b1919c6dd49e",
+      "bytes": 359523
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_018_shoulder_good_front-left.json",
+      "sha256": "d8979019b63e21dd7c0de64a38650ec3e996638726ea918861f733edc6c6af9e",
+      "bytes": 357209
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_018_shoulder_good_front-right.json",
+      "sha256": "0869f9603eab1cad201abdb90f3832664967278d2a3a9ce01908cb98a4b8375a",
+      "bytes": 358483
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_018_squat_bad_front-left.json",
+      "sha256": "e0b2c2214053d568587151272801f8b2c4387653165e4ac696638d078121da1b",
+      "bytes": 350154
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_018_squat_bad_front-right.json",
+      "sha256": "b225cc9acad8ebad0da764c6188a8563c50be00d12242e14a9433178720bd1e3",
+      "bytes": 351606
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_018_squat_good_front-left.json",
+      "sha256": "b7b4fbf652b7e890a0a061b64d751fd3888f1ec6d8a0918e013f8c4d21596999",
+      "bytes": 352589
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/subject_018_squat_good_front-right.json",
+      "sha256": "43483071c777a8e67eaa7a1dd96023fea34e7ceb7f58b65db7a408797dc4a2da",
+      "bytes": 353915
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-replays/complete-heavy-robust/summary.json",
+      "sha256": "3193790dcce6ca3c4b0e5ffd0737fabef373ef0450b84bd545a981ee1ae64c40",
+      "bytes": 197904
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-selection/capped-reference-backend-selection.json",
+      "sha256": "ca0fb29bbc7454ed2941346dad8f1a1b9ef7ff854f74c114625aa9f8589ba3a0",
+      "bytes": 16054
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-selection/complete-reference-backend-selection.json",
+      "sha256": "6d89eca190edac04986b820274fbc097bc7e26c8391576f0c1eabf5f6af58bc2",
+      "bytes": 16206
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/camera-selection/summary.json",
+      "sha256": "a76c77bd700c98564799a54c609be1a1e61cb3c0d57ffce2b51a5aa57923ddb4",
+      "bytes": 7665
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "7a3e522531f8f38aa9955f0f09c0e596a3f486eed0bf780ce7c46c219a2942b3",
+      "bytes": 1126
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "f2855d09f5a140bc353e87d8b6485c23a2097a9a325ebc89eae40c38e1091a7b",
+      "bytes": 1865
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "ab656447c9ff2268443ab23328c76711e733047109a697d1497a23030c79986d",
+      "bytes": 1450
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "3e24b5f77c2fcc243f57909c2871e6140d5bc20f92295884bed35c74b0b02123",
+      "bytes": 962
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "4e12e684bdf778f065c946b1b57d272547aa1cbfead29d43daf050642554c588",
+      "bytes": 2892
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "eed25ba9301ec1ea322e0a5e4b8598b56600a6f1ecafe2460bf40254f05cca52",
+      "bytes": 1311
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "55ce4a2e3278a10da1c016be0b9ba1c3ce54bc57f8991c86e58683e06705026b",
+      "bytes": 3518
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "8f0723c7e1e287ef4882546180070d1c2297b4d649e3e5bbc916cf826bb246df",
+      "bytes": 1113
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "36e4ed43e038f0cc47a3d72d2b55731322070f016970d065ae6010c19ccfe10b",
+      "bytes": 1519
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "10c4294af92dd885d891784b53f1a64690c2cf3245ecb6f1753f1cb0b16762d8",
+      "bytes": 1858
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "3b29768408505ce79ee8ebddad6a3e9d0a15a7a223cd9a22cc507dbf75139609",
+      "bytes": 3964
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "1a249792672152d9b00e6b5258b487163828728c96d7d0046705d9b47dfbb97e",
+      "bytes": 1013
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "e34ef23283a90adf12f61f77106b9aeb0bc056d40fb8a55dd4ed5802182eb120",
+      "bytes": 1388
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "33cd00fcb5414ba32f9aef723cc1fa678e41ddde9facfac3396abf78c1dd6a3e",
+      "bytes": 856
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "e4a40339a286e1a65fb2787c0f11e797717cdfbdf713df4e355c1b3dbf8fd2ea",
+      "bytes": 661
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "80e65f6bad1067694a4bfca3306074e561c16d178aa3ea401bdfeab2d3ee64c0",
+      "bytes": 824
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "51fc0124112d9f35e51dc6b14c0fbd7107a5c947681cd964201df3cab451f4fa",
+      "bytes": 2117
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "c7364759b0db05c4d97e6bf15a6c40885cca273eeb076f67438beed9d7b18664",
+      "bytes": 1140
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "824ca2d75e7d69383fbe9c99023b493d30fe82c126e207b14f6ca038840e2167",
+      "bytes": 980
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "3b6458a11a97b773cc925fa3c05641c8c1a36ed616c819d80ddb203829a1569a",
+      "bytes": 4018
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "6d6c030f5a75de83c5ca519b318e8b7151386fdb2337538d90cf3d6bda7a1e36",
+      "bytes": 1067
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "bd83568860d8aaae8698f84eaeebb613d8fd3335368493c7ed9ceec09886f1bd",
+      "bytes": 3915
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "7f08357efe2c0041f2659e7fd2248b92f16c3e1870a3f56a4acf071a2ef79d2d",
+      "bytes": 478
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "511b92e4d0fddc345ff6f2a6dfc879a1e4eeedea322c181a17879d5a60bab988",
+      "bytes": 608
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/core-motion/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "2d3cd0c01431413411497925b1e3ad752cac106ea65c1334bce14095192d64b4",
+      "bytes": 2457
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.ConfigTest.xml",
+      "sha256": "d0ebdd5f7c9442a51504b0d3ea17197c295f6cd87b354935df05eac1692284dc",
+      "bytes": 1624
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.LiveFrameGateTest.xml",
+      "sha256": "52b4c8fdf371c33f55f50139a0c00936e38275f3558bd4fe0df6ee6d6e6b6dbb",
+      "bytes": 616
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/android-pose-mediapipe/TEST-ai.senp.pose.mediapipe.LiveTrackerResetPolicyTest.xml",
+      "sha256": "7cfc56eea2645c46a27ad0be3aca14d4b3803f43a2504948e4915c5a81de91df",
+      "bytes": 656
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/validation-app/TEST-ai.senp.validation.FrameReviewIntegrationTest.xml",
+      "sha256": "4fefd1b782ea255f77f1d38708a9c7b4758ddcf9ac9faad497e73e2acba306ae",
+      "bytes": 629
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/validation-app/TEST-ai.senp.validation.LearnedQualityGeometryTest.xml",
+      "sha256": "8a45c0e590ac4f75fe6bade591ba9b7cc20cdf33613ed6b2087050b48778a604",
+      "bytes": 656
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/validation-app/TEST-ai.senp.validation.QualifiedReferenceBackendReplayTest.xml",
+      "sha256": "d69d18ef858dbe638c586084abac298d944e2bae16393bcbc1aa696941b92f92",
+      "bytes": 666
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/validation-app/TEST-ai.senp.validation.QualifiedRepSessionTest.xml",
+      "sha256": "36c87a2e482a79d74351ca5c3508faa18082ffb872c8086d5d6e68d27680a445",
+      "bytes": 1868
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/validation-app/TEST-ai.senp.validation.RecordedComparisonAssemblyTest.xml",
+      "sha256": "402733c98b339840b5c1d6f3a73eb9f1cd6e1a706b6115b46a6196122f8907ea",
+      "bytes": 822
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/validation-app/TEST-ai.senp.validation.ReferenceActionSessionTest.xml",
+      "sha256": "9a15c7817a23669ec5f6c3795d132bdb47b24cff3eb015df8b394ac9d750ef3e",
+      "bytes": 1972
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/jvm/validation-app/TEST-ai.senp.validation.ui.screens.PlaybackMappingTest.xml",
+      "sha256": "ee86174c577dbe9f757e1b1c8152b1d9ae286becf531ea61247c86c2c1ebba51",
+      "bytes": 1125
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/native/android-pose-mediapipe/TEST-Medium_Phone_API_36.1(AVD) - 16-_android-pose-mediapipe-.xml",
+      "sha256": "0a140f427b628bb09aef0e372bd6c77b0f3fd70cf5cbe8da31297ae95ed3ab7b",
+      "bytes": 2307
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/native/validation-app/TEST-Medium_Phone_API_36.1(AVD) - 16-_validation-app-.xml",
+      "sha256": "2e7874610dd513cc37f081397179d2e6fa3070ba3e16676b7fa40b20f125382e",
+      "bytes": 2976
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/controls/mechanism-sweep.json",
+      "sha256": "37ee8c0049587b44787887a520bfc1de1a7fc47753f1a358148e3edd1a189186",
+      "bytes": 428533
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/controls/observed-path-mechanism.json",
+      "sha256": "2d2ace83782197f3b9235ca6f2317d16bd04e11ac74907df4ca92274bfdfab0d",
+      "bytes": 228816
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/controls/departure-peak-controls.json",
+      "sha256": "c7f67da41269b9804c21a509eb452984d2e450b408c9e979650687eeadd64e82",
+      "bytes": 144785
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/controls/evidence-controls.json",
+      "sha256": "20d186267e3d524bcae733519d3bf717debb0170e5af4b6a9e89bdb85760e1ac",
+      "bytes": 196672
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/controls/real-timestamp-corruptions.json",
+      "sha256": "db5f30aa4e96f3db04b96d11b54d8cd3606546f3ed7c4941062fe1d1eafd5b7a",
+      "bytes": 61247
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/skeletal/development-replay.json",
+      "sha256": "7d408a2f76efdec70c95093aed0a6c1bd3d21308f44b95df05f6bc020207ddca",
+      "bytes": 160815
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/expected-before-failures/gradle.log",
+      "sha256": "a2165e008d71ab64e89ba5bbbc7bcc421c0157c039628ff9e30b12b03bc8eb5c",
+      "bytes": 2592
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/expected-before-failures/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "847e1110f262d2ecf4bb22ad6aa6cb53ee1590cd49fd3930763d00379a56d64b",
+      "bytes": 4909
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-after.log",
+      "sha256": "5a2b32c7c7eba50e600c1d5959f989c71f982d061994ca2d1603f6a2aba14271",
+      "bytes": 1675
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-apksigner.log",
+      "sha256": "768ec2f81715d5c878a506edfc74ec70a52499f13fba6dc76cddeb54cffe83a7",
+      "bytes": 972
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-audit.log",
+      "sha256": "837c2d8d3e757de029d410a226d6d9e4f8dbea010b15e10c1aa58618e3848916",
+      "bytes": 3589
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-baseline-receipts.log",
+      "sha256": "82dbd9903aed0609e6f770f034424b63a832128ac5fd385b89216b1f84c6f462",
+      "bytes": 756
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-before.log",
+      "sha256": "a2165e008d71ab64e89ba5bbbc7bcc421c0157c039628ff9e30b12b03bc8eb5c",
+      "bytes": 2592
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-capped-full-robust.log",
+      "sha256": "89a4372cb7677ddaae275086887edc443a234ca93bb8ed5b219efef635c04f01",
+      "bytes": 1854
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-capped-full-standard.log",
+      "sha256": "512c0196aa87a7cd566654d390cb54fc96006be65028f641968aa53f2c8e753c",
+      "bytes": 1856
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-capped-heavy-robust.log",
+      "sha256": "975509d7962a9462728fcbfd4837e0d30ad2bb495ac2fe7e01e2b091253d17e7",
+      "bytes": 1855
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-capped-heavy-standard.log",
+      "sha256": "a0e0c968ec67a111656287adea833fb666222913cfbc9df6d38f55c1d633ffad",
+      "bytes": 1857
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-comparison.log",
+      "sha256": "f8e4cdaf8370bcff51fa6f688dcb41dd9d659c05293343db4fc71e7577bc0b49",
+      "bytes": 2835
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-complete-full-robust.log",
+      "sha256": "b0f553d23915d0b0a5332fde170609d734f38dade9f7c9c6a74a4584c77884c7",
+      "bytes": 1856
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-complete-full-standard.log",
+      "sha256": "1085a83ba6d0a12970c95bf42b7fd3598abda856ca24ab7a9a3886d28ee7247d",
+      "bytes": 1858
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-complete-heavy-robust.log",
+      "sha256": "ca0fc552aa402a0a122fade74cdd7799d3ab9d8fa4c333351d134a13bfeb65db",
+      "bytes": 1857
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-complete-heavy-standard.log",
+      "sha256": "2ce8f54de8428b330f9d4e80fec276d0d40b42da725d911774492b252e9c480b",
+      "bytes": 1859
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-emulator.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-emulator.stdout.log",
+      "sha256": "0ecfcd5aba6f9265d993ae9f776dd96490d89c17965aaf794d0077fdcc0fc772",
+      "bytes": 10785
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-gradle-stop.log",
+      "sha256": "63b3b053d39a00d0131788861236a840924e2034075e93e2733cd8bf4cf52003",
+      "bytes": 38
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-jvm.log",
+      "sha256": "7da2880dc0f05526c8694eb7ce4a207c2836e8ad870d8750a6af3cb9a1f56def",
+      "bytes": 9878
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-native.log",
+      "sha256": "10c9cc4c7fbd49d0d50d16cbbb6a8e7219898d043d150badeb1d78466845bd78",
+      "bytes": 15479
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-python.log",
+      "sha256": "6752dee24aa8f888ef52040b0642edbf42c93d9bc9730719851d9f2d50695f4f",
+      "bytes": 11886
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/logs/provenance-fault-zipalign.log",
+      "sha256": "14498c33c4dc70b0ca90c7732945f311f52405c0e74008416362f94002947d1a",
+      "bytes": 54704
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/commands/verify-provenance-fault.ps1",
+      "sha256": "e5d1b76ecd981046c0b25b06dd1871262419e32b6933622ba082e9233dde96c5",
+      "bytes": 3298
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/commands/audit-provenance-fault.py",
+      "sha256": "ec7fe5b5dd3cbdad570a14b35d2e2b36e064e8afc8ebf6410307aaf442d87ad4",
+      "bytes": 2669
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/commands/freeze-source-identity-fault.py",
+      "sha256": "9980d92cbcb4f771f218f3f5fc6ea49ea31a0622a9de48e26b95309153ec6a64",
+      "bytes": 8798
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "5c1df2f0184d1400186d961ef47860801bc21a6d872fd2c8fd4ceb3711bd1909",
+      "bytes": 17096
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepProvenanceFaultTest.kt",
+      "sha256": "4ee050b6cd158ca3b33f47c9cdad77b379618f9516fb987d366d3b391cdae945",
+      "bytes": 4206
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/source/validation-app/src/androidTest/kotlin/ai/senp/validation/QualifiedRepEvidenceInstrumentedTest.kt",
+      "sha256": "6eb5e8c7a867cea8b6e632768bc5f75d414fe8b14037a32fe032bec43f15a12b",
+      "bytes": 14266
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/source/scripts/audit_source_identity_fault.py",
+      "sha256": "374daab5e10db9f46dad9e1a2a61b4e52084c6aa58d2e2c1c88f9a7d65defad3",
+      "bytes": 3005
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/source/docs/SOURCE_IDENTITY_AND_FAULT_LOCATION.md",
+      "sha256": "2b004124b13cb86cfadc28d8ef2c4f8e6ac8ec2993f8715f9f2e628a24e45a39",
+      "bytes": 4378
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/source/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e",
+      "bytes": 3924
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/native-apks/validation-app-debug.apk",
+      "sha256": "2199e7f687fb189a95718144cb765ce161db1eeaf3c832fe5e1a6a8ee1c44194",
+      "bytes": 104233148
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/native-apks/validation-app-debug-androidTest.apk",
+      "sha256": "e6f95e0ba3fafbfdc80dd8ea824c1cefc997f57f635bb0fb117eacfbfa9b133b",
+      "bytes": 7707594
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/native-apks/android-pose-mediapipe-debug-androidTest.apk",
+      "sha256": "e2a49d5d35fd96c2f9bf4bf43aad0f43b7b188d4c8d8bb95381e003ac501c8b9",
+      "bytes": 90759003
+    }
+  ],
+  "native_apks": {
+    "validation-app-debug.apk": {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/native-apks/validation-app-debug.apk",
+      "sha256": "2199e7f687fb189a95718144cb765ce161db1eeaf3c832fe5e1a6a8ee1c44194",
+      "bytes": 104233148
+    },
+    "validation-app-debug-androidTest.apk": {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/native-apks/validation-app-debug-androidTest.apk",
+      "sha256": "e6f95e0ba3fafbfdc80dd8ea824c1cefc997f57f635bb0fb117eacfbfa9b133b",
+      "bytes": 7707594
+    },
+    "android-pose-mediapipe-debug-androidTest.apk": {
+      "path": "test-artifacts/exercise-knowledge/source-identity-fault-checkpoint-c6107062/native-apks/android-pose-mediapipe-debug-androidTest.apk",
+      "sha256": "e2a49d5d35fd96c2f9bf4bf43aad0f43b7b188d4c8d8bb95381e003ac501c8b9",
+      "bytes": 90759003
+    }
+  }
+}

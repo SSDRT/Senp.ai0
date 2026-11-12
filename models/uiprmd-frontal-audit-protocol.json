@@ -1,0 +1,507 @@
+{
+  "schema": "uiprmd-frontal-audit-protocol/1",
+  "compiler": "qualified-rep-compiler/9",
+  "date": "2026-10-29",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "projection_freeze_commit": "46a846eebaa40022116cce22a95463c92a1303c6",
+  "subjects": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
+  "development_denominator": 160,
+  "allow_validation_access": false,
+  "allow_final_test_access": false,
+  "reference_subject_assignment": "01 except source01 uses02",
+  "minimum_observer_parity": "every evaluate output, finish output, complete previous serialized attempts and reference keys",
+  "production_changed": false,
+  "thresholds_changed": false,
+  "quality_head_trained": false,
+  "projection_still_rejected": true,
+  "readiness_points_earned": 0,
+  "new_human_labels": 0,
+  "review_examples": [
+    {
+      "movement": "m07",
+      "subject": "01",
+      "episode": 2
+    },
+    {
+      "movement": "m07",
+      "subject": "03",
+      "episode": 2
+    },
+    {
+      "movement": "m01",
+      "subject": "04",
+      "episode": 2
+    }
+  ],
+  "review_frames": "exact original episode start, finite driver extremum, original end; no repaired missing start",
+  "descriptive_adjacent_input_grid_ms": 10,
+  "separate_prelude_ms": 1000,
+  "observer_samples_are_not_fault_labels": true,
+  "receipts": [
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256_lf": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256_lf": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256_lf": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256_lf": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256_lf": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256_lf": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256_lf": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256_lf": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256_lf": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256_lf": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256_lf": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "core-motion/build.gradle.kts",
+      "sha256_lf": "a19ddffd441523f4a805fd26c3299edafed4cc47f0c73caff58738937d8ce38b"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256_lf": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256_lf": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256_lf": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256_lf": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256_lf": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256_lf": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256_lf": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256_lf": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256_lf": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256_lf": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256_lf": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256_lf": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256_lf": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256_lf": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256_lf": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256_lf": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedMp33Evidence.kt",
+      "sha256_lf": "fb78d2e889273b0f9366502ed7204cb0e4ba1d68d3be956b2ae9a9a1a44dceac"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256_lf": "6b96f2348e0d918ee316cdeb53e36f8bdc451a2f0f6bb5836486dc0e14d3660f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256_lf": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256_lf": "7162e76fa7ac4bdf46f75b3d6ed23645da8c3e1756140f798531243ef589c5a9"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256_lf": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256_lf": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256_lf": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256_lf": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256_lf": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256_lf": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256_lf": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256_lf": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256_lf": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256_lf": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256_lf": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256_lf": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "core-pipeline/src/main/kotlin/ai/senp/core/pipeline/AnalysisPipeline.kt",
+      "sha256_lf": "908536b007e24deb916af2818466f1c73e0667f146960080bae74f06cccb8b4a"
+    },
+    {
+      "path": "core-pipeline/src/main/kotlin/ai/senp/core/pipeline/Ports.kt",
+      "sha256_lf": "b4f812a6467a5519cec7da860d9b8d987ffa684fdd1acce5f42eababd7215191"
+    },
+    {
+      "path": "models/readiness-rubric.json",
+      "sha256_lf": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "models/uiprmd-evaluation-protocol.json",
+      "sha256_lf": "cec24dad3d99e353817e6039c4ba2798aee8238837d9d29e72d567db1e0bbd81"
+    },
+    {
+      "path": "scripts/evaluate_uiprmd_development.py",
+      "sha256_lf": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "scripts/fetch_uiprmd.py",
+      "sha256_lf": "56fa0e818cba730f26626f615ea129532b21bd854bb29b926cb068bba7e6e311"
+    },
+    {
+      "path": "scripts/inspect_uiprmd_development.py",
+      "sha256_lf": "51afc5271098326e0ef56def3a0e174f90644e1ef9a1e6b9fc4adc26c4c777c8"
+    },
+    {
+      "path": "scripts/uiprmd_vicon.py",
+      "sha256_lf": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/acquisition.json",
+      "sha256": "47dde1ad2dfc6fb04ee820f1ad526a27157e099e82c944d8ddd4576abb741c09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/README.md",
+      "sha256": "d411dddc51dec53071934d2b164e5fcebff8b54eacd6c0eb55ef31441ee27868"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/paper.xml",
+      "sha256": "b47ebeb7556b7a37d030a564be33b2aa8aa81bd929d40ce5d42d6c3549c9f01e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s01-correct.json",
+      "sha256": "8d365f5f89e70e3cd0b77631a7ad1f643ec0d47c861087103ce298fc855d086d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s01-incorrect.json",
+      "sha256": "1636a96db53e7258d50d030a48f706c9e1d48b1bbc505f31310673f661decd3c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s02-correct.json",
+      "sha256": "68e83a5e67b5225591d75ba3cb1543bc1e5b0bddc71b65483b7f8c6daf177aa3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s02-incorrect.json",
+      "sha256": "045d351b44b602252889a338c5fde5797a1d55524c123e0f715614f0b2d78462"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s03-correct.json",
+      "sha256": "c5b67f6887a45126760f724a4299cf224aa58fb028c380cb3d14ff4ab70897fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s03-incorrect.json",
+      "sha256": "5dc50ab26f0c82fda863e3af38a0318e56c72d23d3cecce44bf9e320566d0329"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s04-correct.json",
+      "sha256": "ef18dfd34002c794e76d45e6e0622cb11076700b10d95e27abbf1d8603dbec65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s04-incorrect.json",
+      "sha256": "d22bfea373ccd879b1e942a60cb2be8dbb37b410d9c65bb6e7215cded36faa63"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s01-correct.json",
+      "sha256": "dd276a60f3724ae2e7472a22dcf19b75e055599a999ace982b4716727fe37ac5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s01-incorrect.json",
+      "sha256": "e726eced1f6add501da50dd790464fe099d744c4df5de5d356813da84d970ffc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s02-correct.json",
+      "sha256": "8d7a2e6cf114dbbb467bceb49aef7b567f41d729fefc810c983a8b442a046b47"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s02-incorrect.json",
+      "sha256": "626262dba0c2d6224c47afb05440817544853043886fa291af23e32435acfb2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s03-correct.json",
+      "sha256": "1be0ef2d848e3394aae572f1b97e9c1203ab0d82930ab3340d634ccc03cb8e51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s03-incorrect.json",
+      "sha256": "2b5dd1cc068f0dbd729d2e9db8d0e6a3ebee08681a114ea560e40ca08d8ed252"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s04-correct.json",
+      "sha256": "a9bf7d4e9db1b344a19f36ef8fac11befa92d807eae9bc89bdb9c74fb92c7765"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s04-incorrect.json",
+      "sha256": "b7b7c2f694e689126708e2c723d38163d58eee44755e2838bdcc86c3fdf61b3a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Movements.zip",
+      "sha256": "b0d42b786f5e9bb7f7ab21a7e7fdf3aa06d192e25eaaaa4cdcf40932b90c19ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Incorrect Movements.zip",
+      "sha256": "039ffd9bf3d037e7b0971e28cf7c0410f6fed2f90e7d31f7122b2c7a9b036d95"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Segmented Movements.zip",
+      "sha256": "37478419e5bd6cdb814a94d1ec0fa0b2dfa6497cae03d25e1c2fbc51c676d721"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Incorrect Segmented Movements.zip",
+      "sha256": "d886f76e5096e934f7200a9307a2ad29327ab396a3728439f8e9bcd4717ac154"
+    },
+    {
+      "path": "scripts/uiprmd_central_torso.py",
+      "sha256_lf": "aa1921738acc0aa2063f6f592ce75ddadfbf170daa09ff3795701359b1a395f4"
+    },
+    {
+      "path": "scripts/uiprmd_frontal_arm.py",
+      "sha256_lf": "1be95c2505c9de60c806a62279c4cd8ffa8468e0b4c936f3d35124f94eeaec10"
+    },
+    {
+      "path": "scripts/prepare_uiprmd_frontal_arm.py",
+      "sha256_lf": "de0b962c1dee1f263d0e9d0353d0bd5acf81d0954c38db004113b750e7b738b7"
+    },
+    {
+      "path": "scripts/evaluate_uiprmd_frontal_arm.py",
+      "sha256_lf": "37281f887cc1fec14d3f4ac35c8c0ec6959c4bf229a2a4a093209f6bf013bc89"
+    },
+    {
+      "path": "scripts/plot_uiprmd_frontal_arm.py",
+      "sha256_lf": "58d812a77d1f5978293178f7c2a66fb50a9d051b71bb95124991b09ca12b61e5"
+    },
+    {
+      "path": "scripts/tests/test_uiprmd_frontal_arm.py",
+      "sha256_lf": "c36f0434893a2ea6007cafc3f0ac927183867b15bbaffc440d6cf4b27fee4063"
+    },
+    {
+      "path": "scripts/frontal-arm-research.init.gradle",
+      "sha256_lf": "a57179db88e84ce6f88df1ea6dcbef94b9d613dc05854be162bea1fbc9b539ae"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/UiprmdFrontalArmReplay.kt",
+      "sha256_lf": "2003a391ce68b0a420bd695440f5b9cbc77bd31d71a893e8d7c73ef002089bb0"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/UiprmdFrontalArmProjectionTest.kt",
+      "sha256_lf": "d9648cd4bc71a7fb0402559b3ee42764eecba2d689d5379d0d4b25badb73cd5b"
+    },
+    {
+      "path": "docs/FRONTAL_ARM_PROJECTION_RESEARCH.md",
+      "sha256_lf": "13c07d608328008d40dda61c604c3da8349696309f41b97a51909589b8a0fedf"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/UiprmdFrontalAudit.kt",
+      "sha256_lf": "14a9df16d51003af1c430a4fb1f4f454795b807e7cfbb69d90386b08da7a1d54"
+    },
+    {
+      "path": "scripts/frontal-audit-research.init.gradle",
+      "sha256_lf": "63c1e413c84fa402968fda7aefd0cc1b1097ad8ec17c1a99bb4c3cd2d4be1a67"
+    },
+    {
+      "path": "scripts/analyze_uiprmd_frontal_audit.py",
+      "sha256_lf": "ba044cb0ebd55147af1af030fccf065677a8d0a43d94e1ecbe942decae9befa1"
+    },
+    {
+      "path": "scripts/analyze_uiprmd_evidence.py",
+      "sha256_lf": "5f1fe5043369b724d1d5de3b76f3582ce05458449c8a4870e5e1d484cc385bc9"
+    },
+    {
+      "path": "scripts/plot_uiprmd_frontal_audit.py",
+      "sha256_lf": "15f20b9480530ec59a3eefada5824b44cd92d15155c079afe0675357718ec64c"
+    },
+    {
+      "path": "scripts/tests/test_frontal_audit.py",
+      "sha256_lf": "b144660f016cd059d5558a2eeb217555cc48e6f44927c355204b41985ac2a5a0"
+    },
+    {
+      "path": "docs/FRONTAL_ARM_WITHHOLDING_AUDIT.md",
+      "sha256_lf": "65d3c46ed52d42b28ba5e6a9cb03ba6bb724ef73790b6eecae9c5fdcc00ae5f5"
+    },
+    {
+      "path": "models/uiprmd-frontal-arm-protocol.json",
+      "sha256": "42a4f45c31fe3304603c27982e2b667197f3e1728f6566891936689133be1bd0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/manifest.json",
+      "sha256": "d6a29d35e14a457d6ac0f4b07764d2410988c3b32b9b5a64d5fd834264aa5996"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s01-correct.json",
+      "sha256": "b4fada68a2a3dbfc088771082c63272c73c02e8c95a3742da02717c29b5f708c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s01-incorrect.json",
+      "sha256": "0f2b7b78bffe732a0e90fdde10ace4e1810ca498e5780168b01692d685301bfb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s02-correct.json",
+      "sha256": "2d8e3133dac280e48ede4d0a0c7f271526075a34b666d52b42b85faa3aaa69bd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s02-incorrect.json",
+      "sha256": "3aa4f2694ac50885bfceb39a08ca6f8332d03175ccf12fb0bd46a9483ea305f5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s03-correct.json",
+      "sha256": "b225526630ff83248a166a8d1c95f31d468a64ba25dd7212f10e17aa89ebc6f4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s03-incorrect.json",
+      "sha256": "f7f540d616615bf898aec782fac0bbe078b04d36a34a7946f0ff6cbac0211aa5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s04-correct.json",
+      "sha256": "459044c5ef3573dfd0e071a74c465a6a24c0aba997dfe5494412a5fa1f219f05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s04-incorrect.json",
+      "sha256": "ff87a1f30296bec07bd8688a211ceaba4c749ce80347f2d17e728a3494e11df6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s01-correct.json",
+      "sha256": "c75aca086bc351a176ad559a2ccea8725eb9e5fb3acc205c235e1877900342ee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s01-incorrect.json",
+      "sha256": "e5c6498a15206d9ebb4ff52b3f7b3dbf2fa405745f5cc938da7c33ea4ac48675"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s02-correct.json",
+      "sha256": "ea4232d95660f71ddab8d3cac3af4a8267b726203d22397c9311ef5f78f85cb1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s02-incorrect.json",
+      "sha256": "b6afb159a26a970599329dc1d43c00c77e1434a48b7ebfc8acae6bfc067e21ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s03-correct.json",
+      "sha256": "11dbc08df93a088bf2b4d447f924cebb4ef5af1508a237a9ef97300c0fc94b15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s03-incorrect.json",
+      "sha256": "9b19f95e291d9e756288402127e96b394ccef751f64dc54d4a422401854d2a90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s04-correct.json",
+      "sha256": "6ca20da9cb73fdff16fd1e7d3e336ddd14278e723135aac70e59d18dbad5bfee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s04-incorrect.json",
+      "sha256": "9726c5da20e6dcc0b08c0bea5839f0fa571ccbeda599893fece4d275516dcace"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/manifest.json",
+      "sha256": "d6a29d35e14a457d6ac0f4b07764d2410988c3b32b9b5a64d5fd834264aa5996"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/frontal_arm-replay.json",
+      "sha256": "a6b1ae5261ff0e31ef6ce9ba2b0a8c6911f8f4edcb55cca967b9fac5c09a28a4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/comparison.json",
+      "sha256": "45ed4ea3d83092b19335e1997bb569dae412bb4917089c9665539f4bf9f75554"
+    }
+  ]
+}

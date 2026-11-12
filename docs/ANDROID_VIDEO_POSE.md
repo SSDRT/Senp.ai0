@@ -8,7 +8,7 @@ This lane implements the canonical `ai.senp.core.pipeline.VideoPoseExtractor` bo
 - `android-pose-mediapipe`: `AndroidVideoPoseExtractor`, MediaPipe Pose Landmarker Full in `VIDEO` mode, and direct mapping to canonical 33-landmark frames.
 - `validation-app`: emulator-only harness that writes canonical JSON, timestamp-matched frames, overlays, contact sheets, and diagnostics. It is not a product UI or composition root.
 
-The modules use the root version catalog and canonical toolchain: Gradle 8.13, Kotlin 2.0.21, AGP 8.9.2, Java 21, and compile/target API 35.
+The modules use the root version catalog and canonical toolchain: Gradle 8.14.3, Kotlin 2.0.21, AGP 8.9.2, Java 21, and compile/target API 35.
 
 ## Model acquisition
 

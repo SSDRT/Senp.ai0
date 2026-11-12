@@ -1,0 +1,38 @@
+{
+  "schema": "uiprmd-native-angle-qa-amendment/1",
+  "frozen_utc": "2026-10-28T09:09:19.641657+00:00",
+  "qa_only": true,
+  "allow_final_test_access": false,
+  "allow_validation_access": false,
+  "original_protocol_sha256": "f6711f075b1b09c1bab12628748da98f9bba51535a849051f9815bb2cb37a6b9",
+  "plot_source_sha256_lf": "d01d4f5d8fb65fe19dbdd27b6ac49ce9f78ef6eb4651dd9f0984686f82da1777",
+  "original_start_snapshot_preserved": true,
+  "peak_baseline": "first genuinely observed marker proxy inside original episode",
+  "measurements_or_labels_changed": false,
+  "receipts": [
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/native-angle-development-inspection.json",
+      "sha256": "25fbd6bfad8d18e6fdbca75a4fdf3b59a007363180999542b1324966078e7fb3"
+    },
+    {
+      "path": "docs/NATIVE_ANGLE_QA_AMENDMENT.md",
+      "sha256": "18ef14fea503958bdd6167d93beac777fe77860658684778d08aa9a347daa7c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/qa-v1-incomplete/m01-s01-correct-native-components.png",
+      "sha256": "3aaeabc2c1f71d7df4de51e05e26c12a59cb4e6acdd8cdcff7b993f106d9375c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/qa-v1-incomplete/m07-s01-correct-native-components.png",
+      "sha256": "6cd45763c69f234e23a8ff3ecf3d356ca3e0eb8971cecec33f02037eecba0689"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/qa-v1-incomplete/m07-s04-correct-native-components.png",
+      "sha256": "2bce0bc4ad8d26cc48146a690ecd94a1d8258ad3bbcb07091808ac286cb9b3da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/qa-v1-incomplete/run.log",
+      "sha256": "38153b8d18be70d8b0a5fb3689482bc3138d9baeb6d2daeedbaa61d1c63742f3"
+    }
+  ]
+}

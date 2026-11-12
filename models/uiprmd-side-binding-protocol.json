@@ -1,0 +1,39 @@
+{
+  "schema": "uiprmd-side-binding-protocol/1",
+  "frozen_date": "2026-10-24",
+  "compiler": "qualified-rep-compiler/5",
+  "policy": "causal-unilateral-side-binding/1",
+  "kind": "research-only-changed-interchangeable-side-variant-not-frozen-right-side-score",
+  "scope": [
+    "development-01-04",
+    "already-opened-validation-05-07"
+  ],
+  "allow_final_test_access": false,
+  "production_changed": false,
+  "raw_landmark_network_trained": false,
+  "reference_subject": "01 except development subject01 uses02",
+  "source_labels_or_companion_form_scores_select_mapping": false,
+  "mapping_lock": "session until explicit reset, no per-rep switching",
+  "thresholds": "unchanged production ready, departure, required progress, confidence, ready dwell and milestone dwell",
+  "denominators": {
+    "development": 160,
+    "validation": 120
+  },
+  "frozen_variant_score_replaced": false,
+  "readiness_points_earned": 0,
+  "evaluation_gates_unchanged": {
+    "precision_minimum": 0.9,
+    "good_rep_recall_minimum": 0.7,
+    "coverage_minimum": 0.8
+  },
+  "development_manifest_sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5",
+  "validation_manifest_sha256": "d2efd45c767b2b4dc00827d322dda0369a8db6896328611c09cd82765242ae75",
+  "source_sha256": {
+    "core-motion/src/test/kotlin/ai/senp/motion/ExperimentalRepSideBinding.kt": "1d422809e5e2d2ab287ba0a9f26ca12e22e26c2ac45565e59a98e7602cf10677",
+    "core-motion/src/test/kotlin/ai/senp/motion/ExperimentalRepSideBindingTest.kt": "ec0f6e739dad1d7a96abb03419d786da10bbad92abb8785e2a978a5baf333a0d",
+    "core-motion/src/test/kotlin/ai/senp/motion/UiprmdDevelopmentReplay.kt": "02df6247e717f16d0b143bc05aaf00073e8a972cb1a1cd13d67bc1c7c0670ff9",
+    "scripts/evaluate_uiprmd_side_binding.py": "3cbfe89de03d69c54aef26a6b98e170bf75a490d95fc49d7568102d37ed0dbf5",
+    "scripts/tests/test_side_binding_evaluation.py": "35a999e9817a776dfd880c23d2e776bba62c8cb9e821ffb639b2d23ce3f1369b",
+    "core-motion/build.gradle.kts": "8e73376b8bd0d1a46dd6d3a678e23ece0fce84215d1da7e1e6486441590345f1"
+  }
+}

@@ -1,0 +1,849 @@
+{
+  "schema": "senpai-clahe-reference-provenance/1",
+  "decision": "REJECTED_NO_NEW_REFERENCE_SIDES",
+  "experiment_freeze_commit": "8d04259d96f945d4329d942443c3add1dada4179",
+  "verified_engine_commit": "6d1386b4cefe8a9a6b3b5a6aefcc19389c322c71",
+  "compiler": "qualified-rep-compiler/8",
+  "runtime_versions": {
+    "opencv-python-headless": "4.13.0.92",
+    "numpy": "2.4.6",
+    "mediapipe": "0.10.32"
+  },
+  "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+  "preprocessing_id": "mp33-full-image-lab-clahe2x8-coarse-bound/1",
+  "observations": 7191,
+  "raw_model_outputs": 5763,
+  "admitted_observations": 5180,
+  "original_control_observations": 7191,
+  "original_control_raw_outputs": 5886,
+  "original_control_admitted_observations": 5311,
+  "additional_reference_sides": 0,
+  "baseline_reference_sides": 12,
+  "fixed_reference_total": 32,
+  "calibration_trials": 128,
+  "summary": [
+    {
+      "variant": "original",
+      "fit": "ORDINARY_LEAST_SQUARES",
+      "status_counts": {
+        "INSUFFICIENT_REFERENCE_CYCLES": 17,
+        "MISSING_FEATURE": 11,
+        "READY": 4
+      }
+    },
+    {
+      "variant": "original",
+      "fit": "BOUNDED_MEDIAN_PAIRWISE",
+      "status_counts": {
+        "INSUFFICIENT_REFERENCE_CYCLES": 17,
+        "MISSING_FEATURE": 11,
+        "LOW_SELF_RECONSTRUCTION": 1,
+        "READY": 3
+      }
+    },
+    {
+      "variant": "clahe",
+      "fit": "ORDINARY_LEAST_SQUARES",
+      "status_counts": {
+        "INSUFFICIENT_REFERENCE_CYCLES": 13,
+        "WEAK_REFERENCE": 3,
+        "MISSING_FEATURE": 12,
+        "READY": 4
+      }
+    },
+    {
+      "variant": "clahe",
+      "fit": "BOUNDED_MEDIAN_PAIRWISE",
+      "status_counts": {
+        "INSUFFICIENT_REFERENCE_CYCLES": 13,
+        "WEAK_REFERENCE": 3,
+        "MISSING_FEATURE": 12,
+        "READY": 4
+      }
+    }
+  ],
+  "extraction_seconds": 110.5739431999973,
+  "core_jvm_tests": 246,
+  "python_tests": 134,
+  "original_RGB_frames_inspected": 6,
+  "transformed_RGB_panels_inspected": 6,
+  "raw_pose_panels_inspected": 12,
+  "QA_inference_input_RGB_hashes_verified": true,
+  "raw_world_image_confidence_and_current_person_checks_pass": true,
+  "production_changed": false,
+  "network_weights_changed": false,
+  "acceptance_thresholds_changed": false,
+  "source_replay_performed": false,
+  "independent_skeletal_or_RGB_labels_evaluated": false,
+  "new_human_labels": 0,
+  "final_subjects_opened": false,
+  "validation_access": false,
+  "new_APK": false,
+  "native_and_frozen_control_proofs_preserved_not_rerun": true,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "readiness": 50.0,
+  "checkpoint": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "6b96f2348e0d918ee316cdeb53e36f8bdc451a2f0f6bb5836486dc0e14d3660f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "492acbb9afea38cb5579b78ae6c424ff1a5966b7b7404871167412a0c5495a2c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/test/kotlin/ai/senp/motion/ClaheReferenceCalibrationAudit.kt",
+      "sha256": "22c0093b8c3d63edd4aaffabb151049289a7ae0d417ace796fe0bfefc449321d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/test/kotlin/ai/senp/motion/ClaheReferenceEvidenceTest.kt",
+      "sha256": "be0d95b91b9487a672f49ae6f5b9fc734ffdafbd4177b618f9606a0c88002ec3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/test/kotlin/ai/senp/motion/LiteReferenceCalibrationAudit.kt",
+      "sha256": "456d5b71e03e7e9ffc4a2e80be6690b1f7a4548f94829a3d1857f1371c9c6f4b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReplayTool.kt",
+      "sha256": "a65132593d2dd0a8e5c07d4b684722770a61b0bc7443eb7240b716ed24c77e59"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/core-motion/src/test/kotlin/ai/senp/motion/RotationReferenceCalibrationAudit.kt",
+      "sha256": "16537d306b84f467a87ee7222f6c3dd33340bac2ec940053eee3bd386d1cb977"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/scripts/clahe-reference-research.init.gradle",
+      "sha256": "c7589321899bde3b50c0696c2213c21ff34c1c371411f7ad7cb1a92644150d8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/scripts/extract_clahe_reference_candidate.py",
+      "sha256": "a60688294aa2ef7af79f9b46e7f364e261197e48c57cc51e00290e2c7eec8f3d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/scripts/extract_exercise_quality_features.py",
+      "sha256": "da63011034f2ee4fa0c7e5d39215b2011108f994912cd5a4499325a77969136f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/scripts/extract_image_reference_candidates.py",
+      "sha256": "d99d38a23213be7bf61d1c3f33452e92da2a9dc6b7b70446f5c1fb4ff265d294"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/scripts/plot_clahe_reference_candidate.py",
+      "sha256": "843e35652e118b6a2e27861878bb6aab996b253d8e0b0aa43c6aadb05c79ae1c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/source/scripts/tests/test_clahe_reference.py",
+      "sha256": "2acf15982a5d7f19ef7c955893cfa9bbaae9233482d82c012e75ecda4d62d2b8"
+    },
+    {
+      "path": "build/generated/pose-model-assets/pose_landmarker_full.task",
+      "sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
+    },
+    {
+      "path": "models/image-reference-extraction-protocol.json",
+      "sha256": "d2e5afdcc273220172af39044e38eaed1e7f82ca8bc84cd5d7700a0d47d0f13e"
+    },
+    {
+      "path": "models/preparation-fault-readiness.evidence.json",
+      "sha256": "08a81d01b13d3acf2c2c1526a9e0040c370e8a6676e561b99fb715fc3ee8105a"
+    },
+    {
+      "path": "models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-runtime/LICENSE-3RD-PARTY.txt",
+      "sha256": "55bf7d4a1de21d130a39ca38824eb61ba061edbf8449838634246bde30fde403"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-runtime/LICENSE.txt",
+      "sha256": "edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-runtime/opencv_python_headless-4.13.0.92-cp37-abi3-win_amd64.whl",
+      "sha256": "77a82fe35ddcec0f62c15f2ba8a12ecc2ed4207c17b0902c7a3151ae29f37fb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-runtime/pypi-metadata.json",
+      "sha256": "c2660e2f27856a0c3f078f22979368ee2ededb22ae50524a8f298e715340cf72"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-runtime/wheel-licenses/cv2/LICENSE-3RD-PARTY.txt",
+      "sha256": "55bf7d4a1de21d130a39ca38824eb61ba061edbf8449838634246bde30fde403"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-runtime/wheel-licenses/cv2/LICENSE.txt",
+      "sha256": "edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-runtime/wheel-licenses/opencv_python_headless-4.13.0.92.dist-info/LICENSE-3RD-PARTY.txt",
+      "sha256": "55bf7d4a1de21d130a39ca38824eb61ba061edbf8449838634246bde30fde403"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-runtime/wheel-licenses/opencv_python_headless-4.13.0.92.dist-info/LICENSE.txt",
+      "sha256": "edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "c7d3817f8dcd2650c27b6dca705823a22273af9e3815ec3ef3b40f7bc41ece04"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "2e7d45ded2b9d4f3d373ff2f9c88b093c17a29fd71f10b19860ca838ff08e2f8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "d9e2eb1397b13f99643d2efa8cb9b19820a9a8cd9b4119eed9c628bf02e62f51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "19cb6c502deab38a3a3a1df3614c8b1a0ee29606a137bb5d86b23de160b70cc6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "7874b4df273bd01829fb5808728e2d21146a71d16d3fe1df3b44809a7842422c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "81da0eb8093a44f3b90e1a34d40cc3e6409d2ad0bd7389b17c115af8df222f6c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "5115fe2d3cabc306d174764d6cc160c83c4bd0114cf611e7d9fd280793b712da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "3d38f0e6d29be161b3186d206f6a9e331845df00a3d37b265e37ba3b3417fb35"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "69ab5680ebf4f7d27dde11429fc18c225866f000ea509674da68dd7a841f3522"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "1bd49828bed78703b39ebbbbacc607bd88fdf1435ea3c6a8eaa844f72b0cd84b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "0d1461cb1cc40945c7e720bb73fd0f7b4aea5ef34223d6fbd0f687e7f48ecd72"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "22c3a7fd74e644810365d6eb0d3fc4e8127b74e8a885c1bb8c0b2fe89e3574bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "86b919dac76f1d5ed946fce690fd049ab98dacd8a86890039f5a13866663e52a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "c53000f8ef346a60576ad7553a9886399cc860979e596424e00d56fd062f0ed7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "3ad748ba6c0d4f7d8b6cfe007c5ba328b6246fd9ed4bb00c4381dcd586d97bb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/complete-reference-full-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "81cab3ecbd50f11d9e457b7ef1f70bd6f1bbe8f521642f47be758e4175962e57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "4ea45f04f7eecb400e899ea83976b3a301683f1b410b2248bbdcf7b766e659e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "64803a54748417836c24205bcd1cd400f4456148fcf39ecf48b6472dc5f9631f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_push_up_good_front.json.gz",
+      "sha256": "e270f20ef1083f5c56b5b5e6fe9812d1acca1a952144b434c0572b574b39f82d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_push_up_good_side.json.gz",
+      "sha256": "aa118d91ee711918e036211728800df321489fb04f04f18eb4ee8e86fda4fe16"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_shoulder_good_front.json.gz",
+      "sha256": "a2fb59fe66f486fcf307d7af625835f8c8969770135bb19f734310b00e5d2e51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_shoulder_good_side.json.gz",
+      "sha256": "2903b7a42e95dcecac5223e9d380946f10e131fc476b76f030045f0e75463113"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_squat_good_front.json.gz",
+      "sha256": "414f822bd4b1d8b5b547843a4e1a85fb0819d4bd683deb4ad26940e43a3c51c3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_001_squat_good_side.json.gz",
+      "sha256": "16fae22ab52b69ffea7625f70fd67fed5eb71a7482ae9721842fb77be31dda95"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "86e7449264bc89e39326932a97dc91bf6713814e6343a37fa23411523cfeefce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "93be4040f6c1916ed4c23cc5608b7e41e7ff2577ed0bc84d8add7df2a8516a73"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_push_up_good_front.json.gz",
+      "sha256": "c9f3c4b58a755671eedf8ffd899ba281a533afec010c43360e5660e0b99c17f2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_push_up_good_side.json.gz",
+      "sha256": "288349087e4edfc01fb11d487bb30081497971a3b5e13d5fd7effcda8a851ae2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_shoulder_good_front.json.gz",
+      "sha256": "eb8516958adeb9fc76c7b630ff4be4a18ba5db375abc7b5b52e74eed71e90130"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_shoulder_good_side.json.gz",
+      "sha256": "901597b673ef443767ced6f97efb9900abdac013a320042cd903f7d6485482be"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_squat_good_front.json.gz",
+      "sha256": "92f3b60599a27723f74c84d1a6bd40b24a75afbe3c3e548bc7d487588814ff4c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/image-reference-full_image-cache/subject_005_squat_good_side.json.gz",
+      "sha256": "472d8a420ec551b52ed0ad70d7c23abcfb43c1d05e7a907af174fd3bdbf7a4cd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/preparation-fault-summary/complete-reference-backend-selection.json",
+      "sha256": "a793fdbf2643a27e418f295bde63c11b60b8307a92e67a06e5329cb6ff852be7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/rep-extraction-report.json",
+      "sha256": "6a8b0afd33764fa1d128d08bfcbc425c2f78fe18585ed49b1f1cdbca406a725b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_good_front.mp4",
+      "sha256": "a7567a9201124b6580675ea5a16c47c73b8491c90d1b71d7ce6e2c924e33a9da"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_bicep_curl_good_side.mp4",
+      "sha256": "d55d8eb2f8d334095a4ed0c37e55c96d7f8b00eb8cf4806633b8fef65d356148"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_good_front.mp4",
+      "sha256": "dec7e02e38e5b6fb1aed167ba0e5b33f610615a1e94d5cba96e292363e2259d6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_push_up_good_side.mp4",
+      "sha256": "f437f915e8d1cb8dd651bbf3f63a80527bac74200429075bd1d3d6ec7c6a6a0d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_good_front.mp4",
+      "sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_shoulder_good_side.mp4",
+      "sha256": "58365bfb99a0533cd3771f37f729eaf77f6b4056064f5476b24fac302008a214"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_good_front.mp4",
+      "sha256": "a268198533b49672e45dcae4f87c68daeb1334191b82f5dbfabb35204f68c52e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_001_squat_good_side.mp4",
+      "sha256": "71408510449717414d614e1e1a0a7ca498b7d8463f81d3375ea9da87fc18e7af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_good_front.mp4",
+      "sha256": "cd356c554c8078a383fdcfc21d84cabd83f8442b8ecdfbc7bccdb131785a4778"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_bicep_curl_good_side.mp4",
+      "sha256": "ab339121e1b4c28ce8867763f85845715a3946a7fdbb031cdf0a3773cbc19272"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_good_front.mp4",
+      "sha256": "6e82daa9ed917ca646f22cc773ca574b286ee6d003e5f096e930b12b652f27fc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_push_up_good_side.mp4",
+      "sha256": "0ac8ad70d6ba1d75b5ae2ba5d50113e94af02fab6e762a229ad4e37c19202b1e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_good_front.mp4",
+      "sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_shoulder_good_side.mp4",
+      "sha256": "ee0f7bef8d6436bef19cfcd4eea67950be1ca2b614d5bc4a7f55f890da6c94b2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_good_front.mp4",
+      "sha256": "ddb822322967c5d19beb39074ff36b0e05d284813ae18dcb6e998e1a30be6acb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/videos-v3/subject_005_squat_good_side.mp4",
+      "sha256": "fd3e269778204f18c035aec90ba83bfad633b1202b88847b5784c1dc3d305570"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/protocol.json",
+      "sha256": "00413783abb408b24c1420730ba584274ba1de2cec9bb8f8b14ed9063c08c4fe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_001_bicep_curl_good_front.json.gz",
+      "sha256": "4ab866093c48f3315d62b95958d6e8ea01ced05d31eff93c6a361bb4ef7b19c6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_001_bicep_curl_good_side.json.gz",
+      "sha256": "e0c4118df1ac0769a08ec7b34b2394e8ade9fb0f6cdee157092fdea17be8b56e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_001_push_up_good_front.json.gz",
+      "sha256": "3f7e96fd0bd848fb1cec306b7c741f51c484a7b7fe9b87b0c879a61dcc5ccbe0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_001_push_up_good_side.json.gz",
+      "sha256": "fa4335cccacf10251f22cf670a05c82d49f1386ffa1b57436d3c2fe1b276c531"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_001_shoulder_good_front.json.gz",
+      "sha256": "4cd9873fc1ac1ad0e6485a5b3a336ea6ca88ea64eb83237d346dcb79a8e64ca0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_001_shoulder_good_side.json.gz",
+      "sha256": "1518f4e8f3ee3ed3bb4b2cb147749aecebcff2f4ba95f897de30712aa0fbe631"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_001_squat_good_front.json.gz",
+      "sha256": "2c1fc89a31c1da25a00477584236a9a40fbea94f795693748a21fd56397b6b76"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_001_squat_good_side.json.gz",
+      "sha256": "0f9379b6f300568b4d16f04eed41d16b54f999d34a035763f0e1c846ab1a86e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_005_bicep_curl_good_front.json.gz",
+      "sha256": "8d7b72394b4c99a03f1c74ac1ff9deab4d2d5a431160bde4228238898d1a1aa3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_005_bicep_curl_good_side.json.gz",
+      "sha256": "69af7320de3155cfaa5f8f1b625c9f9b56fe0230520d162c8a7e882dc63a7e73"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_005_push_up_good_front.json.gz",
+      "sha256": "5c0071ee228ef23b4a27acfbb4d5eb3787571b6216099c378eda097f073c340a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_005_push_up_good_side.json.gz",
+      "sha256": "b49fb9236460c336f32846a1135c48f5ea4995e768eb7adb09ef665b915dce75"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_005_shoulder_good_front.json.gz",
+      "sha256": "00d92bb2650be4795f75e83a53e115323a52bb83d6a5e9bbf6b8f01fd10e5894"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_005_shoulder_good_side.json.gz",
+      "sha256": "917cf862dabd97eec168c53f95b8bf517273a197f6e20aa8a6b9d58af83fd465"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_005_squat_good_front.json.gz",
+      "sha256": "940db5e37bc974d78fb3539042dbf03b1bc9b602ef19b25115cd9bee5f852285"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/raw/subject_005_squat_good_side.json.gz",
+      "sha256": "089f148c274e508214b39767418ace9c42376ecfc3d1fd10c38f90d1a5370f45"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/results/clahe-reference-extraction.json",
+      "sha256": "f8440520f26ffa79bbe53b10906add864e4d47a81d2ea2f65c3e9b77d546a15c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/results/clahe-reference-screen.json",
+      "sha256": "3ccb96f2deb41b5087f6bc089ac32e0c26187f97409669a82af5795c47d49a29"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/results/clahe-reference-original-frames.png",
+      "sha256": "519ca81129b834dab11b7b9f76702270e6c43addf803dd8cc4bf6d64d4ff2c41"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/results/clahe-reference-original-frames.json",
+      "sha256": "20364511cc9fb95999c1860ec2d66a083932b21f9117efda5004763840786f8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/results/clahe-reference-readiness.json",
+      "sha256": "56add45b15d05a9be71c900be22eb15ff773f0709bba1fbc6461061024c79785"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-opencv-download.log",
+      "sha256": "bba6dd39a8c6000da65787e5c8e64ecf52567b1289d13156a171a929bebf22fb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-opencv-install.log",
+      "sha256": "158716a72ddb1ffe93b0221ce17646cfc143a52340864f8521d1dbc899e5f5a4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-preflight-python.log",
+      "sha256": "6a5e2d5ec1cd217bcaf7179f2d244833e55c326efcdcf2b72bdbf8e9dd456513"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-preflight-python-fixed.log",
+      "sha256": "6339c167454e2e663e6a16099a417584d11b5e0e32df68900c4fd4aeac5b7883"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-preflight-core.log",
+      "sha256": "28cb7a1b14988db7334558c9ca0693ce800fbd5e3c063764819bde9c12520fe2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-reference-extraction.log",
+      "sha256": "4f889b58f74af3edb91b151857206129d97d5cc963e55b095c99e4fa71b65650"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-reference-screen.log",
+      "sha256": "bab5dda17e2702181fcf3be6a4528d8d162634e4657644d213a1f1bd1c07d0ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-reference-qa.log",
+      "sha256": "4574dcfb2857c6ef5f9a394637c537afeb138885862de8fb0eede28382a87ec6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/logs/clahe-reference-python.log",
+      "sha256": "c36161aa76e711557a94c3501c270009443fcf6e012f14300ca9d465f0029430"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/runtime/LICENSE-3RD-PARTY.txt",
+      "sha256": "55bf7d4a1de21d130a39ca38824eb61ba061edbf8449838634246bde30fde403"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/runtime/LICENSE.txt",
+      "sha256": "edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/runtime/opencv_python_headless-4.13.0.92-cp37-abi3-win_amd64.whl",
+      "sha256": "77a82fe35ddcec0f62c15f2ba8a12ecc2ed4207c17b0902c7a3151ae29f37fb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/runtime/pypi-metadata.json",
+      "sha256": "c2660e2f27856a0c3f078f22979368ee2ededb22ae50524a8f298e715340cf72"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/runtime/wheel-licenses/cv2/LICENSE-3RD-PARTY.txt",
+      "sha256": "55bf7d4a1de21d130a39ca38824eb61ba061edbf8449838634246bde30fde403"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/runtime/wheel-licenses/cv2/LICENSE.txt",
+      "sha256": "edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/runtime/wheel-licenses/opencv_python_headless-4.13.0.92.dist-info/LICENSE-3RD-PARTY.txt",
+      "sha256": "55bf7d4a1de21d130a39ca38824eb61ba061edbf8449838634246bde30fde403"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/runtime/wheel-licenses/opencv_python_headless-4.13.0.92.dist-info/LICENSE.txt",
+      "sha256": "edef0fac1eb08d29d34563f724742e078da2513e196133a12c6ad9ff01e26107"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.ClaheReferenceEvidenceTest.xml",
+      "sha256": "6532e1cc4dae01694da284daced774acaad8d4afea5f8b9821d4333656dde0f6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "dfed93336b81506ba05ada4d08ff0136625b363b1b0b01a98c87264f5270a460"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "545223c9f880ba46d49d1c8cc5997dc98c7b29681042e8b54e8b8a21dc50951e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "ccfbdda932d4fbe57a105818d89f435d752453828fcd84e14aaf8fed17791054"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.FixedReferenceWindowResearchTest.xml",
+      "sha256": "dbf2bc1c14178cdd8138655195a27f40b22d76f9965df02d93fc303e9aaebf69"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "a9e6ca7b95a2ce3ac2c0cc1e226df3c9ad89b87a95374c6ec81a12a05bc074d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "521f8f15baa319801d8a46247ac50cd51a5bfbf111c42cdc6b9dfd3fc5fe0a6b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.LiteReferenceEvidenceTest.xml",
+      "sha256": "f9f140e99db19c5d1abed0ea1d6d9d7255e926c581df9cb2305eb47bebec5882"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "4123c22d564f52c2e133acd0ae68be2a3b90a5f74a725739465f465e49680610"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "71c8b9256ce83585b396e596502393f54b5aac85b9af1366767d915e2c327f2b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.MmfitRawEvidenceTest.xml",
+      "sha256": "5ba16dacb897e6ece04395b4560f0259b2a05c1eeea96cbe2f9a54c39d9fe917"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "bbee9449f41cf67f9d6362e3059324761abef21504d880345367f6919259e7f1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "67439d08305dbc10981adbdb3f41901317bfe4008ecc6def0a7c99aa92cb8947"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "dc8f84c79202dad7102564126155ff023fad21b0d741efd66e2fc859d8629766"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "b578b846b4bad2967eb2ad06731a3eed069497b774b7dfa118262a7ad27851f3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepClearReadyTest.xml",
+      "sha256": "b4863b4b7b7efaa105e494fc10cda0afd71406882bfab2f8b66777431dcdb7a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "14cfc3c0e92edd37a1ad2ab4ab5ccd447867ae48889f85c7c224b5c532b86721"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "12cd547dac316c496479775a998a1a9e8104009612a358ca1cd9bd14a1ec276d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "2330c05b091358360933b4ef3bf3cf1d86a0c6584d227261a87ca740e43dc01e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "db5f661858ca251d9df4e534c9074f93e1ad740d8682e26e07883219d2ba129d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "6f809cb9d07a05c682755970377f45659d84ac2d9e16be4b4c303594e4cb34ce"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepPreparationFaultTest.xml",
+      "sha256": "979dd990a735131b95a682a4314c53474e8c1207b26da16d60ab0d881297dd15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "ee95dc5b00d3767f2a40956e374809e4bb804a989bd147a626feac0ee9a7270f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "51b0c8e981b4878b93aeb39d2d0c0a98aaaabe1994630f7012b47ab93dd07fd8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "00b77c13c3d258b228296d085b59e7a7890f66c8261e2bf199bc346c4966cc4e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "5c57439c5c85e06cb5a90873525c86d143ca74fd2e8a3f0b804d329ef3ce9de4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.ReadyFormValidationScopeTest.xml",
+      "sha256": "53ed1725699bce65049294595f097a0217623653aa8d5eba385af7f421c6db76"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "df42d955282fa487a18a4eedda93fe00ef94c3e04056966c4344bbfb8836a0fe"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.RotationReferenceMappingTest.xml",
+      "sha256": "9565d63ef501063d3cf666d7132cced9fd4b95750bd45debc776e9ff169b6223"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "48a3e345fae8ffad30ea9a6879e598287a60885a5bf21de165ab9685557823ca"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "407eee42b449cacf2dbee392ef28ef19132d829ec8db188479442d770ff6a0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "12ac98adcfc2610628adcf814cdd9d2f0350013e8a96976de1aa1baa66e0310d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "d6dfaf4be1cef18792987dbaef3c727c7d9c5a1b94633e3ba8368b8054ba4bdf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "879cc188741cb9984469d8b3654b862c57271a9ac9eee415bd7df79b15369406"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/reproduction-tools/freeze-clahe-reference-protocol.py",
+      "sha256": "d9ac6c82bb1e2b194541e675bfa35702615d46a5e2654765afc4cf74943c31e7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/clahe-reference-checkpoint-8d04259/reproduction-tools/freeze-clahe-reference-results.py",
+      "sha256": "9e857ba4abc33111a83ff224067d68216134a8d73d6a8a3c39dc993fd381b7b0"
+    }
+  ]
+}

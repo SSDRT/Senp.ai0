@@ -1,0 +1,257 @@
+{
+  "schema": "senpai-mmfit-reference/1",
+  "frozen_before_pose_inference": true,
+  "frozen_utc": "2026-10-27T01:45:49.454624+00:00",
+  "reference_only": true,
+  "allow_final_test_access": false,
+  "annotation_archive_access": false,
+  "exercise": "lateral_raise",
+  "variant": "seated-dumbbell-lateral-raise",
+  "video": "w19_rgb.mp4",
+  "video_sha256": "8f387910a830757ce91df0301ed4d8b607c589d355ba3158917185823635fd36",
+  "video_publisher_md5": "5d5f8dd6434deffba8842cfefe0101db",
+  "bytes": 415360385,
+  "license": "CC BY 4.0",
+  "doi": "10.5281/zenodo.7672767",
+  "authors": [
+    "David Strömbäck",
+    "Sangxia Huang",
+    "Valentin Radu"
+  ],
+  "original_duration_ms": 1752033.333,
+  "original_dimensions": [
+    1280,
+    720
+  ],
+  "original_fps": "30/1",
+  "selection": "first-chronological-eligible-bout",
+  "parameters": {
+    "coarse_period_ms": 500,
+    "fine_period_ms": 66,
+    "minimum_confidence": 0.65,
+    "elbow_min_degrees": 140,
+    "shoulder_min_degrees": 35,
+    "shoulder_max_degrees": 110,
+    "knee_min_degrees": 80,
+    "knee_max_degrees": 135,
+    "lateral_fraction_min": 0.6,
+    "normal_fraction_max": 0.45,
+    "proposal_gap_ms": 2500,
+    "proposal_duration_ms": 8000,
+    "proposal_observations_min": 5,
+    "context_padding_ms": 2000,
+    "long_edge_cap_px": 960
+  },
+  "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+  "source_receipts": [
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256_lf": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256_lf": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256_lf": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256_lf": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256_lf": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256_lf": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256_lf": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256_lf": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256_lf": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256_lf": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256_lf": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "core-motion/build.gradle.kts",
+      "sha256_lf": "54658420acf577602fa33fe931f4d82e59538bcfa4340a21318a64e527be4bf1"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256_lf": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256_lf": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256_lf": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256_lf": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256_lf": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256_lf": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256_lf": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256_lf": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256_lf": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256_lf": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256_lf": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256_lf": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256_lf": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256_lf": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256_lf": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256_lf": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256_lf": "5c1df2f0184d1400186d961ef47860801bc21a6d872fd2c8fd4ceb3711bd1909"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256_lf": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256_lf": "34ddd3bc26dd8beb8d8baa3dfc80088e2ca354c1993ca9a2b7c780dc586917b6"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256_lf": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256_lf": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256_lf": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256_lf": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256_lf": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256_lf": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256_lf": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256_lf": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256_lf": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256_lf": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256_lf": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256_lf": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/MmfitRawEvidenceTest.kt",
+      "sha256_lf": "43dd39148a64581e0de8387867e8c350bc47a4b466a971424f2364e40a510071"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/MmfitReferenceCalibrationAudit.kt",
+      "sha256_lf": "104bcd60ae895508be146951401ea8e2e3df5d0082e56d69f502ecf1a488d56c"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/QualifiedRepReplayTool.kt",
+      "sha256_lf": "a65132593d2dd0a8e5c07d4b684722770a61b0bc7443eb7240b716ed24c77e59"
+    },
+    {
+      "path": "scripts/extract_exercise_quality_features.py",
+      "sha256_lf": "da63011034f2ee4fa0c7e5d39215b2011108f994912cd5a4499325a77969136f"
+    },
+    {
+      "path": "scripts/extract_mmfit_reference.py",
+      "sha256_lf": "9a0dbfc696cd416abad7a04c71c834db6bf76b839c5d8710d7a6f756d1f7910f"
+    },
+    {
+      "path": "scripts/fetch_mmfit_reference_video.py",
+      "sha256_lf": "670b1f1e7d57eddaed5e606decdf9f0a6580206dfc8b2c5edb207f8f19c1bba0"
+    },
+    {
+      "path": "scripts/tests/test_mmfit_reference.py",
+      "sha256_lf": "43fb3c245a1184c3e96b65ef249540f58649be808728158a68afd70a0bc0d026"
+    }
+  ],
+  "constraints": [
+    "No threshold/weight/rubric change",
+    "No independent form labels",
+    "Preserve all raw MP33/confidence/global decoder PTS",
+    "First eligible bout only; no success-based replacement",
+    "Fresh graph at 66ms; no coarse carryover",
+    "Frozen reference denominator remains 32",
+    "Inspect original timestamped RGB plus overlays before camera-breadth credit"
+  ]
+}

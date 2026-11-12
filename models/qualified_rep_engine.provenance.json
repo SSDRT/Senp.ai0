@@ -1,0 +1,117 @@
+{
+  "kind": "causal-rule-based-reference-rep-engine; not retrained landmark-network weights",
+  "schema": "qualified-reference-reps/5",
+  "compiler_policy": "qualified-rep-compiler/2",
+  "reference_subject_guard_provenance": "reference_subject_guard.provenance.json",
+  "causal_evidence_tuning_provenance": "causal_evidence_tuning.provenance.json",
+  "reference_fit_recovery_provenance": "reference_fit_recovery.provenance.json",
+  "reference_calibration_recovery_provenance": "reference_calibration_recovery.provenance.json",
+  "departure_peak_policy_provenance": "departure_peak_policy.provenance.json",
+  "observed_path_policy_provenance": "observed_path_policy.provenance.json",
+  "historical_calibration_record_note": "The before/after calibration section below records V4 to V5. Current path-policy tuning and Full/Heavy selection are documented in their separate provenance files.",
+  "baseline_engine_commit": "e69cc57fa0094b70f626af595a58691b1708e35b",
+  "dataset_doi": "10.17632/kgbb3yn47p.3",
+  "license": "CC BY 4.0",
+  "pose_model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+  "source_videos": 48,
+  "source_observations": 16633,
+  "original_source_pts": true,
+  "sample_period_ms": 66,
+  "maximum_sampled_duration_ms": 24000,
+  "subjects": [
+    "001",
+    "005",
+    "018"
+  ],
+  "subject_use": "already seen development/regression; not fresh held-out accuracy",
+  "exercise_ids": [
+    "bodyweight_squat",
+    "biceps_curl",
+    "push_up",
+    "overhead_press",
+    "glute_bridge",
+    "lateral_raise"
+  ],
+  "current_real_video_exercises": [
+    "bodyweight_squat",
+    "biceps_curl",
+    "push_up",
+    "overhead_press"
+  ],
+  "release_qualified": false,
+  "expert_rep_labels_available": false,
+  "new_cnn_training_performed": false,
+  "calibration": "Repeated supported reversal extrema (whole-clip percentile fallback), observed complete cycles, exact driver endpoint anchoring, phase-conditioned scalar bands, residual MAD, causal self-reconstruction gate",
+  "code": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+  "parameters": "QualifiedRepConfig engineering defaults; not calibrated clinical or expert form standards",
+  "extraction_script": "scripts/extract_qualified_rep_corpus.py",
+  "fixture_exporter": "scripts/export_qualified_rep_fixture.py",
+  "scorer": "scripts/score_qualified_reps.py",
+  "extraction_manifest_sha256": "6a8b0afd33764fa1d128d08bfcbc425c2f78fe18585ed49b1f1cdbca406a725b",
+  "limits": [
+    "Counts refer to selected visible-side reference geometry, not certified full-body technique.",
+    "The 98% precision/90% good-acceptance release targets have not been measured or achieved.",
+    "Clip labels do not establish rep/fault truth; annotation tasks are empty and unreviewed.",
+    "Fresh people/reference demonstrators, camera/variant/identity qualification and physical phones remain required."
+  ],
+  "previous_rep_engine_commit": "a5fbd94547e2e35911808dbe95f6c95474a344ba",
+  "development_calibration_coverage": {
+    "before": {
+      "side_specific_replay_runs": 96,
+      "status_counts": {
+        "LOW_SELF_RECONSTRUCTION": 14,
+        "INSUFFICIENT_REFERENCE_CYCLES": 42,
+        "WEAK_REFERENCE": 2,
+        "MISSING_FEATURE": 24,
+        "REPLAYED": 12,
+        "INSUFFICIENT_EXCURSION": 2
+      },
+      "distinct_reference_sides": 32,
+      "unique_status_counts": {
+        "LOW_SELF_RECONSTRUCTION": 5,
+        "INSUFFICIENT_REFERENCE_CYCLES": 13,
+        "WEAK_REFERENCE": 1,
+        "MISSING_FEATURE": 8,
+        "REPLAYED": 4,
+        "INSUFFICIENT_EXCURSION": 1
+      },
+      "engine_outcomes_not_accuracy": {
+        "correct": 0,
+        "acceptable": 3,
+        "rejected": 39,
+        "unassessable": 84
+      }
+    },
+    "after": {
+      "side_specific_replay_runs": 96,
+      "status_counts": {
+        "LOW_SELF_RECONSTRUCTION": 10,
+        "INSUFFICIENT_REFERENCE_CYCLES": 26,
+        "WEAK_REFERENCE": 6,
+        "MISSING_FEATURE": 32,
+        "REPLAYED": 20,
+        "INSUFFICIENT_EXCURSION": 2
+      },
+      "distinct_reference_sides": 32,
+      "unique_status_counts": {
+        "LOW_SELF_RECONSTRUCTION": 3,
+        "INSUFFICIENT_REFERENCE_CYCLES": 8,
+        "WEAK_REFERENCE": 2,
+        "MISSING_FEATURE": 11,
+        "REPLAYED": 7,
+        "INSUFFICIENT_EXCURSION": 1
+      },
+      "engine_outcomes_not_accuracy": {
+        "correct": 1,
+        "acceptable": 11,
+        "rejected": 43,
+        "unassessable": 123
+      }
+    },
+    "kind": "development-calibration-coverage-comparison-not-precision",
+    "baseline_commit": "a5fbd94547e2e35911808dbe95f6c95474a344ba",
+    "precision": null,
+    "expert_rep_labels_available": false,
+    "acceptance_thresholds_relaxed": false
+  }
+}

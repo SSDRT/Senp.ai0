@@ -1,0 +1,16 @@
+{
+  "schema": "preparation-fault-native-parity-refresh/1",
+  "kind": "mechanical-JVM-Android-parity-not-human-annotation",
+  "old_expectations_path": "validation-app/src/androidTest/resources/qualified-rep-v5-parity.json",
+  "old_expectations_sha256": "35d62f7ae0d7c5f876dc868baf74df4b252975573f0c37a59baad4bb585b1a90",
+  "new_expectations_path": "validation-app/src/androidTest/resources/qualified-rep-v8-parity.json",
+  "new_expectations_sha256": "c6ade4d0fbe60d1a6355a8d65ecceee62d923f4970da589f62c39ce718098888",
+  "JVM_result_path": "test-artifacts/exercise-knowledge/preparation-fault-complete-heavy-robust/subject_001_shoulder_good_front-left.json",
+  "JVM_result_sha256": "31eceb228844cf3931261f7ac67f031ab4a215fd64e9eb9e4b174ed5091e493e",
+  "raw_native_fixture_unchanged": true,
+  "all_qualified_events_preserved": true,
+  "change": "Robust fit preparation interval 1133-1467ms no longer starts an attempt; all later events retained. Constructed native prelude now retains the same tracked subject at departure.",
+  "initial_failed_run": "test-artifacts/exercise-knowledge/preparation-fault-runtime/api35",
+  "all_assertions_retained": true,
+  "human_rep_precision": null
+}

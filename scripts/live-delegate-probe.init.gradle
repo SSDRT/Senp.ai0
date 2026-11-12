@@ -1,0 +1,5 @@
+// Explicit opt-in test source only. Normal Android builds/tests never include this class.
+gradle.projectsEvaluated {
+    def adapter=gradle.rootProject.project(':android-pose-mediapipe')
+    adapter.android.sourceSets.getByName('androidTest').java.srcDir(new File(gradle.rootProject.projectDir,'research/android-delegate'))
+}

@@ -442,6 +442,7 @@ class SpatialSynchronizationEngine(
         val schema = config.landmarkSchema
         val values = linkedMapOf<String, Double>()
         val confidences = mutableListOf<Double>()
+        val featureConfidences = linkedMapOf<String, Double>()
 
         fun comparablePosition(point: PointEvidence): Vec3 {
             val position = point.position!!
@@ -457,7 +458,9 @@ class SpatialSynchronizationEngine(
                 comparablePosition(pc) - comparablePosition(pb),
             ) ?: return
             values["angle.$name"] = angle
-            confidences += minOf(pa.confidence, pb.confidence, pc.confidence)
+            val reliability = minOf(pa.confidence, pb.confidence, pc.confidence)
+            confidences += reliability
+            featureConfidences["angle.$name"] = reliability
         }
 
         angle("left_shoulder", schema.leftElbow, schema.leftShoulder, schema.leftHip)
@@ -470,6 +473,10 @@ class SpatialSynchronizationEngine(
         angle("right_knee", schema.rightHip, schema.rightKnee, schema.rightAnkle)
         angle("left_ankle", schema.leftKnee, schema.leftAnkle, schema.leftFoot)
         angle("right_ankle", schema.rightKnee, schema.rightAnkle, schema.rightFoot)
+        if (config.includeWorkoutFeatures) {
+            angle("left_body_line", schema.leftShoulder, schema.leftHip, schema.leftAnkle)
+            angle("right_body_line", schema.rightShoulder, schema.rightHip, schema.rightAnkle)
+        }
 
         val leftHip = evidence.usablePoint(schema.leftHip, config.minimumDescriptorConfidence)
         val rightHip = evidence.usablePoint(schema.rightHip, config.minimumDescriptorConfidence)
@@ -487,13 +494,17 @@ class SpatialSynchronizationEngine(
         }
         val torso = if (root != null && shoulderCenter != null) (shoulderCenter - root).norm() else null
         if (torso != null && torso >= config.minimumTorsoScale) {
+            val anchorConfidence = minOf(leftHip!!.confidence, rightHip!!.confidence, leftShoulder!!.confidence, rightShoulder!!.confidence)
             fun ratio(name: String, a: String, b: String) {
                 val pa = evidence.usablePoint(a, config.minimumDescriptorConfidence) ?: return
                 val pb = evidence.usablePoint(b, config.minimumDescriptorConfidence) ?: return
                 val length = (comparablePosition(pa) - comparablePosition(pb)).norm()
                 if (!length.isFinite()) return
                 values["ratio.$name"] = length / torso
+                val reliability = minOf(pa.confidence, pb.confidence, anchorConfidence)
+                // Keep historical aggregate scoring stable; precision coaching uses the full dependency confidence.
                 confidences += min(pa.confidence, pb.confidence)
+                featureConfidences["ratio.$name"] = reliability
             }
             ratio("shoulder_width_over_torso", schema.leftShoulder, schema.rightShoulder)
             ratio("hip_width_over_torso", schema.leftHip, schema.rightHip)
@@ -505,11 +516,45 @@ class SpatialSynchronizationEngine(
             ratio("right_thigh_over_torso", schema.rightHip, schema.rightKnee)
             ratio("left_shin_over_torso", schema.leftKnee, schema.leftAnkle)
             ratio("right_shin_over_torso", schema.rightKnee, schema.rightAnkle)
+            if (config.includeWorkoutFeatures) {
+                fun distance(name: String, a: String, b: String) {
+                    val pa = evidence.usablePoint(a, config.minimumDescriptorConfidence) ?: return
+                    val pb = evidence.usablePoint(b, config.minimumDescriptorConfidence) ?: return
+                    val value = (comparablePosition(pa) - comparablePosition(pb)).norm() / torso
+                    if (!value.isFinite()) return
+                    val reliability = minOf(pa.confidence, pb.confidence, anchorConfidence)
+                    values["distance.$name"] = value
+                    featureConfidences["distance.$name"] = reliability
+                    confidences += reliability
+                }
+                distance("hand_separation", schema.leftWrist, schema.rightWrist)
+                distance("foot_separation", schema.leftAnkle, schema.rightAnkle)
+                distance("knee_separation", schema.leftKnee, schema.rightKnee)
+                distance("elbow_separation", schema.leftElbow, schema.rightElbow)
+                distance("left_hand_to_shoulder", schema.leftWrist, schema.leftShoulder)
+                distance("right_hand_to_shoulder", schema.rightWrist, schema.rightShoulder)
+                distance("left_hand_to_hip", schema.leftWrist, schema.leftHip)
+                distance("right_hand_to_hip", schema.rightWrist, schema.rightHip)
+                distance("left_elbow_to_hip", schema.leftElbow, schema.leftHip)
+                distance("right_elbow_to_hip", schema.rightElbow, schema.rightHip)
+                fun relation(name: String, numerator: String, denominator: String) {
+                    val top = values[numerator] ?: return
+                    val bottom = values[denominator] ?: return
+                    if (bottom < 0.05) return // Near-coincident anchors cannot define a reliable width ratio.
+                    values["relation.$name"] = top / bottom
+                    featureConfidences["relation.$name"] = minOf(
+                        featureConfidences.getValue(numerator), featureConfidences.getValue(denominator),
+                    )
+                }
+                relation("hand_width_over_shoulders", "distance.hand_separation", "ratio.shoulder_width_over_torso")
+                relation("foot_width_over_hips", "distance.foot_separation", "ratio.hip_width_over_torso")
+                relation("knee_width_over_feet", "distance.knee_separation", "distance.foot_separation")
+            }
 
             if (evidence.isReliable3d) {
                 val leftWrist = evidence.usablePoint(schema.leftWrist, config.minimumDescriptorConfidence)
                 val rightWrist = evidence.usablePoint(schema.rightWrist, config.minimumDescriptorConfidence)
-                if (leftWrist != null && rightWrist != null && leftShoulder != null && rightShoulder != null) {
+                if (leftWrist != null && rightWrist != null) {
                     val stableRoot = requireNotNull(root)
                     val stableShoulderCenter = requireNotNull(shoulderCenter)
                     val lateral = comparablePosition(rightShoulder) - comparablePosition(leftShoulder)
@@ -526,6 +571,9 @@ class SpatialSynchronizationEngine(
                             leftWrist.confidence,
                             rightWrist.confidence,
                         )
+                        featureConfidences["signed.chirality"] = minOf(
+                            anchorConfidence, leftWrist.confidence, rightWrist.confidence,
+                        )
                     }
                 }
             }
@@ -533,7 +581,7 @@ class SpatialSynchronizationEngine(
         val confidence = if (values.isEmpty()) 0.0 else (
             confidences.averageOrZero() * min(1.0, values.size / 8.0)
             ).coerceIn(0.0, 1.0)
-        return SpatialIntrinsicDescriptor(values, confidence)
+        return SpatialIntrinsicDescriptor(values, confidence, featureConfidences)
     }
 
     private fun sideCoverage(evidence: PoseEvidence, left: Boolean): Double {
@@ -720,7 +768,11 @@ class SpatialSynchronizationEngine(
             if (samples.isNotEmpty()) values[key] = median(samples)
         }
         val confidence = descriptors.map(SpatialIntrinsicDescriptor::confidence).averageOrZero().coerceIn(0.0, 1.0)
-        return SpatialIntrinsicDescriptor(values, confidence)
+        val featureConfidences = keys.mapNotNull { key ->
+            val samples = descriptors.mapNotNull { it.featureConfidences[key] }
+            if (samples.isEmpty()) null else key to median(samples)
+        }.toMap()
+        return SpatialIntrinsicDescriptor(values, confidence, featureConfidences)
     }
 
     private fun preferredSide(left: Double, right: Double): BodySideHypothesis = when {

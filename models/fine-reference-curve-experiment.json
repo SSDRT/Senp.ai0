@@ -1,0 +1,34 @@
+{
+  "schema": "senpai-reference-curve-experiment/1",
+  "date": "2026-10-24",
+  "kind": "reference-only-calibration-research-not-human-accuracy",
+  "compiler": "qualified-rep-compiler/5",
+  "baseline_commit": "1ec7cafc3031a67de7c6c0cc0a510600c7f4addb",
+  "cohort": "frozen-complete-original-MP33-references",
+  "reference_side_denominator": 32,
+  "source_side_runs": 96,
+  "curve_nodes": [6, 10],
+  "selection_priority": [
+    ["full", "standard", 6],
+    ["heavy", "standard", 6],
+    ["full", "robust", 6],
+    ["heavy", "robust", 6],
+    ["full", "standard", 10],
+    ["heavy", "standard", 10],
+    ["full", "robust", 10],
+    ["heavy", "robust", 10]
+  ],
+  "eligible_original_failure_reasons": ["WEAK_REFERENCE", "LOW_SELF_RECONSTRUCTION"],
+  "rules": [
+    "Every existing six-node success keeps its original backend, fit, settings and source outcomes.",
+    "A recovery candidate is eligible only if its own backend's original six-node standard fit failed a declared curve-related gate.",
+    "Select using reference calibration availability only, never source outcomes or whole-clip labels.",
+    "Keep minimum confidence, coverage, three cycles, observed paths, angle allowances, fault dwell and 80% reconstruction unchanged.",
+    "Preserve original raw MP33 world/image/confidence values, capture PTS, view, tracked contexts and provenance.",
+    "Report new acceptances from weakly labelled clips without calling them correct/incorrect human reps.",
+    "No independent final-test trajectories may be opened by this experiment."
+  ],
+  "production_promoted": false,
+  "network_weights_retrained": false,
+  "new_manual_labels": 0
+}

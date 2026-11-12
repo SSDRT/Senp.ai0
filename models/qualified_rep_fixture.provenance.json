@@ -1,0 +1,33 @@
+{
+  "kind": "native-numerical-parity-not-expert-rep-accuracy",
+  "dataset_doi": "10.17632/kgbb3yn47p.3",
+  "license": "CC BY 4.0",
+  "source_videos": {
+    "reference": {
+      "video": "subject_005_shoulder_good_front.mp4",
+      "source_video_sha256": "d0f9d10d312f205f47b55c19a2155dea74caf78d664d6bc2ed02fc510ee7d853",
+      "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "sample_period_ms": 66
+    },
+    "source": {
+      "video": "subject_001_shoulder_good_front.mp4",
+      "source_video_sha256": "09d9ceb76c4d2f6e2d5d17e4a064862785378ad4b25b166037f4f218ef3a8958",
+      "model_sha256": "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1",
+      "sample_period_ms": 66
+    }
+  },
+  "fixture_sha256": "26a28034a15f3616cb4908d26e918b745e4e6f9b556bf3c85cba1500b2162e64",
+  "expected_results_source_sha256": "cc035e85d266311fe4e25d534c82515756b85adbf9c5c806b626611d53f44096",
+  "attribution": "Duddela Sai Prashanth et al. (2026), Mendeley Data V3, DOI 10.17632/kgbb3yn47p.3. See core-motion NOTICE-mendeley-quality.txt and CC BY 4.0 license.",
+  "changes": "Selected two clips; extracted pinned Full MP33 image/world landmarks/confidences at original source PTS; retained no video pixels. Expected engine results are parity targets, not human annotations.",
+  "schema_3_parity_update": {
+    "baseline_commit": "8a01f1c",
+    "raw_observations_changed": false,
+    "counts_verdicts_times_changed": false,
+    "attempt_started_ms": 5333,
+    "field": "maximum_progress",
+    "before": 1.0045220092616203,
+    "after": 0.9951675399050122,
+    "reason": "Departure no longer self-supports its isolated first peak. Later adjacent original observations define the supported maximum."
+  }
+}

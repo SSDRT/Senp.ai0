@@ -22,7 +22,7 @@ class ReferenceActionCompiler(
             if (descriptor.confidence < config.minimumFrameConfidence || descriptor.values.isEmpty()) {
                 null
             } else {
-                ActionSample(frame.timestamp.value, descriptor.values, descriptor.confidence)
+                ActionSample(frame.timestamp.value, descriptor.values, descriptor.confidence, descriptor.featureConfidences)
             }
         }
         if (samples.size < config.minimumAnalyzableFrames) {
@@ -58,8 +58,18 @@ class ReferenceActionCompiler(
             robustScale(filteredSamples.mapNotNull { it.values[feature] }, feature)
         }
         val trends = buildTrends(filteredSamples, featureScales)
-        val cycles = detectCycles(filteredSamples, trends)
-        val stateCount = min(
+        val movementFeatures = featureNames.filter { it.startsWith("angle.") || it.startsWith("distance.") }
+        val staticHold = when (config.referenceMode) {
+            WorkoutReferenceMode.STATIC_HOLD -> true
+            WorkoutReferenceMode.MOVEMENT -> false
+            WorkoutReferenceMode.AUTO -> movementFeatures.size >= 3 && movementFeatures.all { key ->
+                val values = filteredSamples.mapNotNull { it.values[key] }
+                val span = quantile(values, 0.95) - quantile(values, 0.05)
+                span <= if (key.startsWith("angle.")) config.staticAngleSpanDegrees else config.staticDistanceSpanTorsoUnits
+            }
+        }
+        val cycles = if (staticHold) null else detectCycles(filteredSamples, trends)
+        val stateCount = if (staticHold) 1 else min(
             config.targetStateCount,
             max(config.minimumStateCount, filteredSamples.size / config.minimumSamplesPerState),
         )
@@ -126,6 +136,7 @@ class ReferenceActionCompiler(
             analyzableFraction = analyzableFraction.coerceIn(0.0, 1.0),
             referenceOutlierFraction = referenceOutlierFraction,
         )
+        val usableTimestamps = samples.mapTo(hashSetOf(), ActionSample::timestampMs)
         val baseProfile = ActionProfile(
             version = ReferenceActionVersions.PROFILE,
             cyclic = cycles != null,
@@ -137,6 +148,9 @@ class ReferenceActionCompiler(
             featureScales = featureScales,
             confidence = confidence,
             validation = placeholderValidation,
+            staticHold = staticHold,
+            referenceEvidenceKinds = reference.frames.filter { it.timestamp.value in usableTimestamps }
+                .map(SpatialObservationFrame::evidenceKind).toSet(),
         )
         val validation = validateProfile(baseProfile, assignment.assignments, trends, analyzableFraction, referenceOutlierFraction)
         return ReferenceActionCompilation.Success(baseProfile.copy(validation = validation))
@@ -369,7 +383,7 @@ class ReferenceActionCompiler(
                 max(1.4826 * distribution.mad, (distribution.upper - distribution.lower) / 3.0),
             )
             val observability = (values.size.toDouble() / group.size.toDouble()).coerceIn(0.0, 1.0) *
-                group.map(ActionSample::confidence).averageOrZeroAction()
+                group.map { it.featureConfidences[feature] ?: it.confidence }.averageOrZeroAction()
             val repeatability = (1.0 / (1.0 + 1.4826 * distribution.mad / scale)).coerceIn(0.0, 1.0)
             val medians = stateMedians.mapNotNull { it[feature] }
             val motionRelevance = if (medians.size >= 2) {
@@ -381,7 +395,7 @@ class ReferenceActionCompiler(
             val discrimination = stateMedians.mapIndexedNotNull { otherIndex, map ->
                 if (otherIndex == stateIndex) null else map[feature]?.let { abs(it - currentMedian) / (scale * 2.5) }
             }.minOrNull()?.coerceIn(0.0, 1.0) ?: 0.0
-            val importance = (observability * (
+            val importance = if (config.proportionsAreContextOnly && feature.startsWith("ratio.")) 0.0 else (observability * (
                 0.35 * repeatability + 0.30 * motionRelevance + 0.35 * discrimination
                 )).coerceIn(0.0, 1.0)
             ActionFeatureProfile(
@@ -411,7 +425,8 @@ class ReferenceActionCompiler(
             val discrimination = stateTrendMedians.mapIndexedNotNull { otherIndex, map ->
                 if (otherIndex == stateIndex) null else map[feature]?.let { abs(it - currentMedian) / 2.0 }
             }.maxOrNull()?.coerceIn(0.0, 1.0) ?: 0.0
-            val importance = (observability * nonZeroFraction * (0.55 * repeatability + 0.45 * discrimination))
+            val importance = (if (config.proportionsAreContextOnly && feature.startsWith("ratio.")) 0.0 else
+                observability * nonZeroFraction * (0.55 * repeatability + 0.45 * discrimination))
                 .coerceIn(0.0, 1.0)
             ActionFeatureProfile(
                 name = "trajectory.$feature",
@@ -604,6 +619,10 @@ data class ReferenceActionCompilerConfig(
     val minimumTrajectoryMotionFraction: Double = 0.20,
     val minimumTimingScaleMs: Double = 20.0,
     val nonCyclicStructuralConfidence: Double = 0.82,
+    val referenceMode: WorkoutReferenceMode = WorkoutReferenceMode.AUTO,
+    val staticAngleSpanDegrees: Double = 6.0,
+    val staticDistanceSpanTorsoUnits: Double = 0.06,
+    val proportionsAreContextOnly: Boolean = false,
 ) {
     init {
         require(minimumReferenceDurationMs > 0L)
@@ -633,5 +652,7 @@ data class ReferenceActionCompilerConfig(
         requireActionProbability(minimumTrajectoryMotionFraction)
         require(minimumTimingScaleMs > 0.0)
         requireActionProbability(nonCyclicStructuralConfidence)
+        require(staticAngleSpanDegrees.isFinite() && staticAngleSpanDegrees > 0.0)
+        require(staticDistanceSpanTorsoUnits.isFinite() && staticDistanceSpanTorsoUnits > 0.0)
     }
 }

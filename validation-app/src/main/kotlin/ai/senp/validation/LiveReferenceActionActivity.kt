@@ -6,16 +6,27 @@ import ai.senp.core.contracts.PoseLandmarkId
 import ai.senp.motion.ActionMirrorMode
 import ai.senp.motion.ActionTrackingStatus
 import ai.senp.motion.LiveFeedbackUncertainty
+import ai.senp.motion.ExerciseTechniqueCatalog
+import ai.senp.motion.QualifiedRepConfig
+import ai.senp.motion.QualifiedRepReference
+import ai.senp.motion.RepObservedSide
+import ai.senp.motion.RepPolicyMode
+import ai.senp.pose.mediapipe.LiveFrameGate
 import ai.senp.pose.mediapipe.LiveMediaPipePoseEstimator
+import ai.senp.pose.mediapipe.LivePoseModel
+import ai.senp.core.contracts.PoseModelConfiguration
+import ai.senp.core.contracts.Sha256
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.RectF
 import android.os.Bundle
+import android.os.SystemClock
+import android.hardware.camera2.CameraCharacteristics
+import androidx.camera.camera2.interop.Camera2CameraInfo
+import androidx.camera.camera2.interop.ExperimentalCamera2Interop
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +42,11 @@ import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -54,7 +70,16 @@ class LiveReferenceActionActivity : ComponentActivity() {
 
     @Volatile private var estimator: LiveMediaPipePoseEstimator? = null
     @Volatile private var processor: LiveReferenceActionProcessor? = null
-    @Volatile private var lastTimestampMs = -1L
+    @Volatile internal var analyzedFrameCount: Long = 0
+        private set
+    @Volatile internal var activePoseModelSha256: String? = null
+        private set
+    @Volatile internal var cameraDiagnostics: LiveCameraDiagnostics? = null
+    @Volatile private var cameraTimestampSource: Int? = null
+    private val frameGate = LiveFrameGate()
+    @Volatile private var destroyed = false
+    private var cameraProvider: ProcessCameraProvider? = null
+    private var imageAnalysis: ImageAnalysis? = null
     private var preparedReference: PreparedReferenceAction? = null
 
     private val cameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -75,9 +100,80 @@ class LiveReferenceActionActivity : ComponentActivity() {
             )
             return
         }
+        val exerciseId = intent.getStringExtra(EXTRA_EXERCISE_ID) ?: prepared.exerciseId ?: prepared.qualifiedRepReference?.exerciseId
+        if (exerciseId != null && ExerciseTechniqueCatalog.builtIn.find(exerciseId) == null) {
+            showFatal("Unknown exercise variant", "Choose an exercise ID from the technique catalogue.")
+            return
+        }
+        val enableLearnedQuality = intent.getBooleanExtra(EXTRA_LEARNED_QUALITY, prepared.enableLearnedQuality)
+        if (enableLearnedQuality && exerciseId == null) {
+            showFatal("Exercise selection required", "Choose an explicit exercise before enabling learned quality diagnostics.")
+            return
+        }
+        val enableQualifiedReps = intent.getBooleanExtra(EXTRA_QUALIFIED_REPS,prepared.qualifiedRepReference != null)
+        if (enableQualifiedReps) {
+            val identity = prepared.repEvidenceFingerprint ?: prepared.qualifiedRepReference?.fingerprint
+            val config = runCatching {
+                val defaults = prepared.qualifiedRepReference?.config ?: QualifiedRepConfig()
+                defaults.copy(
+                    side = intent.getStringExtra(EXTRA_REP_SIDE)?.let(RepObservedSide::valueOf) ?: defaults.side,
+                    mode = intent.getStringExtra(EXTRA_REP_POLICY)?.let(RepPolicyMode::valueOf) ?: defaults.mode,
+                )
+            }.getOrNull()
+            if (exerciseId == null || identity == null || config == null) {
+                showFatal("Rep counting unavailable", "An explicit exercise, side and compatible reference provenance are required.")
+                return
+            }
+            phaseView.text = "PREPARING REP COMPARISON"
+            lifecycleScope.launch {
+                try {
+                    val candidate = withContext(Dispatchers.Default) {
+                        val retained = prepared.qualifiedRepReference?.takeIf { it.config == config && it.exerciseId == exerciseId }
+                        if (retained != null && prepared.repSource != null) {
+                            QualifiedReferencePreparation.Ready(retained,prepared.repSource,prepared.repPreparationRequest,emptyList())
+                        } else prepared.repSource?.let {
+                            val model = prepared.repPreparationRequest?.model
+                            EngineComposition(applicationContext).referenceActionSession.prepareQualifiedReference(
+                                it,identity,prepared.repPreparationRequest,exerciseId,config,
+                                if (identity.poseModelSha256 == LivePoseModel.FULL.sha256) PoseModelConfiguration(
+                                    Sha256(LivePoseModel.HEAVY.sha256),"pose-landmarker-heavy",model?.thresholds ?: ai.senp.core.contracts.PoseThresholds()) else null,
+                            )
+                        }
+                    }
+                    if (destroyed) return@launch
+                    when (candidate) {
+                        is QualifiedReferencePreparation.Ready -> {
+                            val selected = prepared.copy(profile = candidate.reference.profile,
+                                repEvidenceFingerprint = candidate.reference.fingerprint,qualifiedRepReference = candidate.reference,
+                                repSource = candidate.extraction,repPreparationRequest = candidate.request)
+                            configureProcessor(selected,exerciseId,enableLearnedQuality,candidate.reference)
+                        }
+                        is QualifiedReferencePreparation.Unavailable -> showFatal("Rep counting unavailable",candidate.detail)
+                        null -> showFatal("Reference evidence unavailable","Reopen the uploaded reference to prepare rep counting.")
+                    }
+                } catch (cancelled: CancellationException) {
+                    throw cancelled
+                } catch (error: Exception) {
+                    if (!destroyed) showFatal("Rep counting unavailable",error.message ?: "This reference could not be prepared for rep counting.")
+                }
+            }
+            return
+        }
+        configureProcessor(prepared,exerciseId,enableLearnedQuality,null)
+    }
+
+    private fun configureProcessor(prepared: PreparedReferenceAction, exerciseId: String?, enableLearnedQuality: Boolean,
+        qualifiedReference: QualifiedRepReference?) {
+        preparedReference = prepared
         processor = LiveReferenceActionProcessor(
             profile = prepared.profile,
             analysisFramesPerSecond = prepared.analysisFramesPerSecond,
+            precisionConfig = prepared.precisionConfig,
+            exerciseId = exerciseId,
+            enableSampleClassifier = intent.getBooleanExtra(EXTRA_SAMPLE_CLASSIFIER, prepared.enableSampleClassifier),
+            enableLearnedQuality = enableLearnedQuality,
+            qualifiedRepReference = qualifiedReference,
+            repEvidenceFingerprint = prepared.repEvidenceFingerprint,
         )
         phaseView.text = "REFERENCE READY • ${prepared.profile.states.size} STATES • ${(prepared.profile.confidence * 100.0).toInt()}% PROFILE"
         if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -88,16 +184,22 @@ class LiveReferenceActionActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        estimator?.close()
-        estimator = null
-        analyzerExecutor.shutdownNow()
+        destroyed = true
+        imageAnalysis?.clearAnalyzer()
+        cameraProvider?.unbindAll()
+        analyzerExecutor.execute {
+            estimator?.close()
+            estimator = null
+        }
+        analyzerExecutor.shutdown()
         super.onDestroy()
     }
 
     private fun buildUi(): View {
         val root = FrameLayout(this).apply { setBackgroundColor(Color.rgb(8, 9, 12)) }
         previewView = PreviewView(this).apply {
-            implementationMode = PreviewView.ImplementationMode.COMPATIBLE
+            // Prefer CameraX's lower-overhead surface; it retains its device/rotation fallback.
+            implementationMode = PreviewView.ImplementationMode.PERFORMANCE
             scaleType = PreviewView.ScaleType.FIT_CENTER
             setBackgroundColor(Color.BLACK)
         }
@@ -223,30 +325,47 @@ class LiveReferenceActionActivity : ComponentActivity() {
             try {
                 estimator = LiveMediaPipePoseEstimator.create(
                     context = this,
-                    expectedModelSha256 = MODEL_SHA256,
+                    model = requireNotNull(LivePoseModel.entries.singleOrNull {
+                        it.sha256 == (preparedReference?.repEvidenceFingerprint?.poseModelSha256 ?: LivePoseModel.FULL.sha256)
+                    }) { "The reference uses an unavailable pose model" },
+                    thresholds = preparedReference?.repPreparationRequest?.model?.thresholds ?: ai.senp.core.contracts.PoseThresholds(),
                 )
             } catch (error: Throwable) {
                 runOnUiThread { showFatal("Pose model unavailable", error.message ?: "Unable to initialize MediaPipe") }
                 return@execute
             }
-            runOnUiThread { bindCamera() }
+            runOnUiThread { if (!destroyed) bindCamera() }
         }
     }
 
+    @androidx.annotation.OptIn(ExperimentalCamera2Interop::class)
     private fun bindCamera() {
         val providerFuture = ProcessCameraProvider.getInstance(this)
         providerFuture.addListener(
             {
                 try {
+                    if (destroyed) return@addListener
                     val provider = providerFuture.get()
-                    val preview = Preview.Builder().build().also { it.surfaceProvider = previewView.surfaceProvider }
+                    cameraProvider = provider
+                    val selector = LiveCameraFrame.camera(provider)
+                    val frontCamera = selector == CameraSelector.DEFAULT_FRONT_CAMERA
+                    overlayView.mirrored = frontCamera
+                    val resolution = LiveCameraFrame.resolutionSelector()
+                    val rotation = previewView.display?.rotation ?: android.view.Surface.ROTATION_0
+                    val preview = Preview.Builder().setResolutionSelector(resolution)
+                        .setTargetRotation(rotation).build().also { it.surfaceProvider = previewView.surfaceProvider }
                     val analysis = ImageAnalysis.Builder()
+                        .setResolutionSelector(resolution)
+                        .setTargetRotation(rotation)
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
                         .build()
+                    imageAnalysis = analysis
                     analysis.setAnalyzer(analyzerExecutor, ::analyzeFrame)
                     provider.unbindAll()
-                    provider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, preview, analysis)
+                    val camera = provider.bindToLifecycle(this, selector, preview, analysis)
+                    cameraTimestampSource = runCatching { Camera2CameraInfo.from(camera.cameraInfo)
+                        .getCameraCharacteristic(CameraCharacteristics.SENSOR_INFO_TIMESTAMP_SOURCE) }.getOrNull()
                     primaryCueView.text = "Waiting for the reference action"
                 } catch (error: Throwable) {
                     showFatal("Camera unavailable", error.message ?: "Unable to bind CameraX")
@@ -257,6 +376,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
     }
 
     private fun analyzeFrame(image: ImageProxy) {
+        val diagnostics = cameraDiagnostics
+        val diagnosticArrival = if (diagnostics != null) SystemClock.elapsedRealtimeNanos() else 0L
         if (!frameBusy.compareAndSet(false, true)) {
             image.close()
             return
@@ -264,25 +385,27 @@ class LiveReferenceActionActivity : ComponentActivity() {
         try {
             val poseEstimator = estimator ?: return
             val liveProcessor = processor ?: return
-            val raw = image.toBitmap()
-            val upright = rotate(raw, image.imageInfo.rotationDegrees)
-            if (upright !== raw) raw.recycle()
-            try {
-                val candidate = image.imageInfo.timestamp / 1_000_000L
-                val timestampMs = if (candidate > lastTimestampMs) candidate else lastTimestampMs + 1L
-                lastTimestampMs = timestampMs
-                val pose = poseEstimator.estimate(upright, timestampMs)
-                val output = liveProcessor.update(pose)
+            if (destroyed) return
+            val timestampMs = frameGate.accept(image.imageInfo.timestamp) ?: return
+            LiveCameraFrame.withUprightBitmap(image) { upright ->
+                val estimate = poseEstimator.estimateDetailed(upright, timestampMs)
+                val pose = estimate.frame
+                val output = liveProcessor.update(pose, upright.width, upright.height, estimate.modelSha256,estimate.rawFrame)
+                activePoseModelSha256 = estimate.modelSha256
+                analyzedFrameCount++
+                diagnostics?.onFrame(LiveCameraSample(image.imageInfo.timestamp,diagnosticArrival,
+                    SystemClock.elapsedRealtimeNanos(),estimate.inferenceNanos,cameraTimestampSource,
+                    estimate.modelSha256,estimate.trackerResetCount,frameGate.droppedFrames,estimate.nativeTrackerRecreationCount),upright,estimate.rawFrame)
                 val frameWidth = upright.width
                 val frameHeight = upright.height
                 runOnUiThread {
+                    if (destroyed) return@runOnUiThread
                     overlayView.setPose(pose, frameWidth, frameHeight)
                     render(output)
                 }
-            } finally {
-                upright.recycle()
             }
         } catch (error: Throwable) {
+            diagnostics?.onError(error)
             runOnUiThread {
                 primaryCueView.text = "Hold steady — reacquiring pose"
                 secondaryCueView.text = ""
@@ -298,7 +421,8 @@ class LiveReferenceActionActivity : ComponentActivity() {
         val prepared = preparedReference ?: return
         val profile = prepared.profile
         val estimate = output.estimate
-        repsView.text = estimate.completedRepetitions.toString()
+        repsView.text = (output.qualifiedReps?.counts?.qualified ?: estimate.completedRepetitions).toString()
+        repsView.contentDescription = if (output.qualifiedReps != null) "Experimental reference-accepted visible-side repetitions" else "Recognized movement repetitions"
         val stateLabel = estimate.stateIndex?.let { index -> "STATE ${index + 1} / ${profile.states.size}" }
         val mirrorLabel = when (estimate.mirrorMode) {
             ActionMirrorMode.MIRRORED -> " • MIRRORED"
@@ -339,6 +463,31 @@ class LiveReferenceActionActivity : ComponentActivity() {
                 }
             }
         }
+        output.qualifiedReps?.let { rep ->
+            phaseView.text = "${rep.observedSide.name} SIDE • REFERENCE REPS • ${rep.stage.name.replace('_',' ')}"
+            when {
+                rep.activeDisqualified -> {
+                    primaryCueView.text = "This rep will not count"
+                    secondaryCueView.text = "Complete the movement, then restart from the reference position."
+                }
+                rep.unavailableReason != null -> {
+                    primaryCueView.text = "Rep could not be assessed"
+                    secondaryCueView.text = "Keep the required body points in view and return to the start position."
+                }
+                rep.finalizedAttempts.lastOrNull()?.verdict == ai.senp.motion.RepVerdict.REJECTED -> {
+                    primaryCueView.text = "Rep not counted"
+                    secondaryCueView.text = "Restart from the reference position."
+                }
+                rep.finalizedAttempts.lastOrNull()?.verdict == ai.senp.motion.RepVerdict.UNASSESSABLE -> {
+                    primaryCueView.text = "Rep could not be assessed"
+                    secondaryCueView.text = "A complete visible movement is required before a rep can count."
+                }
+                rep.stage == ai.senp.motion.RepStage.SYNCHRONIZING -> {
+                    primaryCueView.text = "Return to the reference start position"
+                    secondaryCueView.text = "A complete visible movement is required before a rep can count."
+                }
+            }
+        }
         val uncertainty = when (output.feedback.uncertainty) {
             LiveFeedbackUncertainty.LOW -> "low"
             LiveFeedbackUncertainty.ELEVATED -> "elevated"
@@ -371,20 +520,19 @@ class LiveReferenceActionActivity : ComponentActivity() {
         resetButton.isEnabled = false
     }
 
-    private fun rotate(source: Bitmap, degrees: Int): Bitmap {
-        if (degrees % 360 == 0) return source
-        val matrix = Matrix().apply { postRotate(degrees.toFloat()) }
-        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
-    }
-
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     companion object {
         const val EXTRA_REFERENCE_SHA256 = "reference_sha256"
+        const val EXTRA_EXERCISE_ID = "exercise_technique_id"
+        const val EXTRA_SAMPLE_CLASSIFIER = "enable_sample_pose_classifier"
+        const val EXTRA_LEARNED_QUALITY = "enable_learned_quality_diagnostics"
+        const val EXTRA_QUALIFIED_REPS = "enable_qualified_reps"
+        const val EXTRA_REP_SIDE = "qualified_rep_side"
+        const val EXTRA_REP_POLICY = "qualified_rep_policy"
 
         private const val MATCH = ViewGroup.LayoutParams.MATCH_PARENT
         private const val WRAP = ViewGroup.LayoutParams.WRAP_CONTENT
-        private const val MODEL_SHA256 = "5134a3aad27a58b93da0088d431f366da362b44e3ccfbe3462b3827a839011b1"
     }
 }
 
@@ -398,6 +546,7 @@ private class ReferencePoseOverlayView(context: android.content.Context) : View(
         color = Color.WHITE
         style = Paint.Style.FILL
     }
+    var mirrored: Boolean = false
     private var pose: PoseFrame? = null
     private var frameWidth = 0
     private var frameHeight = 0
@@ -427,9 +576,9 @@ private class ReferencePoseOverlayView(context: android.content.Context) : View(
             val b = byId.getValue(to)
             if (!drawable(a) || !drawable(b)) return@forEach
             canvas.drawLine(
-                target.left + (a.image.x * target.width()).toFloat(),
+                target.left + ((if (mirrored) 1.0 - a.image.x else a.image.x) * target.width()).toFloat(),
                 target.top + (a.image.y * target.height()).toFloat(),
-                target.left + (b.image.x * target.width()).toFloat(),
+                target.left + ((if (mirrored) 1.0 - b.image.x else b.image.x) * target.width()).toFloat(),
                 target.top + (b.image.y * target.height()).toFloat(),
                 skeletonPaint,
             )
@@ -437,7 +586,7 @@ private class ReferencePoseOverlayView(context: android.content.Context) : View(
         current.landmarks.forEach { landmark ->
             if (!drawable(landmark)) return@forEach
             canvas.drawCircle(
-                target.left + (landmark.image.x * target.width()).toFloat(),
+                target.left + ((if (mirrored) 1.0 - landmark.image.x else landmark.image.x) * target.width()).toFloat(),
                 target.top + (landmark.image.y * target.height()).toFloat(),
                 4f,
                 pointPaint,

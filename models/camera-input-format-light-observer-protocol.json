@@ -1,0 +1,95 @@
+{
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "compiler": "qualified-rep-compiler/9",
+  "target_api": 35,
+  "abi": "x86_64",
+  "avd_id": "Senpai_API_35",
+  "runtime_fingerprint": "Android/sdk_phone64_x86_64/emu64x:15/AE3A.240806.019/12368160:userdebug/test-keys",
+  "hypothesis": "Prior RGBA and YUV blocks have unequal synchronous PNG/screen-export costs. Repeat a separately frozen format contrast after finishing those exports before each window; preserve original prior results and do not subtract export time post hoc.",
+  "prior_pixel_gate": "test-artifacts/exercise-knowledge/camerax-conversion-parity-20261029/analysis.json",
+  "prior_pixel_gate_sha256": "1eaea009aea1596551079b7d428c72cb68f34cf2d397f84785577f31213be98a",
+  "prior_pixel_gate_pairs": 6,
+  "block_order": [
+    "RGBA",
+    "YUV",
+    "YUV",
+    "RGBA"
+  ],
+  "warmup_ms": 15000,
+  "measurement_ms": 45000,
+  "snapshot_offset_ms": null,
+  "visible_screen_offset_ms": null,
+  "memory_sample_period_ms": 5000,
+  "actual_private_production_analyzer_used": true,
+  "model_and_thresholds": "same reference-selected Full factory, confidence, processor, gate, source timestamps and bounded KEEP_ONLY_LATEST queue",
+  "preview_implementation": "unchanged production PERFORMANCE preference, observe same actual child view at both endpoints of all blocks including fallback",
+  "tested_pixel_scope": "source640x480, rotation90, prepared480x640, full crop, one-pixel-shift disabled by actual device defaults; YUV strides(640,1)/(320,1)/(320,1); RGBA one plane(2560,4)",
+  "per_frame_format_metadata_bound_by_capture_timestamp": true,
+  "native_graph_or_smoothing_policy_changed": false,
+  "source_images_across_blocks_identical": false,
+  "generated_replay_timestamps": false,
+  "real_camera_capture_measured": true,
+  "unknown_capture_clocks_not_relabelled": true,
+  "all_callbacks_export_costs_and_outliers_retained": true,
+  "ten_minute_credit_permitted": false,
+  "human_label_or_holdout_access": false,
+  "production_changed": false,
+  "human_rep_precision": null,
+  "readiness_points_earned": 0,
+  "schema": "senpai-camera-input-format-light-observer-protocol/1",
+  "frozen_utc": "2026-10-29T16:04:51.023673+00:00",
+  "baseline_metadata_commit": "66e9c9aa9bdc607554ce6b010537465a3273bce5",
+  "observer_design": "Capture original same-input raw33 image and a visible preview during unmeasured warmup, then require three result timestamps after screenshot export. No PNG/screenshot I/O in the 45s measurement window; per-callback records and fixed PSS sampling remain.",
+  "post_screen_completed_results": 3,
+  "post_screen_deadline_ms": 20000,
+  "native_test_inventory": [
+    [
+      "ai.senp.validation.LiveCameraInputFormatLightObserverInstrumentedTest",
+      "compareFormatsWithOriginalExportsOutsideMeasuredWindows"
+    ]
+  ],
+  "runner_receipt": {
+    "path": "C:\\Users\\sk\\Documents\\Codex\\2026-10-22\\d\\work\\camera-input-format-light-observer-native.ps1",
+    "sha256": "aa742eee820050707a536bc0a956dfd5341766d51e8253dabc3fe1887bd2aff3"
+  },
+  "apk_receipts": [
+    {
+      "path": "test-artifacts/exercise-knowledge/camera-input-format-light-observer-20261029/apks/validation-app-debug.apk",
+      "sha256": "888025d7c0b958704b1bfef37b4def36eb170324468058c1f6135592c30083d2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camera-input-format-light-observer-20261029/apks/validation-app-debug-androidTest.apk",
+      "sha256": "efc31a6aea0b3d8712fedb8b9cc1c6d8df58c2274404f151928633f8f5b5ff30"
+    }
+  ],
+  "source_receipts": [
+    {
+      "path": "validation-app/src/researchAndroidTest/kotlin/ai/senp/validation/LiveCameraInputFormatLightObserverInstrumentedTest.kt",
+      "sha256": "8353da4817dcb42617df40711c9f847d4fce67b9beb5b54698dc408684373637"
+    },
+    {
+      "path": "scripts/analyze_camera_input_format_light.py",
+      "sha256": "4f3a2fe4d5881d8bfa97f34654002c1d6a94ee5c769a23ab1014478ea365435b"
+    },
+    {
+      "path": "scripts/tests/test_camera_input_format_light.py",
+      "sha256": "b07604034bf29fbde39fc4a891ce1e0c95c2b651d31b30c40f91fe95cf37424f"
+    },
+    {
+      "path": "scripts/analyze_camera_input_format.py",
+      "sha256": "ea8e6724ae047c4cae8df4e61113fc408cba8bf39e64afd121da86a48651751e"
+    },
+    {
+      "path": "scripts/frozen-detect-stages.init.gradle",
+      "sha256": "b1b1b1790f4f2b60e3fd76b4b8a0dc86cb6654565a61da53e891d29479708202"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camera-input-format-20261029/analysis.json",
+      "sha256": "8efec1d8c93e5efb6585edaed2177f8eaee184c0f3bc586cfc15245bddda2125"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/camerax-conversion-parity-20261029/analysis.json",
+      "sha256": "1eaea009aea1596551079b7d428c72cb68f34cf2d397f84785577f31213be98a"
+    }
+  ]
+}

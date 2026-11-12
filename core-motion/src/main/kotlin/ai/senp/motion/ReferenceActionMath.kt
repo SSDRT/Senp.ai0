@@ -10,6 +10,7 @@ internal data class ActionSample(
     val timestampMs: Long,
     val values: Map<String, Double>,
     val confidence: Double,
+    val featureConfidences: Map<String, Double> = emptyMap(),
 )
 
 internal fun robustDistribution(

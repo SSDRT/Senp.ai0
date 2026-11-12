@@ -1,0 +1,87 @@
+{
+  "kind": "real-upstream-landmark-sample-exercise-state-classifier-not-form-or-landmark-accuracy",
+  "source": "https://api.github.com/repos/googlesamples/mlkit/git/blobs/136d951100d04926975f5eff4eab7091a409a002",
+  "source_blob": "136d951100d04926975f5eff4eab7091a409a002",
+  "source_sha256": "eb3a54230084616caf7505683692d873968f406b52593a0d699b13d855afc729",
+  "license": "Apache-2.0 (upstream repository)",
+  "source_samples": 812,
+  "training_samples": 650,
+  "holdout_samples": 162,
+  "split": "image-name grouped deterministic 80/20; not subject/video-independent",
+  "seed": 20261022,
+  "class_counts": {
+    "pushups_up": 201,
+    "squats_up": 191,
+    "squats_down": 225,
+    "pushups_down": 195
+  },
+  "prototype_count": 48,
+  "holdout_coverage": 0.845679012345679,
+  "accepted_state_accuracy": 0.9781021897810219,
+  "all_holdout_accuracy_with_abstentions_as_misses": 0.8271604938271605,
+  "closed_set_nearest_state_accuracy": 0.9320987654320988,
+  "confusion": [
+    {
+      "actual": "pushups_down",
+      "predicted": "UNKNOWN",
+      "count": 6
+    },
+    {
+      "actual": "pushups_down",
+      "predicted": "pushups_down",
+      "count": 39
+    },
+    {
+      "actual": "pushups_down",
+      "predicted": "squats_up",
+      "count": 1
+    },
+    {
+      "actual": "pushups_up",
+      "predicted": "UNKNOWN",
+      "count": 2
+    },
+    {
+      "actual": "pushups_up",
+      "predicted": "pushups_down",
+      "count": 1
+    },
+    {
+      "actual": "pushups_up",
+      "predicted": "pushups_up",
+      "count": 38
+    },
+    {
+      "actual": "squats_down",
+      "predicted": "UNKNOWN",
+      "count": 8
+    },
+    {
+      "actual": "squats_down",
+      "predicted": "squats_down",
+      "count": 35
+    },
+    {
+      "actual": "squats_up",
+      "predicted": "UNKNOWN",
+      "count": 9
+    },
+    {
+      "actual": "squats_up",
+      "predicted": "pushups_down",
+      "count": 1
+    },
+    {
+      "actual": "squats_up",
+      "predicted": "squats_up",
+      "count": 22
+    }
+  ],
+  "limits": [
+    "No subject/video IDs; neighbouring or same-subject images may cross the split.",
+    "No expert form labels or independent landmark truth.",
+    "Only squat/push-up terminal states; no labelled negative/OOD classes.",
+    "Upstream source model and current MediaPipe image landmarks may differ.",
+    "Do not enable automatic coaching from these metrics alone."
+  ]
+}

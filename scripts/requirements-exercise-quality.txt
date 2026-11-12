@@ -1,0 +1,11 @@
+# Python 3.13.5 research environment used for the recorded run.
+# Install MediaPipe with --no-deps if using the FFmpeg/Pillow setup described in docs.
+numpy==2.4.6
+scikit-learn==1.9.0
+scipy==1.18.0
+Pillow==12.3.0
+mediapipe==0.10.32
+absl-py==2.4.0
+flatbuffers==25.12.19
+cffi==2.0.0
+matplotlib==3.11.0

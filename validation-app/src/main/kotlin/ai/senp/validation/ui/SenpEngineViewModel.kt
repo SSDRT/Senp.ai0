@@ -17,6 +17,7 @@ import ai.senp.validation.FrameReviewRunResult
 import ai.senp.validation.analyzeReferenceActionCatching
 import ai.senp.validation.assembleRecordedComparisonCatching
 import ai.senp.validation.PreparedReferenceAction
+import ai.senp.validation.ReferenceExtractionRequest
 import ai.senp.validation.ReferenceActionProfileStore
 import ai.senp.validation.ReferencePreparationOutcome
 import ai.senp.validation.selectFrameReviewDeviations
@@ -192,6 +193,7 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                 val prepared = composition.referenceActionSession.compileReference(
                     extraction = referenceExtraction,
                     analysisFramesPerSecond = analysisFramesPerSecond,
+                    repEvidenceFingerprint = ai.senp.motion.RepEvidenceFingerprint(referenceSha.value,model.modelSha256.value),
                 )
                 _uiState.value = AnalysisUiState.Analyzing(
                     activeStage = PipelineStageId.MOTION_REFERENCE,
@@ -207,6 +209,9 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                                 profile = prepared.profile,
                                 referenceSha256 = referenceSha.value,
                                 analysisFramesPerSecond = analysisFramesPerSecond,
+                                repEvidenceFingerprint = prepared.repEvidenceFingerprint,
+                                repSource = prepared.extraction,
+                                repPreparationRequest = ReferenceExtractionRequest(reference,sampling,model),
                             ),
                         )
                         _referenceProfileState.value = ReferenceProfileUiState.Ready(
@@ -451,6 +456,9 @@ class SenpEngineViewModel(application: Application) : AndroidViewModel(applicati
                                 profile = outcome.profile,
                                 referenceSha256 = sha.value,
                                 analysisFramesPerSecond = sampling.targetFramesPerSecond.toDouble(),
+                                repEvidenceFingerprint = outcome.repEvidenceFingerprint,
+                                repSource = outcome.extraction,
+                                repPreparationRequest = ReferenceExtractionRequest(VideoSource(uri.toString(),sha),sampling,model),
                             ),
                         )
                         _referenceProfileState.value = ReferenceProfileUiState.Ready(

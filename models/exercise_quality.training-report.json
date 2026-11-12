@@ -1,0 +1,547 @@
+{
+  "kind": "subject-disjoint-clip-labelled-world-pose-quality-diagnostics-not-landmark-accuracy",
+  "dataset_doi": "10.17632/kgbb3yn47p.3",
+  "license": "CC BY 4.0",
+  "source_videos": 1042,
+  "windows": 21128,
+  "split_seed": 20261022,
+  "train_subjects": [
+    "001",
+    "002",
+    "004",
+    "005",
+    "006",
+    "008",
+    "010",
+    "011",
+    "012",
+    "014",
+    "016",
+    "017",
+    "019",
+    "020",
+    "022",
+    "024"
+  ],
+  "validation_subjects": [
+    "007",
+    "009",
+    "013",
+    "021",
+    "023"
+  ],
+  "test_subjects": [
+    "003",
+    "015",
+    "018",
+    "025",
+    "026"
+  ],
+  "full_archive_sha256_verified": false,
+  "video_integrity": "ZIP CRC + per-video SHA-256; remote archive index over HTTPS",
+  "maximum_sampled_duration_ms": 24000,
+  "sample_period_ms": 500,
+  "runtime": {
+    "numpy": "2.4.6",
+    "scikit-learn": "1.9.0",
+    "mediapipe": "0.10.32",
+    "Pillow": "12.3.0"
+  },
+  "ffmpeg": "ffmpeg version 8.1.2-full_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "research_runtime_patch": {
+    "mediapipe": "0.10.32",
+    "change": "Omit four optional drawing exports; inference modules/weights unchanged",
+    "original_sha256": "75bf16c20b70c39f4f7fa6b5702204c47a1036b5b7da310e914c7ad12e76c63b",
+    "modified_sha256": "202b2b34afa02f6d3bde6502fb2f74023e9bc19eb5c5b5aa83b9bc5d25263a5f",
+    "removed_lines": [
+      "import mediapipe.tasks.python.vision.drawing_styles",
+      "import mediapipe.tasks.python.vision.drawing_utils",
+      "drawing_styles = drawing_styles",
+      "drawing_utils = drawing_utils"
+    ]
+  },
+  "exercises": [
+    {
+      "exercise_id": "standing_side_bend",
+      "dataset_exercise": "abs",
+      "status": "RESEARCH_ONLY",
+      "training_windows": 2463,
+      "validation_windows": 735,
+      "test_windows": 508,
+      "training_videos": 65,
+      "validation_videos": 20,
+      "test_videos": 15,
+      "validation_selected_threshold": null,
+      "validation": {
+        "windows": 735,
+        "tp": 0,
+        "fp": 0,
+        "fn": 359,
+        "tn": 376,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.6787434066259704
+      },
+      "test_window_metrics": {
+        "windows": 508,
+        "tp": 0,
+        "fp": 0,
+        "fn": 260,
+        "tn": 248,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.5192462779156328
+      },
+      "test_raw_window_auc": 0.5192462779156328,
+      "validation_outlier_windows": 0,
+      "test_video_mean_score_metrics": {
+        "windows": 15,
+        "tp": 0,
+        "fp": 0,
+        "fn": 8,
+        "tn": 7,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.5
+      },
+      "test_outlier_windows": 0,
+      "test_by_view": {
+        "front": {
+          "windows": 228,
+          "tp": 0,
+          "fp": 0,
+          "fn": 127,
+          "tn": 101,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.3382708349575115
+        },
+        "side": {
+          "windows": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 0,
+          "precision": null,
+          "recall": null,
+          "auc": null
+        },
+        "diagonal": {
+          "windows": 280,
+          "tp": 0,
+          "fp": 0,
+          "fn": 133,
+          "tn": 147,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.6533681141629584
+        }
+      }
+    },
+    {
+      "exercise_id": "bent_over_row",
+      "dataset_exercise": "back",
+      "status": "RESEARCH_ONLY",
+      "training_windows": 2078,
+      "validation_windows": 607,
+      "test_windows": 332,
+      "training_videos": 61,
+      "validation_videos": 19,
+      "test_videos": 11,
+      "validation_selected_threshold": null,
+      "validation": {
+        "windows": 607,
+        "tp": 0,
+        "fp": 0,
+        "fn": 276,
+        "tn": 331,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.6286450807828714
+      },
+      "test_window_metrics": {
+        "windows": 332,
+        "tp": 0,
+        "fp": 0,
+        "fn": 164,
+        "tn": 168,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.6383928571428571
+      },
+      "test_raw_window_auc": 0.6383928571428571,
+      "validation_outlier_windows": 0,
+      "test_video_mean_score_metrics": {
+        "windows": 11,
+        "tp": 0,
+        "fp": 0,
+        "fn": 6,
+        "tn": 5,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.7333333333333333
+      },
+      "test_outlier_windows": 0,
+      "test_by_view": {
+        "front": {
+          "windows": 210,
+          "tp": 0,
+          "fp": 0,
+          "fn": 103,
+          "tn": 107,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.6003992378187097
+        },
+        "side": {
+          "windows": 30,
+          "tp": 0,
+          "fp": 0,
+          "fn": 30,
+          "tn": 0,
+          "precision": null,
+          "recall": 0.0,
+          "auc": null
+        },
+        "diagonal": {
+          "windows": 92,
+          "tp": 0,
+          "fp": 0,
+          "fn": 31,
+          "tn": 61,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.7355896351136965
+        }
+      }
+    },
+    {
+      "exercise_id": "biceps_curl",
+      "dataset_exercise": "bicep_curl",
+      "status": "RESEARCH_ONLY",
+      "training_windows": 2509,
+      "validation_windows": 607,
+      "test_windows": 641,
+      "training_videos": 71,
+      "validation_videos": 17,
+      "test_videos": 17,
+      "validation_selected_threshold": 0.9997582522584441,
+      "validation": {
+        "windows": 607,
+        "tp": 15,
+        "fp": 0,
+        "fn": 307,
+        "tn": 285,
+        "precision": 1.0,
+        "recall": 0.046583850931677016,
+        "auc": 0.47489375612945406
+      },
+      "test_window_metrics": {
+        "windows": 641,
+        "tp": 0,
+        "fp": 4,
+        "fn": 324,
+        "tn": 313,
+        "precision": 0.0,
+        "recall": 0.0,
+        "auc": 0.4711122794719008
+      },
+      "test_raw_window_auc": 0.4711122794719008,
+      "validation_outlier_windows": 1,
+      "test_video_mean_score_metrics": {
+        "windows": 17,
+        "tp": 0,
+        "fp": 0,
+        "fn": 8,
+        "tn": 9,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.4861111111111111
+      },
+      "test_outlier_windows": 0,
+      "test_by_view": {
+        "front": {
+          "windows": 308,
+          "tp": 0,
+          "fp": 0,
+          "fn": 164,
+          "tn": 144,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.4209434281842819
+        },
+        "side": {
+          "windows": 22,
+          "tp": 0,
+          "fp": 4,
+          "fn": 0,
+          "tn": 18,
+          "precision": 0.0,
+          "recall": null,
+          "auc": null
+        },
+        "diagonal": {
+          "windows": 311,
+          "tp": 0,
+          "fp": 0,
+          "fn": 160,
+          "tn": 151,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.5854304635761589
+        }
+      }
+    },
+    {
+      "exercise_id": "push_up",
+      "dataset_exercise": "push_up",
+      "status": "UNSUPPORTED_INSUFFICIENT_RELIABLE_POSE",
+      "window_counts": {
+        "train": 39,
+        "validation": 0,
+        "test": 8
+      },
+      "reason": "At least one subject split lacks reliable windows or both quality classes at the unchanged confidence/coverage gates."
+    },
+    {
+      "exercise_id": "overhead_press",
+      "dataset_exercise": "shoulder",
+      "status": "RESEARCH_ONLY",
+      "training_windows": 2299,
+      "validation_windows": 807,
+      "test_windows": 607,
+      "training_videos": 65,
+      "validation_videos": 22,
+      "test_videos": 16,
+      "validation_selected_threshold": 0.9992152376912442,
+      "validation": {
+        "windows": 807,
+        "tp": 21,
+        "fp": 1,
+        "fn": 372,
+        "tn": 413,
+        "precision": 0.9545454545454546,
+        "recall": 0.05343511450381679,
+        "auc": 0.6192333222701627
+      },
+      "test_window_metrics": {
+        "windows": 607,
+        "tp": 0,
+        "fp": 0,
+        "fn": 326,
+        "tn": 281,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.751566491277864
+      },
+      "test_raw_window_auc": 0.724570442984084,
+      "validation_outlier_windows": 0,
+      "test_video_mean_score_metrics": {
+        "windows": 16,
+        "tp": 0,
+        "fp": 0,
+        "fn": 8,
+        "tn": 8,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.828125
+      },
+      "test_outlier_windows": 13,
+      "test_by_view": {
+        "front": {
+          "windows": 321,
+          "tp": 0,
+          "fp": 0,
+          "fn": 164,
+          "tn": 157,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.6806742271244368
+        },
+        "side": {
+          "windows": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 0,
+          "precision": null,
+          "recall": null,
+          "auc": null
+        },
+        "diagonal": {
+          "windows": 286,
+          "tp": 0,
+          "fp": 0,
+          "fn": 162,
+          "tn": 124,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.8267622461170848
+        }
+      }
+    },
+    {
+      "exercise_id": "bodyweight_squat",
+      "dataset_exercise": "squat",
+      "status": "RESEARCH_ONLY",
+      "training_windows": 2219,
+      "validation_windows": 670,
+      "test_windows": 574,
+      "training_videos": 64,
+      "validation_videos": 20,
+      "test_videos": 18,
+      "validation_selected_threshold": 0.9978142105579291,
+      "validation": {
+        "windows": 670,
+        "tp": 26,
+        "fp": 1,
+        "fn": 335,
+        "tn": 308,
+        "precision": 0.9629629629629629,
+        "recall": 0.07202216066481995,
+        "auc": 0.7399349164940967
+      },
+      "test_window_metrics": {
+        "windows": 574,
+        "tp": 17,
+        "fp": 2,
+        "fn": 265,
+        "tn": 290,
+        "precision": 0.8947368421052632,
+        "recall": 0.06028368794326241,
+        "auc": 0.5541812396774507
+      },
+      "test_raw_window_auc": 0.5541812396774507,
+      "validation_outlier_windows": 0,
+      "test_video_mean_score_metrics": {
+        "windows": 18,
+        "tp": 0,
+        "fp": 0,
+        "fn": 9,
+        "tn": 9,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.5987654320987654
+      },
+      "test_outlier_windows": 0,
+      "test_by_view": {
+        "front": {
+          "windows": 291,
+          "tp": 16,
+          "fp": 2,
+          "fn": 124,
+          "tn": 149,
+          "precision": 0.8888888888888888,
+          "recall": 0.11428571428571428,
+          "auc": 0.5031220435193946
+        },
+        "side": {
+          "windows": 5,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "tn": 4,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 1.0
+        },
+        "diagonal": {
+          "windows": 278,
+          "tp": 1,
+          "fp": 0,
+          "fn": 140,
+          "tn": 137,
+          "precision": 1.0,
+          "recall": 0.0070921985815602835,
+          "auc": 0.594890510948905
+        }
+      }
+    },
+    {
+      "exercise_id": "overhead_triceps_extension",
+      "dataset_exercise": "tricep",
+      "status": "RESEARCH_ONLY",
+      "training_windows": 2025,
+      "validation_windows": 610,
+      "test_windows": 790,
+      "training_videos": 58,
+      "validation_videos": 18,
+      "test_videos": 20,
+      "validation_selected_threshold": null,
+      "validation": {
+        "windows": 610,
+        "tp": 0,
+        "fp": 0,
+        "fn": 309,
+        "tn": 301,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.6275629240181057
+      },
+      "test_window_metrics": {
+        "windows": 790,
+        "tp": 0,
+        "fp": 0,
+        "fn": 403,
+        "tn": 387,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.5648848109463264
+      },
+      "test_raw_window_auc": 0.5648848109463264,
+      "validation_outlier_windows": 0,
+      "test_video_mean_score_metrics": {
+        "windows": 20,
+        "tp": 0,
+        "fp": 0,
+        "fn": 10,
+        "tn": 10,
+        "precision": null,
+        "recall": 0.0,
+        "auc": 0.63
+      },
+      "test_outlier_windows": 0,
+      "test_by_view": {
+        "front": {
+          "windows": 401,
+          "tp": 0,
+          "fp": 0,
+          "fn": 200,
+          "tn": 201,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.5690049751243781
+        },
+        "side": {
+          "windows": 0,
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "tn": 0,
+          "precision": null,
+          "recall": null,
+          "auc": null
+        },
+        "diagonal": {
+          "windows": 389,
+          "tp": 0,
+          "fp": 0,
+          "fn": 203,
+          "tn": 186,
+          "precision": null,
+          "recall": 0.0,
+          "auc": 0.5799565654960539
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Labels are whole-clip good/bad, not time-resolved expert fault annotations.",
+    "Pose landmarks are model outputs, not independent keypoint ground truth.",
+    "Overlapping windows are correlated; do not treat them as independent people.",
+    "Scores are uncalibrated and must not be described as form probabilities.",
+    "Thresholds are chosen on validation subjects only; no phone or clinical qualification.",
+    "Runtime modality/input resolution and false detections need independent validation."
+  ],
+  "artifact_sha256": "ae7d6814bee989c58096aee4c0a1a5afa1e8c5d24bbdb928249b3047eafc3dd6"
+}

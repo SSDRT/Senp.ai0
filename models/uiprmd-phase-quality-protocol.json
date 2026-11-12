@@ -1,0 +1,233 @@
+{
+  "schema": "uiprmd-phase-quality-protocol/1",
+  "frozen_utc": "2026-10-27T16:50:14.620165+00:00",
+  "baseline_metadata_commit": "d3946488c11bc7c6e880d224b4d91cdd6f9dab5d",
+  "verified_engine_commit": "1b52bcf6624d242f07ef5fa74ac5bab1efd1e5e4",
+  "compiler": "qualified-rep-compiler/7",
+  "feature_schema": "uiprmd-vicon39-causal-phase-quality/1",
+  "candidate": "logistic_C0_1",
+  "C": 0.1,
+  "seed": 17,
+  "veto_bad_score_threshold": 0.75,
+  "phase_boundaries": [
+    0.1,
+    0.85
+  ],
+  "expected_features": 192,
+  "subjects": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
+  "folds": "leave-one-subject-out, same candidate and threshold in every fold",
+  "baseline_replay": "test-artifacts/exercise-knowledge/uiprmd/clear-ready-development-replay.json",
+  "expected_original_correct_reps": 80,
+  "expected_original_incorrect_reps": 80,
+  "reference_subjects": "02 for subject01, otherwise01; unchanged from existing protocol",
+  "evaluation": {
+    "precision": 0.9,
+    "good_rep_recall": 0.7,
+    "coverage": 0.8,
+    "retain_all_previously_counted_good": true,
+    "no_new_incorrect_counts": true
+  },
+  "input_supervision": "matched original whole-repetition labels only; score all emitted attempts, including unmatched",
+  "features": "six causal engine phase regions x16 original observed descriptors x(median,observed_fraction)",
+  "allow_validation_access": false,
+  "allow_final_test_access": false,
+  "allow_parameter_sweep": false,
+  "production_changed": false,
+  "raw_network_weights_changed": false,
+  "readiness_points_for_development": 0,
+  "receipts": [
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256_lf": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256_lf": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256_lf": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256_lf": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256_lf": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256_lf": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256_lf": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256_lf": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256_lf": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256_lf": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256_lf": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256_lf": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256_lf": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256_lf": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256_lf": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256_lf": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256_lf": "a59716fdb7eb7759ff09aa43dc572a9b5bb6cfb4310edf65bf31eb6a66f8082f"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256_lf": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256_lf": "0398ac2c5970909e22e706f4fc9dae0846e399a85480f644d9ff410976b283a8"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256_lf": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256_lf": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256_lf": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256_lf": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256_lf": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256_lf": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256_lf": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256_lf": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256_lf": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256_lf": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256_lf": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256_lf": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/UiprmdDevelopmentReplay.kt",
+      "sha256_lf": "a99336995ed9dda6fbb8368760c70a31618632233a893d1f78701653302be12a"
+    },
+    {
+      "path": "core-motion/src/test/kotlin/ai/senp/motion/UiprmdEvidenceAudit.kt",
+      "sha256_lf": "7a9d4276791b88a296630917fcfe26dbab3f7556113aa06434d4275cc87a973b"
+    },
+    {
+      "path": "scripts/evaluate_uiprmd_development.py",
+      "sha256_lf": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "scripts/inspect_uiprmd_development.py",
+      "sha256_lf": "51afc5271098326e0ef56def3a0e174f90644e1ef9a1e6b9fc4adc26c4c777c8"
+    },
+    {
+      "path": "scripts/phase-quality-research.init.gradle",
+      "sha256_lf": "3e168a1485c18f7f527b2f99bf9599c702c9c867b5b3e7d69c900075753aa105"
+    },
+    {
+      "path": "scripts/tests/test_uiprmd_phase_quality.py",
+      "sha256_lf": "e0fb7a96df00f9ddc2e5ded1a1ba5801a8d95b01dfdbc07aa038a42943a09055"
+    },
+    {
+      "path": "scripts/train_uiprmd_phase_quality.py",
+      "sha256_lf": "d45a3770106b8ccc85668b75e2370d59bf791d1c3f78384c743a35f85620987f"
+    },
+    {
+      "path": "scripts/train_uiprmd_quality_heads.py",
+      "sha256_lf": "2729507a8b7655f6312c11350b5c530c95dc02af13276d55a962bc010fb6be9b"
+    },
+    {
+      "path": "scripts/uiprmd_phase_quality.py",
+      "sha256_lf": "f97f203befd03a97886a0b20b2bf2452ce2c362355a2e69b615e92f93a6715ad"
+    },
+    {
+      "path": "scripts/uiprmd_quality_features.py",
+      "sha256_lf": "d5f9d79a7a7c990c946facc090c8fa66414fe5abfd5dabd7a73bdced23f3e1dc"
+    },
+    {
+      "path": "scripts/uiprmd_vicon.py",
+      "sha256_lf": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1"
+    },
+    {
+      "path": "models/uiprmd-evaluation-protocol.json",
+      "sha256": "cec24dad3d99e353817e6039c4ba2798aee8238837d9d29e72d567db1e0bbd81"
+    },
+    {
+      "path": "models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/acquisition.json",
+      "sha256": "47dde1ad2dfc6fb04ee820f1ad526a27157e099e82c944d8ddd4576abb741c09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/clear-ready-development-replay.json",
+      "sha256": "17b21e933e5000209bfc79e4db42b9baf3b55b2ab5d5cf20a34722e619ac166a"
+    }
+  ]
+}

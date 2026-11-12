@@ -1,0 +1,10 @@
+gradle.projectsEvaluated {
+    def motion=gradle.rootProject.project(':core-motion')
+    motion.tasks.register('preparationFaultMmfitAudit',JavaExec) {
+        dependsOn(motion.tasks.named('testClasses'))
+        classpath=motion.sourceSets.test.runtimeClasspath
+        mainClass='ai.senp.motion.PreparationFaultMmfitAudit'
+        args(gradle.rootProject.projectDir.absolutePath)
+        maxHeapSize='1200m'
+    }
+}

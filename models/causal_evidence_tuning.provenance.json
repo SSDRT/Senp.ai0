@@ -1,0 +1,66 @@
+{
+  "kind": "causal-compatible-path-and-return-phase-tuning-not-landmark-network-training",
+  "date": "2026-10-24",
+  "baseline_commit": "d26df1ed3db48f661e0eb9cf0c1cabdcd41ba55f",
+  "reference_schema": "qualified-reference-reps/5",
+  "selection_policy": "qualified-reference-selection/2",
+  "changes": [
+    "Intermediate path evidence must satisfy all required features under the selected reference branch and original acceptable allowances.",
+    "After a directly confirmed far endpoint, a fully compatible observed return pose may use the whole return curve before reversal dwell completes. Reversal confirmation, fault persistence and count completion are unchanged.",
+    "All reference keys change with runtime schema 5 to invalidate stale policies. Raw MP33 fixture observations remain unchanged."
+  ],
+  "preset_thresholds_changed": false,
+  "landmark_network_weights_retrained": false,
+  "new_manual_labels": 0,
+  "source_or_reference_observations_changed": false,
+  "generated_controls": {
+    "cases": 576,
+    "baseline_failures": 384,
+    "compatible_path_only_failures": 96,
+    "final_failures": 0,
+    "unsupported_counts_before": 288,
+    "unsupported_counts_after": 0,
+    "asymmetric_correct_cycles_accepted_before": 0,
+    "asymmetric_correct_cycles_accepted_after": 96,
+    "wrong_return_cycles_accepted_after": 0
+  },
+  "real_timestamp_controlled_feature_corruptions": {"original_accepted_outputs":31,"cases":124,"failures":0},
+  "real_video_development": {
+    "capped_calibration_before":30,
+    "capped_calibration_after":30,
+    "complete_calibration_before":38,
+    "complete_calibration_after":38,
+    "runs_per_overlapping_cohort":96,
+    "capped_accepted_before":17,
+    "capped_accepted_after":18,
+    "complete_accepted_before":31,
+    "complete_accepted_after":31,
+    "accepted_bad_clip_outputs_before_and_after":7,
+    "previously_usable_references_lost":0,
+    "previously_expanded_left_press_range_still_needed":false
+  },
+  "parameter_search": {
+    "candidates":27,
+    "generated_training_cases":10692,
+    "generated_checking_cases_per_setting":396,
+    "promoted":false,
+    "candidate_acceptable_allowance_degrees":16,
+    "candidate_fault_confirmation_ms":120,
+    "production_acceptable_allowance_degrees":12,
+    "production_fault_confirmation_ms":160,
+    "candidate_complete_accepted_outputs":39,
+    "candidate_accepted_bad_clip_outputs":10,
+    "reason":"The synthetic optimum increases bad-clip acceptances; no independent rep truth establishes a precision benefit."
+  },
+  "dataset_doi":"10.17632/kgbb3yn47p.3",
+  "license":"CC BY 4.0",
+  "fixture_provenance":"v5_parity_fixture.provenance.json",
+  "live_rep_precision":null,
+  "release_qualified":false,
+  "limits":[
+    "Constructed angular cases and corrupted descriptors test mechanisms, not human form accuracy.",
+    "No independent per-repetition annotations or new subjects were added; 98% precision remains unsubstantiated.",
+    "Six qualified policies; real video development coverage includes squat, curl, push-up and press only.",
+    "Landmark errors, occlusions and viewpoint ambiguity remain."
+  ]
+}

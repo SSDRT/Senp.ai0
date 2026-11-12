@@ -1,0 +1,19 @@
+{
+  "purpose": "Upstream model-regression checks only; these expected predictions are not independent human ground truth.",
+  "source_repository": "https://github.com/google-ai-edge/mediapipe",
+  "reference_test": "mediapipe/tasks/python/test/vision/pose_landmarker_test.py",
+  "retrieved_date": "2026-10-22",
+  "storage_policy": "Download into ignored build/generated/live-pose-fixtures; do not redistribute binaries in Git.",
+  "artifacts": [
+    {
+      "name": "pose.jpg",
+      "url": "https://storage.googleapis.com/mediapipe-assets/pose.jpg",
+      "sha256": "c8a830ed683c0276d713dd5aeda28f415f10cd6291972084a40d0d8b934ed62b"
+    },
+    {
+      "name": "pose_landmarks.pbtxt",
+      "url": "https://storage.googleapis.com/mediapipe-assets/pose_landmarks.pbtxt",
+      "sha256": "69c79cdf3964d7819776eab1172e47e70684139d72a6d7edcbdd62dbb2ca5527"
+    }
+  ]
+}

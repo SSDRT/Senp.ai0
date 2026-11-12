@@ -1,0 +1,401 @@
+{
+  "schema": "senpai-reference-plane-guard-provenance/1",
+  "kind": "rejected-development-only-skeletal-research-not-live-camera-accuracy",
+  "captured_utc": "2026-10-25T09:45:30.223811+00:00",
+  "candidate_freeze_commit": "5be8e551bbd92c530a52d074000fd27e448babd6",
+  "research_and_qa_commit": "c522f116305040c6bb9546163d0212e8876f2f82",
+  "default_engine_checkpoint_commit": "c3b6b4fad30b1acfb17cd727e40bf8e85f6df5c8",
+  "protocol_sha256": "727835bfffc95a89da0ae4c22daa4bdcadc41761265669c93b992e6be33dd503",
+  "default_engine_sources_unchanged": true,
+  "new_apk_promoted": false,
+  "raw_mp33_modified": false,
+  "raw_landmark_network_trained": false,
+  "new_human_annotations": false,
+  "readiness_score": 42.5,
+  "readiness_points_earned": 0,
+  "live_human_rep_precision": null,
+  "development_labels_retained": {
+    "correct": 80,
+    "incorrect": 80,
+    "total": 160
+  },
+  "reference_fitting_used_source_labels": false,
+  "reference_only_subjects": [
+    "01",
+    "02"
+  ],
+  "source_subjects_opened_this_experiment": [
+    "01",
+    "02",
+    "03",
+    "04"
+  ],
+  "validation_hypothesis_informed_by_previously_opened_material": true,
+  "new_raw_validation_trajectory_reads": 0,
+  "validation_candidate_evaluated": false,
+  "validation_candidate_access_blocked_by_frozen_protocol": true,
+  "final_test_subjects_opened": false,
+  "candidate_status": "REJECTED_AFTER_DEVELOPMENT",
+  "results": {
+    "baseline": {
+      "counts": {
+        "correct_reps": 80,
+        "total_reps": 160,
+        "false_negative": 49,
+        "verdict_UNASSESSABLE": 70,
+        "true_positive": 31,
+        "assessable_reps": 81,
+        "verdict_ACCEPTABLE": 55,
+        "verdict_NO_EVENT": 9,
+        "incorrect_reps": 80,
+        "verdict_REJECTED": 23,
+        "false_positive": 27,
+        "verdict_CORRECT": 3
+      },
+      "precision": 0.5344827586206896,
+      "good_rep_recall": 0.3875,
+      "assessable_coverage": 0.50625
+    },
+    "candidate": {
+      "counts": {
+        "correct_reps": 80,
+        "total_reps": 160,
+        "false_negative": 54,
+        "verdict_UNASSESSABLE": 81,
+        "true_positive": 26,
+        "assessable_reps": 70,
+        "verdict_ACCEPTABLE": 44,
+        "verdict_NO_EVENT": 9,
+        "incorrect_reps": 80,
+        "verdict_REJECTED": 23,
+        "false_positive": 21,
+        "verdict_CORRECT": 3
+      },
+      "precision": 0.5531914893617021,
+      "good_rep_recall": 0.325,
+      "assessable_coverage": 0.4375
+    }
+  },
+  "good_counts_lost": 5,
+  "incorrect_counts_withheld": 6,
+  "new_confirmed_clear_faults": 0,
+  "source_labels_are_clinical_not_exact_reference_imitation": true,
+  "verification": {
+    "core_jvm": {
+      "tests": 217,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "python_tests": 64,
+    "python_failures": 0,
+    "android_native_rerun_this_experiment": false,
+    "production_unchanged_from_previous_25_native_case_checkpoint": true,
+    "original_marker_sheets_inspected": 1,
+    "timestamped_marker_views": 6
+  },
+  "preliminary_clear_only_trial": {
+    "frozen_before_evaluation": false,
+    "promotion_eligible": false,
+    "artifacts_preserved": true
+  },
+  "additional_dataset_review": {
+    "data_ingested": false,
+    "bodymts_repository_revision": "ac6835a5759c7ae46d8861e29dd41deaa3dbb7c4",
+    "ec3d_repository_revision": "1c8d28ddc8a346634f9c86335e3a261f90d6b9b2",
+    "amie_repository_revision": "6896f263a5fe5e0f034b76d41b465ecd8d61dbf8",
+    "unknown_data_licences_treated_as_open": false,
+    "author_messages_sent": false
+  },
+  "source_sha256": {
+    "scripts/uiprmd_reference_plane_guard.py": "244d4b36ef270a29e74cd2bd3698e6de4ef96535d0ffe6c0435b5612efc94cfb",
+    "scripts/evaluate_reference_plane_guard.py": "9a4db0e8121fd44a16776f0a1c7dd6c6b39316a4ad8bd8195402416871947314",
+    "scripts/tests/test_reference_plane_guard.py": "99c3831b6d799cb07eeadb3501b031bc88ca2317dfd62b508c261ca9cf8f902b",
+    "scripts/uiprmd_quality_features.py": "d5f9d79a7a7c990c946facc090c8fa66414fe5abfd5dabd7a73bdced23f3e1dc",
+    "scripts/uiprmd_vicon.py": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1",
+    "scripts/analyze_uiprmd_evidence.py": "5f1fe5043369b724d1d5de3b76f3582ce05458449c8a4870e5e1d484cc385bc9",
+    "core-motion/src/test/kotlin/ai/senp/motion/UiprmdPlaneReferenceInputs.kt": "6e20e1a982657f5c2850127ab2b90b200efce3104885ceaaa334a12600c0d181"
+  },
+  "frozen_input_receipts": [
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m01-s01-correct.json.gz",
+      "sha256": "0cf3a4a875e351c76ee6657fdb51ef9eb01cb53d761c6a3d1e3d801e193c3752"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m01-s01-incorrect.json.gz",
+      "sha256": "b36cfa03b9ec4c0f92870d61d6e2c9a2d5aecb8121e617d5c32bd45c6bcd7aa4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m01-s02-correct.json.gz",
+      "sha256": "427fb02bc95b378e10b4274b273a80686776f543f44044d11049f56721199b03"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m01-s02-incorrect.json.gz",
+      "sha256": "0739825be7c69774673ae3898058219883896cc4b1bbebc42773e0656307b205"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m01-s03-correct.json.gz",
+      "sha256": "a486ccc13110f4cdad76c76c9ca7f0f5c469497796a85543b10735d22fdf461e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m01-s03-incorrect.json.gz",
+      "sha256": "5f0889cef5f8d98da429de9338bbf70260ae35071e53c9db8df842837e94c34a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m01-s04-correct.json.gz",
+      "sha256": "5bdc8728419f529cfd2a6f7a9405a27c05dff41e8086e6fbed8418e4c678ada8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m01-s04-incorrect.json.gz",
+      "sha256": "6d0b0b25efb9dedd919568452d4901991a82b29533ef3cf1a2360e2f6eec36ba"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m07-s01-correct.json.gz",
+      "sha256": "0fafdd8c4ff3072cecfb1d465c43d5ef6b17651cb4cfe23e0febdbd4b4608f61"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m07-s01-incorrect.json.gz",
+      "sha256": "c0fa2ac80c99bdb106100e7b18f34375d676fe6f245cffafd506e512d740c422"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m07-s02-correct.json.gz",
+      "sha256": "4420fc5034cfbaafd099ef4c284c72497ec5ac6cbf92becdf01f837cffb54e21"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m07-s02-incorrect.json.gz",
+      "sha256": "1428279312da06622edb63b46403ed3274e84b7ed0197af21530b7ebe3529dfd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m07-s03-correct.json.gz",
+      "sha256": "e076dbeb95a8064858e9952c0e28e0d535e49bdc968eb0586208bdda5e8bf136"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m07-s03-incorrect.json.gz",
+      "sha256": "24586040b4fa9a6729ccf098d271411844deebb50ee18c352531b18da3eb44cd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m07-s04-correct.json.gz",
+      "sha256": "650f16204ec68607677e0b239e0785a25290b4bf6efd7d5eab19ac9398cbfc64"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/m07-s04-incorrect.json.gz",
+      "sha256": "a0d2c3e029de6df328b8b88f9592377132d67871b49c33a070d3f5b3ca5c4e4f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/reference-evidence-audit-development/manifest.json",
+      "sha256": "b0349cb0fd85ce89774a78a8600b51bf486cb446c6189db2f33d9c37d65cf687"
+    }
+  ],
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/research/plane-reference-inputs.json",
+      "sha256": "cc2979a6b51331ffea384fae2af6dc2d6a92f9371e5e3de0015a1059121bcda4",
+      "bytes": 382494
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/research/plane-guard-reference-models.json",
+      "sha256": "250a0eb6ef0f74c9dcfbb496780cd3c4fce872892ad70143ec751c7dee3fce02",
+      "bytes": 5652
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/research/plane-guard-development.json",
+      "sha256": "c9ab307b8cbff8be7b2260f5413aa6fa51f003af27277b910eb92f94ace42fc6",
+      "bytes": 2078314
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/research/plane-guard-reference-models-v2.json",
+      "sha256": "7af436b265efd44456910fe171c1805d46f140867648110fd2e6c52558040003",
+      "bytes": 5692
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/research/plane-guard-v2-development.json",
+      "sha256": "b25b6a8d72aced478fa1aa3d6ce0dcb195f3bdcf0b0022440e3ce1fcb6395095",
+      "bytes": 2079742
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/research/plane-guard-source-access.jsonl",
+      "sha256": "13e77d5d6de066dbdc4112b62a9605dec69c2b62669b173cec3922b0fd2830b2",
+      "bytes": 8590
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/research/plane-guard-development-original-markers.png",
+      "sha256": "1157159e487d501de54a61117bd794fee5de58c1f085b8038ad81849b6555d5c",
+      "bytes": 189974
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/research/plane-guard-development-qa.json",
+      "sha256": "4eb31e5bba07a67bbbba0b2ea1a573e06e4d74c8011bcb6d2960ee5f765ad054",
+      "bytes": 1863
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/logs/plane-guard-core-verification.log",
+      "sha256": "1ba1fcdb4ba1e4384f79379a8b475c65e8094034930c4b4cbb2c92a0957fa78a",
+      "bytes": 2456
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/logs/plane-guard-development-qa.log",
+      "sha256": "2c559a29361c13617d8e7af9bf140fda1cb1776584adf50efc28fdc70cce9c68",
+      "bytes": 76
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/logs/plane-guard-development.log",
+      "sha256": "fc06d8dc559bca8e13a678af90d3e371274c3047d8d43dd36bb59b5825ef1382",
+      "bytes": 1161
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/logs/plane-guard-python.log",
+      "sha256": "2d60ff981e4c318c37283ae5100bc92d602fb1f9d02cac36df814126ed6bc59b",
+      "bytes": 11886
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/logs/plane-guard-unit.log",
+      "sha256": "673f38283958b59a443d3cf8cca8b432b0d9c93cfc211a10f966bd9577a37770",
+      "bytes": 1301
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/logs/plane-guard-v2-development.log",
+      "sha256": "5ebf38a9551bef0d1062806d1097fa6246e2f7756aa076098056287f90c637ed",
+      "bytes": 1159
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/logs/plane-guard-v2-unit.log",
+      "sha256": "ac66752ef04a6ff410fd3b1ef8c0349e6a8362d3d47e26d27f404094f3cc68a5",
+      "bytes": 1301
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/logs/plane-reference-inputs.log",
+      "sha256": "6ea5dd14330db80795a94501bb014588045088ddeec030c6b46de14fff3b319c",
+      "bytes": 1864
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "e7d64a0c18a4083ef5b76489462d483d91a396d8a95e770b93d85b6851a8660d",
+      "bytes": 1126
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "9680a5cbf175d7ac9a211957371fb8c09d7461aa96dcf2a6508e24f34e058845",
+      "bytes": 1863
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "e8e29a4d3c85b1ce752d24e28555cc9347040bfa8871d012868303709cd8af84",
+      "bytes": 1451
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "8343713d47e17e0b08c5fa64bcec81e4e5d212b81ef8f24625686635bc61f02b",
+      "bytes": 962
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "e04f34437d25c7bef91cda67505951bcb7b25d579e634e94baca093f9d18decf",
+      "bytes": 2888
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "d800c2c290dcf097164c5da0aed430acaa0a5e6e7faa96a670cf861bdca24e86",
+      "bytes": 1313
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "988b5f714a0c4d556e60cab27be70b1864893ab32d79f66ff6cb4d154ac253d9",
+      "bytes": 3516
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "2cffb962bdcbdf6e968f10cb40f0c2e8b23dbd997847afa367d97304354541c8",
+      "bytes": 1113
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "c1a0224b34ed26c1956c1b177a95e0562667b7edc510efd688448fa2195de744",
+      "bytes": 1520
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "d74335beca8cb228aeabfcab25202b4ee96a77cbbb07080d88c722983b595994",
+      "bytes": 1857
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "56b839f453640d1cd5d0b153bff2d5f7f2ebf7c62e3985888aacb2fa903676ab",
+      "bytes": 3963
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "9fbb2d58d2dec822c9a9e737caf06c92ec4e80b09d95dcda9452004518e3d5f1",
+      "bytes": 1013
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "b62992385f36b36df7787ea21871848ddc85c1ec852c61ce8bfdd56111ba2fa9",
+      "bytes": 1389
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "14942c98ae40399b76356335b1a628ac445cc8667b4583a6831966c57926f569",
+      "bytes": 854
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "2a36eba089bedb7614be910a0fde0584ba0b8bc34df90ce2394a47aeb052ac88",
+      "bytes": 661
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "774ebeb2bef6869c0f065d8a7cfd357636735e750db78d476ea8504829852e14",
+      "bytes": 2114
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "9917eeb60a18a8b25b89cc8d2564dfda0448ad49101cd4ea8545ac36c7853964",
+      "bytes": 1142
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "01501bd200ee20816fb17169ce4deaae52bd98b7e44013e057becfcb0931d495",
+      "bytes": 980
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "ff982468613c3387e7242c97b2ea8b43f759efe5dad8bd512195629a467e1fe5",
+      "bytes": 4017
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "37bbec45c8a8ab3de6f7390a48abab4f471e5bfdeec30dd664306b5fef3b56cd",
+      "bytes": 1067
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "0de37468d516caf3643ab729e89b38b021cd1755588e839f2314270649cac2ad",
+      "bytes": 3916
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "5b51d38ddb9c405de42ec981e4f409d8fb70895423d3261d0a60a6fb58346398",
+      "bytes": 478
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "cf1a4f111514638710d696869570d68e9e8526ab51401d332249924a0654fa4e",
+      "bytes": 608
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "661eed1178319858264faf9ef82ee33d7edbd905113b0c1099cd2a3534b0d8dd",
+      "bytes": 2454
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/models/uiprmd-plane-guard-protocol.json",
+      "sha256": "727835bfffc95a89da0ae4c22daa4bdcadc41761265669c93b992e6be33dd503",
+      "bytes": 2266
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/plane-guard-checkpoint-5be8e55/scripts/plot_reference_plane_development.py",
+      "sha256": "9476b045e64d8c46c3af180ad32c41186a5f84b02f8995e6dfce012291c376e6",
+      "bytes": 4470
+    }
+  ]
+}

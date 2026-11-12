@@ -1,0 +1,46 @@
+{
+  "schema": "ucophyrehab-joint-intake-protocol/1",
+  "frozen_date": "2026-10-29",
+  "kind": "single-subject-joint-schema-and-measurement-audit-not-form-benchmark",
+  "dataset_version": 17935737,
+  "data_license": "CC-BY-4.0",
+  "source_metadata": "test-artifacts/exercise-knowledge/ucophyrehab-source-review-20261029/zenodo-version-record.json",
+  "file": {
+    "key": "dataset_3d_with_angles.json",
+    "url": "https://zenodo.org/api/records/17935737/files/dataset_3d_with_angles.json/content",
+    "bytes": 230334280,
+    "md5": "73026a0b44ada0603a6de63dd70f9fd4"
+  },
+  "parser": {
+    "package": "ijson",
+    "version": "3.6.0",
+    "license": "BSD-3-Clause AND ISC",
+    "wheel_sha256": "cf855a688dd80570e6daaa67afc84a950acf9c6ba9c3526096957614d21db1bd"
+  },
+  "selected_subject": 1,
+  "selected_exercise": 1,
+  "subject_split": {
+    "development_schema_only": [
+      1
+    ],
+    "all_other_subject_trajectories": "sealed; only original folder/exercise headers may be retained; no objects, plots, errors, targets or fitting"
+  },
+  "exercise_scope": "Publisher numeric exercise1 only; no supported-workout or anatomical-joint equivalence assumed until verified",
+  "allowed_current_access": [
+    "Acquire only the hash-bound 3D file; keep raw evidence unmodified and separate from MP33",
+    "Stream JSON syntax to retain folder/exercise roster, not other subjects' trajectory objects or outcomes",
+    "Construct every original frame only for subject1 exercise1, preserving IDs, values, zeros and missing fields",
+    "Record actual field/type schema before defining any coordinate mapping",
+    "If identity is unavailable before frames, or the selected recording is absent or duplicated, stop without substituting another"
+  ],
+  "measurement_stage": "Before numerical interpretation, freeze a schema-specific amendment. At most mechanical agreement of the recorded angle with all three vertices of the original measured-point triangle may be audited; no best-vertex selection, fitting, inferred joint centres, anthropometrics or wider range gates.",
+  "time_scope": "Original frame IDs are not timestamps. Require explicit acquisition/time evidence before creating milliseconds or aligning video. Preserve the descriptor's initial-five-frame limitation explicitly.",
+  "ordinal_ratings_file_opened": false,
+  "binary_form_labels_inferred": false,
+  "new_human_labels": 0,
+  "uiprmd_final_subject_access": false,
+  "production_or_model_weights_changed": false,
+  "readiness_points_earned": 0,
+  "human_live_rep_precision": null,
+  "source_metadata_sha256": "38db40c9e052c08e7c57b2b0153b8841f91da486d752b8941948031f5d8e106b"
+}

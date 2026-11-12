@@ -1,0 +1,40 @@
+{
+  "schema": "uiprmd-plane-guard-protocol/1",
+  "date": "2026-10-25",
+  "candidate_status": "REJECTED_AFTER_DEVELOPMENT",
+  "validation_evaluation_authorized": false,
+  "allow_final_test_access": false,
+  "allow_validation_refit": false,
+  "reason": "Development loses five existing correct counts while withholding six incorrect counts; fails unchanged recall/coverage gates.",
+  "policy": {
+    "minimum_reference_cycles": 3,
+    "minimum_bin_samples": 5,
+    "maximum_reference_mad_degrees": 12.0,
+    "maximum_reference_width_degrees": 60.0,
+    "acceptable_allowance_degrees": 12.0,
+    "reject_allowance_degrees": 30.0,
+    "fault_confirmation_ms": 160,
+    "maximum_gap_ms": 250,
+    "minimum_visible_fraction": 0.9,
+    "maximum_ambiguous_fraction": 0.1,
+    "progress_bins": 4
+  },
+  "reference_models_sha256": "7af436b265efd44456910fe171c1805d46f140867648110fd2e6c52558040003",
+  "development_result_sha256": "b25b6a8d72aced478fa1aa3d6ce0dcb195f3bdcf0b0022440e3ce1fcb6395095",
+  "reference_inputs_sha256": "cc2979a6b51331ffea384fae2af6dc2d6a92f9371e5e3de0015a1059121bcda4",
+  "validation_evidence_manifest_sha256": "18d9990e10b3720806b385fbd57b2c8bb71edb3a0e8218db22edcae0d5b0a18f",
+  "source_sha256": {
+    "scripts/uiprmd_reference_plane_guard.py": "244d4b36ef270a29e74cd2bd3698e6de4ef96535d0ffe6c0435b5612efc94cfb",
+    "scripts/evaluate_reference_plane_guard.py": "9a4db0e8121fd44a16776f0a1c7dd6c6b39316a4ad8bd8195402416871947314",
+    "scripts/tests/test_reference_plane_guard.py": "99c3831b6d799cb07eeadb3501b031bc88ca2317dfd62b508c261ca9cf8f902b",
+    "scripts/uiprmd_quality_features.py": "d5f9d79a7a7c990c946facc090c8fa66414fe5abfd5dabd7a73bdced23f3e1dc",
+    "scripts/uiprmd_vicon.py": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1",
+    "scripts/analyze_uiprmd_evidence.py": "5f1fe5043369b724d1d5de3b76f3582ce05458449c8a4870e5e1d484cc385bc9",
+    "core-motion/src/test/kotlin/ai/senp/motion/UiprmdPlaneReferenceInputs.kt": "6e20e1a982657f5c2850127ab2b90b200efce3104885ceaaa334a12600c0d181"
+  },
+  "source_outcomes_select_reference": false,
+  "production_changed": false,
+  "raw_landmark_network_trained": false,
+  "final_test_subjects_opened": false,
+  "readiness_points_earned": 0
+}

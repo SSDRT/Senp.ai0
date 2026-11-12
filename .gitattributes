@@ -3,3 +3,6 @@
 *.sh text eol=lf
 gradlew text eol=lf
 *.jar binary
+# Golden fixtures and provenance are byte-hashed; preserve their canonical bytes on Windows.
+*.json text eol=lf
+*.pbtxt text eol=lf

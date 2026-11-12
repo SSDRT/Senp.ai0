@@ -1,0 +1,860 @@
+{
+  "schema": "uiprmd-pelvis-knee-provenance/1",
+  "experiment_freeze_commit": "2c622441c6fa263e1f416963dc65dbeabc5754ff",
+  "verified_engine_commit": "b03e340769fb03c7460365f6592263c0376dc2f5",
+  "compiler": "qualified-rep-compiler/9",
+  "pipeline": "uiprmd-vicon39-pelvis-knee-projection-research/1",
+  "decision": "STOP_BEFORE_QUALITY_HEAD_OR_VALIDATION",
+  "measurement_domain": "development-skeletal-projections-not-MediaPipe-camera-truth",
+  "baseline_metrics": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "false_negative": 28,
+      "verdict_UNASSESSABLE": 49,
+      "true_positive": 52,
+      "assessable_reps": 102,
+      "verdict_ACCEPTABLE": 70,
+      "verdict_NO_EVENT": 9,
+      "verdict_CORRECT": 10,
+      "incorrect_reps": 80,
+      "verdict_REJECTED": 22,
+      "false_positive": 28
+    },
+    "precision": 0.65,
+    "good_rep_recall": 0.65,
+    "assessable_coverage": 0.6375
+  },
+  "candidate_metrics": {
+    "counts": {
+      "correct_reps": 80,
+      "total_reps": 160,
+      "true_positive": 53,
+      "assessable_reps": 103,
+      "verdict_ACCEPTABLE": 68,
+      "verdict_CORRECT": 13,
+      "false_negative": 27,
+      "verdict_NO_EVENT": 9,
+      "verdict_UNASSESSABLE": 48,
+      "verdict_REJECTED": 22,
+      "incorrect_reps": 80,
+      "unmatched_events": 1,
+      "false_positive": 28
+    },
+    "precision": 0.654320987654321,
+    "good_rep_recall": 0.6625,
+    "assessable_coverage": 0.64375
+  },
+  "original_denominator": 160,
+  "original_correct_labels": 80,
+  "original_incorrect_labels": 80,
+  "previous_good_counts_lost": 4,
+  "new_good_counts_gained": 5,
+  "new_publisher_correct_REJECTED": 3,
+  "matched_verdict_changes": 24,
+  "additional_unmatched_REJECTED_retained": true,
+  "all_control_attempt_fields_and_keys_equal_previous_screen": true,
+  "all_shoulder_input_and_attempt_fields_equal": true,
+  "discarded_components_retained": true,
+  "inferred_joints_or_anthropometric_defaults_used": false,
+  "quality_head_trained": false,
+  "threshold_search": false,
+  "validation_accessed": false,
+  "final_holdouts_opened": false,
+  "new_human_labels": 0,
+  "original_marker_snapshots_inspected": 9,
+  "original_traces_inspected": 3,
+  "python_tests": 192,
+  "core_motion_jvm_tests": 259,
+  "native_tests_rerun": false,
+  "production_changed": false,
+  "raw_MP33_or_model_weights_changed": false,
+  "new_delivery_APK": false,
+  "human_rep_precision": null,
+  "readiness": 50,
+  "readiness_points_earned": 0,
+  "production_readiness_receipts_revalidated": 2889,
+  "checkpoint": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244",
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Analysis.kt",
+      "sha256": "2166be3e9c69a04f48519a6c29a80ef5b11666ff0218ff8ec9609f73c292be6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Configuration.kt",
+      "sha256": "586d99a9835f39626e10e0690d78119ebe6137e92e1518af37287a712544b7e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Failures.kt",
+      "sha256": "6b4372e098a4a4dc8d3132abbd0e3c0f260b9b13b8b515534ea16340fa709c8d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Intervals.kt",
+      "sha256": "5878f7efd4c0f03631887bcb0b57b4f56323414811fbaf92a8273b024bd87103"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Motion.kt",
+      "sha256": "e91bb46d8856716e2ae279c3170fdbce176eef8553e0da872db2924007340a57"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Observation.kt",
+      "sha256": "bc4937d61c51b55af0d195c4bb165bf4e3081494c293ca3cb7366af11a6060a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Pose.kt",
+      "sha256": "8f2744a66eb044d746f6a92bc5e7e9e16dbc40561601c685c7c732ba171617af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/SpatialSynchronization.kt",
+      "sha256": "21ec8c95c09fe1ca861a1468dd16c4fb1dfc8239c9d2b3fcbad3bd113647fd11"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/Synchronization.kt",
+      "sha256": "3e1c3d66ce4baf6a4797b50c92c70ce0761b5e51079a256eb1899bd9e8424a38"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TemporalStructure.kt",
+      "sha256": "faf4d333a118282ec8e1bfe8a41de34825064f69527769fb0a22f581e4637760"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-contracts/src/main/kotlin/ai/senp/core/contracts/TimeAndIdentity.kt",
+      "sha256": "d5ee8b84759740e39722d3f87e3dcaee10c52242ba12d9387e881f8dece7fb49"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/build.gradle.kts",
+      "sha256": "a19ddffd441523f4a805fd26c3299edafed4cc47f0c73caff58738937d8ce38b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/ActionProfileMatcher.kt",
+      "sha256": "a9f1844a37422ddefebf0d7171b53be0d3f50c7f91b6c8539ab7c48f1be66eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/ActionStateRecognizer.kt",
+      "sha256": "13a10d48003422d46450824f6e2a6bd22aea3834fe9269579a1b81aa77ad493e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/Coco17Adapter.kt",
+      "sha256": "82dc8f31dd58350007216e716868a6f9b007a66161202f26ca238ccbbdeb3dbb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/CoreMotionProcessor.kt",
+      "sha256": "241434d025114056bc3a32520c638f58d018ad8367e5ffabf3320402d7b213c0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCatalog.kt",
+      "sha256": "763db68b232470d8ca921d9f27a780de9958bfe2766cf8b36e487a421897b0f7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/ExerciseTechniqueCoach.kt",
+      "sha256": "ba9b05b49edbfe64875a0a781579733ca67ccab93345aee68739aa45189c4431"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/Features.kt",
+      "sha256": "5f7ae3806e5859fec9da35a565ad72b8750a4ac015b826dabe83e486eb192242"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/Guardrails.kt",
+      "sha256": "2b8de202d8801793a2722aca94621e31d4af7576c6e32689fe21553cca91eeeb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/LearnedExerciseQuality.kt",
+      "sha256": "01a643269675bb51c81c017106d9c710ff12fce399d72c57b241d11f57a44ee9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/LiveFeedbackStabilizer.kt",
+      "sha256": "1ff37fbdc02e912f53036e05d8b5f13d8c835d1d8e630984d2001e95312a2b8b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/LivePoseStabilizer.kt",
+      "sha256": "371fa3a904007272cbdcc25a072c6800bed972d8a85339447e1300cdd0378349"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/Model.kt",
+      "sha256": "79c0f71b266b8ffd65093ff5e2c02e65ff4cd83d07814cefec3a4dcb20b8a62f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/MotionEngine.kt",
+      "sha256": "3456b925ae98267ec9f043634b92f2aee2e6ee5bb23414706b456ac3508a2a6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/Normalization.kt",
+      "sha256": "8af39296f08b5c4523061968da8e0d0d75b05dc6c5cb3138d00d7d8b4e39c927"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/Profiles.kt",
+      "sha256": "9bdd94c72182fef87ee93bb82694d7ffadadf9db35333ec959ae6841f75438b3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/PushUpLiveEvaluator.kt",
+      "sha256": "5ea8d7701f6191a72b5b37be775f4469b54591ffc4e160fb060174431c7fc280"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedMp33Evidence.kt",
+      "sha256": "fb78d2e889273b0f9366502ed7204cb0e4ba1d68d3be956b2ae9a9a1a44dceac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEngine.kt",
+      "sha256": "6b96f2348e0d918ee316cdeb53e36f8bdc451a2f0f6bb5836486dc0e14d3660f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepEvidenceDiagnostics.kt",
+      "sha256": "ca22cf58fff2b84ec3888d55103740c4255eedecf00c5e7d7733ef3fabe4dbd6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepModel.kt",
+      "sha256": "7162e76fa7ac4bdf46f75b3d6ed23645da8c3e1756140f798531243ef589c5a9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/QualifiedRepReferenceCompiler.kt",
+      "sha256": "4d54b7fd30d54d3dd1abb914cce590d49d48b12a0a3a9b29597b19cc4d0887e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/QualityGate.kt",
+      "sha256": "b949a1b5ce4b1aa68a6d0d5df5da6c9dc9f22f9f454fa9c7c04ef60a6d0e048a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionCompiler.kt",
+      "sha256": "b1b60d368d3dbc817ff26d939570891d388676f3490fa68db5d7068d34268831"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionMath.kt",
+      "sha256": "05d5a37b74cea94839e607f71302646ac7aa780142cb9474189b10ceb9ac9bf7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceActionModel.kt",
+      "sha256": "1f06dc218b72394b426f422d8c6581a54f25c05eb9245585007bd32a4795f0e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/ReferenceDeviationEvaluator.kt",
+      "sha256": "c3ea2945a1b649af0322d38a3ce262817e4701a69d385e808b1f18e52d7a8750"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/SamplePoseClassifier.kt",
+      "sha256": "2f6e00c79de3d055974527121e08f84e17569bf6f6e3aa6d422a6461de54461a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationEngine.kt",
+      "sha256": "afeabd27695532c98bb4dba9dd326bc38e3807e93dc797f13238c52ef2baec15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/SpatialSynchronizationModel.kt",
+      "sha256": "a4152ee18315ad9e0c9f1d8e87875ca3634f8abdc2f75064ea8d00074698e924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/TrackProcessor.kt",
+      "sha256": "2ff53f31449e63fe4eeab5c4fa96c3701ee15ea8be61cc8d58144d7a7a05ecf5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/Versioning.kt",
+      "sha256": "3fbc1376a0177745c6f33741091d793894458033bf8288a2151a762e2adccac7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/main/kotlin/ai/senp/motion/WorkoutPrecisionCoach.kt",
+      "sha256": "0dfc7363e85a19b5ab6bed5636da15973e2618f01f1f13bcb269bf2f0b30ec0f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/AnalysisPipeline.kt",
+      "sha256": "908536b007e24deb916af2818466f1c73e0667f146960080bae74f06cccb8b4a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-pipeline/src/main/kotlin/ai/senp/core/pipeline/Ports.kt",
+      "sha256": "b4f812a6467a5519cec7da860d9b8d987ffa684fdd1acce5f42eababd7215191"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/models/readiness-rubric.json",
+      "sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/models/uiprmd-evaluation-protocol.json",
+      "sha256": "cec24dad3d99e353817e6039c4ba2798aee8238837d9d29e72d567db1e0bbd81"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/evaluate_uiprmd_development.py",
+      "sha256": "129b677fd62bca8699e98507b00e05a50dc64f21536c91665c14a563b03749af"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/fetch_uiprmd.py",
+      "sha256": "56fa0e818cba730f26626f615ea129532b21bd854bb29b926cb068bba7e6e311"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/inspect_uiprmd_development.py",
+      "sha256": "51afc5271098326e0ef56def3a0e174f90644e1ef9a1e6b9fc4adc26c4c777c8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/uiprmd_vicon.py",
+      "sha256": "84bd9c0b37d39cd439f27e63c6925e9f7ed5df84c484dfa6caf3a3682df65dc1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/acquisition.json",
+      "sha256": "47dde1ad2dfc6fb04ee820f1ad526a27157e099e82c944d8ddd4576abb741c09"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/README.md",
+      "sha256": "d411dddc51dec53071934d2b164e5fcebff8b54eacd6c0eb55ef31441ee27868"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd-native-angle-audit-20261028/paper.xml",
+      "sha256": "b47ebeb7556b7a37d030a564be33b2aa8aa81bd929d40ce5d42d6c3549c9f01e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s01-correct.json",
+      "sha256": "8d365f5f89e70e3cd0b77631a7ad1f643ec0d47c861087103ce298fc855d086d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s01-incorrect.json",
+      "sha256": "1636a96db53e7258d50d030a48f706c9e1d48b1bbc505f31310673f661decd3c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s02-correct.json",
+      "sha256": "68e83a5e67b5225591d75ba3cb1543bc1e5b0bddc71b65483b7f8c6daf177aa3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s02-incorrect.json",
+      "sha256": "045d351b44b602252889a338c5fde5797a1d55524c123e0f715614f0b2d78462"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s03-correct.json",
+      "sha256": "c5b67f6887a45126760f724a4299cf224aa58fb028c380cb3d14ff4ab70897fd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s03-incorrect.json",
+      "sha256": "5dc50ab26f0c82fda863e3af38a0318e56c72d23d3cecce44bf9e320566d0329"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s04-correct.json",
+      "sha256": "ef18dfd34002c794e76d45e6e0622cb11076700b10d95e27abbf1d8603dbec65"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m01-s04-incorrect.json",
+      "sha256": "d22bfea373ccd879b1e942a60cb2be8dbb37b410d9c65bb6e7215cded36faa63"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s01-correct.json",
+      "sha256": "dd276a60f3724ae2e7472a22dcf19b75e055599a999ace982b4716727fe37ac5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s01-incorrect.json",
+      "sha256": "e726eced1f6add501da50dd790464fe099d744c4df5de5d356813da84d970ffc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s02-correct.json",
+      "sha256": "8d7a2e6cf114dbbb467bceb49aef7b567f41d729fefc810c983a8b442a046b47"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s02-incorrect.json",
+      "sha256": "626262dba0c2d6224c47afb05440817544853043886fa291af23e32435acfb2d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s03-correct.json",
+      "sha256": "1be0ef2d848e3394aae572f1b97e9c1203ab0d82930ab3340d634ccc03cb8e51"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s03-incorrect.json",
+      "sha256": "2b5dd1cc068f0dbd729d2e9db8d0e6a3ebee08681a114ea560e40ca08d8ed252"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s04-correct.json",
+      "sha256": "a9bf7d4e9db1b344a19f36ef8fac11befa92d807eae9bc89bdb9c74fb92c7765"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/m07-s04-incorrect.json",
+      "sha256": "b7b7c2f694e689126708e2c723d38163d58eee44755e2838bdcc86c3fdf61b3a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/development-vicon/manifest.json",
+      "sha256": "26499676b87d206a964c087ad41272b99c1be08050a1729aced9046b497ff4e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Movements.zip",
+      "sha256": "b0d42b786f5e9bb7f7ab21a7e7fdf3aa06d192e25eaaaa4cdcf40932b90c19ed"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Incorrect Movements.zip",
+      "sha256": "039ffd9bf3d037e7b0971e28cf7c0410f6fed2f90e7d31f7122b2c7a9b036d95"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Segmented Movements.zip",
+      "sha256": "37478419e5bd6cdb814a94d1ec0fa0b2dfa6497cae03d25e1c2fbc51c676d721"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/uiprmd/Incorrect Segmented Movements.zip",
+      "sha256": "d886f76e5096e934f7200a9307a2ad29327ab396a3728439f8e9bcd4717ac154"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/uiprmd_central_torso.py",
+      "sha256": "aa1921738acc0aa2063f6f592ce75ddadfbf170daa09ff3795701359b1a395f4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/uiprmd_frontal_arm.py",
+      "sha256": "1be95c2505c9de60c806a62279c4cd8ffa8468e0b4c936f3d35124f94eeaec10"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/prepare_uiprmd_frontal_arm.py",
+      "sha256": "de0b962c1dee1f263d0e9d0353d0bd5acf81d0954c38db004113b750e7b738b7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/evaluate_uiprmd_frontal_arm.py",
+      "sha256": "37281f887cc1fec14d3f4ac35c8c0ec6959c4bf229a2a4a093209f6bf013bc89"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/plot_uiprmd_frontal_arm.py",
+      "sha256": "58d812a77d1f5978293178f7c2a66fb50a9d051b71bb95124991b09ca12b61e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/tests/test_uiprmd_frontal_arm.py",
+      "sha256": "c36f0434893a2ea6007cafc3f0ac927183867b15bbaffc440d6cf4b27fee4063"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/frontal-arm-research.init.gradle",
+      "sha256": "a57179db88e84ce6f88df1ea6dcbef94b9d613dc05854be162bea1fbc9b539ae"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdFrontalArmReplay.kt",
+      "sha256": "2003a391ce68b0a420bd695440f5b9cbc77bd31d71a893e8d7c73ef002089bb0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdFrontalArmProjectionTest.kt",
+      "sha256": "d9648cd4bc71a7fb0402559b3ee42764eecba2d689d5379d0d4b25badb73cd5b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/docs/FRONTAL_ARM_PROJECTION_RESEARCH.md",
+      "sha256": "13c07d608328008d40dda61c604c3da8349696309f41b97a51909589b8a0fedf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/uiprmd_pelvis_knee.py",
+      "sha256": "021cbb80c0fc62d3b692b5739b62c733d9dc51913f6c0c6af393485c80fd499a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/prepare_uiprmd_pelvis_knee.py",
+      "sha256": "94fdbda234edbb81ff986610c1f5f3e8be5945e66f3583b1ca92b49a6703c1ec"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/evaluate_uiprmd_pelvis_knee.py",
+      "sha256": "6232d21bf0b82330f128afd66cbaa1fe2896f0aea182d508c9d26c0c703d071e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/plot_uiprmd_pelvis_knee.py",
+      "sha256": "b1ca72d338d756cd20b33798a52130d5b915c1e05aac856164a13bb2c8ac617f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/tests/test_uiprmd_pelvis_knee.py",
+      "sha256": "b2eb04fe5e78f95bca7ad88e4dca2b6dcb0362e3796864aa76da40d438da6395"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/scripts/pelvis-knee-research.init.gradle",
+      "sha256": "553cb5ea4e4a848508d69b01f5a3a54c318307ead5e614f90f265f0f91cac8a7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdPelvisKneeReplay.kt",
+      "sha256": "a2e73cee5d109d3350bf82c75f6c7e75155ca5a19fac08a41f9d44bcd4d83387"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/core-motion/src/test/kotlin/ai/senp/motion/UiprmdPelvisKneeProjectionTest.kt",
+      "sha256": "6fbeb2b7e809b7791ecd3f09b4c4c6b7cef96dd48b79bd5f70680e2b4199ac68"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/source/docs/PELVIS_KNEE_PROJECTION_RESEARCH.md",
+      "sha256": "887dd2a3ea6b59b58b10a4775707ce6e9dc9c845ae7c3fdc05eaf9f53d6f6c43"
+    },
+    {
+      "path": "models/uiprmd-frontal-arm-protocol.json",
+      "sha256": "42a4f45c31fe3304603c27982e2b667197f3e1728f6566891936689133be1bd0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/manifest.json",
+      "sha256": "d6a29d35e14a457d6ac0f4b07764d2410988c3b32b9b5a64d5fd834264aa5996"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s01-correct.json",
+      "sha256": "b4fada68a2a3dbfc088771082c63272c73c02e8c95a3742da02717c29b5f708c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s01-incorrect.json",
+      "sha256": "0f2b7b78bffe732a0e90fdde10ace4e1810ca498e5780168b01692d685301bfb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s02-correct.json",
+      "sha256": "2d8e3133dac280e48ede4d0a0c7f271526075a34b666d52b42b85faa3aaa69bd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s02-incorrect.json",
+      "sha256": "3aa4f2694ac50885bfceb39a08ca6f8332d03175ccf12fb0bd46a9483ea305f5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s03-correct.json",
+      "sha256": "b225526630ff83248a166a8d1c95f31d468a64ba25dd7212f10e17aa89ebc6f4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s03-incorrect.json",
+      "sha256": "f7f540d616615bf898aec782fac0bbe078b04d36a34a7946f0ff6cbac0211aa5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s04-correct.json",
+      "sha256": "459044c5ef3573dfd0e071a74c465a6a24c0aba997dfe5494412a5fa1f219f05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m01-s04-incorrect.json",
+      "sha256": "ff87a1f30296bec07bd8688a211ceaba4c749ce80347f2d17e728a3494e11df6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s01-correct.json",
+      "sha256": "c75aca086bc351a176ad559a2ccea8725eb9e5fb3acc205c235e1877900342ee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s01-incorrect.json",
+      "sha256": "e5c6498a15206d9ebb4ff52b3f7b3dbf2fa405745f5cc938da7c33ea4ac48675"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s02-correct.json",
+      "sha256": "ea4232d95660f71ddab8d3cac3af4a8267b726203d22397c9311ef5f78f85cb1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s02-incorrect.json",
+      "sha256": "b6afb159a26a970599329dc1d43c00c77e1434a48b7ebfc8acae6bfc067e21ac"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s03-correct.json",
+      "sha256": "11dbc08df93a088bf2b4d447f924cebb4ef5af1508a237a9ef97300c0fc94b15"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s03-incorrect.json",
+      "sha256": "9b19f95e291d9e756288402127e96b394ccef751f64dc54d4a422401854d2a90"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s04-correct.json",
+      "sha256": "6ca20da9cb73fdff16fd1e7d3e336ddd14278e723135aac70e59d18dbad5bfee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/m07-s04-incorrect.json",
+      "sha256": "9726c5da20e6dcc0b08c0bea5839f0fa571ccbeda599893fece4d275516dcace"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/development/manifest.json",
+      "sha256": "d6a29d35e14a457d6ac0f4b07764d2410988c3b32b9b5a64d5fd834264aa5996"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/frontal_arm-replay.json",
+      "sha256": "a6b1ae5261ff0e31ef6ce9ba2b0a8c6911f8f4edcb55cca967b9fac5c09a28a4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/frontal-arm-projection-20261029/comparison.json",
+      "sha256": "45ed4ea3d83092b19335e1997bb569dae412bb4917089c9665539f4bf9f75554"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/baseline-replay.json",
+      "sha256": "e28e39406315b49aecf2edc8d5aed03f645f6f81e37abedab16f09a0052aa65c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/comparison.json",
+      "sha256": "5be5aa09deb63c3d64444cc0ca1edc7e888cb29642d978a3225cdc987c4cece0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m01-s01-correct.json",
+      "sha256": "9fc0553fff7a780e470fda846df8fb85f57a05e2000432ebda2293ae0bfde5a1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m01-s01-incorrect.json",
+      "sha256": "a587ed36c405ce6b575904671fa27da0bca63ef0aaf3f7ef83430c14e19b5ad1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m01-s02-correct.json",
+      "sha256": "f62b3e0ec68929d4cbb78ade1b37c2c004831cfc77cfd9d9f0db01a43eae4981"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m01-s02-incorrect.json",
+      "sha256": "f89081ab1257876aa193d54c14b09986791b41713a862dec6a17d89fa45a0741"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m01-s03-correct.json",
+      "sha256": "cf0d139cb1d4a3fd80b9cb2c79bcb45e78c0b60c9aec8dd055c5e785c0178b08"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m01-s03-incorrect.json",
+      "sha256": "8a1328d6f69ea0f5433f69fa2e4504ff4cd032a598e0805cbd19864f399ab5f1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m01-s04-correct.json",
+      "sha256": "f08c1406e65c4e2f5bca1364690ea7a445df81149eb07160759f2c200d0d6636"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m01-s04-incorrect.json",
+      "sha256": "8fae6e2b2a9091aa166a6091cffe8685873fa8174d357d39f46367415b076db4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m07-s01-correct.json",
+      "sha256": "4b8547854b94e3916768cfe9392d93b3a2aa472154d7669d19c30abecebd407e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m07-s01-incorrect.json",
+      "sha256": "c249ba395af7bb7da8133b804e56201149c6e6014cadccdbc8eb27daf387db37"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m07-s02-correct.json",
+      "sha256": "e419c865c33c2f7772cc791b2f6e73b07d83e948dfe374ceb74d2e2916c2df62"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m07-s02-incorrect.json",
+      "sha256": "7fa82c79090a1965f8181011251a8784f1b317701c027b4fc4c0a3d4a3324eff"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m07-s03-correct.json",
+      "sha256": "550c51238263b280e9e6f7718269fb6c68a74cd253f6ca6c40e75a2945db2014"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m07-s03-incorrect.json",
+      "sha256": "af4c488971e44cecfa2695c753e4b426cefaf918c5a9cce4bd5bd6784c2bbb72"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m07-s04-correct.json",
+      "sha256": "cb711b4603550872ff5a3f3c602306b7e2b7373713a8a33d1df099c963c8e69a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/m07-s04-incorrect.json",
+      "sha256": "cd6d339d11d2e16709b82f4b2c42ccd9e9a35fb6d963f13f9c30628a371b30e3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/development/manifest.json",
+      "sha256": "abba672daeb01cfa57a07871b695c00463b2f9869d4c30758041fe0172efda19"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/m01-s01-correct-original-review.png",
+      "sha256": "019d66c78b42ba2ba68b0abee06d08e19827f3e240246dc9572fdfb9304b021b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/m01-s02-incorrect-original-review.png",
+      "sha256": "baa399ec66a9ee6122f39881b138af58334462425ecf1f335961bdeaecaf94bf"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/m01-s04-correct-original-review.png",
+      "sha256": "e5f2bb5e70f4ff2fe6707d3affe67cad33a7fca4fc9247b3b7165dd7cf52cc46"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/original-marker-review.json",
+      "sha256": "b44aebda226efd604c46cba010b0baeeff674a10086a64271c6557e1ffd44b1f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/pelvis_knee-replay.json",
+      "sha256": "5d6e1fe0d84830300b7282e53143f8d7188692c3ff27824cac24cf34bce2bda2"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/results/readiness.json",
+      "sha256": "e97ebd3d1c9ce5624140364301d5fea87ec7746e6c771b43546722be2272567a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.ClaheReferenceEvidenceTest.xml",
+      "sha256": "9dc78f8002c448ee10dbbf3eb5e464c252a83db9f66e0f6691150d3b6e27d3f4"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.CoreMotionProcessorTest.xml",
+      "sha256": "29a3d4ebef3d882d17812443eb2bc97234dd23d3f51d84b6be56ae975f07390e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.ExerciseTechniqueCoachTest.xml",
+      "sha256": "cf99a0e622a9ff3df33b8541363049f6a9f6dd43881e200a8a911ad974158bcb"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.ExperimentalRepSideBindingTest.xml",
+      "sha256": "4cd283886630bfd584f9cb0a0a2a8294341d17ca0f301c7612729c43dc965e7d"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.FixedReferenceWindowResearchTest.xml",
+      "sha256": "14f472b07a692bdf374c5c102f3fabd4014f5642d047e6a134fe21ead1c1047f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.ImageReferenceMappingTest.xml",
+      "sha256": "d8960b59bfb4a99c73a122631d7cc3255c3eca08174461ef880a0ea0cd65ce35"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.InImageMp33EvidenceTest.xml",
+      "sha256": "10440a2277b2d97172f99bc73f5aa71a2639b11751dda5e8c5e45f05faf3d70e"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.LearnedExerciseQualityTest.xml",
+      "sha256": "c14a2522ce16145d078c5c0df5d7abf79d46b0e07e202137c5797ebe55e0631c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.LiteReferenceEvidenceTest.xml",
+      "sha256": "4807a7d8dd9a3089fb7915d22d5ebd8e6eb1937f562bb85d2820948bf41b9877"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.LiveFeedbackStabilizerTest.xml",
+      "sha256": "a52f9b9d2a1a5e1319c47c9f15a3003b608a2d9af0012aa8b2f9b4e57cc63eb6"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.LivePoseStabilizerTest.xml",
+      "sha256": "24708a413b0a92d8b6855b0db3d71347e30766b40b4bd92f4571d2495a5b7dbd"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.MmfitRawEvidenceTest.xml",
+      "sha256": "a6f451eeb797edc8d98c1bf35b3168f7f89803c143cc072c6ef9a86feca7bf05"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.MotionEngineTest.xml",
+      "sha256": "8bb4157ba2ed01b3e1ce705ff70c3e81ea1a0bf0bb0d51c640bb04d0fb02d7e7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.MotionFixtureReplayTest.xml",
+      "sha256": "ad5a5302b7c602afef21a521cb2216680fd7f5b02fd2e3fd67426185d3d32c44"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.PushUpLiveEvaluatorTest.xml",
+      "sha256": "bdaea11f70b09aa44dd8fd6898c282a5ddcbe30c3ed428e96f29f84f2e615b71"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedMp33EvidenceTest.xml",
+      "sha256": "bce136db6d59fbde4b736fd8f26110dd3e7ee56f235cf737dbabcc2643a9eb84"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepCalibrationRecoveryTest.xml",
+      "sha256": "dc35dc8b4b8591ac5723cb46b8edf6c6d77b400bfed4702529139110b33df148"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepClearReadyTest.xml",
+      "sha256": "e327cc1beb5618a8f6222a798642fe4f2f78df01081fe7b3550312ff2c368fd9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepEngineTest.xml",
+      "sha256": "a400c6455a332c2c5708f762d09eafb014340eceb09a82e1fa3e94369a3658f3"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceDiagnosticsTest.xml",
+      "sha256": "8d089615e299a69c9be5ea2b72447c24c7b41d5f955ef91780b955b77c3f7d4c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepEvidenceTest.xml",
+      "sha256": "53a6e4b60dcdd56132c9fc04e4a478699cef41237f8f4680aabec26ad54b76aa"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepMirrorCalibrationTest.xml",
+      "sha256": "e32751990db13994448211f772cc7b365960f8f923a85be1d01a959c64084ea7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepPipelineCalibrationTest.xml",
+      "sha256": "cdc9ba9b7bbcfcd4ea7f9795ab8c41e334203fa32230280e573509488ff099be"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepPreparationFaultTest.xml",
+      "sha256": "2168fd35fbc38050a2d6ec05f44c5ee3b262ef698718f4e15871a355a43fad66"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepProvenanceFaultTest.xml",
+      "sha256": "64525a1dda296799c3b93a28d03aa07d740ebbf7399f3f5e9eec4ab5d8ca7801"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepReferenceCompilerTest.xml",
+      "sha256": "d42c776ab2f518e039b69c9dd01c7a68b1054efb366c0f4ee395b5ffd5896c33"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepReferenceContinuityTest.xml",
+      "sha256": "d0ac75f93d5ebfe3316065abe0e1cb1d496337bd2548d750ee4f5bc79e6d76e5"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.QualifiedRepReferenceSubjectTest.xml",
+      "sha256": "e72a57a10d44b9fd7a15e4236f4e92db3ce2426553d68cca2d4f6d89077bbe76"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.ReadyFormValidationScopeTest.xml",
+      "sha256": "16076918a9aaaabc730d6288ccf97d9c524b4352d76f3296dde8305314b37098"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.ReferenceActionCoreTest.xml",
+      "sha256": "e9925d658feefedb19afedd33c4280a4f9bf1725bbdeaeef6da07181605864ee"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.RotationReferenceMappingTest.xml",
+      "sha256": "5918938553ae653e896c2f649af887d0f6c02c71859de564cb34fcca22715b0c"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.SamplePoseClassifierTest.xml",
+      "sha256": "b518f210b623412d2141527fce417799cf01a79759851e1273f25be66616775f"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.SpatialSynchronizationEngineTest.xml",
+      "sha256": "2f30deb1835e555cebf02e6cfd4f8fce14ffa1bb0b33ee1e46cac27a4f82b518"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.UiprmdCentralTorsoProjectionTest.xml",
+      "sha256": "d8af028f75bb7427b0cce685617ad19b0a068ce5a62c7776cdd2ea9d81cfab6a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.UiprmdEvidenceAuditScopeTest.xml",
+      "sha256": "5419e1ff1eac9bc34f2f7ca956e48e18dc650789a06944cc2bc783e907387924"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.UiprmdFrontalArmProjectionTest.xml",
+      "sha256": "0aada76dc082ed33edc374422c0744be1a6549614a0202a9792f78a8398caf8a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.UiprmdPelvisKneeProjectionTest.xml",
+      "sha256": "a86245a6ba33c26fa4666de25799958535ddc63f30085ba5a0f60a0eb722c012"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.UiprmdReplayScopeTest.xml",
+      "sha256": "6b5b9cce536f24a2e25904aae3c118097e696d6a6f39436c62bd4abd21edb5f9"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/jvm/TEST-ai.senp.motion.WorkoutPrecisionCoachTest.xml",
+      "sha256": "31091523333806eab73205c14984e32dd99327f0236dcd3c0ecb9dd784f3b423"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-evaluation.log",
+      "sha256": "fe9c52d9d4c10893f7eb89c5458596fba2e2a6a4b3b66cd065ac9e7c802fcf74"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-export.log",
+      "sha256": "c9c4daa559dc4b87f6af90eb01ae2772ae1a0154781cc9f35da6b538b7083135"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-freeze.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-jvm.log",
+      "sha256": "40430d42a0864138271dcb0451802a4d62dbf456a3d0ea5e23c079d995700e58"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-preflight.log",
+      "sha256": "9f199bd1ebee82099e74922eb80f0c6be8e241829ed2b6e60e039e8af6b13f2b"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-python.log",
+      "sha256": "17e9bd006d9d4e2d98ef5fe8987df6ee24b23c0e81789630fefcf93db80396bc"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-qa.log",
+      "sha256": "b5d3984d0a5d89559f751645476da0a8ba22ce0303b652eb209e8fcdbd4a07a8"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-readiness.log",
+      "sha256": "e97ebd3d1c9ce5624140364301d5fea87ec7746e6c771b43546722be2272567a"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/logs/pelvis-knee-replay.log",
+      "sha256": "a4b3a41c2f266a6345bab2c5784a6d00f30ca8ad2c0fdec8882aa1b4add63c39"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/work/create-pelvis-knee-research.py",
+      "sha256": "c66a1c06ac4f95c083bc0716a7ce188716119bb9cda487026da34f481f4b29b1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/work/freeze-pelvis-knee-protocol.py",
+      "sha256": "45b840f92ec08e4be6c4fbbae9e1646ac71a99c58e168f036ffdbdcb50b488ef"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/work/freeze-pelvis-knee-results.py",
+      "sha256": "515436b7cef85bd7070df0cefd76e38c1b022fcdd7f872c0ef4dc2b7197be308"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/protocol.json",
+      "sha256": "cf84d9a3bf9c6312b9cb90cd772f1aa34f47e7f30cc30f386cb414fda44fc9a1"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/pelvis-knee-checkpoint-2c62244/report/PELVIS_KNEE_PROJECTION_RESULTS.md",
+      "sha256": "abf47ca8e9cde6305cc3e75c875f9726ffa112c3d9f40406e32fd99dc1d4f548"
+    }
+  ]
+}

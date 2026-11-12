@@ -1,0 +1,45 @@
+{
+  "schema": "senpai-readiness-evidence/1",
+  "kind": "immutable-previous-delivery-baseline-not-a-new-performance-gain",
+  "rubric_sha256": "a4a7ae452eea0e264d24e84f3ec729f8d65aa0096e55090b96868fb44a9d447e",
+  "metrics": {
+    "verified_engine_commit": "4d899899628e08c0db77fddcdad022cb7f081edf",
+    "reference_total": 32,
+    "reference_usable": 12,
+    "camera_exercise_ids": [
+      "biceps_curl",
+      "bodyweight_squat",
+      "overhead_press",
+      "push_up"
+    ],
+    "mechanism_and_scoped_tests_pass": true,
+    "android_runtimes": [
+      {
+        "api": 36,
+        "emulator": true,
+        "all_tests_pass": true
+      }
+    ],
+    "undocumented_reference_losses": 0,
+    "independent_skeleton": null,
+    "independent_camera": null
+  },
+  "proofs": [
+    {
+      "path": "test-artifacts/exercise-knowledge/readiness-baseline/comparison.json",
+      "sha256": "ce7137d7ca95e5322664050f25989c1593be8b566f839d01d499a70ffe2367e0"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/readiness-baseline/delivery-manifest.json",
+      "sha256": "7a9cbbd0190d5de4124f05592a360add6457057500227c7691793a35031126c7"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/readiness-baseline/reference-registry.json",
+      "sha256": "a3df3fa01aa09ed5d5e9da28e22cefed67af2870363bc7635417d1ef38fbe059"
+    },
+    {
+      "path": "test-artifacts/exercise-knowledge/readiness-baseline/test-summary.json",
+      "sha256": "95acbff01c7dfec90403c247a639842d815bcf7d033ed46acb880a5a90a427ef"
+    }
+  ]
+}
